@@ -77,11 +77,21 @@ class Store:
             corpus = db.execute(
                 "SELECT corpus_id, edition, translator, language, book, chapter FROM chapters"
             ).fetchall()
+        from pramana.config import CHUNK_CONFIG
+
+        config = self.get_meta("index_config")
+        state = "ready"
+        if not chapters:
+            state = "empty"
+        elif config and (config.get("schema") != 2 or config.get("chunking") != CHUNK_CONFIG):
+            state = "incompatible"
+        elif not passages or self.get_meta("indexed_generation") != self.get_meta("generation"):
+            state = "stale"
         return {
+            "state": state,
             "chapters": chapters,
             "passages": passages,
-            "indexed": bool(passages)
-            and self.get_meta("indexed_generation") == self.get_meta("generation"),
+            "indexed": state == "ready",
             "index": self.get_meta("index_config"),
             "locations": [dict(row) for row in corpus],
         }
@@ -90,6 +100,15 @@ class Store:
 def filter_sql(filters: SearchFilters) -> tuple[str, list[str]]:
     clauses, values = [], []
     for key, value in filters.model_dump(exclude_none=True).items():
-        clauses.append(f"c.{key}=?")
+        column = (
+            f"json_extract(c.data, '$.{key}')"
+            if key in {"document_id", "author", "content_type"}
+            else f"c.{key}"
+        )
+        if key == "content_type":
+            column = f"COALESCE({column}, 'translation')"
+        elif key == "author":
+            column = f"COALESCE({column}, '')"
+        clauses.append(f"{column}=?")
         values.append(value)
     return (" AND " + " AND ".join(clauses) if clauses else ""), values

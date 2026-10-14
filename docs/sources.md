@@ -2,7 +2,7 @@
 
 ## Vishnu Purana
 
-- Translation: H. H. Wilson, *The Vishnu Purana*, John Murray, London, 1840.
+- Translation: H. H. Wilson, _The Vishnu Purana_, John Murray, London, 1840.
 - Digitization: John Bruno Hare, Sacred Texts, February/March 2006.
 - [Edition and production notes](https://archive.sacred-texts.com/hin/vp/)
 - [Publication and source rights statement](https://archive.sacred-texts.com/hin/vp/vp000.htm)
@@ -41,3 +41,25 @@ under MIT. Pramana pins revision `5c38ec7c405ec4b44b94cc5a9bb96e735b38267a` and 
 it with the index. It produces 384-dimensional vectors with a 512-token context.
 Passage chunks are limited to 448 tokens. The recommended retrieval instruction is
 prepended to queries, not passages. Embeddings indicate relevance, not factual truth.
+
+## Private PDF editions and answer model
+
+The three user-supplied editions are cataloged in [PDF ingestion](pdf-ingestion.md).
+They include copyrighted commentary and scans with unestablished redistribution
+permission. Originals and all derived full text stay under ignored `PRAMANA_HOME`;
+they are not supplied with Pramana. Chinmaya Mission's
+[published digital-content policy](https://eshop.chinmayamission.com/page/copyright-policy)
+reserves rights in its digital content. No permission to redistribute these files
+is implied by this implementation or its code license.
+
+The Taittiriya scan is the 1901 **Book II, Ananda-valli, A: Brahmavidya Expounded**
+volume, with commentaries of Sankaracharya, Suresvaracharya and Sayana translated
+by A. Mahadeva Sastri. It is not cataloged as the full Upanishad. Shankara's Gita
+edition identifies Alladi Mahadeva Sastry as translator and Samata Books' seventh
+edition (1977); the Holy Geeta PDF identifies Swami Chinmayananda, with no verified
+publication date. All three are indexed as mixed translation/commentary.
+
+Ollama serves the user's installed `gemma4:e4b` by default. Model weights are not
+bundled, pulled, or relicensed by Pramana. Consult the installed model's own license
+and Ollama metadata before other uses. Prompts and evidence use the configured
+Ollama endpoint; localhost is the default. See [chat behavior](chat.md).

@@ -28,7 +28,8 @@ def test_complete_demo_manifest_and_all_citation_offsets():
 
     home = Path(os.environ.get("PRAMANA_HOME", ".pramana"))
     corpus = Corpus(home)
-    chapters = {c.id: c for c in corpus.store.chapters() if c.corpus_id == "vishnu-purana"}
+    all_chapters = {c.id: c for c in corpus.store.chapters()}
+    chapters = {k: c for k, c in all_chapters.items() if c.corpus_id == "vishnu-purana"}
     expected = {(e["book"], e["chapter"]) for e in manifest()}
     assert {(c.location.book, c.location.chapter) for c in chapters.values()} == expected
     assert corpus.store.status()["indexed"]
@@ -39,7 +40,12 @@ def test_complete_demo_manifest_and_all_citation_offsets():
     passages = [Passage.model_validate_json(row[0]) for row in rows]
     assert passages
     for passage in passages:
-        chapter = chapters[passage.chapter_id]
+        chapter = all_chapters[passage.chapter_id]
         assert passage.text == chapter.text[passage.start : passage.end]
         assert passage.token_count <= 448
-        assert passage.citation.source_url == str(chapter.source.url)
+        assert passage.citation.source_url == (
+            str(chapter.source.url) if chapter.source.url else None
+        )
+        assert passage.citation.source_local_path == chapter.source.local_path
+        assert passage.citation.author == chapter.author
+        assert passage.citation.content_type == chapter.content_type

@@ -53,10 +53,12 @@ class Retriever:
             raise PramanaError("Strategy must be lexical, dense, or hybrid.")
         store = self.corpus.store
         status = store.status()
+        if status["state"] == "incompatible":
+            raise PramanaError("Index is incompatible. Run: pramana index --rebuild")
         if not status["indexed"]:
             raise PramanaError("Search index is missing or stale. Run: pramana index")
         config = status["index"]
-        if config["schema"] != 1 or config["chunking"] != CHUNK_CONFIG:
+        if config["schema"] != 2 or config["chunking"] != CHUNK_CONFIG:
             raise PramanaError("Index is incompatible. Run: pramana index --rebuild")
         where, params = filter_sql(filters or SearchFilters())
         lexical, dense, payloads = [], [], {}

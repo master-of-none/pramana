@@ -9,8 +9,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: uv sync --locked
-      - run: uv run ruff check src tests
-      - run: uv run ruff format --check src tests
+      - run: uv run ruff check src tests scripts
+      - run: uv run ruff format --check src tests scripts
       - run: uv run pytest
       - uses: actions/setup-node@v4
         with:
@@ -20,3 +20,9 @@ jobs:
       - run: npm --prefix web ci
       - run: npm --prefix web run build
       - run: uv build
+      - name: Install and check wheel outside the checkout
+        run: |
+          uv venv --python 3.12 /tmp/pramana-wheel
+          uv pip install --python /tmp/pramana-wheel/bin/python dist/*.whl
+          cd /tmp
+          /tmp/pramana-wheel/bin/python "$GITHUB_WORKSPACE/scripts/check_wheel.py"

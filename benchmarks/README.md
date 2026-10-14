@@ -1,9 +1,10 @@
 # Initial engineering benchmark
 
 Twenty questions cover all six books of Wilson's Vishnu Purana. Each gold label
-includes a book/chapter, original source URL, and an exact supporting excerpt
-checked against the acquired translation body. Evaluation rejects missing or changed
-gold source text. These labels test retrieval and are not scholarly validation.
+includes corpus, document, edition, language, book/chapter/sections, original source
+URL, and an exact supporting excerpt
+checked against the acquired translation body. Evaluation rejects incomplete identities, empty evidence, missing/ambiguous sources,
+and changed gold source text. These labels test retrieval and are not scholarly validation.
 
 Run after importing and indexing the complete corpus:
 
@@ -25,16 +26,35 @@ that chapter answers the question; passage-level labels are a future improvement
 `results.json` records the actual index/model configuration, per-question results,
 and aggregates. This small, development-visible set is a smoke benchmark, not a
 held-out measurement of general retrieval quality. Query phrasing and corpus
-spelling can affect lexical and hybrid rankings. No claim/citation correctness or
-answer-faithfulness metric applies because this release does not generate answers.
+spelling can affect lexical and hybrid rankings. This benchmark does not measure generated-answer faithfulness or correctness.
+[Chat verification](../docs/chat-validation.md) records separate, small manual
+diagnostics with the local answer model.
 
-## Recorded local run
+## Historical v0.1 run
 
-| Method | Recall@10 | MRR@10 |
-| --- | ---: | ---: |
-| Lexical | 90.00% | 0.7406 |
-| Dense | 100.00% | 0.8026 |
-| Hybrid | 95.00% | 0.8250 |
+| Method  | Recall@10 | MRR@10 |
+| ------- | --------: | -----: |
+| Lexical |    90.00% | 0.7406 |
+| Dense   |   100.00% | 0.8026 |
+| Hybrid  |    95.00% | 0.8250 |
 
 Run on 14 October 2026 with the pinned BGE revision and chunking configuration
-recorded in `results.json`; 126 chapters, 587 passages.
+recorded in `results-baseline-v0.1.json`; 126 chapters, 587 passages.
+
+## Combined-library run
+
+`results.json` is the rerun after private commentary ingestion and source-aware
+evaluation. It records checksums and resolved chapter identities as well as the
+index configuration. Searches are filtered to the exact Wilson edition; lexical
+IDF statistics still depend on the complete FTS corpus. Changed BM25/hybrid ranks
+after adding books do not alone demonstrate a ranking improvement. No held-out
+tuning or passage/answer-level performance claim is made.
+
+| Combined-library method | Recall@10 | MRR@10 |
+| ----------------------- | --------: | -----: |
+| Lexical                 |    95.00% | 0.7583 |
+| Dense                   |   100.00% | 0.8026 |
+| Hybrid                  |   100.00% | 0.8306 |
+
+Run on 14 October 2026: 2,313 chapter/page records and 3,367 passages overall;
+126 Wilson chapters / 587 Wilson passages within the evaluated edition.

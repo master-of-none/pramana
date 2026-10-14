@@ -3,13 +3,13 @@
   "questions": 20,
   "strategies": {
     "lexical": {
-      "recall_at_10": 0.9,
-      "mrr_at_10": 0.7405555555555556,
+      "recall_at_10": 0.95,
+      "mrr_at_10": 0.7583333333333333,
       "details": [
         {
           "query": "How does Vishnu assume the role of Rudra at the dissolution of the universe?",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.1111111111111111
+          "reciprocal_rank": 0.16666666666666666
         },
         {
           "query": "How many divine years make up the four Yugas?",
@@ -49,7 +49,7 @@
         {
           "query": "How do people of the four castes worship Vishnu through their duties?",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.2
+          "reciprocal_rank": 0.3333333333333333
         },
         {
           "query": "What ancestral rite should be performed when a son is born?",
@@ -68,8 +68,8 @@
         },
         {
           "query": "Where is Kalki expected to appear and what will he do?",
-          "recall_at_10": 0.0,
-          "reciprocal_rank": 0
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.16666666666666666
         },
         {
           "query": "Why does Vasudeva ask the newborn Krishna to conceal his divine form?",
@@ -215,8 +215,8 @@
       ]
     },
     "hybrid": {
-      "recall_at_10": 0.95,
-      "mrr_at_10": 0.825,
+      "recall_at_10": 1.0,
+      "mrr_at_10": 0.8305555555555555,
       "details": [
         {
           "query": "How does Vishnu assume the role of Rudra at the dissolution of the universe?",
@@ -285,8 +285,8 @@
         },
         {
           "query": "Why does Vasudeva ask the newborn Krishna to conceal his divine form?",
-          "recall_at_10": 0.0,
-          "reciprocal_rank": 0
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.1111111111111111
         },
         {
           "query": "What harm does the serpent Kaliya cause in the Yamuna?",
@@ -333,6 +333,88 @@
       "query_prompt": "Represent this sentence for searching relevant passages: ",
       "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
     },
-    "schema": 1
-  }
+    "schema": 2
+  },
+  "sources": [
+    {
+      "chapter_id": "ch_5a487ef85ce05e2eac08d14b",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_5ba68c3cb42ba92d4beae566",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_4f98c6f64f8cf78818de971b",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_695aea3430ca1a558ccb73bf",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_f7cf13aabf7d572bdc64256c",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_a7fb73612e2dca3041585bfe",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_3c568b2302568339d4246453",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_009147a2000cca632607e2c5",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_54bf3b735d9b2a0241aab96f",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_64883aba8bfc42e8570465db",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_175ee55444e6771c174c39f9",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_861ecf5bbd5848eeca6fa6d8",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_a3d11a8ada31aef5a21c1d59",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_4347845fae39f13d25fca09c",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_86584e85aa6ba5a7a6a2666a",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_617ea83b3c445683b385b909",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_ca4e9d7b7f626050079a557c",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_996373eff723db31d7a6fae6",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_48838ae3762d587d07906acd",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    },
+    {
+      "chapter_id": "ch_b68e5bbd62d712d37104fc61",
+      "source_checksum": "82f14b7b4a7eafa24c130c2154c1d9ebcbb8a9996aa3c99b7f5eb89f7268d62f"
+    }
+  ]
 }

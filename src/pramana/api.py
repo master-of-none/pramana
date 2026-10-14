@@ -1,25 +1,37 @@
+import asyncio
 from pathlib import Path
 from threading import Lock
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
-from pramana.models import SearchHit, SearchRequest
+from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
 
 
-def create_app(home: Path | None = None, *, retriever: Retriever | None = None) -> FastAPI:
+def create_app(
+    home: Path | None = None,
+    *,
+    retriever: Retriever | None = None,
+    answerer: Answerer | None = None,
+) -> FastAPI:
     api = FastAPI(title="Pramana", version="0.1.0")
     corpus = retriever.corpus if retriever else Corpus(home)
     engine = retriever or Retriever(corpus)
     search_lock = Lock()
+    chat_engine = answerer or Answerer(engine, search_lock=search_lock)
+    chat_slots = asyncio.Semaphore(1)
 
     @api.exception_handler(PramanaError)
     async def actionable_error(request, exc: PramanaError):
-        return JSONResponse(status_code=409, content={"detail": str(exc)})
+        return JSONResponse(
+            status_code=exc.status_code if isinstance(exc, AnswerError) else 409,
+            content={"detail": str(exc)},
+        )
 
     @api.get("/api/status")
     def status():
@@ -29,6 +41,28 @@ def create_app(home: Path | None = None, *, retriever: Retriever | None = None) 
     def search(request: SearchRequest):
         with search_lock:
             return engine.search(**request.model_dump(exclude={"filters"}), filters=request.filters)
+
+    @api.post("/api/chat", response_model=ChatResponse)
+    async def chat(payload: ChatRequest, request: Request):
+        async def work():
+            async with chat_slots:
+                return await chat_engine.answer(payload)
+
+        async def disconnected():
+            while not await request.is_disconnected():
+                await asyncio.sleep(0.2)
+
+        task = asyncio.create_task(work())
+        watcher = asyncio.create_task(disconnected())
+        try:
+            done, _ = await asyncio.wait({task, watcher}, return_when=asyncio.FIRST_COMPLETED)
+            if watcher in done:
+                raise HTTPException(499, "Request cancelled")
+            return await task
+        finally:
+            task.cancel()
+            watcher.cancel()
+            await asyncio.gather(task, watcher, return_exceptions=True)
 
     @api.get("/api/chapters/{chapter_id}")
     def context(chapter_id: str, passage_id: str | None = None):

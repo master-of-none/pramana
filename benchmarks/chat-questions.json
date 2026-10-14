@@ -1,0 +1,13 @@
+{
+  "label": "Initial local-answer engineering smoke checks; manual interpretation review required",
+  "questions": [
+    {"id":"chinmayananda","question":"How does Chinmayananda explain acting without attachment?","expected_status":"grounded","documents":["holy_geeta_chinmayananda"],"source_review":{"pdf_pages":[212,293,1206,1223],"points":["Necessary action continues; ego and attachment to outcomes are relinquished."]}},
+    {"id":"followup","question":"How could I apply that at work?","follows":"chinmayananda","expected_status":"grounded","documents":["holy_geeta_chinmayananda"],"source_review":{"pdf_pages":[132,212,220,224],"points":["Work without clinging to results; practical applications must stay within the teaching."]}},
+    {"id":"shankara","question":"According to Shankara’s Bhagavad Gita commentary, can action alone lead to liberation?","expected_status":"grounded","documents":["gita_shankara_sastry"],"source_review":{"pdf_pages":[102,524],"points":["Distinguish preparatory action from knowledge and renunciation; avoid treating action alone as sufficient."]}},
+    {"id":"taittiriya","question":"In the Taittiriya Upanishad, is the liberated soul different from Brahman?","expected_status":"grounded","documents":["taittiriya_anandavalli_sastri"],"source_review":{"pdf_pages":[49,50],"points":["The volume’s discussion concludes identity, after presenting an opposing view."]}},
+    {"id":"wilson","question":"In the Vishnu Purana, how did Krishna protect the cowherds from rain?","expected_status":"grounded","documents":["vishnu-purana"],"source_review":{"book":"5","chapter":"11","points":["Krishna raises Govarddhana to shelter the cowherds from Indra’s storm."]}},
+    {"id":"unsupported","question":"What does this library say about configuring a Kubernetes cluster?","expected_status":"insufficient_evidence","documents":[],"source_review":{"points":["No relevant technical manual is in this library."]}},
+    {"id":"unsupported-source","question":"According to the Gospel of Matthew in this library, what is the Sermon on the Mount?","expected_status":"insufficient_evidence","documents":[],"source_review":{"points":["The named work is absent; do not answer from outside knowledge."]}},
+    {"id":"comparison","question":"How do Chinmayananda and Shankara explain the relation between action and liberation?","expected_status":"grounded","documents":["holy_geeta_chinmayananda","gita_shankara_sastry"],"source_review":{"pdf_pages":{"holy_geeta_chinmayananda":[288],"gita_shankara_sastry":[102,170,524]},"points":["Explain each thinker’s position separately without inventing disagreement.","Action’s preparatory role and knowledge/renunciation require nuance."]}}
+  ]
+}

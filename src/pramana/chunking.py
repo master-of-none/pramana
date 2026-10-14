@@ -49,9 +49,12 @@ def chunk_chapter(chapter: Chapter, tokenizer, config: dict | None = None) -> li
         pages.extend(p.label for p in chapter.pages if start_char < p.offset < end_char)
         pages = list(dict.fromkeys(pages))
         loc = chapter.location
-        label = f"{chapter.document}, Book {loc.book}, Chapter {loc.chapter}"
-        if pages:
-            label += ", pp. " + ", ".join(pages)
+        if chapter.source.local_path:
+            label = f"{chapter.document}, physical PDF page " + ", ".join(pages)
+        else:
+            label = f"{chapter.document}, Book {loc.book}, Chapter {loc.chapter}"
+            if pages:
+                label += ", pp. " + ", ".join(pages)
         label += f"; {chapter.translator}, {chapter.edition}; {pid}"
         chunks.append(
             Passage(
@@ -69,7 +72,10 @@ def chunk_chapter(chapter: Chapter, tokenizer, config: dict | None = None) -> li
                     language=chapter.language,
                     location=loc,
                     pages=pages,
-                    source_url=str(chapter.source.url),
+                    source_url=str(chapter.source.url) if chapter.source.url else None,
+                    source_local_path=chapter.source.local_path,
+                    author=chapter.author,
+                    content_type=chapter.content_type,
                     passage_id=pid,
                     label=label,
                 ),

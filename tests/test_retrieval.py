@@ -123,3 +123,42 @@ def test_incompatible_chunking_rejected_for_lexical_search(indexed, embedder):
         db.execute("UPDATE meta SET value=? WHERE key='index_config'", (json.dumps(config),))
     with pytest.raises(PramanaError, match="incompatible"):
         Retriever(indexed, embedder=embedder).search("Vishnu", strategy="lexical")
+
+
+def test_commentary_filters_before_ranking(indexed, embedder, make_chapter, tmp_path):
+    chapter = make_chapter("Action and knowledge are explained in this commentary.", chapter="3")
+    chapter.document_id = "commentary"
+    chapter.author = "A commentator"
+    chapter.content_type = "mixed"
+    path = tmp_path / "commentary.jsonl"
+    path.write_text(chapter.model_dump_json())
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    engine = Retriever(indexed, embedder=embedder)
+    for strategy in ("lexical", "dense", "hybrid"):
+        hits = engine.search(
+            "action knowledge",
+            strategy=strategy,
+            filters=SearchFilters(
+                document_id="commentary", author="A commentator", content_type="mixed"
+            ),
+        )
+        assert hits and all(h.passage.chapter_id == chapter.id for h in hits)
+        assert not engine.search(
+            "action",
+            strategy=strategy,
+            filters=SearchFilters(document_id="commentary", author="Someone else"),
+        )
+
+
+def test_translation_filter_handles_legacy_chapter_json(indexed, embedder):
+    with indexed.store.connect() as db:
+        for row in db.execute("SELECT id, data FROM chapters").fetchall():
+            data = json.loads(row["data"])
+            data.pop("content_type", None)
+            data.pop("author", None)
+            db.execute("UPDATE chapters SET data=? WHERE id=?", (json.dumps(data), row["id"]))
+    hits = Retriever(indexed, embedder=embedder).search(
+        "Vishnu preserves", filters=SearchFilters(content_type="translation")
+    )
+    assert hits and hits[0].passage.citation.content_type == "translation"

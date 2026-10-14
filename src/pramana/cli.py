@@ -46,6 +46,17 @@ def download(
         fail(exc)
 
 
+@corpus_app.command("import-books")
+def import_local_books(source_directory: Path = Path("docs/sources")):
+    """Preserve the three supplied PDFs locally, extract/OCR, report coverage, and import."""
+    from pramana.ingestion.pdf import import_books
+
+    try:
+        typer.echo(json.dumps(import_books(data_dir(), source_directory), indent=2))
+    except (PramanaError, OSError, ValueError) as exc:
+        fail(exc)
+
+
 @app.command()
 def ingest(path: Path):
     """Import chapters from provenance-bearing JSONL; unchanged records are skipped."""

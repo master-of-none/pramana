@@ -14,3 +14,7 @@ web/dist/
 src/pramana/static/
 .DS_Store
 *.tsbuildinfo
+
+# User-supplied editions and derived full text stay local.
+docs/sources/*.pdf
+docs/sources/*.PDF

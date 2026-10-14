@@ -17,11 +17,24 @@ class Record(BaseModel):
 
 
 class Source(Record):
-    url: HttpUrl
+    url: HttpUrl | None = None
+    local_path: NonEmpty | None = None
     retrieved_at: datetime
     checksum: Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{64}$")]
     rights: NonEmpty
     attribution: NonEmpty
+
+    @model_validator(mode="after")
+    def check_origin(self):
+        if (self.url is None) == (self.local_path is None):
+            raise ValueError("Provide exactly one source.url or source.local_path")
+        if self.local_path is not None:
+            from pathlib import PurePosixPath
+
+            path = PurePosixPath(self.local_path)
+            if path.is_absolute() or ".." in path.parts or "\\" in self.local_path:
+                raise ValueError("local_path must be relative to PRAMANA_HOME without '..'")
+        return self
 
 
 class Location(Record):
@@ -51,6 +64,8 @@ class Chapter(Record):
     location: Location
     source: Source
     text: str = Field(min_length=1)
+    author: str = ""
+    content_type: Literal["translation", "commentary", "mixed"] = "translation"
     summary: str = ""
     pages: list[PageMark] = Field(default_factory=list)
     notes: list[Note] = Field(default_factory=list)
@@ -92,7 +107,10 @@ class Citation(Record):
     language: str
     location: Location
     pages: list[str]
-    source_url: str
+    source_url: str | None = None
+    source_local_path: str | None = None
+    author: str = ""
+    content_type: Literal["translation", "commentary", "mixed"] = "translation"
     passage_id: str
     label: str
 
@@ -117,6 +135,9 @@ class SearchHit(Record):
 
 class SearchFilters(Record):
     corpus_id: str | None = None
+    document_id: str | None = None
+    author: str | None = None
+    content_type: Literal["translation", "commentary", "mixed"] | None = None
     book: str | None = None
     chapter: str | None = None
     edition: str | None = None
@@ -132,3 +153,40 @@ class SearchRequest(Record):
     limit: int = Field(default=10, ge=1, le=50)
     strategy: Strategy = "hybrid"
     filters: SearchFilters = Field(default_factory=SearchFilters)
+
+
+class ChatMessage(Record):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=6000)
+
+
+class ChatRequest(Record):
+    message: str = Field(min_length=1, max_length=2000)
+    history: list[ChatMessage] = Field(default_factory=list, max_length=12)
+
+    @model_validator(mode="after")
+    def check_history(self):
+        if not self.message.strip():
+            raise ValueError("Enter a question")
+        for i, message in enumerate(self.history):
+            expected = "user" if i % 2 == 0 else "assistant"
+            if message.role != expected:
+                raise ValueError("history must contain completed, alternating user/assistant turns")
+        if len(self.history) % 2:
+            raise ValueError("history must end with an assistant turn")
+        return self
+
+
+class Evidence(Record):
+    reference: str
+    passage: Passage
+    retrieval_relevance: float
+    score_kind: Literal["bm25", "cosine", "rrf"]
+
+
+class ChatResponse(Record):
+    answer: str
+    status: Literal["grounded", "insufficient_evidence"]
+    retrieval_question: str
+    evidence: list[Evidence] = Field(default_factory=list)
+    model: str

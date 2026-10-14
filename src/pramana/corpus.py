@@ -17,7 +17,7 @@ class Corpus:
         self.home = Path(home) if home else data_dir()
         self.store = Store(self.home / "pramana.sqlite3")
 
-    def import_jsonl(self, path: str | Path) -> int:
+    def import_jsonl(self, path: str | Path, *, replace_document: bool = False) -> int:
         records = []
         for line_number, line in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), 1):
             if not line.strip():
@@ -35,6 +35,9 @@ class Corpus:
                 "Import contains duplicate chapter identities; "
                 "use unique document/location metadata."
             )
+        identities = {(c.corpus_id, c.document_id, c.edition, c.language) for c in records}
+        if replace_document and len(identities) != 1:
+            raise PramanaError("Replacement imports must contain exactly one document edition.")
         changed = 0
         with self.store.connect() as db:
             for chapter in records:
@@ -65,13 +68,30 @@ class Corpus:
                     ),
                 )
                 changed += 1
+            if replace_document:
+                corpus_id, document_id, edition, language = next(iter(identities))
+                rows = db.execute(
+                    "SELECT id FROM chapters WHERE corpus_id=? AND edition=? AND language=? "
+                    "AND json_extract(data,'$.document_id')=?",
+                    (corpus_id, edition, language, document_id),
+                ).fetchall()
+                retained = {c.id for c in records}
+                for row in rows:
+                    if row[0] not in retained:
+                        db.execute(
+                            "DELETE FROM passages_fts WHERE id IN "
+                            "(SELECT id FROM passages WHERE chapter_id=?)",
+                            (row[0],),
+                        )
+                        db.execute("DELETE FROM chapters WHERE id=?", (row[0],))
+                        changed += 1
             if changed:
                 db.execute("UPDATE meta SET value=CAST(value AS INTEGER)+1 WHERE key='generation'")
         return changed
 
     def index(self, *, rebuild: bool = False, embedder=None) -> int:
         embedder = embedder or LocalEmbedder(self.home)
-        config = {"schema": 1, "embedding": embedder.identity, "chunking": CHUNK_CONFIG}
+        config = {"schema": 2, "embedding": embedder.identity, "chunking": CHUNK_CONFIG}
         old = self.store.get_meta("index_config")
         if old is not None and old != config and not rebuild:
             raise PramanaError("Index configuration changed. Run: pramana index --rebuild")

@@ -1,854 +1,495 @@
 import { useEffect, useRef, useState } from "react";
-import type { FormEvent, ReactNode } from "react";
+import type { FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowDown,
-  ArrowLeft,
   ArrowRight,
+  ArrowUp,
   BookOpen,
   Check,
-  ChevronDown,
   Copy,
-  ExternalLink,
-  Library,
-  Search,
-  SlidersHorizontal,
+  CornerDownLeft,
+  Feather,
+  Plus,
+  RotateCcw,
+  Square,
   X,
 } from "lucide-react";
 import "./style.css";
 
-type Location = { book: string; chapter: string; sections: string[] };
-type Citation = {
-  document: string;
-  edition: string;
-  translator: string;
-  language: string;
-  location: Location;
-  pages: string[];
-  source_url: string;
-  passage_id: string;
-  label: string;
-};
-type Passage = {
+type Turn = {
   id: string;
-  chapter_id: string;
-  text: string;
-  start: number;
-  end: number;
-  citation: Citation;
+  question: string;
+  answer?: string;
+  state: "complete" | "pending" | "error" | "cancelled";
+  error?: string;
 };
-type Hit = {
-  passage: Passage;
-  snippet: string;
-  score: number;
-  score_kind: string;
+type ChatResponse = {
+  answer: string;
+  status: "grounded" | "insufficient_evidence";
 };
-type Note = { id: string; text: string; anchor_offset: number | null };
-type Context = {
-  id: string;
-  chapter: {
-    document: string;
-    text: string;
-    summary: string;
-    notes: Note[];
-    location: Location;
-    source: { url: string; attribution: string; rights: string };
-  };
-  selected: Passage;
-};
-type Status = {
-  chapters: number;
-  passages: number;
-  indexed: boolean;
-  locations: {
-    corpus_id: string;
-    edition: string;
-    translator: string;
-    language: string;
-    book: string;
-    chapter: string;
-  }[];
-};
-const bookNames = [
-  "Origins & creation",
-  "The world & its realms",
-  "Traditions & society",
-  "Dynasties & lineages",
-  "The life of Krishna",
-  "Dissolution & liberation",
-];
-const examples = [
-  "How was the world created?",
-  "Why did Dhruva become the pole star?",
-  "What happens at the end of the Kali age?",
+const STORAGE = "pramana.conversation.v1";
+const suggestions = [
+  {
+    topic: "ACTION & INTENTION",
+    question: "How does Chinmayananda explain acting without attachment?",
+  },
+  {
+    topic: "THE NATURE OF JOY",
+    question: "What does the Taittiriya Upanishad teach about bliss?",
+  },
+  {
+    topic: "STORIES & IDEAS",
+    question: "Why does Dhruva seek Vishnu in the Vishnu Purana?",
+  },
 ];
 
-async function getJSON<T>(url: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(url, options);
-  const data = await response.json();
-  if (!response.ok)
-    throw new Error(
-      typeof data.detail === "string"
-        ? data.detail
-        : "The request could not be completed. Try again.",
+function restore(): Turn[] {
+  try {
+    const data: unknown = JSON.parse(sessionStorage.getItem(STORAGE) || "[]");
+    if (!Array.isArray(data)) return [];
+    return data.slice(-60).flatMap((t) => {
+      if (
+        !t ||
+        typeof t.id !== "string" ||
+        typeof t.question !== "string" ||
+        t.question.length > 2000
+      )
+        return [];
+      if (
+        t.state === "complete" &&
+        typeof t.answer === "string" &&
+        t.answer.length <= 6000
+      )
+        return [
+          {
+            id: t.id,
+            question: t.question,
+            answer: t.answer,
+            state: "complete",
+          } as Turn,
+        ];
+      return [
+        {
+          id: t.id,
+          question: t.question,
+          state: "cancelled",
+          error: "This answer was interrupted. You can try again.",
+        } as Turn,
+      ];
+    });
+  } catch {
+    return [];
+  }
+}
+
+function inline(text: string) {
+  return text
+    .split(/(\*\*[^*]+\*\*)/g)
+    .map((part, i) =>
+      part.startsWith("**") ? (
+        <strong key={i}>{part.slice(2, -2)}</strong>
+      ) : (
+        part
+      ),
     );
-  return data as T;
+}
+function Answer({ text }: { text: string }) {
+  return (
+    <div className="answer-prose">
+      {text.split(/\n\s*\n/).map((block, i) => {
+        const lines = block.split("\n");
+        if (lines.every((line) => /^\s*(?:[-*•]|\d+\.)\s+/.test(line)))
+          return (
+            <ul key={i}>
+              {lines.map((line, j) => (
+                <li key={j}>
+                  {inline(line.replace(/^\s*(?:[-*•]|\d+\.)\s+/, ""))}
+                </li>
+              ))}
+            </ul>
+          );
+        return <p key={i}>{inline(block.replace(/^#{1,6}\s+/gm, ""))}</p>;
+      })}
+    </div>
+  );
 }
 
 function App() {
-  const [status, setStatus] = useState<Status | null>(null);
-  const [statusError, setStatusError] = useState("");
-  const params = new URLSearchParams(window.location.search);
-  const [query, setQuery] = useState(params.get("q") || "");
-  const [book, setBook] = useState(params.get("book") || "");
-  const [chapter, setChapter] = useState(params.get("chapter") || "");
-  const [corpus, setCorpus] = useState(params.get("corpus") || "");
-  const [strategy, setStrategy] = useState(
-    ["lexical", "dense", "hybrid"].includes(params.get("strategy") || "")
-      ? params.get("strategy")!
-      : "hybrid",
-  );
-  const [hits, setHits] = useState<Hit[]>([]);
-  const [searched, setSearched] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [selected, setSelected] = useState<Hit | null>(null);
-  const [context, setContext] = useState<Context | null>(null);
-  const [contextError, setContextError] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [turns, setTurns] = useState<Turn[]>(restore);
+  const [message, setMessage] = useState("");
+  const [storageError, setStorageError] = useState(false);
+  const [copied, setCopied] = useState("");
   const [copyError, setCopyError] = useState("");
-  const [mobileFilters, setMobileFilters] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
-  const abortSearch = useRef<AbortController | null>(null);
-  const reader = useRef<HTMLElement>(null);
-  const initialSearch = useRef(false);
-  const resultOpener = useRef<HTMLButtonElement | null>(null);
+  const composer = useRef<HTMLTextAreaElement>(null);
+  const bottom = useRef<HTMLDivElement>(null);
+  const controller = useRef<AbortController | null>(null);
+  const requestNumber = useRef(0);
+  const pending = turns.some((t) => t.state === "pending");
+  const hasConversation = turns.length > 0;
 
   useEffect(() => {
-    getJSON<Status>("/api/status")
-      .then(setStatus)
-      .catch((e) => setStatusError(e.message));
-    return () => abortSearch.current?.abort();
-  }, []);
-
-  useEffect(() => {
-    if (status?.indexed && !initialSearch.current) {
-      initialSearch.current = true;
-      if (query.trim()) void runSearch();
+    try {
+      sessionStorage.setItem(STORAGE, JSON.stringify(turns.slice(-60)));
+      setStorageError(false);
+    } catch {
+      setStorageError(true);
     }
-  }, [status]);
-
+  }, [turns]);
   useEffect(() => {
-    if (selected)
-      reader.current?.querySelector("button")?.focus({ preventScroll: true });
-    else resultOpener.current?.focus({ preventScroll: true });
-  }, [selected]);
-
+    bottom.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "end",
+    });
+  }, [turns]);
   useEffect(() => {
-    if (!selected) {
-      setContext(null);
-      return;
+    const input = composer.current;
+    if (input) {
+      input.style.height = "auto";
+      input.style.height = `${Math.min(input.scrollHeight, 150)}px`;
     }
-    const abort = new AbortController();
-    setContext(null);
-    setContextError("");
-    setCopied(false);
-    setCopyError("");
-    getJSON<Context>(
-      `/api/chapters/${selected.passage.chapter_id}?passage_id=${selected.passage.id}`,
-      { signal: abort.signal },
-    )
-      .then(setContext)
-      .catch((e) => {
-        if (e.name !== "AbortError") setContextError(e.message);
-      });
-    return () => abort.abort();
-  }, [selected]);
-
-  useEffect(() => {
-    const scroll = reader.current?.querySelector(".reader-scroll");
-    const mark = scroll?.querySelector("mark");
-    if (context && scroll && mark) {
-      scroll.scrollTo({
-        top:
-          scroll.scrollTop +
-          mark.getBoundingClientRect().top -
-          scroll.getBoundingClientRect().top -
-          20,
-        behavior: "smooth",
-      });
-    }
-  }, [context]);
-
+  }, [message]);
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
-        searchRef.current?.focus();
+        composer.current?.focus();
       }
-      if (event.key === "Escape") {
-        setSelected(null);
-        setMobileFilters(false);
-      }
+      if (event.key === "Escape") controller.current?.abort();
     };
     window.addEventListener("keydown", key);
-    return () => window.removeEventListener("keydown", key);
+    return () => {
+      window.removeEventListener("keydown", key);
+      controller.current?.abort();
+    };
   }, []);
 
-  async function runSearch(
-    text = query,
-    chosenBook = book,
-    chosenChapter = chapter,
-    chosenCorpus = corpus,
-  ) {
-    if (!text.trim()) {
-      searchRef.current?.focus();
-      return;
-    }
-    abortSearch.current?.abort();
+  async function send(text: string, retryId?: string) {
+    if (!text.trim() || controller.current) return;
+    const previous = retryId
+      ? turns.slice(
+          0,
+          turns.findIndex((t) => t.id === retryId),
+        )
+      : turns;
+    const history = previous
+      .filter((t) => t.state === "complete")
+      .slice(-6)
+      .flatMap((t) => [
+        { role: "user", content: t.question },
+        { role: "assistant", content: t.answer! },
+      ]);
+    const id = retryId || crypto.randomUUID();
     const abort = new AbortController();
-    abortSearch.current = abort;
-    setLoading(true);
-    setError("");
-    setSelected(null);
-    setHits([]);
-    setSearched(text.trim());
-    setMobileFilters(false);
-    const url = new URL(window.location.href);
-    url.search = "";
-    url.searchParams.set("q", text.trim());
-    if (chosenBook) url.searchParams.set("book", chosenBook);
-    if (chosenChapter) url.searchParams.set("chapter", chosenChapter);
-    if (chosenCorpus) url.searchParams.set("corpus", chosenCorpus);
-    if (strategy !== "hybrid") url.searchParams.set("strategy", strategy);
-    window.history.replaceState(null, "", url);
+    controller.current = abort;
+    const number = ++requestNumber.current;
+    setTurns([...previous, { id, question: text.trim(), state: "pending" }]);
+    setMessage("");
+    const update = (value: Partial<Turn>) => {
+      if (requestNumber.current === number)
+        setTurns((current) =>
+          current.map((t) => (t.id === id ? { ...t, ...value } : t)),
+        );
+    };
     try {
-      const results = await getJSON<Hit[]>("/api/search", {
+      const response = await fetch("/api/chat", {
         method: "POST",
-        signal: abort.signal,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: text.trim(),
-          strategy,
-          limit: 10,
-          filters: {
-            ...(chosenBook ? { book: chosenBook } : {}),
-            ...(chosenChapter ? { chapter: chosenChapter } : {}),
-            ...(chosenCorpus ? { corpus_id: chosenCorpus } : {}),
-          },
-        }),
+        signal: abort.signal,
+        body: JSON.stringify({ message: text.trim(), history }),
       });
-      setHits(results);
-    } catch (e) {
-      if ((e as Error).name !== "AbortError") setError((e as Error).message);
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : "The question could not be processed. Try a shorter question.",
+        );
+      const result = data as ChatResponse;
+      if (
+        typeof result.answer !== "string" ||
+        !["grounded", "insufficient_evidence"].includes(result.status)
+      )
+        throw new Error("The answer was incomplete. Please retry.");
+      update({ state: "complete", answer: result.answer, error: undefined });
+    } catch (error) {
+      if (abort.signal.aborted)
+        update({
+          state: "cancelled",
+          error: "Answer stopped. You can try again whenever you’re ready.",
+        });
+      else
+        update({
+          state: "error",
+          error:
+            error instanceof TypeError
+              ? "Pramana is unreachable. Check that the local server is running, then retry."
+              : (error as Error).message,
+        });
     } finally {
-      if (!abort.signal.aborted) setLoading(false);
+      if (requestNumber.current === number) {
+        controller.current = null;
+        composer.current?.focus();
+      }
     }
   }
-
+  function newChat() {
+    requestNumber.current++;
+    controller.current?.abort();
+    controller.current = null;
+    setTurns([]);
+    setMessage("");
+    setCopyError("");
+    try {
+      sessionStorage.removeItem(STORAGE);
+    } catch {
+      /* The in-memory chat still resets. */
+    }
+    composer.current?.focus();
+  }
   function submit(event: FormEvent) {
     event.preventDefault();
-    void runSearch();
+    void send(message);
   }
-  const locations =
-    status?.locations.filter(
-      (x) => (!corpus || x.corpus_id === corpus) && (!book || x.book === book),
-    ) || [];
-  const books = [
-    ...new Set(
-      (status?.locations || [])
-        .filter((x) => !corpus || x.corpus_id === corpus)
-        .map((x) => x.book),
-    ),
-  ].sort((a, b) => Number(a) - Number(b));
-  const corpora = [...new Set(status?.locations.map((x) => x.corpus_id) || [])];
-  const chapters = [...new Set(locations.map((x) => x.chapter))].sort(
-    (a, b) => Number(a) - Number(b),
-  );
-
-  async function copyCitation() {
-    if (!selected) return;
+  async function copy(turn: Turn) {
     try {
-      await navigator.clipboard.writeText(
-        `${selected.passage.citation.label}\n${selected.passage.citation.source_url}`,
-      );
-      setCopied(true);
+      await navigator.clipboard.writeText(turn.answer!);
+      setCopied(turn.id);
       setCopyError("");
     } catch {
-      setCopyError(
-        "Clipboard is unavailable. Select and copy the citation below.",
-      );
+      setCopyError("Copy is unavailable. Select the answer text to copy it.");
     }
-  }
-
-  function chapterText(): ReactNode {
-    if (!context) return null;
-    const chars = Array.from(context.chapter.text); // Python offsets count Unicode code points.
-    const { start, end } = context.selected;
-    const notes = context.chapter.notes.filter((n) => n.anchor_offset !== null);
-    const points = [
-      ...new Set([
-        0,
-        start,
-        end,
-        chars.length,
-        ...notes.map((n) => n.anchor_offset!),
-      ]),
-    ].sort((a, b) => a - b);
-    return points.map((point, i) => (
-      <span key={point}>
-        {notes
-          .filter((n) => n.anchor_offset === point)
-          .map((n) => (
-            <a
-              className="note-ref"
-              href={`#note-${n.id}`}
-              key={n.id}
-              aria-label={`Translator note ${n.id}`}
-            >
-              {n.id}
-            </a>
-          ))}
-        {i < points.length - 1 &&
-          (point >= start && point < end ? (
-            <mark>
-              {chars
-                .slice(point, points[i + 1])
-                .join("")
-                .replace(/\n{3,}/g, "\n\n")}
-            </mark>
-          ) : (
-            chars
-              .slice(point, points[i + 1])
-              .join("")
-              .replace(/\n{3,}/g, "\n\n")
-          ))}
-      </span>
-    ));
   }
 
   return (
-    <div className={`app ${selected ? "reading" : ""}`}>
-      <a className="skip-link" href="#main">
-        Skip to search
+    <div className={`app ${hasConversation ? "in-conversation" : "welcome"}`}>
+      <a className="skip-link" href="#message">
+        Skip to message
       </a>
       <header className="topbar">
-        <a className="brand" href="/" aria-label="Pramana home">
+        <button
+          className="brand"
+          onClick={newChat}
+          aria-label="Pramana, new chat"
+        >
           <span className="brand-mark">प्र</span>
-          <span>
-            pramāṇa<span className="brand-sub">A SOURCE FOR EVERY PASSAGE</span>
+          <span className="brand-name">
+            pramāṇa<span className="brand-sub">A SPACE FOR UNDERSTANDING</span>
           </span>
-        </a>
-        <div className="top-right">
+        </button>
+        <div className="topbar-right">
           <span className="local-badge">
-            <span /> Local library
+            <span /> On your device
           </span>
-          <a
-            className="about-link"
-            href="/docs"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API reference <ExternalLink size={13} />
-          </a>
+          <button className="new-chat" onClick={newChat}>
+            <Plus size={16} />
+            <span>New chat</span>
+          </button>
         </div>
       </header>
-
-      <aside
-        className={`sidebar ${mobileFilters ? "mobile-open" : ""}`}
-        aria-label="Library and search filters"
-      >
-        <div className="sidebar-label">
-          <Library size={15} /> YOUR COLLECTION{" "}
-          <button
-            className="mobile-only icon-button"
-            aria-label="Close filters"
-            onClick={() => setMobileFilters(false)}
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <button
-          className={`collection ${!corpus ? "active" : ""}`}
-          onClick={() => {
-            setCorpus("");
-            setBook("");
-            setChapter("");
-          }}
-        >
-          <span className="collection-icon">
-            <BookOpen size={21} />
-          </span>
-          <span>
-            All texts
-            <small>{status?.chapters || 0} chapters in your library</small>
-          </span>
-          <span className="collection-dot" />
-        </button>
-        {corpora.length > 1 && (
-          <label className="filter-label">
-            Text
-            <select
-              value={corpus}
-              onChange={(e) => {
-                setCorpus(e.target.value);
-                setBook("");
-                setChapter("");
-              }}
-            >
-              <option value="">All texts</option>
-              {corpora.map((x) => (
-                <option key={x}>{x}</option>
-              ))}
-            </select>
-          </label>
-        )}
-        <div className="sidebar-rule" />
-        <div className="sidebar-label">BROWSE BY BOOK</div>
-        <button
-          className={`book-row ${!book ? "selected" : ""}`}
-          onClick={() => {
-            setBook("");
-            setChapter("");
-          }}
-        >
-          <span className="book-number">◎</span>
-          <span>All books</span>
-          <span className="book-count">{status?.chapters || "—"}</span>
-        </button>
-        {(books.length ? books : ["1", "2", "3", "4", "5", "6"]).map((b) => (
-          <button
-            className={`book-row ${book === b ? "selected" : ""}`}
-            key={b}
-            onClick={() => {
-              setBook(b);
-              setChapter("");
-            }}
-          >
-            <span className="book-number">{b.padStart(2, "0")}</span>
-            <span>
-              Book {b}
-              <small>{bookNames[Number(b) - 1] || "Collected chapters"}</small>
-            </span>
-            <span className="book-count">
-              {status?.locations.filter(
-                (x) => x.book === b && (!corpus || x.corpus_id === corpus),
-              ).length || "—"}
-            </span>
-          </button>
-        ))}
-        <div className="sidebar-rule" />
-        <label className="filter-label">
-          Chapter
-          <select value={chapter} onChange={(e) => setChapter(e.target.value)}>
-            <option value="">All chapters</option>
-            {chapters.map((c) => (
-              <option value={c} key={c}>
-                Chapter {c}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="filter-label">
-          Search method
-          <select
-            value={strategy}
-            onChange={(e) => setStrategy(e.target.value)}
-          >
-            <option value="hybrid">Hybrid · semantic + keyword</option>
-            <option value="lexical">Keyword · BM25</option>
-            <option value="dense">Semantic · local embeddings</option>
-          </select>
-        </label>
-        <p className="filter-hint">Filters apply to your next search.</p>
-        <div className="edition-card">
-          <span className="eyebrow">ABOUT THIS EDITION</span>
-          <h3>Vishnu Purana</h3>
-          <p>H. H. Wilson · 1840</p>
-          <p className="edition-detail">
-            English translation
-            <br />
-            Sacred Texts distribution · 2006
-          </p>
-          <a
-            href="https://archive.sacred-texts.com/hin/vp/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View source edition <ExternalLink size={12} />
-          </a>
-        </div>
-        <div className="sidebar-footer">
-          <span
-            className={status?.indexed ? "status-dot ready" : "status-dot"}
-          />
-          {status?.indexed
-            ? `${status.passages.toLocaleString()} passages indexed`
-            : "Library needs setup"}
-          <span className="version">v0.1</span>
-        </div>
-      </aside>
-
-      <main id="main" className="main">
-        <div className="workspace-heading">
-          <span>
-            <span className="eyebrow">THE READING ROOM</span>
-            <span className="heading-separator">/</span>Explore the texts
-          </span>
-          <button
-            className="mobile-only filter-toggle"
-            onClick={() => setMobileFilters(true)}
-          >
-            <SlidersHorizontal size={15} /> Filters
-          </button>
-          <span className="workspace-tag">RETRIEVE · READ · TRACE</span>
-        </div>
-        <div className={`search-area ${searched ? "compact" : ""}`}>
-          {!searched && (
-            <>
-              <div className="intro-kicker">
-                <span /> KNOWLEDGE BEGINS WITH A SOURCE
-              </div>
-              <h1>
-                Ask the texts.
-                <br />
-                <em>Read the evidence.</em>
-              </h1>
-              <p className="intro-copy">
-                Explore ancient ideas through the passages that carry them.
-                <br className="desktop-only" /> Search the Vishnu Purana, then
-                follow each result to its source.
-              </p>
-            </>
-          )}
-          <form className="search-form" onSubmit={submit}>
-            <Search size={21} />
-            <input
-              ref={searchRef}
-              aria-label="Search the library"
-              placeholder="What would you like to explore?"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              maxLength={2000}
-            />
-            <kbd>⌘ K</kbd>
-            <button
-              type="submit"
-              aria-label="Search"
-              disabled={loading || !query.trim()}
-            >
-              <ArrowRight size={20} />
-            </button>
-          </form>
-          <div className="search-meta">
-            <span>
-              {book ? `Book ${book}` : "All books"}
-              {chapter ? ` · Chapter ${chapter}` : ""}
-              <ChevronDown size={12} />
-            </span>
-            <span>
-              English <span className="meta-dot">·</span>{" "}
-              {strategy === "hybrid"
-                ? "Hybrid search"
-                : strategy === "lexical"
-                  ? "Keyword search"
-                  : "Semantic search"}
-            </span>
-          </div>
-        </div>
-
-        {(statusError || error || (status && !status.indexed)) && (
-          <div className="notice" role="alert">
-            <BookOpen size={20} />
-            <div>
-              <h3>
-                {statusError || error
-                  ? "A little setup may be needed"
-                  : "Prepare your local library"}
-              </h3>
-              <p>
-                {statusError ||
-                  error ||
-                  "Download an edition, import its chapters, and build the local search index."}
-              </p>
-              {(!status?.indexed || /model|index|setup/i.test(error)) && (
-                <pre>
-                  pramana model setup{"\n"}pramana corpus download{"\n"}pramana
-                  ingest .pramana/corpora/vishnu-purana/chapters.jsonl{"\n"}
-                  pramana index
-                </pre>
-              )}
+      <main id="main">
+        {!hasConversation ? (
+          <section className="welcome-section" aria-label="Welcome">
+            <div className="welcome-symbol">
+              <BookOpen size={28} strokeWidth={1.25} />
+              <span className="symbol-ray ray-one" />
+              <span className="symbol-ray ray-two" />
+              <span className="symbol-ray ray-three" />
             </div>
-          </div>
-        )}
-
-        {!searched && (
-          <div className="welcome-content">
-            <div className="section-title">
-              <span>A FEW PLACES TO BEGIN</span>
-              <span className="title-line" />
+            <div className="eyebrow">
+              <span /> THE READING ROOM
             </div>
-            <div className="example-grid">
-              {examples.map((example, i) => (
-                <button
-                  className="example"
-                  key={example}
-                  onClick={() => {
-                    setQuery(example);
-                    void runSearch(example);
-                  }}
-                >
-                  <span className="example-number">0{i + 1}</span>
-                  <span>{example}</span>
-                  <ArrowRight size={16} />
-                </button>
-              ))}
-            </div>
-            <div className="principles">
-              <div>
-                <span className="principle-icon">
-                  <Search size={18} />
-                </span>
-                <h3>Find the passage</h3>
-                <p>
-                  Search by meaning and by word, across every indexed chapter.
-                </p>
-              </div>
-              <div>
-                <span className="principle-icon">
-                  <BookOpen size={18} />
-                </span>
-                <h3>Keep the context</h3>
-                <p>
-                  Read the surrounding chapter, with the translator’s notes
-                  close by.
-                </p>
-              </div>
-              <div>
-                <span className="principle-icon">
-                  <ExternalLink size={18} />
-                </span>
-                <h3>Trace the source</h3>
-                <p>
-                  Every result carries its edition, location, and original
-                  reference.
-                </p>
-              </div>
-            </div>
-            <div className="library-footnote">
-              <span>प्रमाण</span>
-              <p>
-                <strong>pramāṇa</strong> <em>noun</em> · a means of knowledge
-                <br />A reading tool built around sources, context, and careful
-                inquiry.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {searched && (
-          <section
-            className="results"
-            aria-label="Search results"
-            aria-busy={loading}
-          >
-            <div className="results-header">
-              <div>
-                <span className="eyebrow">PASSAGES</span>
-                <h2>
-                  {loading
-                    ? "Searching your library…"
-                    : `${hits.length} ${hits.length === 1 ? "passage" : "passages"} to explore`}
-                </h2>
-              </div>
-              <span className="result-query">“{searched}”</span>
-            </div>
-            <p className="results-note">
-              Ranked by retrieval relevance. Read each passage in context to
-              assess its meaning.
+            <h1>
+              Old wisdom.
+              <br />
+              <em>New conversations.</em>
+            </h1>
+            <p className="welcome-copy">
+              A little curiosity can open a whole world.
+              <br />
+              Ask a question. Follow an idea. Make room for understanding.
             </p>
-            <div aria-live="polite" className="sr-only">
-              {loading ? "Searching" : `${hits.length} results found`}
-            </div>
-            {loading &&
-              [1, 2, 3].map((x) => (
-                <div className="skeleton" key={x}>
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              ))}
-            {!loading && !error && hits.length === 0 && (
-              <div className="empty-state">
-                <Search size={28} />
-                <h3>No passages matched these filters.</h3>
-                <p>
-                  Try broader search terms, or select all books and chapters.
-                </p>
-                <button
-                  onClick={() => {
-                    setBook("");
-                    setChapter("");
-                    setCorpus("");
-                    void runSearch(query, "", "", "");
-                  }}
-                >
-                  Clear filters
+            <div className="suggestions" aria-label="Suggested questions">
+              {suggestions.map((s) => (
+                <button key={s.topic} onClick={() => void send(s.question)}>
+                  <span className="suggestion-topic">{s.topic}</span>
+                  <span className="suggestion-question">{s.question}</span>
+                  <ArrowRight size={17} />
                 </button>
-              </div>
-            )}
-            {hits.map((hit, i) => (
-              <button
-                key={hit.passage.id}
-                className={`result-card ${selected?.passage.id === hit.passage.id ? "current" : ""}`}
-                onClick={(event) => {
-                  resultOpener.current = event.currentTarget;
-                  setSelected(hit);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-                    event.preventDefault();
-                    const sibling =
-                      event.key === "ArrowDown"
-                        ? event.currentTarget.nextElementSibling
-                        : event.currentTarget.previousElementSibling;
-                    if (sibling instanceof HTMLButtonElement) sibling.focus();
-                  }
-                }}
+              ))}
+            </div>
+            <div className="welcome-footnote">
+              <Feather size={15} />
+              <span>Read slowly. Ask freely. Think deeply.</span>
+            </div>
+          </section>
+        ) : (
+          <section
+            className="conversation"
+            aria-label="Conversation"
+            aria-busy={pending}
+          >
+            <div className="conversation-kicker">
+              <span /> A THREAD OF INQUIRY
+            </div>
+            {turns.map((turn, index) => (
+              <article
+                className="turn"
+                key={turn.id}
+                aria-label={`Exchange ${index + 1}`}
               >
-                <div className="result-top">
-                  <span className="result-number">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span>{hit.passage.citation.document}</span>
-                  <span className="result-location">
-                    BOOK {hit.passage.citation.location.book} <span>·</span>{" "}
-                    CHAPTER {hit.passage.citation.location.chapter}
-                  </span>
-                  <ArrowRight size={16} />
+                <div className="user-turn">
+                  <span className="turn-label">YOU</span>
+                  <p>{turn.question}</p>
                 </div>
-                <p className="passage-excerpt">
-                  {hit.snippet}
-                  {hit.passage.text.length > hit.snippet.length ? "…" : ""}
-                </p>
-                <div className="result-bottom">
-                  <span>
-                    {hit.passage.citation.translator}
-                    {hit.passage.citation.pages.length
-                      ? ` · pp. ${hit.passage.citation.pages.join(", ")}`
-                      : ""}
-                  </span>
-                  <span>
-                    Read in context <ArrowRight size={12} />
-                  </span>
+                <div className="assistant-turn">
+                  <div className="assistant-heading">
+                    <span className="mini-mark">प्र</span>
+                    <span>PRAMĀṆA</span>
+                    <span className="answer-line" />
+                  </div>
+                  {turn.state === "complete" && (
+                    <>
+                      <Answer text={turn.answer!} />
+                      <button
+                        className="copy-answer"
+                        onClick={() => void copy(turn)}
+                        aria-label="Copy answer"
+                      >
+                        {copied === turn.id ? (
+                          <Check size={14} />
+                        ) : (
+                          <Copy size={14} />
+                        )}
+                        {copied === turn.id ? "Copied" : "Copy answer"}
+                      </button>
+                    </>
+                  )}
+                  {turn.state === "pending" && (
+                    <div className="thinking" role="status">
+                      <span className="thinking-dots">
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span>Reading and reflecting…</span>
+                    </div>
+                  )}
+                  {(turn.state === "error" || turn.state === "cancelled") && (
+                    <div className={`turn-notice ${turn.state}`}>
+                      <p role={turn.state === "error" ? "alert" : "status"}>
+                        {turn.error}
+                      </p>
+                      {index === turns.length - 1 && !pending && (
+                        <button
+                          onClick={() => void send(turn.question, turn.id)}
+                        >
+                          <RotateCcw size={14} />
+                          Try again
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </button>
+              </article>
             ))}
+            {copyError && (
+              <p className="small-notice" role="alert">
+                {copyError}
+                <button
+                  aria-label="Dismiss copy error"
+                  onClick={() => setCopyError("")}
+                >
+                  <X size={14} />
+                </button>
+              </p>
+            )}
+            <div ref={bottom} className="conversation-bottom" />
           </section>
         )}
-        <footer className="main-footer">
-          <span>Every passage has a source.</span>
-          <span>Stored locally. Searched locally.</span>
-        </footer>
       </main>
-
-      {selected && (
-        <aside ref={reader} className="reader" aria-label="Chapter reader">
-          <div className="reader-toolbar">
-            <button className="back-results" onClick={() => setSelected(null)}>
-              <ArrowLeft size={15} /> Results
-            </button>
-            <span>
-              {context
-                ? `BOOK ${context.chapter.location.book} · CHAPTER ${context.chapter.location.chapter}`
-                : "IN CONTEXT"}
-            </span>
+      <div className="composer-dock">
+        <form className="composer" onSubmit={submit}>
+          <label className="sr-only" htmlFor="message">
+            Your question
+          </label>
+          <textarea
+            ref={composer}
+            id="message"
+            placeholder={
+              hasConversation
+                ? "Keep the conversation going…"
+                : "What would you like to understand?"
+            }
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            rows={1}
+            maxLength={2000}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" &&
+                !event.shiftKey &&
+                !event.nativeEvent.isComposing
+              ) {
+                event.preventDefault();
+                if (!pending) void send(message);
+              }
+            }}
+          />
+          {pending ? (
             <button
-              className="icon-button"
-              onClick={() => setSelected(null)}
-              aria-label="Close chapter reader"
+              type="button"
+              className="send-button stop-button"
+              onClick={() => controller.current?.abort()}
+              aria-label="Stop answer"
             >
-              <X size={18} />
+              <Square size={15} fill="currentColor" />
             </button>
-          </div>
-          <div className="reader-scroll">
-            {contextError && (
-              <div className="notice" role="alert">
-                <p>{contextError}</p>
-              </div>
-            )}
-            {!context && !contextError && (
-              <p className="loading-context" role="status">
-                Opening the chapter…
-              </p>
-            )}
-            {context && (
-              <>
-                <span className="eyebrow">{context.chapter.document}</span>
-                <h2>
-                  Book {context.chapter.location.book}
-                  <span>Chapter {context.chapter.location.chapter}</span>
-                </h2>
-                <p className="reader-edition">
-                  {selected.passage.citation.translator} ·{" "}
-                  {selected.passage.citation.language}
-                  <br />
-                  {selected.passage.citation.edition}
-                </p>
-                <div className="reader-rule" />
-                <p className="summary-label">CHAPTER SUMMARY · EDITION TEXT</p>
-                <p className="chapter-summary">{context.chapter.summary}</p>
-                <div className="highlight-legend">
-                  <span /> Your selected passage is highlighted{" "}
-                  <ArrowDown size={12} />
-                </div>
-                <div className="chapter-text">{chapterText()}</div>
-                <section className="translator-notes">
-                  <h3>
-                    Translator’s notes{" "}
-                    <span>{context.chapter.notes.length}</span>
-                  </h3>
-                  <p className="notes-description">
-                    Commentary from this edition, separate from the translation.
-                  </p>
-                  {context.chapter.notes.map((note) => (
-                    <div
-                      className="translator-note"
-                      key={note.id}
-                      id={`note-${note.id}`}
-                    >
-                      <span>{note.id}</span>
-                      <p>{note.text}</p>
-                    </div>
-                  ))}
-                </section>
-                <section className="citation-box">
-                  <span className="eyebrow">SOURCE & CITATION</span>
-                  <p>{selected.passage.citation.label}</p>
-                  <div className="citation-actions">
-                    <button onClick={() => void copyCitation()}>
-                      {copied ? <Check size={14} /> : <Copy size={14} />}
-                      {copied ? "Copied" : "Copy citation"}
-                    </button>
-                    <a
-                      href={selected.passage.citation.source_url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Original source <ExternalLink size={13} />
-                    </a>
-                  </div>
-                  {copyError && <p role="alert">{copyError}</p>}
-                  <p className="attribution">
-                    {context.chapter.source.attribution}
-                    <br />
-                    {context.chapter.source.rights}
-                  </p>
-                </section>
-              </>
-            )}
-          </div>
-        </aside>
+          ) : (
+            <button
+              className="send-button"
+              type="submit"
+              disabled={!message.trim()}
+              aria-label="Send message"
+            >
+              <ArrowUp size={19} />
+            </button>
+          )}
+        </form>
+        <div className="composer-caption">
+          <span>
+            {pending
+              ? "Take a moment. Good questions are worth sitting with."
+              : "A conversation with the books in your local library."}
+          </span>
+          <span className="keyboard-hint">
+            <CornerDownLeft size={11} /> to send <span>·</span> Shift + Enter
+            for a new line
+          </span>
+        </div>
+        {storageError && (
+          <p className="storage-error" role="alert">
+            Browser storage is unavailable. This conversation cannot survive a
+            reload.
+          </p>
+        )}
+      </div>
+      <footer className="page-footer">
+        <span>
+          प्रमाण <span className="footer-divider">/</span> a means of knowledge
+        </span>
+        <span>Stay curious.</span>
+      </footer>
+      {hasConversation && (
+        <button
+          className="jump-bottom"
+          aria-label="Jump to latest message"
+          onClick={() => bottom.current?.scrollIntoView({ behavior: "smooth" })}
+        >
+          <ArrowDown size={16} />
+        </button>
       )}
     </div>
   );
