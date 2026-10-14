@@ -1,0 +1,226 @@
+{
+  "label": "Initial engineering benchmark; chapter-level source-checked relevance, not scholarly validation",
+  "edition": "Wilson 1840 · Sacred Texts plain-text distribution 2006",
+  "questions": [
+    {
+      "query": "How does Vishnu assume the role of Rudra at the dissolution of the universe?",
+      "relevant": [
+        {
+          "book": "1",
+          "chapter": "2",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp036.htm",
+          "evidence_quote": "lity of darkness, assumes the awful form of Rudra, and swallows up the universe. Having thus devoured all things, and converted the world into one vast ocean, the Suprem"
+        }
+      ]
+    },
+    {
+      "query": "How many divine years make up the four Yugas?",
+      "relevant": [
+        {
+          "book": "1",
+          "chapter": "3",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp037.htm",
+          "evidence_quote": "e northern a day of the gods. Twelve thousand divine years, each composed of (three hundred and sixty) such days, constitute the period of the four Yugas, or ages. They are thus"
+        }
+      ]
+    },
+    {
+      "query": "What do the gods use to churn the ocean for ambrosia?",
+      "relevant": [
+        {
+          "book": "1",
+          "chapter": "9",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp044.htm",
+          "evidence_quote": "and then taking the mountain Mandara for the churning-stick, the serpent Vasuki for the rope, churn the ocean together for ambrosia; depending upon my aid. To secure the assistanc"
+        }
+      ]
+    },
+    {
+      "query": "What celestial station does Vishnu grant to Dhruva?",
+      "relevant": [
+        {
+          "book": "1",
+          "chapter": "12",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp047.htm",
+          "evidence_quote": "ne whose mind is fixed on me? A station shall be assigned to thee, Dhruva, above the three worlds ; one in which thou shalt sustain the stars and the planets; a station above those of the sun,"
+        }
+      ]
+    },
+    {
+      "query": "Where is Mount Meru situated and how high is it?",
+      "relevant": [
+        {
+          "book": "2",
+          "chapter": "2",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp059.htm",
+          "evidence_quote": "ntre of this continent is the golden mountain Meru. The height of Meru is eighty-four thousand Yojanas; and its depth below the surface of the earth is\n\n\n\nsixteen thousan"
+        }
+      ]
+    },
+    {
+      "query": "How is the chariot of the sun described?",
+      "relevant": [
+        {
+          "book": "2",
+          "chapter": "8",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp066.htm",
+          "evidence_quote": "he sun and other luminaries.\n\nThe chariot of the sun is nine thousand leagues in length, and the pole is of twice that longitude ; the axle is fifteen millions and seven hu"
+        }
+      ]
+    },
+    {
+      "query": "How does Bharata save the young deer from the river?",
+      "relevant": [
+        {
+          "book": "2",
+          "chapter": "13",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp071.htm",
+          "evidence_quote": "uence of this great leap, her fawn was suddenly brought forth, and fell into the river; and the king, seeing it carried away by the current, caught hold of the young animal, and sav"
+        }
+      ]
+    },
+    {
+      "query": "How many times have the Vedas been arranged in the Vaivaswata Manwantara?",
+      "relevant": [
+        {
+          "book": "3",
+          "chapter": "3",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp077.htm",
+          "evidence_quote": ", you shall have an account.\n\nTwenty-eight times have the Vedas been arranged by the great Rishis in the Vaivaswata Manwantara in the Dwapara age, and consequently eigh"
+        }
+      ]
+    },
+    {
+      "query": "How do people of the four castes worship Vishnu through their duties?",
+      "relevant": [
+        {
+          "book": "3",
+          "chapter": "8",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp082.htm",
+          "evidence_quote": "the rules enjoined his caste, best worships Vishnu. Kes'ava is most pleased with him who does good to others; who never utters abuse, calumny, or untruth; who never covet"
+        }
+      ]
+    },
+    {
+      "query": "What ancestral rite should be performed when a son is born?",
+      "relevant": [
+        {
+          "book": "3",
+          "chapter": "13",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp087.htm",
+          "evidence_quote": "r for the event, which is the S'raddha offered upon joyous occasions . With composed mind, and thinking on nothing else, the Brahman should offer worship to both the gods and progenitors,"
+        }
+      ]
+    },
+    {
+      "query": "Whom does Revati, the daughter of Raivata, marry?",
+      "relevant": [
+        {
+          "book": "4",
+          "chapter": "1",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp093.htm",
+          "evidence_quote": "are, and she became his wife. Balarama having espoused, agreeably to the ritual, Revati, the daughter of Raivata, the king retired to the mountain Himalaya, and ended his day"
+        }
+      ]
+    },
+    {
+      "query": "Why do the gods approach Kapila about the sons of Sagara?",
+      "relevant": [
+        {
+          "book": "4",
+          "chapter": "4",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp096.htm",
+          "evidence_quote": "bstructed in the world by the sons of Sagara, the gods repaired to the Muni Kapila, who was a portion of Vishnu, free from fault, and endowed with all true wisdom. Having approached h"
+        }
+      ]
+    },
+    {
+      "query": "Where is Kalki expected to appear and what will he do?",
+      "relevant": [
+        {
+          "book": "4",
+          "chapter": "24",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp117.htm",
+          "evidence_quote": "y of Vishnuyas'as, an eminent Brahman of Sambhala village, as Kalki, endowed with the eight superhuman faculties. By his irresistible might he will destroy all the Mlechchhas an"
+        }
+      ]
+    },
+    {
+      "query": "Why does Vasudeva ask the newborn Krishna to conceal his divine form?",
+      "relevant": [
+        {
+          "book": "5",
+          "chapter": "3",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp120.htm",
+          "evidence_quote": "nd the mace; but now in mercy withhold this thy celestial form, for Kansa will assuredly put me to death when he knows that thou hast descended in my dwelling.\" Devaki also exclaimed"
+        }
+      ]
+    },
+    {
+      "query": "What harm does the serpent Kaliya cause in the Yamuna?",
+      "relevant": [
+        {
+          "book": "5",
+          "chapter": "7",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp124.htm",
+          "evidence_quote": "hin its bed, however, was the fearful pool of the serpent Kaliya, boiling with the fires of poison ; from the fumes of which, large trees upon the bank were blighted, and by whose wate"
+        }
+      ]
+    },
+    {
+      "query": "How does Krishna shelter the cowherds from Indra's rain?",
+      "relevant": [
+        {
+          "book": "5",
+          "chapter": "11",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp128.htm",
+          "evidence_quote": "termined, Krishna immediately plucked up the mountain Govarddhana, and held it aloft with one hand in sport, saying to the herdsmen, \"Lo the mountain\n\n\n\nis on high; enter beneath it qui"
+        }
+      ]
+    },
+    {
+      "query": "How does Krishna lead Kalayavana into Muchukunda's cave?",
+      "relevant": [
+        {
+          "book": "5",
+          "chapter": "23",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp140.htm",
+          "evidence_quote": "annot overtake. Thus pursued, Krishna entered a large cavern, where Muchukunda, the king of men, was asleep. The rash Yavana entering the cave, and beholding a man lying asleep the"
+        }
+      ]
+    },
+    {
+      "query": "How does human conduct decline in the Kali age?",
+      "relevant": [
+        {
+          "book": "6",
+          "chapter": "1",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp156.htm",
+          "evidence_quote": "ma; in the last, which is the Kali age, a dissolution of the world occurs.\n\n\n\nMAITREYA.--Venerable sir, you are able to give me a description of the nature of"
+        }
+      ]
+    },
+    {
+      "query": "What are the three kinds of dissolution?",
+      "relevant": [
+        {
+          "book": "6",
+          "chapter": "3",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp158.htm",
+          "evidence_quote": "olution of existing beings is of three kinds, incidental, elemental, and absolute . The incidental is that which relates to Brahma, and occurs at the end of a Kalpa: the elemental is that which takes p"
+        }
+      ]
+    },
+    {
+      "query": "What distinguishes the novice practitioner of Yoga from the adept?",
+      "relevant": [
+        {
+          "book": "6",
+          "chapter": "7",
+          "source_url": "https://archive.sacred-texts.com/hin/vp/vp162.htm",
+          "evidence_quote": "lative devotion is called the novice or practitioner (Yoga yuj); when he has attained spiritual union he is termed the adept, or he whose meditations are accomplished . Sho"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+.venv/
+.cache/
+.pramana/
+.runtime/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+web/node_modules/
+web/dist/
+src/pramana/static/
+.DS_Store
+*.tsbuildinfo

@@ -1,0 +1,2 @@
+# Archival parser fixtures retain the source's original whitespace.
+tests/fixtures/*.txt -whitespace

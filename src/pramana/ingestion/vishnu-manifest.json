@@ -1,0 +1,884 @@
+[
+  {
+    "book": "1",
+    "chapter": "1",
+    "file": "vp035.htm",
+    "section": 36,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp035.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "2",
+    "file": "vp036.htm",
+    "section": 37,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp036.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "3",
+    "file": "vp037.htm",
+    "section": 38,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp037.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "4",
+    "file": "vp038.htm",
+    "section": 39,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp038.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "5",
+    "file": "vp039.htm",
+    "section": 40,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp039.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "6",
+    "file": "vp040.htm",
+    "section": 41,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp040.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "7",
+    "file": "vp041.htm",
+    "section": 42,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp041.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "8",
+    "file": "vp042.htm",
+    "section": 43,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp042.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "9",
+    "file": "vp044.htm",
+    "section": 45,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp044.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "10",
+    "file": "vp045.htm",
+    "section": 46,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp045.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "11",
+    "file": "vp046.htm",
+    "section": 47,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp046.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "12",
+    "file": "vp047.htm",
+    "section": 48,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp047.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "13",
+    "file": "vp048.htm",
+    "section": 49,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp048.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "14",
+    "file": "vp049.htm",
+    "section": 50,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp049.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "15",
+    "file": "vp050.htm",
+    "section": 51,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp050.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "16",
+    "file": "vp051.htm",
+    "section": 52,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp051.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "17",
+    "file": "vp052.htm",
+    "section": 53,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp052.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "18",
+    "file": "vp053.htm",
+    "section": 54,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp053.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "19",
+    "file": "vp054.htm",
+    "section": 55,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp054.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "20",
+    "file": "vp055.htm",
+    "section": 56,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp055.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "21",
+    "file": "vp056.htm",
+    "section": 57,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp056.htm"
+  },
+  {
+    "book": "1",
+    "chapter": "22",
+    "file": "vp057.htm",
+    "section": 58,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp057.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "1",
+    "file": "vp058.htm",
+    "section": 59,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp058.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "2",
+    "file": "vp059.htm",
+    "section": 60,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp059.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "3",
+    "file": "vp060.htm",
+    "section": 61,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp060.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "4",
+    "file": "vp062.htm",
+    "section": 63,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp062.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "5",
+    "file": "vp063.htm",
+    "section": 64,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp063.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "6",
+    "file": "vp064.htm",
+    "section": 65,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp064.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "7",
+    "file": "vp065.htm",
+    "section": 66,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp065.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "8",
+    "file": "vp066.htm",
+    "section": 67,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp066.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "9",
+    "file": "vp067.htm",
+    "section": 68,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp067.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "10",
+    "file": "vp068.htm",
+    "section": 69,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp068.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "11",
+    "file": "vp069.htm",
+    "section": 70,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp069.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "12",
+    "file": "vp070.htm",
+    "section": 71,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp070.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "13",
+    "file": "vp071.htm",
+    "section": 72,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp071.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "14",
+    "file": "vp072.htm",
+    "section": 73,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp072.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "15",
+    "file": "vp073.htm",
+    "section": 74,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp073.htm"
+  },
+  {
+    "book": "2",
+    "chapter": "16",
+    "file": "vp074.htm",
+    "section": 75,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp074.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "1",
+    "file": "vp075.htm",
+    "section": 76,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp075.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "2",
+    "file": "vp076.htm",
+    "section": 77,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp076.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "3",
+    "file": "vp077.htm",
+    "section": 78,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp077.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "4",
+    "file": "vp078.htm",
+    "section": 79,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp078.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "5",
+    "file": "vp079.htm",
+    "section": 80,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp079.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "6",
+    "file": "vp080.htm",
+    "section": 81,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp080.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "7",
+    "file": "vp081.htm",
+    "section": 82,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp081.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "8",
+    "file": "vp082.htm",
+    "section": 83,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp082.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "9",
+    "file": "vp083.htm",
+    "section": 84,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp083.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "10",
+    "file": "vp084.htm",
+    "section": 85,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp084.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "11",
+    "file": "vp085.htm",
+    "section": 86,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp085.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "12",
+    "file": "vp086.htm",
+    "section": 87,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp086.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "13",
+    "file": "vp087.htm",
+    "section": 88,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp087.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "14",
+    "file": "vp088.htm",
+    "section": 89,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp088.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "15",
+    "file": "vp089.htm",
+    "section": 90,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp089.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "16",
+    "file": "vp090.htm",
+    "section": 91,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp090.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "17",
+    "file": "vp091.htm",
+    "section": 92,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp091.htm"
+  },
+  {
+    "book": "3",
+    "chapter": "18",
+    "file": "vp092.htm",
+    "section": 93,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp092.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "1",
+    "file": "vp093.htm",
+    "section": 94,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp093.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "2",
+    "file": "vp094.htm",
+    "section": 95,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp094.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "3",
+    "file": "vp095.htm",
+    "section": 96,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp095.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "4",
+    "file": "vp096.htm",
+    "section": 97,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp096.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "5",
+    "file": "vp097.htm",
+    "section": 98,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp097.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "6",
+    "file": "vp098.htm",
+    "section": 99,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp098.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "7",
+    "file": "vp099.htm",
+    "section": 100,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp099.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "8",
+    "file": "vp101.htm",
+    "section": 102,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp101.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "9",
+    "file": "vp102.htm",
+    "section": 103,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp102.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "10",
+    "file": "vp103.htm",
+    "section": 104,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp103.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "11",
+    "file": "vp104.htm",
+    "section": 105,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp104.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "12",
+    "file": "vp105.htm",
+    "section": 106,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp105.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "13",
+    "file": "vp106.htm",
+    "section": 107,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp106.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "14",
+    "file": "vp107.htm",
+    "section": 108,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp107.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "15",
+    "file": "vp108.htm",
+    "section": 109,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp108.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "16",
+    "file": "vp109.htm",
+    "section": 110,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp109.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "17",
+    "file": "vp110.htm",
+    "section": 111,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp110.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "18",
+    "file": "vp111.htm",
+    "section": 112,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp111.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "19",
+    "file": "vp112.htm",
+    "section": 113,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp112.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "20",
+    "file": "vp113.htm",
+    "section": 114,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp113.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "21",
+    "file": "vp114.htm",
+    "section": 115,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp114.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "22",
+    "file": "vp115.htm",
+    "section": 116,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp115.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "23",
+    "file": "vp116.htm",
+    "section": 117,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp116.htm"
+  },
+  {
+    "book": "4",
+    "chapter": "24",
+    "file": "vp117.htm",
+    "section": 118,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp117.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "1",
+    "file": "vp118.htm",
+    "section": 119,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp118.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "2",
+    "file": "vp119.htm",
+    "section": 120,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp119.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "3",
+    "file": "vp120.htm",
+    "section": 121,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp120.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "4",
+    "file": "vp121.htm",
+    "section": 122,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp121.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "5",
+    "file": "vp122.htm",
+    "section": 123,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp122.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "6",
+    "file": "vp123.htm",
+    "section": 124,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp123.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "7",
+    "file": "vp124.htm",
+    "section": 125,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp124.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "8",
+    "file": "vp125.htm",
+    "section": 126,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp125.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "9",
+    "file": "vp126.htm",
+    "section": 127,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp126.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "10",
+    "file": "vp127.htm",
+    "section": 128,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp127.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "11",
+    "file": "vp128.htm",
+    "section": 129,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp128.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "12",
+    "file": "vp129.htm",
+    "section": 130,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp129.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "13",
+    "file": "vp130.htm",
+    "section": 131,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp130.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "14",
+    "file": "vp131.htm",
+    "section": 132,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp131.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "15",
+    "file": "vp132.htm",
+    "section": 133,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp132.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "16",
+    "file": "vp133.htm",
+    "section": 134,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp133.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "17",
+    "file": "vp134.htm",
+    "section": 135,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp134.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "18",
+    "file": "vp135.htm",
+    "section": 136,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp135.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "19",
+    "file": "vp136.htm",
+    "section": 137,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp136.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "20",
+    "file": "vp137.htm",
+    "section": 138,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp137.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "21",
+    "file": "vp138.htm",
+    "section": 139,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp138.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "22",
+    "file": "vp139.htm",
+    "section": 140,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp139.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "23",
+    "file": "vp140.htm",
+    "section": 141,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp140.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "24",
+    "file": "vp141.htm",
+    "section": 142,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp141.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "25",
+    "file": "vp142.htm",
+    "section": 143,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp142.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "26",
+    "file": "vp143.htm",
+    "section": 144,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp143.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "27",
+    "file": "vp144.htm",
+    "section": 145,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp144.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "28",
+    "file": "vp145.htm",
+    "section": 146,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp145.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "29",
+    "file": "vp146.htm",
+    "section": 147,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp146.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "30",
+    "file": "vp147.htm",
+    "section": 148,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp147.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "31",
+    "file": "vp148.htm",
+    "section": 149,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp148.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "32",
+    "file": "vp149.htm",
+    "section": 150,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp149.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "33",
+    "file": "vp150.htm",
+    "section": 151,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp150.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "34",
+    "file": "vp151.htm",
+    "section": 152,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp151.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "35",
+    "file": "vp152.htm",
+    "section": 153,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp152.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "36",
+    "file": "vp153.htm",
+    "section": 154,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp153.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "37",
+    "file": "vp154.htm",
+    "section": 155,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp154.htm"
+  },
+  {
+    "book": "5",
+    "chapter": "38",
+    "file": "vp155.htm",
+    "section": 156,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp155.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "1",
+    "file": "vp156.htm",
+    "section": 157,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp156.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "2",
+    "file": "vp157.htm",
+    "section": 158,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp157.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "3",
+    "file": "vp158.htm",
+    "section": 159,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp158.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "4",
+    "file": "vp159.htm",
+    "section": 160,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp159.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "5",
+    "file": "vp160.htm",
+    "section": 161,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp160.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "6",
+    "file": "vp161.htm",
+    "section": 162,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp161.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "7",
+    "file": "vp162.htm",
+    "section": 163,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp162.htm"
+  },
+  {
+    "book": "6",
+    "chapter": "8",
+    "file": "vp163.htm",
+    "section": 164,
+    "url": "https://archive.sacred-texts.com/hin/vp/vp163.htm"
+  }
+]
