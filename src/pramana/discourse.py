@@ -1,7 +1,9 @@
 """Explicitly labelled objection/reply roles in commentary text.
 
-Only printed labels such as "Objection:" or "Answer:—" are recognised; unlabelled
-text is never assigned a role by inference. Offsets are Python code points.
+Only printed labels such as "Objection:" or "Answer:—", and the translator's explicit
+role formulas at sentence start ("The pûrvapakshin maintains", "To this we reply"),
+are recognised; unlabelled text is never assigned a role by inference.
+Offsets are Python code points.
 """
 
 import re
@@ -16,11 +18,19 @@ MARKER = re.compile(
     rf"(?:(?P<objection>{OBJECTION})|(?P<reply>{REPLY}))"
     r"\s*\)?\s*(?::\s*[—–-]*|—|–|--|\.\s*[—–-]+)"
 )
+START = r"(?:^|(?<=\n)|(?<=[.?!;] )|(?<=[.?!;][\"'’”] ))"
+PHRASE = re.compile(
+    START + r"(?:(?P<objection>(?:Here )?[Tt]he (?:p[uûū]rvapak[sṣ]h?in|opponent) "
+    r"(?:maintains|says|argues|objects|holds|contends)\b)"
+    r"|(?P<reply>To this(?: objection)? we (?:make the following reply|reply|answer)\b"
+    r"|We reply\b))"
+)
 LOOKBACK, LOOKAHEAD, FOLLOW = 3000, 1500, 700
 
 
 def markers(text: str) -> list[tuple[int, Role]]:
-    return [(m.start(), "objection" if m["objection"] else "reply") for m in MARKER.finditer(text)]
+    found = [*MARKER.finditer(text), *PHRASE.finditer(text)]
+    return sorted((m.start(), "objection" if m["objection"] else "reply") for m in found)
 
 
 def segments(text: str, initial: Role = "unmarked") -> list[dict]:

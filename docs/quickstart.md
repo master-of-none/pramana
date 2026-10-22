@@ -29,6 +29,20 @@ reading, importing, indexing, and evaluating use local resources. The pinned mod
 runs on CPU. Its weights are approximately 133 MB; Python's ML dependencies take
 additional disk space. Initial indexing takes longer than subsequent searches.
 
+## Add Śaṅkara's Brahma Sūtra commentary (optional)
+
+Thibaut's public-domain English translation (Sacred Books of the East 34 and 38)
+is fetched page by page from Sacred Texts, about 5 minutes at a polite rate:
+
+```sh
+uv run pramana corpus download --source brahma-sutra
+uv run pramana ingest .pramana/corpora/brahma-sutra-thibaut/chapters.jsonl
+uv run pramana index
+```
+
+An interrupted download resumes from cached pages. `--offline` rebuilds from the
+cache only. See [source notices](sources.md#brahma-sutra-bhashya-thibaut).
+
 ## Add the supplied PDF books
 
 Install Poppler and Tesseract explicitly (`brew install poppler tesseract` on macOS).

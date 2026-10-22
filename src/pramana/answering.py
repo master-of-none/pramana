@@ -289,6 +289,17 @@ class Answerer:
                 "gita_shankara_sastry": ("shankara", "sankara", "sankaracharya"),
                 "taittiriya_anandavalli_sastri": ("taittiriya", "anandavalli", "ananda-valli"),
                 "vishnu-purana": ("vishnu purana", "vishnu purāṇa"),
+                "brahma-sutra-shankara-thibaut": (
+                    "brahma sutra",
+                    "brahma-sutra",
+                    "brahmasutra",
+                    "brahma sūtra",
+                    "vedanta sutra",
+                    "vedanta-sutra",
+                    "shankara",
+                    "sankara",
+                    "sankaracharya",
+                ),
             }
             selected = [
                 doc

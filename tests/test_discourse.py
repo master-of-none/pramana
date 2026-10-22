@@ -48,3 +48,14 @@ def test_answerer_supplies_roles_to_model(tmp_path, make_chapter, embedder):
     assert "text" not in item
     assert "".join(p["text"] for p in item["segments"]) == TEXT
     assert "objection segment" in provider.calls[0][0][0]["content"]
+
+
+def test_translator_role_formulas_at_sentence_start():
+    text = (
+        "The text speaks of Vaisvânara. The pûrvapakshin maintains that the form is distributed. "
+        "To this we make the following reply. The aggregate form is meant. "
+        "Some say the opponent maintains nothing."
+    )
+    roles = [p["role"] for p in segments(text)]
+    assert roles == ["unmarked", "objection", "reply"]
+    assert "".join(p["text"] for p in segments(text)) == text

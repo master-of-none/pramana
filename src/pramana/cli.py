@@ -34,11 +34,22 @@ def setup():
 
 @corpus_app.command()
 def download(
-    archive: Annotated[Path | None, typer.Option(help="Saved official vp.txt.gz")] = None,
+    archive: Annotated[
+        Path | None,
+        typer.Option(help="Saved vp.txt.gz, or a directory of saved Brahma Sutra pages"),
+    ] = None,
     offline: bool = False,
+    source: Annotated[
+        str, typer.Option(help="vishnu-purana (Wilson) or brahma-sutra (Thibaut, SBE 34/38)")
+    ] = "vishnu-purana",
 ):
-    """Download/cache the complete Wilson Vishnu Purana and emit validated JSONL."""
-    from pramana.ingestion.vishnu import acquire
+    """Download/cache a complete public-domain edition and emit validated JSONL."""
+    if source == "brahma-sutra":
+        from pramana.ingestion.brahmasutra import acquire
+    elif source == "vishnu-purana":
+        from pramana.ingestion.vishnu import acquire
+    else:
+        fail(PramanaError("Unknown --source; choose vishnu-purana or brahma-sutra."))
 
     try:
         typer.echo(str(acquire(data_dir(), archive, offline=offline)))
