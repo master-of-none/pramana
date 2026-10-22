@@ -1,0 +1,86 @@
+from fastapi.testclient import TestClient
+
+from pramana import Retriever
+from pramana.api import create_app
+from pramana.library import category, order, role_spans
+from pramana.models import Location
+
+
+def commentary(make_chapter, author, doc, book, pada, sections, text):
+    chapter = make_chapter(text, book=book, chapter=pada)
+    chapter.location = Location(book=book, chapter=pada, sections=sections)
+    chapter.author, chapter.document_id = author, doc
+    chapter.document = f"Brahma Sutra commentary by {author}"
+    chapter.edition = f"Edition {author}"
+    return chapter
+
+
+def client_with(indexed, embedder, tmp_path, chapters):
+    path = tmp_path / "bs.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    return TestClient(create_app(retriever=Retriever(indexed, embedder=embedder)))
+
+
+def test_library_parallel_and_roles(indexed, embedder, tmp_path, make_chapter):
+    s1 = commentary(
+        make_chapter, "Sankaracharya", "bs-s", "1", "1", ["1"], "1. Then the enquiry. 𑀅"
+    )
+    s4 = commentary(make_chapter, "Sankaracharya", "bs-s", "1", "1", ["4"], "4. But that, harmony.")
+    r_head = commentary(make_chapter, "Ramanuja", "bs-r", "1", "1", ["First Pâda"], "FIRST PÂDA.")
+    r1 = commentary(make_chapter, "Ramanuja", "bs-r", "1", "1", ["1"], "1. Then the enquiry.")
+    r1t = commentary(
+        make_chapter,
+        "Ramanuja",
+        "bs-r",
+        "1",
+        "1",
+        ["1", "The Great Pûrvapaksha"],
+        "THE GREAT PÛRVAPAKSHA.\n\nDifference is unreal.\n\nTHE GREAT SIDDHÂNTA.\n\nNot so.",
+    )
+    client = client_with(indexed, embedder, tmp_path, [s4, r1t, s1, r1, r_head])
+
+    library = client.get("/api/library").json()
+    bs = [d for d in library if d["category"] == "Brahma Sūtra"]
+    assert [d["author"] for d in bs] == ["Ramanuja", "Sankaracharya"]
+    ramanuja = bs[0]
+    assert [c["id"] for c in ramanuja["chapters"]] == [r_head.id, r1.id, r1t.id]
+    assert "text" not in ramanuja["chapters"][0] and ramanuja["rights"] == "Test fixture"
+    assert library[0]["category"] == "Brahma Sūtra"  # Categories in their display order.
+
+    exact = client.get("/api/parallel", params={"book": "1", "chapter": "1", "sutra": "1"}).json()
+    assert {(p["author"], tuple(p["chapters"]), p["exact"]) for p in exact} == {
+        ("Ramanuja", (r1.id, r1t.id), True),
+        ("Sankaracharya", (s1.id,), True),
+    }
+    # Sūtra 2 has no page of its own: the page that begins at sūtra 1 continues it.
+    later = client.get("/api/parallel", params={"book": "1", "chapter": "1", "sutra": "2"}).json()
+    assert {(p["author"], p["exact"]) for p in later} == {
+        ("Ramanuja", False),
+        ("Sankaracharya", False),
+    }
+    assert (
+        client.get("/api/parallel", params={"book": "2", "chapter": "1", "sutra": "1"}).json() == []
+    )
+
+    context = client.get(f"/api/chapters/{r1t.id}").json()
+    assert [r["role"] for r in context["roles"]] == ["objection", "reply"]
+    text = context["chapter"]["text"]
+    assert text[context["roles"][1]["start"] :].startswith("THE GREAT SIDDHÂNTA.")
+    assert (context["previous"], context["next"]) == (r1.id, None)
+    assert client.get(f"/api/chapters/{s1.id}").json()["previous"] is None
+
+
+def test_ordering_and_categories():
+    assert category("Katha Upanishad") == "Upaniṣads"
+    assert category("Brahmopanishaḍ") == category("Mukṭikopanishaḍ") == "Upaniṣads"
+    assert category("Sribhashya (Brahma Sutra commentary)") == "Brahma Sūtra"
+    assert category("The Holy Geeta") == "Bhagavad Gītā"
+    assert category("Knowledge of Self") == "Prakaraṇas and expositions"
+    keys = [
+        {"book": "1", "chapter": c, "sections": s}
+        for c, s in [("10", []), ("2", []), ("2", ["Intro"])]
+    ]
+    assert sorted(keys, key=order) == [keys[1], keys[2], keys[0]]
+    assert role_spans("Plain prose only.") == []

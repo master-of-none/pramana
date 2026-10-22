@@ -1,7 +1,9 @@
 # UX and feature plan
 
-Status: **planned, 23 October 2026.** Nothing here is implemented unless the
-[roadmap](../../ROADMAP.md) marks it delivered.
+Status: **planned 23 October 2026; partly implemented.** The
+[roadmap](../../ROADMAP.md) records what is delivered. The Study view (library,
+reader, side-by-side sūtras, evidence, search) and the theme/text-size controls
+exist; chat scope chips, Compare chip and depth do not yet.
 
 ## Principles
 

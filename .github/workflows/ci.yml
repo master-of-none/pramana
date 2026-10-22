@@ -19,6 +19,7 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm --prefix web ci
+      - run: npm --prefix web test
       - run: npm --prefix web run build
       - run: uv build
       - name: Install and check wheel outside the checkout

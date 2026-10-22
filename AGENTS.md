@@ -28,6 +28,7 @@ uv run ruff format --check src tests scripts
 uv run pytest
 uv run python scripts/check_links.py
 npm --prefix web run typecheck
+npm --prefix web test
 npm --prefix web run build
 uv build
 ```
@@ -67,11 +68,16 @@ on localhost:8001 without using the private library. Documentation-only edits ne
   and model inputs. Retrieved text and prior assistant answers cannot override
   system instructions. Validate returned internal references against supplied
   passages; this does not establish claim entailment or scholarly correctness.
-- The web experience shows answers and conversation only: no source lists,
-  citation markers, IDs, page references, excerpts, document metadata, scores,
-  or source controls. Provenance remains in API responses. Natural attribution of
-  differing interpretations is permitted. Keep history in tab sessionStorage;
-  New chat clears it. No accounts or server-side conversation persistence.
+- The chat (`#/`) shows answers and conversation only: no source lists, citation
+  markers, IDs, page references, excerpts, document metadata, scores, or source
+  controls, except one "Read in the texts" link per answer to the Study view.
+  Natural attribution of differing interpretations, including per-thinker
+  comparison cards, is permitted. The separate Study view (`#/study`) may show texts,
+  passages, page marks, footnotes, edition metadata, rights and attribution, but
+  never internal model references (E1…) or relevance scores, and marks
+  objection/reply only from explicit cues. Keep conversation history (with its
+  evidence pointers) in tab sessionStorage; New chat clears it. Display preferences
+  may use localStorage. No accounts or server-side conversation persistence.
 
 ## Local operation and hygiene
 

@@ -36,8 +36,10 @@ abstention**. The model can misread material, overgeneralize, or overlook releva
 passages. Differing interpretations should be attributed in ordinary prose; this
 is distinct from showing a source list. Unsupported-question checks are diagnostics.
 
-The browser renders only the answer and conversation. It never renders the internal
-mapping, passages, citations, scores, or source controls. History is kept in the
+The chat renders only the answer and conversation (with per-thinker cards for
+comparisons). It never renders the internal mapping, passages, citations, scores, or
+source controls; one **Read in the texts** link opens the separate
+[Study view](#study-view) with the passages that answer cited. History is kept in the
 current tab's `sessionStorage`, survives reloads, and is cleared by **New chat**.
 Stopping or reloading an unfinished answer leaves a retryable question. Only the
 last 60 exchanges are retained in the browser; the last six completed exchanges
@@ -106,3 +108,25 @@ Naming two or more known thinkers (Śaṅkara, Rāmānuja or "Viśiṣṭādvait
 Chinmayananda, Swarupananda, Barnett) retrieves evidence separately for each author
 and interleaves it. The authorship check confirms whose text supports a view; it
 does not confirm that the view is a correct reading of that text.
+
+## Study view
+
+**Study** in the header (`#/study`) is where the texts themselves are shown; the chat
+stays answers-only. It needs no answer model.
+
+- **Library:** every imported work, grouped (Brahma Sūtra, Upaniṣads, Bhagavad Gītā,
+  Purāṇas, other works) with translator, edition, rights and attribution.
+- **Reader:** chapter text with page marks, footnotes on hover or focus, glossary terms,
+  previous/next navigation, and passages tinted **Objection** or **Reply** only where
+  the book itself labels them (see [objection/reply roles](#objectionreply-roles)).
+- **Side by side:** `#/study/sutra/1/1/1` shows Śaṅkara's and Rāmānuja's commentary
+  pages for the same sūtra. When a commentary treats the sūtra on a page that begins
+  with an earlier one, that page is shown and labelled as such.
+- **Passages behind an answer:** opened from the chat, from evidence pointers kept with
+  the conversation in the tab's `sessionStorage`; they disappear with New chat.
+- **Search:** hybrid (needs the embedding model) or exact-word search.
+
+Offsets from the API are Python code points; the UI converts them to JavaScript
+UTF-16 positions in one helper tested with supplementary characters
+(`npm --prefix web test`). Theme (system, light, dark) and text size are remembered
+per browser in `localStorage`.

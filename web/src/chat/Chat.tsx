@@ -1,0 +1,484 @@
+import { useEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUp,
+  BookOpen,
+  Check,
+  Copy,
+  CornerDownLeft,
+  Feather,
+  RotateCcw,
+  Square,
+  X,
+} from "lucide-react";
+import { Answer } from "../components/Prose.tsx";
+import { useGlossary } from "../lib/glossary.tsx";
+import { href } from "../lib/router.ts";
+import { STORAGE, evidenceRefs, restore, views } from "../lib/storage.ts";
+import type { Stage, Turn } from "../lib/storage.ts";
+
+const stageLabels: Record<Stage, string> = {
+  understanding: "Following the thread of your question…",
+  searching: "Searching the texts…",
+  composing: "Composing an answer…",
+};
+type ChatResponse = {
+  perspectives?: unknown;
+  evidence?: unknown;
+  answer: string;
+  status: "grounded" | "insufficient_evidence";
+};
+const suggestions = [
+  {
+    topic: "JÑĀNA & KARMA",
+    question: "Why does Shankara say action alone cannot lead to liberation?",
+  },
+  {
+    topic: "BRAHMAN AS BLISS",
+    question: "What does the Ananda-valli teach about Brahman as bliss?",
+  },
+  {
+    topic: "THE UNCHANGING SELF",
+    question:
+      "How does Shankara explain that the Self neither acts nor is acted upon?",
+  },
+  {
+    topic: "ACTION WITHOUT ATTACHMENT",
+    question: "How does Chinmayananda explain acting without attachment?",
+  },
+];
+
+export function Chat({
+  active,
+  registerNewChat,
+}: {
+  active: boolean;
+  registerNewChat: (reset: () => void) => void;
+}) {
+  const [turns, setTurns] = useState<Turn[]>(restore);
+  const [message, setMessage] = useState("");
+  const [storageError, setStorageError] = useState(false);
+  const [copied, setCopied] = useState("");
+  const [copyError, setCopyError] = useState("");
+  const glossary = useGlossary();
+  const composer = useRef<HTMLTextAreaElement>(null);
+  const bottom = useRef<HTMLDivElement>(null);
+  const controller = useRef<AbortController | null>(null);
+  const requestNumber = useRef(0);
+  const activeRef = useRef(active);
+  activeRef.current = active;
+  const pending = turns.some((t) => t.state === "pending");
+  const hasConversation = turns.length > 0;
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STORAGE, JSON.stringify(turns.slice(-60)));
+      setStorageError(false);
+    } catch {
+      setStorageError(true);
+    }
+  }, [turns]);
+  useEffect(() => {
+    bottom.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "end",
+    });
+  }, [turns]);
+  useEffect(() => {
+    const input = composer.current;
+    if (input) {
+      input.style.height = "auto";
+      input.style.height = `${Math.min(input.scrollHeight, 150)}px`;
+    }
+  }, [message]);
+  useEffect(() => {
+    const key = (event: KeyboardEvent) => {
+      if (!activeRef.current) return;
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        composer.current?.focus();
+      }
+      if (event.key === "Escape") controller.current?.abort();
+    };
+    window.addEventListener("keydown", key);
+    return () => {
+      window.removeEventListener("keydown", key);
+      controller.current?.abort();
+    };
+  }, []);
+
+  async function send(text: string, retryId?: string) {
+    if (!text.trim() || controller.current) return;
+    const previous = retryId
+      ? turns.slice(
+          0,
+          turns.findIndex((t) => t.id === retryId),
+        )
+      : turns;
+    const history = previous
+      .filter((t) => t.state === "complete")
+      .slice(-6)
+      .flatMap((t) => [
+        { role: "user", content: t.question },
+        { role: "assistant", content: t.answer! },
+      ]);
+    const id = retryId || crypto.randomUUID();
+    const abort = new AbortController();
+    controller.current = abort;
+    const number = ++requestNumber.current;
+    setTurns([...previous, { id, question: text.trim(), state: "pending" }]);
+    setMessage("");
+    const update = (value: Partial<Turn>) => {
+      if (requestNumber.current === number)
+        setTurns((current) =>
+          current.map((t) => (t.id === id ? { ...t, ...value } : t)),
+        );
+    };
+    try {
+      const response = await fetch("/api/chat/stream", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: abort.signal,
+        body: JSON.stringify({ message: text.trim(), history }),
+      });
+      if (!response.ok || !response.body) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : "The question could not be processed. Try a shorter question.",
+        );
+      }
+      let result: ChatResponse | undefined;
+      const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+      let buffer = "";
+      for (;;) {
+        const { value, done } = await reader.read();
+        buffer += value ?? "";
+        const lines = done ? [buffer] : buffer.split("\n");
+        buffer = done ? "" : lines.pop()!;
+        for (const line of lines.filter((l) => l.trim())) {
+          const event = JSON.parse(line);
+          if (event.type === "stage" && event.stage in stageLabels)
+            update({ stage: event.stage });
+          else if (event.type === "error")
+            throw new Error(
+              typeof event.detail === "string"
+                ? event.detail
+                : "The question could not be processed. Please retry.",
+            );
+          else if (event.type === "answer") result = event;
+        }
+        if (done) break;
+      }
+      if (
+        !result ||
+        typeof result.answer !== "string" ||
+        !["grounded", "insufficient_evidence"].includes(result.status)
+      )
+        throw new Error("The answer was incomplete. Please retry.");
+      update({
+        state: "complete",
+        answer: result.answer,
+        perspectives: views(result.perspectives),
+        evidence: evidenceRefs(result.evidence),
+        error: undefined,
+        stage: undefined,
+      });
+    } catch (error) {
+      if (abort.signal.aborted)
+        update({
+          state: "cancelled",
+          error: "Answer stopped. You can try again whenever you’re ready.",
+        });
+      else
+        update({
+          state: "error",
+          error:
+            error instanceof TypeError
+              ? "Pramana is unreachable. Check that the local server is running, then retry."
+              : (error as Error).message,
+        });
+    } finally {
+      if (requestNumber.current === number) {
+        controller.current = null;
+        composer.current?.focus();
+      }
+    }
+  }
+  function newChat() {
+    requestNumber.current++;
+    controller.current?.abort();
+    controller.current = null;
+    setTurns([]);
+    setMessage("");
+    setCopyError("");
+    try {
+      sessionStorage.removeItem(STORAGE);
+    } catch {
+      /* The in-memory chat still resets. */
+    }
+    composer.current?.focus();
+  }
+  registerNewChat(newChat);
+  function submit(event: FormEvent) {
+    event.preventDefault();
+    void send(message);
+  }
+  async function copy(turn: Turn) {
+    try {
+      await navigator.clipboard.writeText(
+        [
+          turn.answer!,
+          ...(turn.perspectives ?? []).map((p) => `${p.thinker}\n${p.view}`),
+        ].join("\n\n"),
+      );
+      setCopied(turn.id);
+      setCopyError("");
+    } catch {
+      setCopyError("Copy is unavailable. Select the answer text to copy it.");
+    }
+  }
+
+  return (
+    <div
+      className={`view ${hasConversation ? "in-conversation" : "welcome"}`}
+      hidden={!active}
+    >
+      <a className="skip-link" href="#message">
+        Skip to message
+      </a>
+      <main id="main">
+        {!hasConversation ? (
+          <section className="welcome-section" aria-label="Welcome">
+            <div className="welcome-symbol">
+              <BookOpen size={28} strokeWidth={1.25} />
+              <span className="symbol-ray ray-one" />
+              <span className="symbol-ray ray-two" />
+              <span className="symbol-ray ray-three" />
+            </div>
+            <div className="eyebrow">
+              <span /> THE READING ROOM
+            </div>
+            <h1>
+              Old wisdom.
+              <br />
+              <em>New conversations.</em>
+            </h1>
+            <p className="welcome-copy">
+              A little curiosity can open a whole world.
+              <br />
+              Ask a question. Follow an idea. Make room for understanding.
+            </p>
+            <div className="suggestions" aria-label="Suggested questions">
+              {suggestions.map((s) => (
+                <button key={s.topic} onClick={() => void send(s.question)}>
+                  <span className="suggestion-topic">{s.topic}</span>
+                  <span className="suggestion-question">{s.question}</span>
+                  <ArrowRight size={17} />
+                </button>
+              ))}
+            </div>
+            <div className="welcome-footnote">
+              <Feather size={15} />
+              <span>Read slowly. Ask freely. Think deeply.</span>
+            </div>
+          </section>
+        ) : (
+          <section
+            className="conversation"
+            aria-label="Conversation"
+            aria-busy={pending}
+          >
+            <div className="conversation-kicker">
+              <span /> A THREAD OF INQUIRY
+            </div>
+            {turns.map((turn, index) => (
+              <article
+                className="turn"
+                key={turn.id}
+                aria-label={`Exchange ${index + 1}`}
+              >
+                <div className="user-turn">
+                  <span className="turn-label">YOU</span>
+                  <p>{turn.question}</p>
+                </div>
+                <div className="assistant-turn">
+                  <div className="assistant-heading">
+                    <span className="mini-mark">प्र</span>
+                    <span>PRAMĀṆA</span>
+                    <span className="answer-line" />
+                  </div>
+                  {turn.state === "complete" && (
+                    <>
+                      <Answer text={turn.answer!} glossary={glossary} />
+                      {!!turn.perspectives?.length && (
+                        <div className="perspectives">
+                          {turn.perspectives.map((p) => (
+                            <section className="perspective" key={p.thinker}>
+                              <h3>{p.thinker}</h3>
+                              <Answer text={p.view} glossary={glossary} />
+                            </section>
+                          ))}
+                        </div>
+                      )}
+                      <button
+                        className="copy-answer"
+                        onClick={() => void copy(turn)}
+                        aria-label="Copy answer"
+                      >
+                        {copied === turn.id ? (
+                          <Check size={14} />
+                        ) : (
+                          <Copy size={14} />
+                        )}
+                        {copied === turn.id ? "Copied" : "Copy answer"}
+                      </button>
+                      {!!turn.evidence?.length && (
+                        <a
+                          className="copy-answer"
+                          href={href("study", "evidence", turn.id)}
+                        >
+                          <BookOpen size={14} />
+                          Read in the texts
+                        </a>
+                      )}
+                    </>
+                  )}
+                  {turn.state === "pending" && (
+                    <div className="thinking" role="status">
+                      <span className="thinking-dots">
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span>
+                        {turn.stage
+                          ? stageLabels[turn.stage]
+                          : "Reading and reflecting…"}
+                      </span>
+                    </div>
+                  )}
+                  {(turn.state === "error" || turn.state === "cancelled") && (
+                    <div className={`turn-notice ${turn.state}`}>
+                      <p role={turn.state === "error" ? "alert" : "status"}>
+                        {turn.error}
+                      </p>
+                      {index === turns.length - 1 && !pending && (
+                        <button
+                          onClick={() => void send(turn.question, turn.id)}
+                        >
+                          <RotateCcw size={14} />
+                          Try again
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))}
+            {copyError && (
+              <p className="small-notice" role="alert">
+                {copyError}
+                <button
+                  aria-label="Dismiss copy error"
+                  onClick={() => setCopyError("")}
+                >
+                  <X size={14} />
+                </button>
+              </p>
+            )}
+            <div ref={bottom} className="conversation-bottom" />
+          </section>
+        )}
+      </main>
+      <div className="composer-dock">
+        <form className="composer" onSubmit={submit}>
+          <label className="sr-only" htmlFor="message">
+            Your question
+          </label>
+          <textarea
+            ref={composer}
+            id="message"
+            placeholder={
+              hasConversation
+                ? "Keep the conversation going…"
+                : "What would you like to understand?"
+            }
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            rows={1}
+            maxLength={2000}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" &&
+                !event.shiftKey &&
+                !event.nativeEvent.isComposing
+              ) {
+                event.preventDefault();
+                if (!pending) void send(message);
+              }
+            }}
+          />
+          {pending ? (
+            <button
+              type="button"
+              className="send-button stop-button"
+              onClick={() => controller.current?.abort()}
+              aria-label="Stop answer"
+            >
+              <Square size={15} fill="currentColor" />
+            </button>
+          ) : (
+            <button
+              className="send-button"
+              type="submit"
+              disabled={!message.trim()}
+              aria-label="Send message"
+            >
+              <ArrowUp size={19} />
+            </button>
+          )}
+        </form>
+        <div className="composer-caption">
+          <span>
+            {pending
+              ? "Take a moment. Good questions are worth sitting with."
+              : "A conversation with the books in your local library."}
+          </span>
+          <span className="keyboard-hint">
+            <CornerDownLeft size={11} /> to send <span>·</span> Shift + Enter
+            for a new line
+          </span>
+        </div>
+        {storageError && (
+          <p className="storage-error" role="alert">
+            Browser storage is unavailable. This conversation cannot survive a
+            reload.
+          </p>
+        )}
+      </div>
+      <footer className="page-footer">
+        <span>
+          प्रमाण <span className="footer-divider">/</span> a means of knowledge
+        </span>
+        <span>Stay curious.</span>
+      </footer>
+      {hasConversation && (
+        <button
+          className="jump-bottom"
+          aria-label="Jump to latest message"
+          onClick={() => bottom.current?.scrollIntoView({ behavior: "smooth" })}
+        >
+          <ArrowDown size={16} />
+        </button>
+      )}
+    </div>
+  );
+}

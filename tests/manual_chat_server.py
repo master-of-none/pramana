@@ -1,7 +1,11 @@
 """Deterministic localhost fixture for browser QA; never touches the user's library.
 
 Run `uv run python tests/manual_chat_server.py`, then open http://127.0.0.1:8001.
-Ask 'slow' to exercise Stop; ask 'fail' for a retryable error on the first attempt.
+Ask 'slow' to exercise Stop; ask 'fail' for a retryable error on the first attempt;
+ask 'How do Shankara and Ramanuja differ?' for comparison cards. The Study view has
+two fixture Brahma Sutra commentaries (open #/study/sutra/1/1/1) with role cues,
+footnotes, page marks and supplementary characters. Chat must still show no
+HIDDEN_* metadata; Study may show it.
 """
 
 import asyncio
@@ -16,7 +20,7 @@ from conftest import FakeEmbedder
 from pramana import Answerer, Corpus, Retriever
 from pramana.answering import AnswerError
 from pramana.api import create_app
-from pramana.models import Chapter, Location, Source, digest
+from pramana.models import Chapter, Location, Note, PageMark, Source, digest
 
 
 class FixtureProvider:
@@ -28,7 +32,23 @@ class FixtureProvider:
     async def chat(self, messages, schema):
         if "question" in schema["properties"]:
             return {"question": "How does action relate to understanding?", "document_ids": []}
-        question = json.loads(messages[-1]["content"])["question"]
+        payload = json.loads(messages[-1]["content"])
+        question = payload["question"]
+        if "perspectives" in schema["properties"]:
+            by_author = {e["author"]: e["id"] for e in payload["evidence"] if e["author"]}
+            return {
+                "answer": "They read the same sūtra differently.",
+                "status": "grounded",
+                "evidence_ids": list(by_author.values())[:1],
+                "perspectives": [
+                    {
+                        "thinker": author,
+                        "view": f"{author} reads Brahman through **adhyāsa** and the Self.",
+                        "evidence_ids": [ref],
+                    }
+                    for author, ref in by_author.items()
+                ],
+            }
         if "slow" in question.lower():
             await asyncio.sleep(20)
         if "fail" in question.lower() and not self.failed:
@@ -64,8 +84,51 @@ def main():
                 attribution="Pramana tests",
             ),
         )
+        commentaries = [
+            chapter.model_copy(
+                update={
+                    "corpus_id": "browser-bs",
+                    "document_id": f"brahma-sutra-{author.lower()}-fixture",
+                    "document": f"Brahma Sutra commentary ({author})",
+                    "edition": f"Fixture edition {author}",
+                    "author": author,
+                    "content_type": "mixed",
+                    "location": Location(book="1", chapter="1", sections=["1"]),
+                    "text": text,
+                    "pages": [
+                        PageMark(offset=0, label="1"),
+                        PageMark(offset=text.index("To this"), label="2"),
+                    ],
+                    "notes": [
+                        Note(
+                            id="1:1",
+                            text="A fixture footnote.",
+                            anchor_offset=text.index(" enquiry"),
+                        )
+                    ],
+                    "source": chapter.source.model_copy(
+                        update={"local_path": None, "url": "https://example.org/fixture"}
+                    ),
+                }
+            )
+            for author, text in (
+                (
+                    "Sankaracharya",
+                    "1. Then therefore the enquiry into Brahman. 𑀅 Ātman.\n\n"
+                    "The pûrvapakshin maintains that the Self is the body.\n\n"
+                    "To this we make the following reply. The Self is the witness; adhyāsa "
+                    "is superimposition.",
+                ),
+                (
+                    "Ramanuja",
+                    "1. Then therefore the enquiry into Brahman.\n\nTHE GREAT PÛRVAPAKSHA.\n\n"
+                    "Difference is unreal.\n\nTo this we reply. Brahman is qualified by "
+                    "real souls and matter; māyā is not illusion here.",
+                ),
+            )
+        ]
         path = home / "fixture.jsonl"
-        path.write_text(chapter.model_dump_json())
+        path.write_text("\n".join(c.model_dump_json() for c in [chapter, *commentaries]))
         corpus.import_jsonl(path)
         embedder = FakeEmbedder()
         corpus.index(embedder=embedder)

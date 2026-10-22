@@ -8,7 +8,9 @@ and validation are described in the [chat guide](../guides/chat.md).
 | --- | --- | --- |
 | `GET` | `/api/status` | Index readiness: `empty`, `stale`, `incompatible` or `ready` |
 | `POST` | `/api/search` | Lexical, dense or hybrid passage search with metadata filters |
-| `GET` | `/api/chapters/{id}` | A stored chapter, optionally with `?passage_id=` selected |
+| `GET` | `/api/chapters/{id}` | A stored chapter (`?passage_id=` selects one), its explicit role spans, and previous/next IDs |
+| `GET` | `/api/library` | Every document with its divisions in reading order, without text |
+| `GET` | `/api/parallel?book=&chapter=&sutra=` | Each Brahma Sūtra commentary's pages for one sūtra |
 | `POST` | `/api/chat` | One grounded answer (`ChatResponse`) |
 | `POST` | `/api/chat/stream` | Progress events, then one validated answer, as NDJSON |
 | `GET` | `/api/glossary` | The curated Advaita glossary |
@@ -56,3 +58,10 @@ Search and chapter endpoints work without an answer model. Source origins can be
 not expose a file-serving endpoint for PDFs. `status.state` distinguishes `empty`,
 `stale`, `incompatible`, and `ready`. Index schema 2 includes local origins and
 commentary metadata; rebuild older indexes with `pramana index --rebuild`.
+
+`/api/chapters/{id}` also returns `roles` (code-point `start`/`end` spans of explicitly
+cued `objection`/`reply` segments), `previous` and `next` within the same document
+and edition. `/api/library` groups documents into display categories derived from
+titles; categories make no claim about tradition or authenticity. `/api/parallel`
+matches commentaries on printed adhyāya, pāda and sūtra numbers; `exact: false` marks a
+page that begins at an earlier sūtra and continues through the requested one.

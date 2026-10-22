@@ -95,17 +95,18 @@ including Śaṅkara–Rāmānuja comparisons, and browser-check desktop, mobile
 Specified in [docs/plans/ux.md](docs/plans/ux.md). Chat stays answers-only; sources
 appear only in Study.
 
-- [ ] Split the web UI into components with a hash router, theme toggle and font size.
-- [ ] Library and reader (`/api/library`, chapter roles, page marks, footnotes,
-      glossary), with a tested code-point → UTF-16 offset helper.
-- [ ] Update the AGENTS.md web-UI invariant for the Study view before shipping it.
-- [ ] Evidence view and "Read in the texts" from chat answers.
-- [ ] Sūtra parallel reader (`/api/parallel`) for Śaṅkara and Rāmānuja.
+- [x] Split the web UI into components with a hash router, theme toggle and font size.
+- [x] Library and reader (`/api/library`, chapter roles, page marks, footnotes,
+      glossary), with a tested code-point → UTF-16 offset helper. Search page.
+- [x] Update the AGENTS.md web-UI invariant for the Study view before shipping it.
+- [x] Evidence view and "Read in the texts" from chat answers.
+- [x] Sūtra parallel reader (`/api/parallel`) for Śaṅkara and Rāmānuja.
 - [ ] Chat scope chips, Compare chip, and answer depth.
 
 **Acceptance:** API tests for library, parallel and roles; offset tests with
 supplementary characters; manual desktop/mobile/dark checks; chat still renders no
-source metadata.
+source metadata. API and offset tests pass; **manual browser checks have not been
+performed yet.**
 
 ## Next milestone: retrieval reliability
 

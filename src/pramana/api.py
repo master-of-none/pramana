@@ -11,6 +11,7 @@ from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
 from pramana.glossary import terms
+from pramana.library import catalogue, neighbours, parallel, role_spans
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
 
@@ -113,7 +114,22 @@ def create_app(
             raise HTTPException(404, "Chapter or passage not found; repeat your search.") from exc
         if selected and selected.chapter_id != chapter_id:
             raise HTTPException(422, "Passage does not belong to this chapter.")
-        return {"id": chapter_id, "chapter": chapter, "selected": selected}
+        return {
+            "id": chapter_id,
+            "chapter": chapter,
+            "selected": selected,
+            # Study view only: explicit objection/reply cues and reading order.
+            "roles": role_spans(chapter.text),
+            **neighbours(corpus.store, chapter),
+        }
+
+    @api.get("/api/library")
+    def library():
+        return catalogue(corpus.store)
+
+    @api.get("/api/parallel")
+    def sutra_parallel(book: str, chapter: str, sutra: str):
+        return parallel(corpus.store, book, chapter, sutra)
 
     static = Path(__file__).parent / "static"
     if (static / "assets").is_dir():

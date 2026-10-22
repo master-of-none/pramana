@@ -26,6 +26,9 @@ your computer: the only network use is the explicit download commands.
 - **Careful sources.** Editions stay separate, every record keeps its URL, SHA-256,
   rights statement and attribution, and nothing is downloaded without an explicit
   command.
+- **Study view.** Read every text with page marks, footnotes and marked
+  objections/replies, open Śaṅkara and Rāmānuja side by side on any sūtra, see the
+  passages behind an answer, and search, all without a model.
 - **A library, not just a chat.** Python API, CLI search and HTTP endpoints all work
   without a model.
 
@@ -80,7 +83,7 @@ answer quality. Treat answers as a starting point for reading the texts.
 
 Everything is indexed in [docs/](docs/README.md): guides, the
 [HTTP API](docs/reference/api.md), notices and verification. Upcoming work is in the
-[roadmap](ROADMAP.md): a Study view with a side-by-side Śaṅkara–Rāmānuja sūtra reader
+[roadmap](ROADMAP.md): concept pages, an argument view and a published Advaita benchmark
 ([UX plan](docs/plans/ux.md)), and a free public site with public-domain texts only
 ([hosted plan](docs/plans/hosted-deployment.md), not deployed).
 
