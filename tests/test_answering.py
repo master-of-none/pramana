@@ -267,3 +267,24 @@ def test_one_bounded_repair_retains_original_evidence(indexed, embedder):
     assert len(provider.calls) == 2
     assert provider.calls[0][0][-1] == provider.calls[1][0][-1]
     assert provider.calls[1][1]["properties"]["evidence_ids"]["items"]["enum"]
+
+
+def test_chat_stream_reports_stages_then_validated_answer(indexed, embedder):
+    retriever = Retriever(indexed, embedder=embedder)
+    provider = Provider([grounded(), AnswerError("Model unavailable. Check ollama list.", 503)])
+    client = TestClient(
+        create_app(retriever=retriever, answerer=Answerer(retriever, provider=provider))
+    )
+    body = {"message": "Who preserves the universe?"}
+    events = [json.loads(line) for line in client.post("/api/chat/stream", json=body).iter_lines()]
+    assert [e["stage"] for e in events if e["type"] == "stage"] == ["searching", "composing"]
+    assert events[-1]["type"] == "answer"
+    assert events[-1]["answer"] == "Vishnu preserves the universe."
+    assert events[-1]["evidence"][0]["reference"] == "E1"
+    failed = [json.loads(line) for line in client.post("/api/chat/stream", json=body).iter_lines()]
+    assert failed[-1] == {
+        "type": "error",
+        "status": 503,
+        "detail": "Model unavailable. Check ollama list.",
+    }
+    assert client.post("/api/chat/stream", json={"message": " "}).status_code == 422

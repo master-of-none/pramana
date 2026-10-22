@@ -7,6 +7,7 @@ import json
 import os
 import re
 from _thread import LockType
+from collections.abc import Awaitable, Callable
 from threading import Lock
 from typing import Literal, Protocol
 
@@ -51,6 +52,10 @@ naturally when explaining their interpretations. Internal evidence_ids belong
 only in that JSON field. Return the requested JSON.
 """.split()
 )
+
+
+Stage = Literal["understanding", "searching", "composing"]
+Progress = Callable[[Stage], Awaitable[None]]
 
 
 class AnswerError(PramanaError):
@@ -194,7 +199,11 @@ class Answerer:
                 hits = self.retriever.search(question, limit=8)
             return list({h.passage.id: h for h in hits}.values())[:8]
 
-    async def answer(self, request: ChatRequest) -> ChatResponse:
+    async def answer(self, request: ChatRequest, progress: Progress | None = None) -> ChatResponse:
+        async def report(stage: Stage):
+            if progress:
+                await progress(stage)
+
         documents = await asyncio.to_thread(self._documents)
         known = {d["id"] for d in documents}
         if not known:
@@ -223,6 +232,7 @@ class Answerer:
             history[0:0] = items
         question, selected = request.message, []
         if history:
+            await report("understanding")
             raw = await self.provider.chat(
                 [
                     {
@@ -265,6 +275,7 @@ class Answerer:
             ]
             if "taittiriya_anandavalli_sastri" in selected and "gita" not in folded:
                 selected = ["taittiriya_anandavalli_sastri"]
+        await report("searching")
         hits = await asyncio.to_thread(self._retrieve, question, list(dict.fromkeys(selected)))
         evidence, payloads, budget = [], [], 10000 - len(fit(question, 6000).encode())
         for hit in hits:
@@ -312,6 +323,7 @@ class Answerer:
                 ),
             },
         ]
+        await report("composing")
         schema = Draft.model_json_schema()
         schema["properties"]["evidence_ids"]["items"]["enum"] = [e.reference for e in evidence]
         supplied = {item.reference: item for item in evidence}

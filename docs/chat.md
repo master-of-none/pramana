@@ -25,6 +25,13 @@ curl http://127.0.0.1:8000/api/chat \
   -d '{"message":"How does Chinmayananda explain acting without attachment?","history":[]}'
 ```
 
+`POST /api/chat/stream` accepts the same request and returns newline-delimited JSON
+(`application/x-ndjson`): zero or more `{"type":"stage","stage":...}` progress events
+(`understanding` for follow-up rewriting, `searching`, `composing`), then one final
+`{"type":"answer", ...ChatResponse}` or `{"type":"error","status":...,"detail":...}`.
+Answer prose is sent only after validation; unchecked model tokens are never streamed.
+The web chat uses this endpoint to show progress.
+
 `ChatRequest` accepts `message` (1–2,000 characters) and up to six completed
 user/assistant exchanges. History must alternate and end with an assistant. Each
 history message is limited to 6,000 characters. The server retains no conversation.

@@ -1,9 +1,10 @@
 import asyncio
+import json
 from pathlib import Path
 from threading import Lock
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from pramana.answering import Answerer, AnswerError
@@ -63,6 +64,40 @@ def create_app(
             task.cancel()
             watcher.cancel()
             await asyncio.gather(task, watcher, return_exceptions=True)
+
+    @api.post("/api/chat/stream")
+    async def chat_stream(payload: ChatRequest):
+        """NDJSON: progress stages, then one validated answer or error event.
+
+        Answer prose is sent only after validation, never as unchecked model tokens.
+        """
+        events: asyncio.Queue[dict | None] = asyncio.Queue()
+
+        async def progress(stage):
+            await events.put({"type": "stage", "stage": stage})
+
+        async def work():
+            try:
+                async with chat_slots:
+                    result = await chat_engine.answer(payload, progress)
+                await events.put({"type": "answer", **result.model_dump(mode="json")})
+            except PramanaError as exc:
+                code = exc.status_code if isinstance(exc, AnswerError) else 409
+                await events.put({"type": "error", "status": code, "detail": str(exc)})
+            finally:
+                await events.put(None)
+
+        async def stream():
+            # Starlette cancels this generator on disconnect, which cancels the model call.
+            task = asyncio.create_task(work())
+            try:
+                while (event := await events.get()) is not None:
+                    yield json.dumps(event, ensure_ascii=False) + "\n"
+            finally:
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
+
+        return StreamingResponse(stream(), media_type="application/x-ndjson")
 
     @api.get("/api/chapters/{chapter_id}")
     def context(chapter_id: str, passage_id: str | None = None):

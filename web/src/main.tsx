@@ -23,6 +23,13 @@ type Turn = {
   answer?: string;
   state: "complete" | "pending" | "error" | "cancelled";
   error?: string;
+  stage?: Stage;
+};
+type Stage = "understanding" | "searching" | "composing";
+const stageLabels: Record<Stage, string> = {
+  understanding: "Following the thread of your question…",
+  searching: "Searching the texts…",
+  composing: "Composing an answer…",
 };
 type ChatResponse = {
   answer: string;
@@ -31,16 +38,21 @@ type ChatResponse = {
 const STORAGE = "pramana.conversation.v1";
 const suggestions = [
   {
-    topic: "ACTION & INTENTION",
+    topic: "JÑĀNA & KARMA",
+    question: "Why does Shankara say action alone cannot lead to liberation?",
+  },
+  {
+    topic: "BRAHMAN AS BLISS",
+    question: "What does the Ananda-valli teach about Brahman as bliss?",
+  },
+  {
+    topic: "THE UNCHANGING SELF",
+    question:
+      "How does Shankara explain that the Self neither acts nor is acted upon?",
+  },
+  {
+    topic: "ACTION WITHOUT ATTACHMENT",
     question: "How does Chinmayananda explain acting without attachment?",
-  },
-  {
-    topic: "THE NATURE OF JOY",
-    question: "What does the Taittiriya Upanishad teach about bliss?",
-  },
-  {
-    topic: "STORIES & IDEAS",
-    question: "Why does Dhruva seek Vishnu in the Vishnu Purana?",
   },
 ];
 
@@ -85,10 +97,12 @@ function restore(): Turn[] {
 
 function inline(text: string) {
   return text
-    .split(/(\*\*[^*]+\*\*)/g)
+    .split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|_[^_\s][^_]*_)/g)
     .map((part, i) =>
       part.startsWith("**") ? (
         <strong key={i}>{part.slice(2, -2)}</strong>
+      ) : /^([*_]).+\1$/.test(part) ? (
+        <em key={i}>{part.slice(1, -1)}</em>
       ) : (
         part
       ),
@@ -99,16 +113,22 @@ function Answer({ text }: { text: string }) {
     <div className="answer-prose">
       {text.split(/\n\s*\n/).map((block, i) => {
         const lines = block.split("\n");
-        if (lines.every((line) => /^\s*(?:[-*•]|\d+\.)\s+/.test(line)))
+        const heading = /^#{1,6}\s+(.+)$/.exec(block.trim());
+        if (heading && lines.length === 1)
+          return <h3 key={i}>{inline(heading[1])}</h3>;
+        const ordered = lines.every((line) => /^\s*\d+[.)]\s+/.test(line));
+        if (ordered || lines.every((line) => /^\s*[-*•]\s+/.test(line))) {
+          const List = ordered ? "ol" : "ul";
           return (
-            <ul key={i}>
+            <List key={i}>
               {lines.map((line, j) => (
                 <li key={j}>
-                  {inline(line.replace(/^\s*(?:[-*•]|\d+\.)\s+/, ""))}
+                  {inline(line.replace(/^\s*(?:[-*•]|\d+[.)])\s+/, ""))}
                 </li>
               ))}
-            </ul>
+            </List>
           );
+        }
         return <p key={i}>{inline(block.replace(/^#{1,6}\s+/gm, ""))}</p>;
       })}
     </div>
@@ -194,26 +214,56 @@ function App() {
         );
     };
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("/api/chat/stream", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abort.signal,
         body: JSON.stringify({ message: text.trim(), history }),
       });
-      const data = await response.json();
-      if (!response.ok)
+      if (!response.ok || !response.body) {
+        const data = await response.json().catch(() => ({}));
         throw new Error(
           typeof data.detail === "string"
             ? data.detail
             : "The question could not be processed. Try a shorter question.",
         );
-      const result = data as ChatResponse;
+      }
+      let result: ChatResponse | undefined;
+      const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+      let buffer = "";
+      for (;;) {
+        const { value, done } = await reader.read();
+        buffer += value ?? "";
+        const lines = done ? [buffer] : buffer.split("\n");
+        buffer = done ? "" : lines.pop()!;
+        for (const line of lines.filter((l) => l.trim())) {
+          const event = JSON.parse(line);
+          if (event.type === "stage" && event.stage in stageLabels)
+            update({ stage: event.stage });
+          else if (event.type === "error")
+            throw new Error(
+              typeof event.detail === "string"
+                ? event.detail
+                : "The question could not be processed. Please retry.",
+            );
+          else if (event.type === "answer") result = event;
+        }
+        if (done) break;
+      }
       if (
+        !result ||
         typeof result.answer !== "string" ||
         !["grounded", "insufficient_evidence"].includes(result.status)
       )
         throw new Error("The answer was incomplete. Please retry.");
-      update({ state: "complete", answer: result.answer, error: undefined });
+      update({
+        state: "complete",
+        answer: result.answer,
+        error: undefined,
+        stage: undefined,
+      });
     } catch (error) {
       if (abort.signal.aborted)
         update({
@@ -374,7 +424,11 @@ function App() {
                         <i />
                         <i />
                       </span>
-                      <span>Reading and reflecting…</span>
+                      <span>
+                        {turn.stage
+                          ? stageLabels[turn.stage]
+                          : "Reading and reflecting…"}
+                      </span>
                     </div>
                   )}
                   {(turn.state === "error" || turn.state === "cancelled") && (
