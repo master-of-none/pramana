@@ -19,6 +19,7 @@ import { href } from "../lib/router.ts";
 import type { Route } from "../lib/router.ts";
 import { restore } from "../lib/storage.ts";
 import { ChapterText } from "./ChapterText.tsx";
+import { Concept, ConceptList } from "./Concept.tsx";
 
 // Shared per page load; the catalogue changes only when the library is re-imported.
 let catalogue: Promise<LibraryDocument[]> | null = null;
@@ -119,6 +120,7 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
           )}
         </div>
       </header>
+      <ConceptList />
       {groups.map((group) => (
         <section key={group} className="library-group">
           <h2>{group}</h2>
@@ -552,6 +554,7 @@ export function Study({ route }: { route: Route }) {
   else if (page === "evidence" && rest[0])
     content = <Evidence turnId={rest[0]} glossary={glossary} />;
   else if (page === "search") content = <Search route={route} />;
+  else if (page === "concept" && rest[0]) content = <Concept slug={rest[0]} />;
   else content = <Library glossary={glossary} />;
   return (
     <div className="view study">

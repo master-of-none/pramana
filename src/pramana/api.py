@@ -11,7 +11,15 @@ from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
 from pramana.glossary import terms
-from pramana.library import catalogue, neighbours, parallel, role_spans, scopes
+from pramana.library import (
+    catalogue,
+    concept,
+    concepts,
+    neighbours,
+    parallel,
+    role_spans,
+    scopes,
+)
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
 
@@ -126,6 +134,17 @@ def create_app(
     @api.get("/api/library")
     def library():
         return catalogue(corpus.store)
+
+    @api.get("/api/concepts")
+    def concept_list():
+        return concepts()
+
+    @api.get("/api/concepts/{key}")
+    def concept_page(key: str):
+        found = concept(corpus.store, key)
+        if found is None:
+            raise HTTPException(404, "No glossary concept by that name.")
+        return found
 
     @api.get("/api/scopes")
     def chat_scopes():

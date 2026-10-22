@@ -136,6 +136,14 @@ stays answers-only. It needs no answer model.
 - **Passages behind an answer:** opened from the chat, from evidence pointers kept with
   the conversation in the tab's `sessionStorage`; they disappear with New chat.
 - **Search:** hybrid (needs the embedding model) or exact-word search.
+- **Concepts:** each glossary concept (`#/study/concept/adhyasa`) shows its editorial
+  definition and the passages that mention it most strongly for Śaṅkara, Rāmānuja,
+  the Upaniṣads, the Gītā and other works, plus concepts discussed alongside it.
+  Glossary cards in the reader link there. Matching uses phrase search on the
+  concept's IAST, ASCII and English names and rejects hyphenated compounds
+  (`anna-maya` is not `māyā`); English renderings can still match ordinary phrases
+  (for example "that thou art" in an unrelated sentence). Ranking shows where a
+  concept is discussed, not what an author concludes about it.
 
 Offsets from the API are Python code points; the UI converts them to JavaScript
 UTF-16 positions in one helper tested with supplementary characters

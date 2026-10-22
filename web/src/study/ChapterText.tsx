@@ -65,7 +65,7 @@ export function ChapterText({
   function piece(from: number, to: number, key: string): ReactNode {
     const role = roleSpans.find((r) => r.start <= from && to <= r.end);
     const inLit = lit && lit.start <= from && to <= lit.end && from < to;
-    const content = annotate(text.slice(from, to), glossary, seen);
+    const content = annotate(text.slice(from, to), glossary, seen, true);
     const className = [
       role && `role-${role.role}`,
       inLit && "passage-highlight",

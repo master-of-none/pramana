@@ -1592,3 +1592,39 @@ a.brand {
     padding: 0 16px;
   }
 }
+
+/* Concept pages */
+.term-link {
+  display: block;
+  margin-top: 6px;
+  color: var(--olive);
+  font-weight: 600;
+  text-decoration: none;
+}
+.chip-row.wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+}
+a.chip {
+  text-decoration: none;
+}
+.concept-devanagari {
+  font-size: 0.6em;
+  color: var(--muted);
+  margin-left: 14px;
+}
+.concept-meaning {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink) !important;
+}
+.concept-group h2,
+.concept-related h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  margin: 34px 0 4px;
+}

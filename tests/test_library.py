@@ -84,3 +84,31 @@ def test_ordering_and_categories():
     ]
     assert sorted(keys, key=order) == [keys[1], keys[2], keys[0]]
     assert role_spans("Plain prose only.") == []
+
+
+def test_concept_pages_group_passages_and_skip_compounds(indexed, embedder, tmp_path, make_chapter):
+    s = commentary(
+        make_chapter,
+        "Sankaracharya",
+        "bs-s",
+        "1",
+        "1",
+        ["1"],
+        "Superimposition (adhyâsa) of the not-Self on the Self is avidyā.",
+    )
+    r = commentary(
+        make_chapter, "Ramanuja", "bs-r", "1", "1", ["1"], "Mâyâ here does not mean falsehood."
+    )
+    u = make_chapter("The sheath anna-maya is made of food.", chapter="5")
+    u.document_id, u.document = "taittiriya-x", "Taittiriya Upanishad"
+    client = client_with(indexed, embedder, tmp_path, [s, r, u])
+    page = client.get("/api/concepts/adhyasa").json()
+    assert page["term"] == "adhyāsa" and page["indexed"]
+    assert [(g["label"], [p["chapter_id"] for p in g["passages"]]) for g in page["groups"]] == [
+        ("Śaṅkara", [s.id])
+    ]
+    maya = client.get("/api/concepts/maya").json()
+    assert [g["label"] for g in maya["groups"]] == ["Rāmānuja"]  # anna-maya is not māyā
+    assert client.get("/api/concepts/nothing").status_code == 404
+    listed = {c["slug"]: c["term"] for c in client.get("/api/concepts").json()}
+    assert listed["tat-tvam-asi"] == "tat tvam asi" and listed["saksin"] == "sākṣin"

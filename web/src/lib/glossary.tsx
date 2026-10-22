@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 export type GlossaryTerm = {
+  slug?: string;
+  english?: string[];
   term: string;
   devanagari: string;
   aliases: string[];
@@ -34,7 +36,7 @@ function build(terms: GlossaryTerm[]): Glossary | null {
 export function useGlossary(): Glossary | null {
   const [glossary, setGlossary] = useState<Glossary | null>(null);
   useEffect(() => {
-    fetch("/api/glossary")
+    fetch("/api/concepts")
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => Array.isArray(data) && setGlossary(build(data)))
       .catch(() => undefined);
@@ -47,6 +49,7 @@ export function annotate(
   raw: string,
   glossary: Glossary | null,
   seen: Set<string>,
+  linked = false,
 ): ReactNode[] {
   const text = raw.normalize("NFC");
   if (!glossary) return [text];
@@ -68,6 +71,12 @@ export function annotate(
             {entry.devanagari && <span lang="sa"> · {entry.devanagari}</span>}
           </span>
           {entry.meaning}
+          {/* Concept pages belong to the Study view; chat cards stay plain. */}
+          {linked && entry.slug && (
+            <a className="term-link" href={`#/study/concept/${entry.slug}`}>
+              Where the texts discuss it →
+            </a>
+          )}
         </span>
       </span>,
     );

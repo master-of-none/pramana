@@ -9,7 +9,7 @@ import re
 
 from pramana.discourse import segments
 from pramana.glossary import fold
-from pramana.models import Chapter
+from pramana.models import Chapter, Passage
 from pramana.storage import Store
 
 CATEGORIES = (
@@ -167,3 +167,92 @@ def parallel(store: Store, book: str, chapter: str, sutra: str) -> list[dict]:
                 }
             )
     return result
+
+
+def slug(term: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", fold(term)).strip("-")
+
+
+def _names(item) -> list[str]:
+    return [n for n in (item.term, *item.aliases, *item.english) if n]
+
+
+CONCEPT_GROUPS = (
+    ("shankara", "Śaṅkara"),
+    ("ramanuja", "Rāmānuja"),
+    ("upanishads", "Upaniṣads"),
+    ("gita", "Bhagavad Gītā"),
+    ("other", "Other works"),
+)
+
+
+def mentions(item, text: str) -> bool:
+    folded = fold(text)
+    return any(
+        re.search(r"(?<![\w-])" + re.escape(fold(n)) + r"(?![\w-])", folded) for n in _names(item)
+    )
+
+
+def concept(store: Store, key: str, limit: int = 4) -> dict | None:
+    """A glossary concept with its strongest lexical passages per group of texts.
+
+    Matches are phrase matches on the concept's names (IAST, ASCII and English), so
+    "tat tvam asi" never matches a stray "tat". FTS splits hyphens and drops
+    diacritics, so candidates are re-checked for a standalone, unhyphenated mention:
+    "anna-maya" (made of food) is not "māyā". Ranking is BM25 within each group; it
+    shows where a concept is discussed, not what each author concludes about it.
+    """
+    from pramana.glossary import terms
+
+    items = {slug(t.term): t for t in terms()}
+    item = items.get(key)
+    if item is None:
+        return None
+    docs = catalogue(store)
+    claimed: set[str] = set()
+    groups = []
+    phrase = " OR ".join('"' + re.sub(r'"', "", fold(n)) + '"' for n in _names(item))
+    with store.connect() as db:
+        indexed = db.execute("SELECT COUNT(*) FROM passages").fetchone()[0] > 0
+        for group, label in CONCEPT_GROUPS:
+            if group == "other":
+                ids = [d["document_id"] for d in docs if d["document_id"] not in claimed]
+            else:
+                ids = [d["document_id"] for d in docs if SCOPES[group][1](d)]
+            claimed.update(ids)
+            if not ids or not indexed:
+                continue
+            rows = db.execute(
+                "SELECT p.data FROM passages_fts JOIN passages p ON p.id=passages_fts.id "
+                "JOIN chapters c ON c.id=p.chapter_id WHERE passages_fts MATCH ? "
+                f"AND json_extract(c.data,'$.document_id') IN ({','.join('?' * len(ids))}) "
+                "ORDER BY bm25(passages_fts), p.id LIMIT ?",
+                [phrase, *ids, limit * 8],
+            ).fetchall()
+            passages = [
+                p
+                for p in (Passage.model_validate_json(r[0]) for r in rows)
+                if mentions(item, p.text)
+            ][:limit]
+            if passages:
+                groups.append({"group": group, "label": label, "passages": passages})
+    found = [p.text for g in groups for p in g["passages"]]
+    counts = {t.term: sum(mentions(t, text) for text in found) for t in terms() if t is not item}
+    related = [
+        {"slug": slug(t.term), "term": t.term, "passages": counts[t.term]}
+        for t in sorted(terms(), key=lambda t: -counts.get(t.term, 0))
+        if t is not item and counts[t.term] >= 2
+    ][:8]
+    return {
+        "slug": key,
+        **item.model_dump(),
+        "indexed": indexed,
+        "groups": groups,
+        "related": related,
+    }
+
+
+def concepts() -> list[dict]:
+    from pramana.glossary import terms
+
+    return [{"slug": slug(t.term), **t.model_dump()} for t in terms()]

@@ -207,8 +207,10 @@ wheel serves its compiled reader and API without relying on editable source path
 
 ## Later milestones
 
-- **Concept pages and argument view:** concept → passages per thinker; pūrvapakṣa →
-  siddhānta sequences from explicit cues and reviewed annotations.
+- [x] **Concept pages** (October 2026): concept → strongest passages per group of
+  texts, related concepts. Covered by API tests; not browser-checked.
+- **Argument view:** pūrvapakṣa → siddhānta sequences from explicit cues and
+  reviewed annotations.
 - **Advaita benchmark and claim check:** 50 questions with gold spans across the
   Vedānta library; optional per-sentence evidence check.
 - **Study paths, vichāra mode, transliteration-tolerant search, more texts** (each
