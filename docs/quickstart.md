@@ -43,6 +43,18 @@ uv run pramana index
 An interrupted download resumes from cached pages. `--offline` rebuilds from the
 cache only. See [source notices](sources.md#brahma-sutra-bhashya-thibaut).
 
+To fetch every public-domain Vedanta source (Śaṅkara's and Rāmānuja's Brahma Sūtra
+commentaries, Śaṅkara's select works, the principal and thirty minor Upaniṣads,
+Swarupananda's Gītā and Barnett's _Brahma-Knowledge_; about 15 minutes):
+
+```sh
+uv run pramana corpus download --source advaita
+for f in .pramana/corpora/*/chapters.jsonl; do uv run pramana ingest "$f"; done
+uv run pramana index
+```
+
+Single sources are listed by `uv run pramana corpus download --help`.
+
 ## Add the supplied PDF books
 
 Install Poppler and Tesseract explicitly (`brew install poppler tesseract` on macOS).

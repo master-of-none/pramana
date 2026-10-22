@@ -21,6 +21,7 @@ type Turn = {
   id: string;
   question: string;
   answer?: string;
+  perspectives?: View[];
   state: "complete" | "pending" | "error" | "cancelled";
   error?: string;
   stage?: Stage;
@@ -31,7 +32,24 @@ const stageLabels: Record<Stage, string> = {
   searching: "Searching the texts…",
   composing: "Composing an answer…",
 };
+type View = { thinker: string; view: string };
+// Each view is checked server-side against that thinker's own passages.
+function views(data: unknown): View[] {
+  if (!Array.isArray(data)) return [];
+  return data
+    .filter(
+      (p) =>
+        p &&
+        typeof p.thinker === "string" &&
+        typeof p.view === "string" &&
+        p.thinker.length <= 200 &&
+        p.view.length <= 3000,
+    )
+    .slice(0, 4)
+    .map((p) => ({ thinker: p.thinker, view: p.view }));
+}
 type ChatResponse = {
+  perspectives?: unknown;
   answer: string;
   status: "grounded" | "insufficient_evidence";
 };
@@ -78,6 +96,7 @@ function restore(): Turn[] {
             id: t.id,
             question: t.question,
             answer: t.answer,
+            perspectives: views(t.perspectives),
             state: "complete",
           } as Turn,
         ];
@@ -347,6 +366,7 @@ function App() {
       update({
         state: "complete",
         answer: result.answer,
+        perspectives: views(result.perspectives),
         error: undefined,
         stage: undefined,
       });
@@ -391,7 +411,12 @@ function App() {
   }
   async function copy(turn: Turn) {
     try {
-      await navigator.clipboard.writeText(turn.answer!);
+      await navigator.clipboard.writeText(
+        [
+          turn.answer!,
+          ...(turn.perspectives ?? []).map((p) => `${p.thinker}\n${p.view}`),
+        ].join("\n\n"),
+      );
       setCopied(turn.id);
       setCopyError("");
     } catch {
@@ -489,6 +514,16 @@ function App() {
                   {turn.state === "complete" && (
                     <>
                       <Answer text={turn.answer!} glossary={glossary} />
+                      {!!turn.perspectives?.length && (
+                        <div className="perspectives">
+                          {turn.perspectives.map((p) => (
+                            <section className="perspective" key={p.thinker}>
+                              <h3>{p.thinker}</h3>
+                              <Answer text={p.view} glossary={glossary} />
+                            </section>
+                          ))}
+                        </div>
+                      )}
                       <button
                         className="copy-answer"
                         onClick={() => void copy(turn)}

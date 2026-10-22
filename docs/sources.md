@@ -77,6 +77,77 @@ following reply") occur 125 times on 93 pages and feed the
 [objection/reply roles](chat.md#objectionreply-roles); most arguments are not
 introduced by such formulas and remain unmarked.
 
+## Śrībhāṣya (Rāmānuja, Thibaut)
+
+- Translation: George Thibaut, _The Vedânta-Sûtras with the Commentary by Râmânuja_,
+  Sacred Books of the East 48, Clarendon Press, 1904.
+- Digitization: scanned by Srinivasan Sriram (sripedia.org initiative); OCRed and
+  proofed at Distributed Proofing (Juliet Sutherland, project manager); formatted and
+  proofread at Sacred Texts by J. B. Hare.
+- [Title page with rights statement](https://archive.sacred-texts.com/hin/sbe48/sbe48000.htm):
+  "This text is in the public domain worldwide. This file may be used for any
+  non-commercial purpose provided this notice is left intact."
+
+`pramana corpus download --source sribhashya` fetches 571 HTML pages listed in
+[`sribhashya-manifest.json`](../src/pramana/ingestion/sribhashya-manifest.json)
+with the same resumable, validated process as Śaṅkara's commentary. It is a separate
+document (`brahma-sutra-ramanuja-thibaut`, author `Ramanuja`), never merged with
+Śaṅkara's, so the two Viśiṣṭādvaita and Advaita readings of the same sūtras remain
+distinct. Rāmānuja's topic pages within a sūtra (e.g. "The Great Pûrvapaksha" under
+I, 1, 1) keep their printed title as a section and sit under that sūtra, as the
+site's index nests them. Pāda heading pages carry no sūtra number. Thibaut's
+introduction and the Sanskrit word index are excluded.
+
+Checked on 22 October 2026 against a complete download: 571 records, about 1.6
+million characters, 42 of 42 referenced footnotes, no navigation text or duplicated
+paragraphs. Only five explicit role cues (role headings or formulas) occur, so most
+of Rāmānuja's arguments reach the model unmarked.
+
+## Sacred Texts plain-text editions
+
+Each is fetched explicitly as the site's `NAME.txt.gz` plain-text distribution and
+selected by a committed manifest in
+[`src/pramana/ingestion/sacredtexts/`](../src/pramana/ingestion/sacredtexts/).
+`scripts/build_sacredtexts_manifests.py` regenerates the manifests from the site
+indexes and title pages (explicit network use); it records each title page's rights
+statement, which every imported record repeats.
+
+| `--source` | Edition | Works | Content type | Rights statement (title page) |
+| --- | --- | --- | --- | --- |
+| `shankara-works` | S. Venkataramanan, _Select Works of Sri Sankaracharya_, 1921 | 8 (hymns and short treatises, under their printed English titles) | translation | public domain in the US, published before 1923 |
+| `upanishads-1` | F. Max Müller, SBE 1, 1879 | Chandogya, Kena, Aitareya Aranyaka, Kaushitaki, Isa | translation | public domain, published before 1923 |
+| `upanishads-2` | F. Max Müller, SBE 15, 1884 | Katha, Mundaka, Taittiriya, Brihadaranyaka, Svetasvatara, Prasna, Maitrayana | translation | public domain, published before 1923 |
+| `gita-swarupananda` | Swami Swarupananda, _Srimad-Bhagavad-Gita_, 1909 | 18 chapters | mixed (translation with notes) | public domain in the US, published before 1923 |
+| `minor-upanishads` | K. Narayanasvami Aiyar, _Thirty Minor Upanishads_, 1914 | 30 | translation | public domain in the US, published before 1923 |
+| `brahma-knowledge` | L. D. Barnett, _Brahma-Knowledge_, 1911 | 1 | commentary (Part I), translation (Part II) | public domain in the US, published before 1923 |
+
+The Select Works edition presents its works as Śaṅkara's; the record keeps
+`Sankaracharya` as author and says "works attributed to" in the edition, without
+judging authenticity. Upaniṣads have no author. Locations follow the printed
+divisions: `I, 1` becomes book 1, chapter 1; single-level divisions (Khanda, Adhyâya,
+Question, Gita chapter) become book 1, chapter N; single-page works are book 1,
+chapter 1. The printed index label is kept as the section. Front matter, translators'
+introductions and indexes are excluded. SBE 15 page 98 is excluded: the redactor
+inserted R. E. Hume's 1921 translation of Bṛhadāraṇyaka VI, 4 there, which is a
+different edition. The two Taittirīya editions (Max Müller's and Mahadeva Sastri's
+Ānanda-valli) stay separate documents. Spellings, including Aiyar's unusual
+transliteration (`Mukṭikopanishaḍ`), are preserved.
+
+The parser checks the archive's section count against the manifest and publishes
+`chapters.jsonl` only after every page parses. Checked on 22 October 2026 with
+archives fetched that day:
+
+| Source | Records | Characters | Footnotes (anchored) |
+| --- | ---: | ---: | ---: |
+| `shankara-works` | 8 | 139,783 | 190 (188) |
+| `upanishads-1` | 222 | 348,994 | 711 (685) |
+| `upanishads-2` | 108 | 350,012 | 1,075 (1,056) |
+| `gita-swarupananda` | 18 | 111,243 | 398 (398) |
+| `minor-upanishads` | 30 | 527,475 | 258 (258) |
+| `brahma-knowledge` | 42 | 118,007 | 95 (85) |
+
+Unanchored footnotes have no matching marker on their page in the source.
+
 ## Embedding model
 
 [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) is distributed

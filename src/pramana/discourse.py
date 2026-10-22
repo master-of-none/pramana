@@ -2,6 +2,7 @@
 
 Only printed labels such as "Objection:" or "Answer:—", and the translator's explicit
 role formulas at sentence start ("The pûrvapakshin maintains", "To this we reply"),
+and standalone headings ("THE GREAT PÛRVAPAKSHA."),
 are recognised; unlabelled text is never assigned a role by inference.
 Offsets are Python code points.
 """
@@ -25,11 +26,15 @@ PHRASE = re.compile(
     r"|(?P<reply>To this(?: objection)? we (?:make the following reply|reply|answer)\b"
     r"|We reply\b))"
 )
+# Standalone printed headings, e.g. "THE GREAT PÛRVAPAKSHA." / "THE SMALL SIDDHÂNTA."
+HEADING = re.compile(
+    r"(?m)^(?:THE )?(?:[A-Z]+ )?(?:(?P<objection>P[UÛŪ]RVAPAK[SṢ]H?A)|(?P<reply>SIDDH[AÂĀ]NTA))\.?$"
+)
 LOOKBACK, LOOKAHEAD, FOLLOW = 3000, 1500, 700
 
 
 def markers(text: str) -> list[tuple[int, Role]]:
-    found = [*MARKER.finditer(text), *PHRASE.finditer(text)]
+    found = [*MARKER.finditer(text), *PHRASE.finditer(text), *HEADING.finditer(text)]
     return sorted((m.start(), "objection" if m["objection"] else "reply") for m in found)
 
 

@@ -1,0 +1,101 @@
+{
+  "id": "wos",
+  "archive_url": "https://archive.sacred-texts.com/hin/wos/wos.txt.gz",
+  "title_url": "https://archive.sacred-texts.com/hin/wos/wos00.htm",
+  "header": "Select Works of Sri Sankaracharya, tr. by S. Venkataramanan, [1921], at sacred-texts.com",
+  "sections": 12,
+  "translator": "S. Venkataramanan",
+  "author": "Sankaracharya",
+  "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+  "rights": "Stated by the source: This text is in the public domain in the US because it was published prior to 1923. Next: Preface Sacred Texts | Hinduism « Previous: Select Works of Sri Sankaracharya: Page Index Index Next: Select Works of Sri Sankaracharya: Preface » (function(){function c(){var b=a.",
+  "pages": [
+    {
+      "file": "wos03.htm",
+      "section": 4,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos03.htm",
+      "document_id": "hymn-to-hari-wos",
+      "document": "Hymn to Hari",
+      "book": "1",
+      "chapter": "1",
+      "label": "Hymn to Hari",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos04.htm",
+      "section": 5,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos04.htm",
+      "document_id": "the-ten-versed-hymn-wos",
+      "document": "The Ten-versed Hymn",
+      "book": "1",
+      "chapter": "1",
+      "label": "The Ten-versed Hymn.",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos05.htm",
+      "section": 6,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos05.htm",
+      "document_id": "hymn-to-dakshinamurti-wos",
+      "document": "Hymn to Dakshinamurti",
+      "book": "1",
+      "chapter": "1",
+      "label": "Hymn to Dakshinamurti",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos06.htm",
+      "section": 7,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos06.htm",
+      "document_id": "direct-realisation-wos",
+      "document": "Direct Realisation",
+      "book": "1",
+      "chapter": "1",
+      "label": "Direct Realisation",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos07.htm",
+      "section": 8,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos07.htm",
+      "document_id": "the-century-of-verses-wos",
+      "document": "The Century of Verses",
+      "book": "1",
+      "chapter": "1",
+      "label": "The Century of Verses.",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos08.htm",
+      "section": 9,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos08.htm",
+      "document_id": "knowledge-of-self-wos",
+      "document": "Knowledge of Self",
+      "book": "1",
+      "chapter": "1",
+      "label": "Knowledge of Self",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos09.htm",
+      "section": 10,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos09.htm",
+      "document_id": "commentary-on-the-text-wos",
+      "document": "Commentary on the Text",
+      "book": "1",
+      "chapter": "1",
+      "label": "Commentary on the Text",
+      "content_type": "translation"
+    },
+    {
+      "file": "wos10.htm",
+      "section": 11,
+      "url": "https://archive.sacred-texts.com/hin/wos/wos10.htm",
+      "document_id": "definition-of-one-s-own-self-wos",
+      "document": "Definition of One's Own Self",
+      "book": "1",
+      "chapter": "1",
+      "label": "Definition of One's Own Self",
+      "content_type": "translation"
+    }
+  ]
+}

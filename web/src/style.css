@@ -1016,3 +1016,35 @@ main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .term:focus-within .term-card {
   display: block;
 }
+.perspectives {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 8px 0 18px 31px;
+}
+.perspective {
+  border: 1px solid var(--c-e3e2d8);
+  border-top: 3px solid var(--c-a9b18d);
+  border-radius: 8px;
+  padding: 14px 18px 4px;
+  background: var(--c-fcfbf7);
+  min-width: 0;
+}
+.perspective h3 {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-656d4a);
+}
+.perspective .answer-prose {
+  padding-left: 0;
+  font-size: 16px;
+}
+@media (max-width: 640px) {
+  .perspectives {
+    margin-left: 0;
+    grid-template-columns: 1fr;
+  }
+}

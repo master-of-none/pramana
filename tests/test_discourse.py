@@ -59,3 +59,11 @@ def test_translator_role_formulas_at_sentence_start():
     roles = [p["role"] for p in segments(text)]
     assert roles == ["unmarked", "objection", "reply"]
     assert "".join(p["text"] for p in segments(text)) == text
+
+
+def test_standalone_role_headings():
+    text = "THE GREAT PÛRVAPAKSHA.\n\nAll difference is unreal.\n\nTHE GREAT SIDDHÂNTA.\n\nNot so."
+    assert [p["role"] for p in segments(text)] == ["objection", "reply"]
+    assert segments("The siddhânta follows.") == [
+        {"role": "unmarked", "text": "The siddhânta follows."}
+    ]

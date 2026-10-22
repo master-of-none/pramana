@@ -1,7 +1,9 @@
-"""Adapter for Thibaut's Brahma Sutra Bhashya (SBE 34, 38) as distributed by Sacred Texts.
+"""Adapter for Thibaut's Brahma Sutra commentaries as distributed by Sacred Texts.
 
-One chapter record per Sacred Texts page. Pages are keyed by adhyaya, pada and the
-first sutra number printed on the page; that printed number must match the manifest.
+Two volumes: Sankara's commentary (SBE 34, 38) and Ramanuja's Sribhashya (SBE 48),
+kept as separate documents. One chapter record per Sacred Texts page, keyed by
+adhyaya, pada and printed sutra number; a page's first printed sutra number must
+match its manifest entry. Ramanuja's topic pages within a sutra keep their title.
 """
 
 import hashlib
@@ -18,10 +20,6 @@ from bs4 import BeautifulSoup
 from pramana.errors import PramanaError
 from pramana.models import Chapter, Location, Note, PageMark, Source
 
-INDEXES = {
-    "SBE 34": "https://archive.sacred-texts.com/hin/sbe34/",
-    "SBE 38": "https://archive.sacred-texts.com/hin/sbe38/",
-}
 EDITION = "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML"
 RIGHTS = (
     "Stated by the source: public domain worldwide; the files may be used for any "
@@ -35,19 +33,64 @@ ATTRIBUTION = (
 )
 BLOCKS = ["p", "h1", "h2", "h3"]
 HEADER = re.compile(r"tr\. by George Thibaut \[(1890|1896)\]")
+VOLUMES = {
+    "shankara": {
+        "manifest": "brahmasutra-manifest.json",
+        "root": "brahma-sutra-thibaut",
+        "source": "brahma-sutra",
+        "identify": HEADER,
+        "corpus_id": "brahma-sutra-thibaut",
+        "document_id": "brahma-sutra-shankara-thibaut",
+        "document": "Brahma Sutra Bhashya",
+        "author": "Sankaracharya",
+        "edition": EDITION,
+        "rights": RIGHTS,
+        "attribution": ATTRIBUTION,
+        "indexes": [
+            "https://archive.sacred-texts.com/hin/sbe34/",
+            "https://archive.sacred-texts.com/hin/sbe38/",
+        ],
+    },
+    "ramanuja": {
+        "manifest": "sribhashya-manifest.json",
+        "root": "sribhashya-thibaut",
+        "source": "sribhashya",
+        "identify": re.compile(r"commentary by Ramanuja, George Thibaut"),
+        "corpus_id": "sribhashya-thibaut",
+        "document_id": "brahma-sutra-ramanuja-thibaut",
+        "document": "Sribhashya (Brahma Sutra commentary)",
+        "author": "Ramanuja",
+        "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+        "rights": (
+            "Stated by the source: public domain worldwide; this file may be used for any "
+            "non-commercial purpose provided this notice is left intact."
+        ),
+        "attribution": (
+            "Ramanuja, commentary; English: George Thibaut, Sacred Books of the East 48, "
+            "Clarendon Press, 1904. Scanned by Srinivasan Sriram (sripedia.org initiative); "
+            "OCRed and proofed at Distributed Proofing (Juliet Sutherland, project manager); "
+            "formatting and proofreading at sacred-texts.com by J. B. Hare."
+        ),
+        "indexes": ["https://archive.sacred-texts.com/hin/sbe48/"],
+    },
+}
 
 
-def manifest() -> list[dict]:
-    path = Path(__file__).with_name("brahmasutra-manifest.json")
+def manifest(volume: str = "shankara") -> list[dict]:
+    path = Path(__file__).with_name(VOLUMES[volume]["manifest"])
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def parse_page(html: str, entry: dict, source: Source) -> Chapter:
-    """Body text after the edition header; page anchors and own footnotes are retained."""
+def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara") -> Chapter:
+    """Body text after the edition header (or top navigation); anchors and own notes kept."""
+    config = VOLUMES[volume]
+    if not config["identify"].search(html):
+        raise PramanaError(f"{entry['file']} is not a Thibaut SBE page; source format changed.")
     soup = BeautifulSoup(html, "html.parser")
     header = soup.find(lambda tag: tag.name == "p" and HEADER.search(tag.get_text()))
+    header = header or soup.find("hr")
     if header is None:
-        raise PramanaError(f"{entry['file']} is not a Thibaut SBE page; source format changed.")
+        raise PramanaError(f"{entry['file']} has no recognisable body; source format changed.")
     parts, pages, refs, length = [], [], {}, 0
     footnotes = None
     for element in header.find_all_next(BLOCKS):
@@ -94,8 +137,8 @@ def parse_page(html: str, entry: dict, source: Source) -> Chapter:
     text = "".join(parts)
     if len(text) < 80:
         raise PramanaError(f"Suspiciously short commentary body in {entry['file']}.")
-    first = re.search(r"(?m)(?:^|\n\n)(\d+)\. ", text)
-    if not first or first.group(1) != entry["sutra"]:
+    first = re.search(r"(?m)(?:^|\n\n)(?:[A-Za-zâ ]+: )?(\d+)\. ", text)
+    if entry.get("sutra") and (not first or first.group(1) != entry["sutra"]):
         raise PramanaError(
             f"{entry['file']} does not begin sutra {entry['sutra']}; source structure changed."
         )
@@ -118,16 +161,20 @@ def parse_page(html: str, entry: dict, source: Source) -> Chapter:
         content = re.sub(r"\s+", " ", "".join(words)).strip()
         if content:
             notes.append(Note(id=link.get_text(strip=True), text=content, anchor_offset=refs[key]))
+    sutra = entry.get("sutra") or entry.get("location_sutra")
+    sections = [sutra] if sutra else []
+    if entry.get("topic"):
+        sections.append(entry["topic"])
     return Chapter(
-        corpus_id="brahma-sutra-thibaut",
-        document_id="brahma-sutra-shankara-thibaut",
-        document="Brahma Sutra Bhashya",
-        edition=EDITION,
+        corpus_id=config["corpus_id"],
+        document_id=config["document_id"],
+        document=config["document"],
+        edition=config["edition"],
         translator="George Thibaut",
-        author="Sankaracharya",
+        author=config["author"],
         content_type="mixed",
         language="en",
-        location=Location(book=entry["adhyaya"], chapter=entry["pada"], sections=[entry["sutra"]]),
+        location=Location(book=entry["adhyaya"], chapter=entry["pada"], sections=sections),
         source=source,
         text=text,
         pages=[PageMark(offset=min(offset, len(text)), label=label) for offset, label in pages],
@@ -135,23 +182,29 @@ def parse_page(html: str, entry: dict, source: Source) -> Chapter:
     )
 
 
-def _fetch(client: httpx.Client, url: str) -> bytes:
+def _fetch(client: httpx.Client, url: str, identify: re.Pattern) -> bytes:
     response = client.get(url)
     response.raise_for_status()
     # A challenge or error page must never enter the cache.
-    if not HEADER.search(response.text):
+    if not identify.search(response.text):
         raise PramanaError(f"{url} did not return a Thibaut SBE page.")
     return response.content
 
 
 def acquire(
-    home: Path, archive: Path | None = None, *, offline: bool = False, delay: float = 0.5
+    home: Path,
+    archive: Path | None = None,
+    *,
+    offline: bool = False,
+    delay: float = 0.5,
+    volume: str = "shankara",
 ) -> Path:
     """Cache every manifest page (resumable), validate all, then publish JSONL atomically."""
-    root = home / "corpora" / "brahma-sutra-thibaut"
+    config = VOLUMES[volume]
+    root = home / "corpora" / config["root"]
     cache = root / "html"
     cache.mkdir(parents=True, exist_ok=True)
-    entries = manifest()
+    entries = manifest(volume)
     if archive:
         for entry in entries:
             source = archive / entry["file"]
@@ -172,7 +225,7 @@ def acquire(
                 headers={"User-Agent": "Pramana/0.1 (explicit corpus download)"},
             ) as client:
                 for entry in missing:
-                    content = _fetch(client, entry["url"])
+                    content = _fetch(client, entry["url"], config["identify"])
                     temporary = cache / (entry["file"] + ".tmp")
                     temporary.write_bytes(content)
                     temporary.replace(cache / entry["file"])
@@ -180,7 +233,7 @@ def acquire(
         except httpx.HTTPError as exc:
             raise PramanaError(
                 f"Source download failed ({type(exc).__name__}); already cached pages are kept. "
-                "Rerun `pramana corpus download --source brahma-sutra` to resume."
+                f"Rerun `pramana corpus download --source {config['source']}` to resume."
             ) from exc
     receipt_path = root / "receipt.json"
     previous = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
@@ -199,20 +252,20 @@ def acquire(
             url=entry["url"],
             retrieved_at=retrieved,
             checksum=checksum,
-            rights=RIGHTS,
-            attribution=ATTRIBUTION,
+            rights=config["rights"],
+            attribution=config["attribution"],
         )
         try:
             html = raw.decode("utf-8")
         except UnicodeDecodeError as exc:
             raise PramanaError(f"{entry['file']} is not UTF-8; delete it and rerun.") from exc
-        records.append(parse_page(html, entry, source))
+        records.append(parse_page(html, entry, source, volume))
         receipt_pages.append({**entry, "checksum": checksum, "retrieved_at": retrieved})
     # Publish normalized records only after every manifest page validates.
     output = root / "chapters.jsonl"
     temporary = output.with_suffix(".tmp")
     temporary.write_text("\n".join(c.model_dump_json() for c in records) + "\n", encoding="utf-8")
     temporary.replace(output)
-    receipt = {"indexes": INDEXES, "rights": RIGHTS, "attribution": ATTRIBUTION}
+    receipt = {k: config[k] for k in ("indexes", "rights", "attribution")}
     receipt_path.write_text(json.dumps({**receipt, "pages": receipt_pages}, indent=2))
     return output

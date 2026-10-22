@@ -152,15 +152,47 @@ def test_conflicting_interpretations_stay_attributed(indexed, embedder, tmp_path
     answer = (
         "Thinker A emphasizes action; Thinker B emphasizes knowledge. These interpretations differ."
     )
-    provider = Provider([grounded(answer, ["E1", "E2"])])
-    result = run(
-        Answerer(Retriever(indexed, embedder=embedder), provider=provider),
-        "Compare the thinkers on action and knowledge leading to freedom",
-    )
-    payload = json.loads(provider.calls[0][0][-1]["content"])
-    assert {item["author"] for item in payload["evidence"]} >= {"Thinker A", "Thinker B"}
+    retriever = Retriever(indexed, embedder=embedder)
+    question = "Compare the thinkers on action and knowledge leading to freedom"
+    probe = Provider([grounded(answer, ["E1"])] * 2)
+    with pytest.raises(AnswerError, match="omitted"):
+        run(Answerer(retriever, provider=probe), question)
+    payload = json.loads(probe.calls[0][0][-1]["content"])
+    by_author = {item["author"]: item["id"] for item in payload["evidence"] if item["author"]}
+    assert {"Thinker A", "Thinker B"} <= set(by_author)
+    schema = probe.calls[0][1]
+    allowed = schema["$defs"]["DraftPerspective"]["properties"]["thinker"]["enum"]
+    assert {"Thinker A", "Thinker B"} <= set(allowed)
+    assert "This is a comparison" in probe.calls[1][0][0]["content"]  # kept on repair
+    views = [
+        {
+            "thinker": "Thinker A",
+            "view": "Action leads to freedom.",
+            "evidence_ids": [by_author["Thinker A"]],
+        },
+        {
+            "thinker": "Thinker B",
+            "view": "Knowledge leads to freedom.",
+            "evidence_ids": [by_author["Thinker B"]],
+        },
+    ]
+    provider = Provider([{**grounded(answer, [by_author["Thinker A"]]), "perspectives": views}])
+    result = run(Answerer(retriever, provider=provider), question)
     assert "Distinguish authors" in provider.calls[0][0][0]["content"]
     assert result.answer == answer
+    assert [(p.thinker, p.view) for p in result.perspectives] == [
+        ("Thinker A", "Action leads to freedom."),
+        ("Thinker B", "Knowledge leads to freedom."),
+    ]
+    assert {e.reference for e in result.evidence} == set(by_author.values())
+    # A view credited to one thinker but supported by the other's text is rejected.
+    swapped = [{**views[0], "evidence_ids": [by_author["Thinker B"]]}, views[1]]
+    bad = {**grounded(answer, [by_author["Thinker A"]]), "perspectives": swapped}
+    with pytest.raises(AnswerError, match="wrong thinker"):
+        run(Answerer(retriever, provider=Provider([bad, bad])), question)
+    plain = Provider([grounded("Thinker A emphasizes action.", ["E1"])])
+    run(Answerer(retriever, provider=plain), "What does Thinker A say about action?")
+    assert "perspectives" not in plain.calls[0][1]["properties"]
 
 
 def test_cancellation_reaches_provider(indexed, embedder):
@@ -288,3 +320,34 @@ def test_chat_stream_reports_stages_then_validated_answer(indexed, embedder):
         "detail": "Model unavailable. Check ollama list.",
     }
     assert client.post("/api/chat/stream", json={"message": " "}).status_code == 422
+
+
+def test_two_named_thinkers_retrieve_each_authors_text(indexed, embedder, tmp_path, make_chapter):
+    chapters = [
+        make_chapter("Brahman alone is real; the world is an appearance.", chapter="7"),
+        make_chapter("Brahman is qualified by real souls and matter.", chapter="8"),
+    ]
+    chapters[0].author, chapters[1].author = "Sankaracharya", "Ramanuja"
+    chapters[0].edition, chapters[1].edition = "Edition S", "Edition R"
+    path = tmp_path / "thinkers.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    retriever = Retriever(indexed, embedder=embedder)
+    seen = []
+    original = retriever.search
+
+    def tracked(query, **kwargs):
+        seen.append(kwargs.get("filters"))
+        return original(query, **kwargs)
+
+    retriever.search = tracked
+    provider = Provider([grounded("They differ.", ["E1"])] * 2)
+    with pytest.raises(AnswerError):
+        run(
+            Answerer(retriever, provider=provider),
+            "How do Shankara and Ramanuja differ on Brahman?",
+        )
+    assert {f.author for f in seen if f and f.author} == {"Sankaracharya", "Ramanuja"}
+    authors = {e["author"] for e in json.loads(provider.calls[0][0][-1]["content"])["evidence"]}
+    assert {"Sankaracharya", "Ramanuja"} <= authors

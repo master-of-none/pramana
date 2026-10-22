@@ -124,3 +124,21 @@ each evidence item, and not to name schools or sub-commentators (Vivaraṇa, Bh�
 Viśiṣṭādvaita, Dvaita) unless the evidence does. Label detection depends on OCR
 quality and has not yet been measured against the private PDFs; the recorded
 comparison failure in [chat validation](chat-validation.md) has not been re-run.
+
+## Comparing thinkers
+
+When a question compares (`compare`, `differ`, `versus`, `agree`, …) and the supplied
+evidence comes from two or more distinct authors, the model must also return
+`perspectives`: one entry per thinker with a `thinker`, a `view` and `evidence_ids`.
+`thinker` is restricted by the JSON schema to authors actually present in the
+evidence. Pramana then checks that **every passage a view cites was written by that
+thinker**; a view credited to Rāmānuja that rests on Śaṅkara's text is rejected and
+regenerated once. The short `answer` gives the neutral agreement or difference. A
+grounded comparison must contain at least one perspective. `ChatResponse.perspectives`
+returns each view with its internal references; the web chat shows each thinker's
+view in its own labelled card, without sources.
+
+Naming two or more known thinkers (Śaṅkara, Rāmānuja or "Viśiṣṭādvaita",
+Chinmayananda, Swarupananda, Barnett) retrieves evidence separately for each author
+and interleaves it. The authorship check confirms whose text supports a view; it
+does not confirm that the view is a correct reading of that text.

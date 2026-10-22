@@ -32,27 +32,66 @@ def setup():
         fail(exc)
 
 
+# Public-domain editions; Sacred Texts plain-text books are keyed by their manifest ID.
+SOURCES = {
+    "vishnu-purana": "Wilson's Vishnu Purana (1840)",
+    "brahma-sutra": "Sankara's Brahma Sutra commentary, Thibaut (SBE 34, 38)",
+    "sribhashya": "Ramanuja's Brahma Sutra commentary, Thibaut (SBE 48)",
+    "shankara-works": "Select Works of Sankaracharya, Venkataramanan (1921)",
+    "upanishads-1": "Upanishads Part 1, Max Muller (SBE 1)",
+    "upanishads-2": "Upanishads Part 2, Max Muller (SBE 15)",
+    "gita-swarupananda": "Bhagavad Gita with commentary, Swarupananda (1909)",
+    "minor-upanishads": "Thirty Minor Upanishads, Narayanasvami Aiyar (1914)",
+    "brahma-knowledge": "Brahma-Knowledge, Barnett (1911)",
+}
+SACRED_TEXTS = {
+    "shankara-works": "wos",
+    "upanishads-1": "sbe01",
+    "upanishads-2": "sbe15",
+    "gita-swarupananda": "sbg",
+    "minor-upanishads": "tmu",
+    "brahma-knowledge": "brk",
+}
+ADVAITA = [s for s in SOURCES if s != "vishnu-purana"]
+
+
+def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
+    if source in SACRED_TEXTS:
+        from pramana.ingestion.sacredtexts import acquire
+
+        return acquire(data_dir(), SACRED_TEXTS[source], archive, offline=offline)
+    if source in {"brahma-sutra", "sribhashya"}:
+        from pramana.ingestion.brahmasutra import acquire
+
+        volume = "shankara" if source == "brahma-sutra" else "ramanuja"
+        return acquire(data_dir(), archive, offline=offline, volume=volume)
+    from pramana.ingestion.vishnu import acquire
+
+    return acquire(data_dir(), archive, offline=offline)
+
+
 @corpus_app.command()
 def download(
     archive: Annotated[
         Path | None,
-        typer.Option(help="Saved vp.txt.gz, or a directory of saved Brahma Sutra pages"),
+        typer.Option(help="A saved archive (.txt.gz), or a directory of saved HTML pages"),
     ] = None,
     offline: bool = False,
     source: Annotated[
-        str, typer.Option(help="vishnu-purana (Wilson) or brahma-sutra (Thibaut, SBE 34/38)")
+        str,
+        typer.Option(
+            help="One of: " + ", ".join(SOURCES) + "; or `advaita` for every Vedanta source"
+        ),
     ] = "vishnu-purana",
 ):
-    """Download/cache a complete public-domain edition and emit validated JSONL."""
-    if source == "brahma-sutra":
-        from pramana.ingestion.brahmasutra import acquire
-    elif source == "vishnu-purana":
-        from pramana.ingestion.vishnu import acquire
-    else:
-        fail(PramanaError("Unknown --source; choose vishnu-purana or brahma-sutra."))
-
+    """Download/cache complete public-domain editions and emit validated JSONL."""
+    if source != "advaita" and source not in SOURCES:
+        fail(PramanaError(f"Unknown --source {source!r}. Choose: {', '.join(SOURCES)}, advaita."))
+    if source == "advaita" and archive:
+        fail(PramanaError("--archive applies to one source; omit it with --source advaita."))
     try:
-        typer.echo(str(acquire(data_dir(), archive, offline=offline)))
+        for name in ADVAITA if source == "advaita" else [source]:
+            typer.echo(str(acquire_source(name, archive, offline)))
     except (PramanaError, OSError) as exc:
         fail(exc)
 

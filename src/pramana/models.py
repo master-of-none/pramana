@@ -184,9 +184,18 @@ class Evidence(Record):
     score_kind: Literal["bm25", "cosine", "rrf"]
 
 
+class Perspective(Record):
+    """One thinker's view in a comparison, supported only by that thinker's own passages."""
+
+    thinker: str
+    view: str
+    evidence: list[str] = Field(default_factory=list)
+
+
 class ChatResponse(Record):
     answer: str
     status: Literal["grounded", "insufficient_evidence"]
     retrieval_question: str
     evidence: list[Evidence] = Field(default_factory=list)
+    perspectives: list[Perspective] = Field(default_factory=list)
     model: str
