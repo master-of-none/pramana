@@ -101,7 +101,7 @@ appear only in Study.
 - [x] Update the AGENTS.md web-UI invariant for the Study view before shipping it.
 - [x] Evidence view and "Read in the texts" from chat answers.
 - [x] Sūtra parallel reader (`/api/parallel`) for Śaṅkara and Rāmānuja.
-- [ ] Chat scope chips, Compare chip, and answer depth.
+- [x] Chat scope chips, Compare chip, and answer depth.
 
 **Acceptance:** API tests for library, parallel and roles; offset tests with
 supplementary characters; manual desktop/mobile/dark checks; chat still renders no

@@ -1548,3 +1548,47 @@ a.brand {
     display: none;
   }
 }
+
+/* Chat scope, compare and depth controls */
+.chat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.chip-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chip {
+  flex-shrink: 0;
+  font-size: 12px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--c-d9dcce);
+  background: var(--c-faf9f5);
+  color: var(--c-646953);
+  white-space: nowrap;
+}
+.chip[aria-checked="true"] {
+  background: var(--c-717b54);
+  border-color: var(--c-717b54);
+  color: var(--paper);
+}
+.compare-chip {
+  border-style: dashed;
+  color: var(--olive);
+}
+@media (max-width: 760px) {
+  .chat-controls {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .chip-row {
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+}

@@ -9,6 +9,7 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `GET` | `/api/status` | Index readiness: `empty`, `stale`, `incompatible` or `ready` |
 | `POST` | `/api/search` | Lexical, dense or hybrid passage search with metadata filters |
 | `GET` | `/api/chapters/{id}` | A stored chapter (`?passage_id=` selects one), its explicit role spans, and previous/next IDs |
+| `GET` | `/api/scopes` | Chat scopes that contain imported books, with document counts |
 | `GET` | `/api/library` | Every document with its divisions in reading order, without text |
 | `GET` | `/api/parallel?book=&chapter=&sutra=` | Each Brahma Sūtra commentary's pages for one sūtra |
 | `POST` | `/api/chat` | One grounded answer (`ChatResponse`) |
@@ -30,8 +31,10 @@ curl http://127.0.0.1:8000/api/chat \
 Answer prose is sent only after validation; unchecked model tokens are never streamed.
 The web chat uses this endpoint to show progress.
 
-`ChatRequest` accepts `message` (1–2,000 characters) and up to six completed
-user/assistant exchanges. History must alternate and end with an assistant. Each
+`ChatRequest` accepts `message` (1–2,000 characters), up to six completed
+user/assistant exchanges, an optional `scope` (`all`, `upanishads`, `gita`,
+`shankara`, `ramanuja`; an empty scope returns 409) and `depth` (`brief`, `explain`,
+`deep`). History must alternate and end with an assistant. Each
 history message is limited to 6,000 characters. The server retains no conversation.
 For follow-ups, recent bounded history forms a standalone retrieval question;
 previous assistant text is not supplied as evidence to the final answer call.
@@ -65,3 +68,6 @@ and edition. `/api/library` groups documents into display categories derived fro
 titles; categories make no claim about tradition or authenticity. `/api/parallel`
 matches commentaries on printed adhyāya, pāda and sūtra numbers; `exact: false` marks a
 page that begins at an earlier sūtra and continues through the requested one.
+
+Search filters also accept `document_ids`, a list matching any of those documents;
+an empty list matches nothing.

@@ -17,6 +17,7 @@ from pydantic import Field, ValidationError
 from pramana.discourse import annotate
 from pramana.errors import PramanaError
 from pramana.glossary import fold
+from pramana.library import SCOPES, scope_documents
 from pramana.models import (
     ChatRequest,
     ChatResponse,
@@ -96,6 +97,17 @@ THINKERS = {
     "chinmayananda": ("chinmayananda",),
     "swarupananda": ("swarupananda",),
     "barnett": ("barnett",),
+}
+
+
+DEPTH = {
+    "brief": " The reader asked for a brief answer: two to four sentences.",
+    "explain": "",
+    "deep": (
+        " The reader asked for depth: explain more fully in several paragraphs, including"
+        " distinctions, objections and replies that the evidence itself presents, still"
+        " using only the evidence."
+    ),
 }
 
 
@@ -234,16 +246,18 @@ class Answerer:
             ).fetchall()
         return [dict(r) for r in rows]
 
-    def _retrieve(self, question, document_ids, authors=()):
+    def _retrieve(self, question, document_ids, authors=(), within=None):
+        """`within` restricts every search to a chat scope's documents."""
         with self.search_lock:
             if document_ids or authors:
                 # Balance evidence across explicitly requested editions and thinkers.
                 filters = [SearchFilters(document_id=doc) for doc in document_ids]
-                filters += [SearchFilters(author=author) for author in authors]
+                filters += [SearchFilters(author=a, document_ids=within) for a in authors]
                 lists = [self.retriever.search(question, limit=6, filters=f) for f in filters]
                 hits = [hits[i] for i in range(6) for hits in lists if i < len(hits)]
             else:
-                hits = self.retriever.search(question, limit=8)
+                filters = SearchFilters(document_ids=within) if within is not None else None
+                hits = self.retriever.search(question, limit=8, filters=filters)
             return list({h.passage.id: h for h in hits}.values())[:8]
 
     def _roles(self, hits) -> dict[str, dict]:
@@ -357,9 +371,22 @@ class Answerer:
         )
         if len(thinkers) < 2:
             authors = []  # A single named thinker is served by the edition aliases above.
+        within = None
+        if request.scope != "all":
+            within = await asyncio.to_thread(
+                scope_documents, self.retriever.corpus.store, request.scope
+            )
+            if not within:
+                raise AnswerError(
+                    f"No imported books are in the {SCOPES[request.scope][0]} scope. Choose "
+                    "All texts, or download and import those sources first.",
+                    409,
+                )
+            # Named editions and thinkers narrow the scope; they never widen it.
+            selected = [doc for doc in selected if doc in within]
         await report("searching")
         hits = await asyncio.to_thread(
-            self._retrieve, question, list(dict.fromkeys(selected)), authors
+            self._retrieve, question, list(dict.fromkeys(selected)), authors, within
         )
         roles = await asyncio.to_thread(self._roles, hits)
         evidence, payloads, budget = [], [], 10000 - len(fit(question, 6000).encode())
@@ -399,7 +426,7 @@ class Answerer:
         messages = [
             {
                 "role": "system",
-                "content": ANSWER_PROMPT,
+                "content": ANSWER_PROMPT + DEPTH[request.depth],
             },
             {
                 "role": "user",

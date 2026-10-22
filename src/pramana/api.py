@@ -11,7 +11,7 @@ from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
 from pramana.glossary import terms
-from pramana.library import catalogue, neighbours, parallel, role_spans
+from pramana.library import catalogue, neighbours, parallel, role_spans, scopes
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
 
@@ -126,6 +126,10 @@ def create_app(
     @api.get("/api/library")
     def library():
         return catalogue(corpus.store)
+
+    @api.get("/api/scopes")
+    def chat_scopes():
+        return scopes(corpus.store)
 
     @api.get("/api/parallel")
     def sutra_parallel(book: str, chapter: str, sutra: str):

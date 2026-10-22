@@ -143,6 +143,8 @@ class SearchFilters(Record):
     edition: str | None = None
     language: str | None = None
     translator: str | None = None
+    # Any of these documents (used for chat scopes); combined with the fields above.
+    document_ids: list[str] | None = Field(default=None, max_length=500)
 
 
 Strategy = Literal["lexical", "dense", "hybrid"]
@@ -160,9 +162,15 @@ class ChatMessage(Record):
     content: str = Field(min_length=1, max_length=6000)
 
 
+Scope = Literal["all", "upanishads", "gita", "shankara", "ramanuja"]
+Depth = Literal["brief", "explain", "deep"]
+
+
 class ChatRequest(Record):
     message: str = Field(min_length=1, max_length=2000)
     history: list[ChatMessage] = Field(default_factory=list, max_length=12)
+    scope: Scope = "all"
+    depth: Depth = "explain"
 
     @model_validator(mode="after")
     def check_history(self):

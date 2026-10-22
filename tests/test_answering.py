@@ -351,3 +351,39 @@ def test_two_named_thinkers_retrieve_each_authors_text(indexed, embedder, tmp_pa
     assert {f.author for f in seen if f and f.author} == {"Sankaracharya", "Ramanuja"}
     authors = {e["author"] for e in json.loads(provider.calls[0][0][-1]["content"])["evidence"]}
     assert {"Sankaracharya", "Ramanuja"} <= authors
+
+
+def test_scope_restricts_retrieval_and_depth_changes_prompt(
+    indexed, embedder, tmp_path, make_chapter
+):
+    upanishad = make_chapter("The Self is Brahman, says the Upanishad.", chapter="9")
+    upanishad.document_id, upanishad.document = "katha-upanishad-x", "Katha Upanishad"
+    path = tmp_path / "scope.jsonl"
+    path.write_text(upanishad.model_dump_json())
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    retriever = Retriever(indexed, embedder=embedder)
+    provider = Provider([grounded("The Self is Brahman.")])
+    engine = Answerer(retriever, provider=provider)
+    request = ChatRequest(message="Who preserves the universe?", scope="upanishads", depth="brief")
+    asyncio.run(engine.answer(request))
+    payload = json.loads(provider.calls[0][0][-1]["content"])
+    assert {e["work"] for e in payload["evidence"]} == {"Katha Upanishad"}
+    assert "two to four sentences" in provider.calls[0][0][0]["content"]
+    with pytest.raises(AnswerError, match="Rāmānuja scope") as error:
+        asyncio.run(engine.answer(ChatRequest(message="Who preserves?", scope="ramanuja")))
+    assert error.value.status_code == 409
+    with pytest.raises(ValidationError):
+        ChatRequest(message="Hi", scope="everything")
+    client = TestClient(create_app(retriever=retriever, answerer=engine))
+    assert client.get("/api/scopes").json() == [
+        {"scope": "upanishads", "label": "Upaniṣads", "documents": 1}
+    ]
+
+
+def test_empty_document_ids_filter_matches_nothing(indexed, embedder):
+    from pramana.models import SearchFilters
+
+    retriever = Retriever(indexed, embedder=embedder)
+    assert retriever.search("Vishnu", filters=SearchFilters(document_ids=[])) == []
+    assert retriever.search("Vishnu", filters=SearchFilters(document_ids=["fixture"]))

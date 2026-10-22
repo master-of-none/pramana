@@ -13,7 +13,7 @@ function read<T extends string>(key: string, allowed: T[], fallback: T): T {
   }
 }
 
-function usePreference<T extends string>(
+export function usePreference<T extends string>(
   key: string,
   allowed: T[],
   fallback: T,

@@ -100,6 +100,15 @@ class Store:
 def filter_sql(filters: SearchFilters) -> tuple[str, list[str]]:
     clauses, values = [], []
     for key, value in filters.model_dump(exclude_none=True).items():
+        if key == "document_ids":
+            # An empty list matches nothing rather than everything.
+            clauses.append(
+                f"json_extract(c.data, '$.document_id') IN ({','.join('?' * len(value))})"
+                if value
+                else "0"
+            )
+            values.extend(value)
+            continue
         column = (
             f"json_extract(c.data, '$.{key}')"
             if key in {"document_id", "author", "content_type"}

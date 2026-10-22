@@ -16,6 +16,7 @@ import {
 import { Answer } from "../components/Prose.tsx";
 import { useGlossary } from "../lib/glossary.tsx";
 import { href } from "../lib/router.ts";
+import { usePreference } from "../lib/theme.ts";
 import { STORAGE, evidenceRefs, restore, views } from "../lib/storage.ts";
 import type { Stage, Turn } from "../lib/storage.ts";
 
@@ -24,6 +25,16 @@ const stageLabels: Record<Stage, string> = {
   searching: "Searching the texts…",
   composing: "Composing an answer…",
 };
+type Scope = "all" | "upanishads" | "gita" | "shankara" | "ramanuja";
+type Depth = "brief" | "explain" | "deep";
+const SCOPES: Scope[] = ["all", "upanishads", "gita", "shankara", "ramanuja"];
+const DEPTHS: [Depth, string][] = [
+  ["brief", "Brief"],
+  ["explain", "Explain"],
+  ["deep", "In depth"],
+];
+const COMPARE = "How do Śaṅkara and Rāmānuja differ on ";
+type ScopeInfo = { scope: Scope; label: string; documents: number };
 type ChatResponse = {
   perspectives?: unknown;
   evidence?: unknown;
@@ -63,6 +74,32 @@ export function Chat({
   const [copied, setCopied] = useState("");
   const [copyError, setCopyError] = useState("");
   const glossary = useGlossary();
+  const [scope, setScope] = usePreference<Scope>(
+    "pramana.scope",
+    SCOPES,
+    "all",
+    () => {},
+  );
+  const [depth, setDepth] = usePreference<Depth>(
+    "pramana.depth",
+    DEPTHS.map(([d]) => d),
+    "explain",
+    () => {},
+  );
+  const [available, setAvailable] = useState<ScopeInfo[]>([]);
+  useEffect(() => {
+    // Only scopes with imported books are offered.
+    fetch("/api/scopes")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => Array.isArray(data) && setAvailable(data))
+      .catch(() => undefined);
+  }, []);
+  const offered = available.filter((s) => SCOPES.includes(s.scope));
+  const canCompare = ["shankara", "ramanuja"].every((k) =>
+    offered.some((s) => s.scope === k),
+  );
+  const activeScope =
+    scope === "all" || offered.some((s) => s.scope === scope) ? scope : "all";
   const composer = useRef<HTMLTextAreaElement>(null);
   const bottom = useRef<HTMLDivElement>(null);
   const controller = useRef<AbortController | null>(null);
@@ -143,7 +180,12 @@ export function Chat({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abort.signal,
-        body: JSON.stringify({ message: text.trim(), history }),
+        body: JSON.stringify({
+          message: text.trim(),
+          history,
+          scope: activeScope,
+          depth,
+        }),
       });
       if (!response.ok || !response.body) {
         const data = await response.json().catch(() => ({}));
@@ -399,6 +441,57 @@ export function Chat({
         )}
       </main>
       <div className="composer-dock">
+        <div className="chat-controls">
+          {offered.length > 0 && (
+            <div className="chip-row" role="radiogroup" aria-label="Ask within">
+              {[{ scope: "all" as Scope, label: "All texts" }, ...offered].map(
+                (s) => (
+                  <button
+                    key={s.scope}
+                    type="button"
+                    role="radio"
+                    aria-checked={activeScope === s.scope}
+                    className="chip"
+                    onClick={() => setScope(s.scope)}
+                  >
+                    {s.label}
+                  </button>
+                ),
+              )}
+              {canCompare && (
+                <button
+                  type="button"
+                  className="chip compare-chip"
+                  onClick={() => {
+                    setScope("all");
+                    setMessage(COMPARE);
+                    composer.current?.focus();
+                  }}
+                >
+                  Compare Śaṅkara &amp; Rāmānuja
+                </button>
+              )}
+            </div>
+          )}
+          <div
+            className="chip-row depth"
+            role="radiogroup"
+            aria-label="Answer length"
+          >
+            {DEPTHS.map(([d, label]) => (
+              <button
+                key={d}
+                type="button"
+                role="radio"
+                aria-checked={depth === d}
+                className="chip"
+                onClick={() => setDepth(d)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
         <form className="composer" onSubmit={submit}>
           <label className="sr-only" htmlFor="message">
             Your question

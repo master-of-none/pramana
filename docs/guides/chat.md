@@ -109,6 +109,17 @@ Chinmayananda, Swarupananda, Barnett) retrieves evidence separately for each aut
 and interleaves it. The authorship check confirms whose text supports a view; it
 does not confirm that the view is a correct reading of that text.
 
+## Scope and answer length
+
+Chips above the composer limit a question to **All texts**, **Upaniṣads**, **Bhagavad
+Gītā**, **Śaṅkara** or **Rāmānuja**; only scopes with imported books are offered.
+Scopes are resolved from the library catalogue, so every document in a group is
+searched in one query. Editions or thinkers named in the question narrow a scope but
+never widen it. **Compare Śaṅkara & Rāmānuja** starts a comparison question across all
+texts. **Brief / Explain / In depth** changes only the length guidance given to the
+model; evidence, validation and the output cap are unchanged. The browser remembers
+both choices in `localStorage`.
+
 ## Study view
 
 **Study** in the header (`#/study`) is where the texts themselves are shown; the chat

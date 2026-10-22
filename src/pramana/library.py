@@ -83,6 +83,31 @@ def catalogue(store: Store) -> list[dict]:
     return sorted(result, key=lambda d: (names.index(d["category"]), d["document"], d["edition"]))
 
 
+# Chat scopes: display groupings or a named commentator, resolved to document IDs.
+SCOPES = {
+    "upanishads": ("Upaniṣads", lambda d: d["category"] == "Upaniṣads"),
+    "gita": ("Bhagavad Gītā", lambda d: d["category"] == "Bhagavad Gītā"),
+    "shankara": ("Śaṅkara", lambda d: "sankara" in fold(d["author"])),
+    "ramanuja": ("Rāmānuja", lambda d: "ramanuja" in fold(d["author"])),
+}
+
+
+def scope_documents(store: Store, scope: str) -> list[str]:
+    _, matches = SCOPES[scope]
+    return list(dict.fromkeys(d["document_id"] for d in catalogue(store) if matches(d)))
+
+
+def scopes(store: Store) -> list[dict]:
+    """Scopes that contain at least one imported document."""
+    docs = catalogue(store)
+    found = []
+    for key, (label, matches) in SCOPES.items():
+        ids = {d["document_id"] for d in docs if matches(d)}
+        if ids:
+            found.append({"scope": key, "label": label, "documents": len(ids)})
+    return found
+
+
 def neighbours(store: Store, chapter: Chapter) -> dict:
     """Previous and next chapter IDs within the same document and edition."""
     for doc in catalogue(store):
