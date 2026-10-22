@@ -93,3 +93,16 @@ print(response.answer)
 Retrieval remains independent: Python and CLI search require no Ollama service.
 The default provider is local, but setting `PRAMANA_OLLAMA_URL` changes where prompt
 and evidence text are sent. Keep it on localhost for private local processing.
+
+## Advaita glossary
+
+`src/pramana/glossary.json` holds a short curated glossary of Advaita concepts
+(IAST term, Devanagari, ASCII spellings, English renderings, a one-line meaning).
+The definitions are general editorial explanations, not quotations or evidence from
+the library. `GET /api/glossary` serves it. The web chat underlines the first mention
+of each term in an answer and shows its meaning on hover, focus, or tap.
+
+Lexical search also expands queries that name a glossary concept with its other
+spellings and English renderings (for example `adhyāsa` ↔ `superimposition`).
+Dense retrieval and the index are unchanged, so no rebuild is needed. None of the
+20 chapter-benchmark queries trigger an expansion.

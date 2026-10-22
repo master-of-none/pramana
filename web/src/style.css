@@ -980,3 +980,39 @@ main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   h1 { font-size: 45px; margin: 16px 0 15px; }
   .suggestions { margin-top: 21px; }
 }
+.term {
+  position: relative;
+}
+.term-word {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  border-bottom: 1px dotted var(--c-7c8759);
+}
+.term-card {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  bottom: calc(100% + 6px);
+  width: min(300px, calc(100vw - 32px));
+  padding: 11px 13px;
+  border: 1px solid var(--c-e3e2d8);
+  border-radius: 8px;
+  background: var(--c-fefdfa);
+  box-shadow: 0 8px 24px #555b4117;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--c-4c5141);
+}
+.term-name {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--c-383a30);
+}
+.term:hover .term-card,
+.term:focus-within .term-card {
+  display: block;
+}

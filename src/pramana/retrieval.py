@@ -7,11 +7,15 @@ from pramana.config import CHUNK_CONFIG
 from pramana.corpus import Corpus
 from pramana.embeddings import LocalEmbedder
 from pramana.errors import PramanaError
+from pramana.glossary import expansions
 from pramana.models import Passage, SearchFilters, SearchHit, Strategy
 from pramana.storage import filter_sql
 
 
-def lexical_query(query: str) -> str:
+def lexical_query(query: str, expand: bool = False) -> str:
+    """FTS OR-query; `expand` adds glossary synonyms (e.g. adhyasa -> superimposition)."""
+    if expand:
+        query = " ".join([query, *expansions(query)])
     folded = "".join(
         c for c in unicodedata.normalize("NFKD", query) if not unicodedata.combining(c)
     )
@@ -68,7 +72,7 @@ class Retriever:
                     "SELECT p.data, bm25(passages_fts) AS score FROM passages_fts "
                     "JOIN passages p ON p.id=passages_fts.id JOIN chapters c ON c.id=p.chapter_id "
                     "WHERE passages_fts MATCH ?" + where + " ORDER BY score, p.id LIMIT 50",
-                    [lexical_query(query), *params],
+                    [lexical_query(query, expand=True), *params],
                 ).fetchall()
                 for row in rows:
                     p = Passage.model_validate_json(row[0])

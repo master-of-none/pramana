@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
+from pramana.glossary import terms
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
 
@@ -37,6 +38,10 @@ def create_app(
     @api.get("/api/status")
     def status():
         return corpus.store.status()
+
+    @api.get("/api/glossary")
+    def glossary():
+        return [t.model_dump() for t in terms()]
 
     @api.post("/api/search", response_model=list[SearchHit])
     def search(request: SearchRequest):

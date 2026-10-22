@@ -162,3 +162,27 @@ def test_translation_filter_handles_legacy_chapter_json(indexed, embedder):
         "Vishnu preserves", filters=SearchFilters(content_type="translation")
     )
     assert hits and hits[0].passage.citation.content_type == "translation"
+
+
+def test_glossary_expands_sanskrit_and_english_lexically():
+    from pramana.glossary import expansions, terms
+
+    assert "superimposition" in expansions("What is adhyāsa?")
+    assert "adhyasa" in expansions("Explain SUPERIMPOSITION")
+    assert "liberation" in expansions("माया और मोक्ष")
+    assert expansions("brahmanical rituals") == []
+    assert '"superimposition"' in lexical_query("adhyasa", expand=True)
+    assert "superimposition" not in lexical_query("adhyasa")
+    assert len({t.term for t in terms()}) == len(terms())
+
+
+def test_glossary_endpoint(indexed, embedder):
+    from fastapi.testclient import TestClient
+
+    from pramana.api import create_app
+
+    client = TestClient(create_app(retriever=Retriever(indexed, embedder=embedder)))
+    entries = client.get("/api/glossary").json()
+    assert {"term": "adhyāsa", "devanagari": "अध्यास"}.items() <= next(
+        e for e in entries if e["term"] == "adhyāsa"
+    ).items()
