@@ -14,6 +14,7 @@ from typing import Literal, Protocol
 import httpx
 from pydantic import Field, ValidationError
 
+from pramana.discourse import annotate
 from pramana.errors import PramanaError
 from pramana.models import ChatRequest, ChatResponse, Evidence, NonEmpty, Record, SearchFilters
 from pramana.retrieval import Retriever
@@ -41,6 +42,14 @@ For grounded answers return the IDs of evidence actually supporting the answer.
 Commentaries present objections or prima facie views before replies. Never present
 an objection as the author's conclusion. Track the Answer/Reply that follows it;
 if the supplied fragment does not settle the issue, omit that claim or say it is unclear.
+Evidence may be split into segments with role objection, reply or unmarked, taken
+from labels printed in the book. An objection segment states a view the author
+examines, usually to refute; a reply segment gives the author's position.
+following_reply is the book's reply to an objection that ends the passage; use it
+only to avoid misreading that objection, never as separate support.
+Attribute each interpretation to the author or commentator named in that evidence
+item. Do not attribute views to schools or sub-commentators (for example Vivarana,
+Bhamati, Visishtadvaita or Dvaita) unless the evidence itself names them.
 For comparisons, explain each requested thinker by name separately. Say when evidence
 does not establish a difference. Distinguish authors' interpretations; do not invent agreement or
 disagreements. Translation/commentary marked mixed must not be presented as
@@ -199,6 +208,19 @@ class Answerer:
                 hits = self.retriever.search(question, limit=8)
             return list({h.passage.id: h for h in hits}.values())[:8]
 
+    def _roles(self, hits) -> dict[str, dict]:
+        """Labelled discourse roles, only for passages that contain or follow labels."""
+        roles = {}
+        for hit in hits:
+            p = hit.passage
+            chapter = self.retriever.corpus.store.chapter(p.chapter_id)
+            found = annotate(chapter.text, p.start, p.end)
+            if "following_reply" in found or any(
+                part["role"] != "unmarked" for part in found["segments"]
+            ):
+                roles[p.id] = found
+        return roles
+
     async def answer(self, request: ChatRequest, progress: Progress | None = None) -> ChatResponse:
         async def report(stage: Stage):
             if progress:
@@ -277,13 +299,14 @@ class Answerer:
                 selected = ["taittiriya_anandavalli_sastri"]
         await report("searching")
         hits = await asyncio.to_thread(self._retrieve, question, list(dict.fromkeys(selected)))
+        roles = await asyncio.to_thread(self._roles, hits)
         evidence, payloads, budget = [], [], 10000 - len(fit(question, 6000).encode())
         for hit in hits:
             passage = hit.passage
             # Complete passages keep evidence mappings faithful to the supplied text.
             payload = {
                 "id": f"E{len(evidence) + 1}",
-                "text": passage.text,
+                **roles.get(passage.id, {"text": passage.text}),
                 "work": passage.citation.document,
                 "edition": passage.citation.edition,
                 "author": passage.citation.author,

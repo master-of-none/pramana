@@ -106,3 +106,21 @@ Lexical search also expands queries that name a glossary concept with its other
 spellings and English renderings (for example `adhyāsa` ↔ `superimposition`).
 Dense retrieval and the index are unchanged, so no rebuild is needed. None of the
 20 chapter-benchmark queries trigger an expansion.
+
+## Objection/reply roles
+
+Commentaries often print an objection (`Objection:`, `Question:—`, `(Doubt)`) before
+the author's reply (`Answer:`, `Reply. —`). [`discourse.py`](../src/pramana/discourse.py)
+recognises only these printed labels; unlabelled prose is never assigned a role.
+When a supplied passage contains, or directly follows, a label, the model receives
+its text as consecutive `segments` (`objection`, `reply` or `unmarked`) that rejoin
+exactly to the passage. A label up to 3,000 characters before the passage sets the
+role at its start. If a passage ends inside an objection, the next labelled reply
+within 1,500 characters is supplied as `following_reply`, for reading context only.
+Roles are computed at answer time from stored chapter text, so no rebuild is needed.
+
+The prompt also asks the model to attribute interpretations to the author named in
+each evidence item, and not to name schools or sub-commentators (Vivaraṇa, Bhāmatī,
+Viśiṣṭādvaita, Dvaita) unless the evidence does. Label detection depends on OCR
+quality and has not yet been measured against the private PDFs; the recorded
+comparison failure in [chat validation](chat-validation.md) has not been re-run.
