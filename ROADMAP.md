@@ -1,9 +1,10 @@
 # Pramana roadmap
 
-Pramana's active milestone is **book-aware local chat**: private commentary ingestion
-and concise grounded answers through the installed Ollama model. This brings forward
-source identity, cache preservation, and index compatibility work needed for answers.
-The passage-level reliability benchmark remains a separate subsequent milestone.
+Pramana is becoming a local study companion for **Advaita Vedānta**: grounded answers
+from a public-domain library of the Upaniṣads, the Gītā, and Śaṅkara's and Rāmānuja's
+Brahma Sūtra commentaries. The next milestone is the **Study view**; the passage-level
+reliability benchmark (below) remains the measure of retrieval quality. The full
+UX and feature plan is in [docs/plans/ux.md](docs/plans/ux.md).
 
 This roadmap guides sequencing. Implement the milestone requested by the current
 task; a checklist here is not a standing instruction to start every item.
@@ -35,9 +36,9 @@ and chapter-level relevance labels:
 
 These are historical engineering results, not scholarly validation. A hit in the
 correct chapter does not establish that the retrieved passage supports the question.
-See [local verification](docs/verification.md) and [source notices](docs/sources.md).
+See [local verification](docs/verification/verification.md) and [source notices](docs/notices/sources.md).
 
-## Active milestone: book-aware local chat
+## Delivered: book-aware local chat
 
 **Dependencies:** the retrieval baseline, three user-supplied PDFs, explicit local
 Poppler/Tesseract setup, and an installed Ollama `gemma4:e4b` (or configured model).
@@ -58,7 +59,7 @@ Poppler/Tesseract setup, and an installed Ollama `gemma4:e4b` (or configured mod
 - [x] Finish real-model/source checks, browser QA, packaging checks, and publish
       measured results and extraction limitations in the verification notes.
 
-Delivered locally with [verification evidence](docs/verification.md). The eight
+Delivered locally with [verification evidence](docs/verification/verification.md). The eight
 real-model diagnostics passed status/source checks; **manual comparison review found
 an objection/reply interpretation error**. This remains an answer-quality limitation,
 not a passed correctness check. No new GitHub CI run or scholarly verification is claimed.
@@ -67,6 +68,44 @@ not a passed correctness check. No new GitHub CI run or scholarly verification i
 work offline after setup, answers are checked across all four works and unsupported
 questions, internal references resolve, deterministic regressions and browser/package
 checks pass. Describe model/OCR limitations without claiming automatic verification.
+
+## Delivered: Vedānta library and study features (October 2026)
+
+Implemented and covered by deterministic tests; **no real-model answer review, browser
+QA, or benchmark run has been recorded for these changes yet.**
+
+- [x] Chat progress streaming (`/api/chat/stream`; validated answers only), dark mode,
+      richer answer formatting, Advaita starter questions.
+- [x] Curated Advaita glossary with hover cards and lexical query expansion.
+- [x] Objection/reply roles from printed labels, translator formulas and headings,
+      with the following reply supplied for objections that end a passage.
+- [x] Public-domain sources: Śaṅkara's (SBE 34/38) and Rāmānuja's (SBE 48) Brahma
+      Sūtra commentaries, Max Müller's Upaniṣads (SBE 1/15), Śaṅkara's select works,
+      Swarupananda's Gītā, Thirty Minor Upaniṣads, Barnett's _Brahma-Knowledge_; each
+      parsed completely on 22 October 2026 (see [source notices](docs/notices/sources.md)).
+- [x] Attributed thinker comparisons: per-author retrieval and per-thinker views whose
+      cited passages must be written by that thinker.
+- [x] Documentation reorganised under `docs/` with a link check in CI.
+
+**Still to do for this delivery:** index the full library, run real-model diagnostics
+including Śaṅkara–Rāmānuja comparisons, and browser-check desktop, mobile and dark mode.
+
+## Next milestone: Study view
+
+Specified in [docs/plans/ux.md](docs/plans/ux.md). Chat stays answers-only; sources
+appear only in Study.
+
+- [ ] Split the web UI into components with a hash router, theme toggle and font size.
+- [ ] Library and reader (`/api/library`, chapter roles, page marks, footnotes,
+      glossary), with a tested code-point → UTF-16 offset helper.
+- [ ] Update the AGENTS.md web-UI invariant for the Study view before shipping it.
+- [ ] Evidence view and "Read in the texts" from chat answers.
+- [ ] Sūtra parallel reader (`/api/parallel`) for Śaṅkara and Rāmānuja.
+- [ ] Chat scope chips, Compare chip, and answer depth.
+
+**Acceptance:** API tests for library, parallel and roles; offset tests with
+supplementary characters; manual desktop/mobile/dark checks; chat still renders no
+source metadata.
 
 ## Next milestone: retrieval reliability
 
@@ -166,6 +205,15 @@ wheel serves its compiled reader and API without relying on editable source path
       and verification notes with checks actually performed.
 
 ## Later milestones
+
+- **Concept pages and argument view:** concept → passages per thinker; pūrvapakṣa →
+  siddhānta sequences from explicit cues and reviewed annotations.
+- **Advaita benchmark and claim check:** 50 questions with gold spans across the
+  Vedānta library; optional per-sentence evidence check.
+- **Study paths, vichāra mode, transliteration-tolerant search, more texts** (each
+  text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
+- **Hosted public site:** free, public-domain texts only; see the
+  [hosted deployment plan](docs/plans/hosted-deployment.md).
 
 These are direction statements. Specify provider choices, interfaces, source rights,
 and acceptance criteria when each milestone becomes active.

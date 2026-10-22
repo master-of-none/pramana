@@ -1,42 +1,45 @@
-# Pramana: Vercel deployment plan
+# Pramana: hosted public deployment plan
 
-Status: **plan only; implement later, after 3 PM.** No application changes,
-provider accounts, purchases, uploads, or deployments are part of this document.
-Prepared on 14 October 2026; recheck provider prices and limits when implementing.
+Status: **plan only; not deployed.** No provider accounts, purchases, uploads, or
+deployments are part of this document. First prepared on 14 October 2026 as an
+invite-only plan; revised on 22 October 2026 for a public site now that a complete
+public-domain Vedānta corpus exists. Recheck provider prices, limits and links
+when implementing.
 
 ## Recommended first release
 
-Build an **invite-only website for a small group of friends**, with a maximum of
-**100 admitted questions per day across the whole website**. Keep the existing
-local application working separately.
+Build a **free, public website** where anyone can ask about the public-domain
+Vedānta library, with a hard cap on admitted questions per day across the whole
+site. Keep the local application (Ollama, private PDFs, SQLite/BGE) working
+separately and unchanged.
 
-Use three services:
-
-| Service    | Responsibility                                                                   |
-| ---------- | -------------------------------------------------------------------------------- |
-| Vercel     | Host the existing React website and a lightweight Python/FastAPI API.            |
-| OpenRouter | Provide hosted answer generation and query embeddings.                           |
-| Supabase   | Store the hosted corpus/index, handle sign-in, and enforce durable usage limits. |
-
-Friends open the website, sign in, and ask questions. They do not install Python,
-Ollama, or models. Your laptop can be switched off.
+| Service    | Responsibility                                                                |
+| ---------- | ----------------------------------------------------------------------------- |
+| Vercel     | Host the existing React website and a lightweight Python/FastAPI API.         |
+| OpenRouter | Provide hosted answer generation and query embeddings.                        |
+| Supabase   | Store the published corpus/index and enforce durable usage limits.            |
+| Cloudflare Turnstile | Distinguish people from bots before any paid work, without accounts. |
 
 ```mermaid
 flowchart LR
-    U[Invited friend] --> W[React chat on Vercel]
+    U[Visitor] --> W[React chat and Study view on Vercel]
     W --> A[FastAPI on Vercel]
-    A --> S[Supabase: identity, access and quota]
+    A --> T[Turnstile verification]
+    A --> S[Supabase: quota admission]
     A --> E[OpenRouter: query embedding]
     E --> A
-    A --> D[Supabase: permitted source passages]
+    A --> D[Supabase: published public-domain passages]
     D --> A
     A --> M[OpenRouter: grounded answer]
     M --> A
     A --> W
 ```
 
-This adds a hosted deployment mode; it does not require rewriting the frontend
-in Next.js or removing the local Python library/CLI.
+**Free is a requirement, not a choice.** The Sacred Texts editions of Thibaut's
+SBE 34, 38 and 48 permit "any non-commercial purpose" with their notice intact. The
+hosted site therefore has no ads, paid tier, or sponsorship placement, and every
+record keeps its recorded rights statement and attribution. Record this decision in
+the [source notices](../notices/sources.md) before launch.
 
 ## Why the local model does not move to Vercel
 
@@ -63,45 +66,44 @@ These are proposed product limits, not claims about any provider's free allowanc
 
 | Setting                    | Initial choice                                                              |
 | -------------------------- | --------------------------------------------------------------------------- |
-| Audience                   | Approximately 5–10 invited friends; no anonymous chat                       |
-| App-wide daily cap         | 100 admitted questions total                                                |
-| Per-person daily cap       | 20 questions, also subject to the shared 100                                |
-| Daily reset                | Midnight Asia/Kolkata, using the database clock                             |
-| Burst limit                | 3 questions per minute per person                                           |
-| Concurrent work            | 1 active question per person; 5 globally, with expiring leases              |
+| Audience                   | Public; no accounts; Turnstile check before admission                       |
+| App-wide daily cap         | 300 admitted questions total                                                |
+| Per-visitor daily cap      | 10 questions per hashed IP (salted, rotated daily), within the global cap   |
+| Daily reset                | Midnight UTC, using the database clock                                      |
+| Burst limit                | 3 questions per minute per visitor                                          |
+| Concurrent work            | 1 active question per visitor; 5 globally, with expiring leases             |
 | Answer length              | Usually 1–3 short paragraphs; maximum 800 generated tokens                  |
 | Model choice               | One explicitly selected, inexpensive paid chat model                        |
 | Provider calls             | At most one rewrite, one query embedding, and two answer calls per question |
-| Initial AI spending policy | Proposed $1/day and $10/month ceilings; configure before inviting users     |
+| Initial AI spending policy | Proposed $2/day and $30/month ceilings; configure before launch             |
 | Conversations              | Current browser tab only; no server-side transcript storage                 |
-| Initial shared corpus      | Wilson Vishnu Purana; exclude the three private PDFs                        |
+| Shared corpus              | All `--source advaita` editions plus Wilson; never the private PDFs         |
+| Without model budget       | Study view (reading and search) stays available; chat shows the reset time  |
 
 The daily question count and monetary budget are separate ceilings. A monetary
-limit or provider outage may stop service before 100 questions. Infrastructure
-charges are separate from AI token charges. Do not promise the site will be free.
+limit or provider outage may stop chat before the question cap. Infrastructure
+charges are separate from AI token charges. Hashed IPs are a coarse abuse control,
+not identity: shared networks share a quota, and determined abuse is bounded by the
+global cap and budget, not prevented.
 
 ## 1. Set the hosted corpus boundary
 
-- [ ] Create an explicit publication manifest containing approved document/edition
-      identities, checksums, attribution, and rights notes.
-- [ ] Begin with Wilson's Vishnu Purana and review its existing source notice for
-      this hosted use. The local baseline is 126 chapters and 587 passages for that edition.
-- [ ] Exclude all three supplied PDFs, their extracted text, and their embeddings
-      from cloud exports by default. A private source folder or hidden citations
-      does not establish permission to process/share its contents through a hosted service.
-- [ ] Add a separate recorded decision before hosting any supplied commentary:
-      rights to the intended use, permitted audience, and permission for third-party processing.
-- [ ] Keep the complete four-work local library unchanged. Cloud exports must be
-      generated from an allowlist, not by uploading the existing `.pramana/` directory.
-- [ ] Change hosted suggested questions to match the books actually available there.
-      Gita/Taittiriya questions should not imply those editions are hosted initially.
+- [ ] Generate the export from an explicit allowlist: the `--source` manifests in
+      `src/pramana/ingestion/` (`brahmasutra-manifest.json`,
+      `sribhashya-manifest.json`, `sacredtexts/*.json`) plus Wilson's Vishnu Purana.
+      Never upload the existing `.pramana/` directory.
+- [ ] Require every exported record to carry a `Source.url` (not `local_path`), a
+      checksum, and a rights statement that appears in the allowlist.
+- [ ] Exclude all three supplied PDFs, their OCR/extracted text, and their
+      embeddings. A hidden source list does not establish permission to process or
+      share private text through hosted providers.
+- [ ] Keep the complete local library unchanged.
+- [ ] Use hosted suggested questions that match the hosted editions only (no
+      Chinmayananda or Mahadeva Sastry examples).
 
-Chinmaya Mission's published policy reserves rights in its digital material.
-The existing source notices and PDF guide record the other editions' unresolved
-redistribution status. [Publisher policy](https://eshop.chinmayamission.com/page/copyright-policy)
-
-**Done when:** an export audit finds only permitted source records; no private PDF,
-OCR output, or private-book vectors appear in deployment artifacts or cloud uploads.
+**Done when:** an export audit finds only allowlisted public-domain records; no
+private PDF, OCR output, `local_path` origin, or private-book vector appears in
+deployment artifacts or cloud uploads.
 
 ## 2. Select cloud models before rebuilding retrieval
 
@@ -163,65 +165,53 @@ and [row-level security](https://supabase.com/docs/guides/database/postgres/row-
 **Done when:** the hosted adapter returns traceable passages only from the published
 allowlist, preserves offsets, and passes its separately recorded retrieval evaluation.
 
-## 4. Make access genuinely invitation-only
+## 4. Admit people, not bots, without accounts
 
-- [ ] Use Supabase Auth with Google sign-in initially, assuming the invited group
-      has Google accounts. Keep an owner-managed allowlist of verified emails/users.
-- [ ] Configure Google OAuth consent/test users, Supabase callback settings, and
-      exact production/local redirect URLs. Test with someone outside your own account.
-- [ ] Verify the session server-side and check the active allowlist on every chat
-      request. Signing in successfully must not itself grant application access.
-- [ ] Deny uninvited or revoked users before retrieval, embeddings, or paid generation.
-      Closing/reopening the browser must not create a new quota identity.
-- [ ] Keep admin actions in scripts/dashboard initially: add/revoke a friend, inspect
-      aggregate usage, pause chat. A custom admin website can wait.
-- [ ] Protect hosted search, context, status details, and diagnostic endpoints too.
-      Keep detailed provenance available through owner-authorized APIs, while ordinary
-      chat responses expose only answer/status/request ID/quota information.
-- [ ] Keep browser conversations in sessionStorage; clear them on sign-out as well
-      as New chat. Do not store chat text in the usage database.
+- [ ] Verify a Cloudflare Turnstile token server-side on every chat request before
+      retrieval, embeddings, or generation. Reject missing, reused, or failed tokens
+      without consuming quota.
+- [ ] Derive the visitor key as an HMAC of the client IP with a server secret
+      rotated daily; store only that key, never raw IPs, cookies with identity, or
+      chat text.
+- [ ] Protect search and chapter endpoints with lighter, separate rate limits; they
+      use no paid model but do use database capacity.
+- [ ] Keep detailed provenance in API responses (the Study view needs it) but expose
+      no status details, diagnostics, or administration endpoints publicly.
+- [ ] Owner-only operations (kill switch, quota changes, corpus publication) run
+      from scripts or the provider dashboards, not from the public app.
 
-[Supabase Google sign-in](https://supabase.com/docs/guides/auth/social-login/auth-google)
-provides the standard authentication flow. If email magic links are preferred later,
-configure custom SMTP first: Supabase's default mail service is restricted to project
-team addresses and is not suitable for sending login emails to arbitrary friends.
-[SMTP requirements](https://supabase.com/docs/guides/auth/auth-smtp)
+Optional later: sign-in for regular readers with a higher personal quota.
 
-**Done when:** an invited friend can sign in and chat; an authenticated uninvited
-person and a revoked person cannot access any paid/data endpoint.
+**Done when:** scripted requests without a valid Turnstile token never reach a paid
+provider, and one visitor cannot exceed the per-visitor limits by reloading,
+starting a new chat, or opening new tabs.
 
-## 5. Enforce 100 questions per day correctly
+## 5. Enforce the daily question cap correctly
 
 Use a transactional Supabase admission function, not browser storage, a Python
 dictionary, or the current per-process semaphore. Vercel instances do not share
 those counters or locks.
 
-- [ ] Maintain daily global/user counters, short-window counters, expiring in-flight
-      leases, and request records with unique `(user_id, request_id)` identities.
-- [ ] In one transaction, validate membership, check limits/budget, reserve a slot,
-      and increment admission counters. Concurrent requests must not exceed 100.
-- [ ] Bind request IDs to a server-calculated payload hash and corpus version.
-      Reusing an ID with different content is rejected; duplicate IDs never start
-      a second model operation. Retain status metadata, not transcripts/responses.
-- [ ] Count one admitted user question as one question, including a follow-up.
-      Rewrite, embedding, and a bounded repair are internal operations, not extra
-      user questions, but all their costs belong in the budget ledger.
-- [ ] Reject invalid/unauthorized requests without consuming a question. Once an
-      upstream operation starts, failed, cancelled, or timed-out work still counts.
-      Refund only when the server can establish that no upstream work began.
-- [ ] A manual retry after a completed/failed attempt uses a new request ID and
-      consumes another question. New chat never resets usage.
+- [ ] Maintain daily global and per-visitor counters, short-window counters,
+      expiring in-flight leases, and request records with unique request IDs.
+- [ ] In one transaction, check limits and budget, reserve a slot, and increment
+      admission counters. Concurrent requests must not exceed the global cap.
+- [ ] Bind request IDs to a server-calculated payload hash and corpus version;
+      duplicate IDs never start a second model operation. Retain status metadata,
+      not transcripts or responses.
+- [ ] Count one admitted question as one question, including a follow-up. Rewrite,
+      embedding, and a bounded repair are internal operations whose costs still
+      belong in the budget ledger.
+- [ ] Reject invalid requests without consuming a question. Once upstream work
+      starts, failed, cancelled, or timed-out work still counts.
 - [ ] Fail closed if the quota service is unavailable: no paid calls without admission.
-- [ ] Return 429 and reset time when a count limit is reached. Show a simple
-      “Daily limit reached; try again after …” message and remaining personal quota.
-- [ ] Seed global usage at 99 and race valid requests from several invited users:
-      exactly one remaining daily admission can succeed. Separately test admission
-      through 100 questions in completed batches, then reject the 101st before any
-      model call. Cover per-user/burst limits, midnight rollover, duplicates,
-      revoked access, crashed instances, and lease expiration.
+- [ ] Return 429 with the reset time; show "Today's questions are used up; reading
+      and search still work. Chat resets at …".
+- [ ] Seed global usage at cap − 1 and race valid requests: exactly one succeeds.
+      Cover per-visitor and burst limits, midnight rollover, duplicates, crashed
+      instances, and lease expiration.
 
-**Done when:** limits hold across concurrent function instances and redeployments,
-not just one local browser session.
+**Done when:** limits hold across concurrent function instances and redeployments.
 
 ## 6. Add independent spending controls
 
@@ -268,8 +258,8 @@ reduce available questions; they are limits, not a verified price forecast.
       a separate restricted dataset/key/quota. Do not give every preview production access.
 - [ ] Verify Git and deployment exclusions for `.pramana/`, PDFs, OCR text, models,
       secrets, test reports containing source text, and local databases.
-- [ ] Keep the UI free of source lists, passage identifiers, excerpts, and scores.
-      Add sign-in/out, quota exhaustion, service errors, and a short privacy notice.
+- [ ] Keep the chat answers-only, as in local mode. Add quota exhaustion, service
+      errors, a bot check, and a short privacy notice.
 - [ ] Preserve pending, retry, cancellation, reload persistence, and New chat.
       Start with complete validated answers; streaming can wait so unvalidated
       partial output does not bypass evidence checks.
@@ -286,51 +276,47 @@ when implementing. Only explicitly public Auth configuration belongs in the brow
 
 ## 8. Launch in a small, reversible sequence
 
-1. **Prepare accounts manually:** Vercel, OpenRouter, Supabase, and Google OAuth.
-   Select deployment/database regions with latency and data handling in mind.
-2. **Prove deployment:** deploy the existing chat shell and a lightweight fixture
-   API to a preview URL; verify routes, build size, cold start, and error responses.
-3. **Wire Auth/quota first:** prove that unauthenticated or over-limit traffic
-   cannot reach a paid provider.
-4. **Build the approved cloud index:** publish only allowed sources, then run
-   hosted retrieval tests and verify rollback to the previous index version.
-5. **Connect real models:** measure grounded answers, unsupported questions,
-   structured output, request duration, and actual per-question cost.
-6. **Test one external friend:** sign-in, a conversation/follow-up, daily-limit UI,
-   mobile layout, cancellation, sign-out, and revoked access.
-7. **Publish production:** use the generated `*.vercel.app` URL initially. A custom
-   domain is optional. Set production Auth redirects to that exact address.
-8. **Share manually with the first 2–3 allowlisted friends**, inspect usage for a
-   day, and then expand the allowlist. No public signup or anonymous access yet.
+1. **Prepare accounts manually:** Vercel, OpenRouter, Supabase, and Cloudflare
+   Turnstile. Choose regions with latency and data handling in mind.
+2. **Prove deployment:** deploy the chat shell, Study view, and a fixture API to a
+   preview URL; verify routes, build size, cold start, and error responses.
+3. **Wire Turnstile and quota first:** prove bots and over-limit traffic cannot
+   reach a paid provider.
+4. **Publish the public-domain index:** export from the allowlist, run hosted
+   retrieval tests, and verify rollback to the previous index version.
+5. **Connect real models:** measure grounded answers, comparisons, unsupported
+   questions, structured output, request duration, and actual per-question cost.
+6. **Soft launch:** share the preview with a few readers, inspect aggregate usage
+   and cost for several days, then publish on the `*.vercel.app` production URL.
+   A custom domain is optional.
 
-This is an implementation order, not a promise to complete every step in one
-afternoon. Do not connect paid production traffic before access and quota tests pass.
+Do not connect paid production traffic before admission and quota tests pass.
 
-## Acceptance checklist before sharing
+## Acceptance checklist before launch
 
-- [ ] Website works while the developer's laptop and Ollama are off.
-- [ ] Only approved source editions exist in hosted storage and model requests.
-- [ ] Invitations are enforced server-side on every relevant endpoint.
-- [ ] The 101st global daily admission is rejected even under concurrency.
-- [ ] Per-user limits survive reload, New chat, and new browser sessions.
-- [ ] No paid calls occur during auth/quota/budget failure or after the kill switch.
+- [ ] The website works while the developer's laptop and Ollama are off.
+- [ ] Only allowlisted public-domain editions exist in hosted storage and model requests.
+- [ ] Each hosted record shows its rights statement and attribution in the Study view.
+- [ ] Requests without valid Turnstile verification never reach a paid provider.
+- [ ] The global cap holds under concurrency; per-visitor limits survive reloads,
+      New chat, and new tabs.
+- [ ] No paid calls occur during quota/budget failure or after the kill switch.
+- [ ] Reading and search keep working when the model budget is exhausted.
 - [ ] Input/output limits, bounded repair, cancellation, and timeout paths work.
 - [ ] Cloud vectors match the selected embedding model and published index version.
-- [ ] Retrieval results and answer quality are evaluated separately. The known
-      objection/reply regression must produce a correct interpretation or admit
-      insufficient evidence; a confident reversed conclusion blocks that model's
-      release. Valid references alone are not a passing answer-quality test.
-- [ ] Desktop/mobile chat and session persistence pass; source metadata stays out of the UI.
-- [ ] Client bundles/logs contain no privileged keys or private source text.
-- [ ] Users are told that questions, recent context, and retrieved excerpts are
-      processed by hosted providers; no claim of fully local processing remains in hosted UI.
+- [ ] Retrieval and answer quality are evaluated separately; the known
+      objection/reply regression must be interpreted correctly or produce an
+      insufficient-evidence answer. Valid references alone do not pass.
+- [ ] Comparisons still pass the per-thinker authorship check with the hosted model.
+- [ ] Desktop/mobile chat and session persistence pass; chat shows no source metadata.
+- [ ] Client bundles and logs contain no keys, raw IPs, prompts, or retrieved text.
+- [ ] Visitors are told that questions, recent context, and retrieved excerpts are
+      processed by hosted providers; hosted UI makes no claim of local processing.
 - [ ] Local CLI, SQLite/BGE retrieval, and Ollama mode still pass their regression checks.
-- [ ] Deployment, rollback, key rotation, user revocation, cost review, and corpus
-      publication are documented with verified commands.
+- [ ] The site has no advertising or paid features (non-commercial source terms).
 
-## First task to implement after 3 PM
+## First implementation task
 
-Create a cloud-mode deployment spike with **fixture data, Supabase sign-in and
-atomic quota admission, plus a fake answer provider**. Deploy that to a Vercel
-preview URL. Once it passes access and limit tests, add OpenRouter and the approved
-corpus. This establishes the expensive/security-sensitive boundaries before inviting users.
+Create a cloud-mode spike with **fixture data, Turnstile verification, atomic quota
+admission, and a fake answer provider**, deployed to a Vercel preview URL. Once it
+passes admission and limit tests, add OpenRouter and the public-domain index.

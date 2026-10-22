@@ -80,5 +80,5 @@ This importer does not claim complete editorial correction or chapter/verse alig
 
 The originals and all derived full text are private local data. Redistribution
 permission has not been established. Chinmaya Mission's published digital-content
-policy reserves rights; see [source notices](sources.md). Code licensing does not
+policy reserves rights; see [source notices](../notices/sources.md). Code licensing does not
 license the books.

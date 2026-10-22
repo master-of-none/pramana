@@ -12,6 +12,7 @@ jobs:
       - run: uv run ruff check src tests scripts
       - run: uv run ruff format --check src tests scripts
       - run: uv run pytest
+      - run: uv run python scripts/check_links.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

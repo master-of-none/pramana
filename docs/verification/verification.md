@@ -32,7 +32,7 @@ passage against OCR. Additional OCR samples at pages 50, 100, 200, and 300 were
 inspected. This is sample review, **not a correction of every page**. OCR can retain
 broken words, Sanskrit rendered as Latin noise, page headings, punctuation errors,
 and footnotes mixed into the main flow. Physical PDF pages are retained internally;
-no textual chapter/verse mapping is asserted. See [the PDF guide](pdf-ingestion.md).
+no textual chapter/verse mapping is asserted. See [the PDF guide](../guides/pdf-ingestion.md).
 
 ## Checks
 
@@ -69,7 +69,7 @@ This is an initial engineering benchmark. Added books change global FTS statisti
 these differences from the historical run do not demonstrate tuned retrieval gains.
 The benchmark does not score passage support or answer quality. Source identities,
 checksums, index configuration and per-question results are in
-[results.json](../benchmarks/results.json).
+[results.json](../../benchmarks/results.json).
 
 All eight real-model requests completed with expected status and source membership,
 but the comparison answer contains a documented objection/reply interpretation error.
@@ -96,6 +96,6 @@ viewport override was reset. Temporary preview servers are stopped after checkin
 Start the prepared app with `uv run pramana serve` and open
 [localhost:8000](http://127.0.0.1:8000).
 
-![Verified chat homepage](images/chat-home.jpg)
+![Verified chat homepage](../images/chat-home.jpg)
 
-![Real local-model conversation](images/chat.jpg)
+![Real local-model conversation](../images/chat.jpg)

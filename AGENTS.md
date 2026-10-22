@@ -2,7 +2,7 @@
 
 Pramana is a local book-aware chat app, Python library, CLI, and API. Retrieval
 remains independently usable; an `Answerer` uses retrieved evidence through local
-Ollama. Read [README.md](README.md), [quickstart](docs/quickstart.md), and
+Ollama. Read [README.md](README.md), [quickstart](docs/guides/quickstart.md), and
 [ROADMAP.md](ROADMAP.md). The requested task determines scope; roadmap tasks guide
 sequencing and do not authorize unrelated work.
 
@@ -10,11 +10,13 @@ sequencing and do not authorize unrelated work.
 
 - `src/pramana/`: models, canonical text chunking, SQLite storage, embeddings,
   retrieval, `answering.py`, CLI, and FastAPI `api.py`.
-- `src/pramana/ingestion/`: Wilson source adapter/manifest and private PDF extraction/OCR.
+- `src/pramana/ingestion/`: source adapters and committed manifests (Wilson, Sacred Texts
+  plain-text books, Brahma Sūtra HTML commentaries) and private PDF extraction/OCR.
 - `web/src/`: React/TypeScript chat; Vite builds into ignored `src/pramana/static/`.
 - `tests/`: deterministic regressions, separate model tests, and a manual browser fixture.
-- `scripts/`: installed-wheel and explicit local-chat checks.
-- `benchmarks/`: source-aware chapter benchmark; `docs/`: guides, notices, verification.
+- `scripts/`: installed-wheel, local-chat and Markdown link checks; manifest generation.
+- `benchmarks/`: source-aware chapter benchmark. `docs/`: `guides/`, `reference/`, `notices/`,
+  `verification/`, `plans/` (index: `docs/README.md`); `docs/sources/` is the private PDF drop folder.
 
 Use Python **3.12**, `uv`, Node **22.12+**, and npm. Install with `uv sync --locked`
 and `npm --prefix web ci`. Preserve `uv.lock` and `web/package-lock.json` consistency.
@@ -24,6 +26,7 @@ Build UI before packaging. Standard checks, verified from the repository root:
 uv run ruff check src tests scripts
 uv run ruff format --check src tests scripts
 uv run pytest
+uv run python scripts/check_links.py
 npm --prefix web run typecheck
 npm --prefix web run build
 uv build
@@ -39,7 +42,7 @@ This needs the cached BGE model and complete indexed Wilson corpus. Local chat Q
 also needs Ollama and an installed model; ordinary tests need neither.
 `uv run python tests/manual_chat_server.py` serves deterministic browser fixtures
 on localhost:8001 without using the private library. Documentation-only edits need
-link/command/fact checks and `git diff --check`, not model inference.
+`scripts/check_links.py`, command/fact checks and `git diff --check`, not model inference.
 
 ## Invariants
 
@@ -54,8 +57,8 @@ link/command/fact checks and `git diff --check`, not model inference.
   chapter alignment, missing OCR words, or verse references. The Taittiriya scan
   is Book II, Ananda-valli, A: Brahmavidya Expounded, not a complete Upanishad.
 - Retain origins (HTTP or local paths), acquisition timestamps, SHA-256, rights,
-  and attribution. See [source notices](docs/sources.md), [PDF guide](docs/pdf-ingestion.md),
-  and [import contract](docs/import-format.md). Different editions stay separate.
+  and attribution. See [source notices](docs/notices/sources.md), [PDF guide](docs/guides/pdf-ingestion.md),
+  and [import contract](docs/reference/import-format.md). Different editions stay separate.
 - Retrieval relevance scores are not factual confidence or verification. Model,
   tokenizer, chunking, parser, or storage changes need compatibility handling and
   an explicit rebuild/migration where required. Preserve stable identities and
@@ -76,7 +79,7 @@ Acquisition is explicit: `pramana model setup`, `pramana corpus download`, and
 `pramana corpus import-books`. Poppler/Tesseract installation and Ollama model pulls
 are explicit user setup. Do not silently download models, switch providers, or
 send private text to a hosted service. Default chat uses localhost Ollama and
-`gemma4:e4b`; bind FastAPI to localhost. See [chat configuration](docs/chat.md).
+`gemma4:e4b`; bind FastAPI to localhost. See [chat configuration](docs/guides/chat.md).
 
 Ordinary tests use deterministic fixtures, without downloaded books/models/network.
 Preserve archival fixture whitespace (`.gitattributes` exempts fixture text).

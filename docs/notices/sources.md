@@ -50,7 +50,7 @@ be used for any non-commercial purpose provided this notice of attribution is le
 intact." Pramana records that statement and the attribution in every record; this is
 not a legal opinion, and the cached pages are not committed or redistributed. Acquisition is explicit:
 `pramana corpus download --source brahma-sutra` fetches the 552 sūtra pages listed in
-[`brahmasutra-manifest.json`](../src/pramana/ingestion/brahmasutra-manifest.json)
+[`brahmasutra-manifest.json`](../../src/pramana/ingestion/brahmasutra-manifest.json)
 at a polite rate into `PRAMANA_HOME/corpora/brahma-sutra-thibaut/html/`. Downloads
 resume from cached pages; a page that is not a Thibaut SBE page (for example a
 challenge or error page) is never cached. Each record keeps its page URL, SHA-256
@@ -74,7 +74,7 @@ million characters, 859 page marks and 610 of 611 referenced footnotes. The note
 marked 226:2 on `sbe34104.htm` is not attached because of malformed source markup.
 Thibaut's explicit role formulas ("The pûrvapakshin maintains", "To this we make the
 following reply") occur 125 times on 93 pages and feed the
-[objection/reply roles](chat.md#objectionreply-roles); most arguments are not
+[objection/reply roles](../guides/chat.md#objectionreply-roles); most arguments are not
 introduced by such formulas and remain unmarked.
 
 ## Śrībhāṣya (Rāmānuja, Thibaut)
@@ -89,7 +89,7 @@ introduced by such formulas and remain unmarked.
   non-commercial purpose provided this notice is left intact."
 
 `pramana corpus download --source sribhashya` fetches 571 HTML pages listed in
-[`sribhashya-manifest.json`](../src/pramana/ingestion/sribhashya-manifest.json)
+[`sribhashya-manifest.json`](../../src/pramana/ingestion/sribhashya-manifest.json)
 with the same resumable, validated process as Śaṅkara's commentary. It is a separate
 document (`brahma-sutra-ramanuja-thibaut`, author `Ramanuja`), never merged with
 Śaṅkara's, so the two Viśiṣṭādvaita and Advaita readings of the same sūtras remain
@@ -107,7 +107,7 @@ of Rāmānuja's arguments reach the model unmarked.
 
 Each is fetched explicitly as the site's `NAME.txt.gz` plain-text distribution and
 selected by a committed manifest in
-[`src/pramana/ingestion/sacredtexts/`](../src/pramana/ingestion/sacredtexts/).
+[`src/pramana/ingestion/sacredtexts/`](../../src/pramana/ingestion/sacredtexts/).
 `scripts/build_sacredtexts_manifests.py` regenerates the manifests from the site
 indexes and title pages (explicit network use); it records each title page's rights
 statement, which every imported record repeats.
@@ -158,7 +158,7 @@ prepended to queries, not passages. Embeddings indicate relevance, not factual t
 
 ## Private PDF editions and answer model
 
-The three user-supplied editions are cataloged in [PDF ingestion](pdf-ingestion.md).
+The three user-supplied editions are cataloged in [PDF ingestion](../guides/pdf-ingestion.md).
 They include copyrighted commentary and scans with unestablished redistribution
 permission. Originals and all derived full text stay under ignored `PRAMANA_HOME`;
 they are not supplied with Pramana. Chinmaya Mission's
@@ -176,4 +176,4 @@ publication date. All three are indexed as mixed translation/commentary.
 Ollama serves the user's installed `gemma4:e4b` by default. Model weights are not
 bundled, pulled, or relicensed by Pramana. Consult the installed model's own license
 and Ollama metadata before other uses. Prompts and evidence use the configured
-Ollama endpoint; localhost is the default. See [chat behavior](chat.md).
+Ollama endpoint; localhost is the default. See [chat behavior](../guides/chat.md).

@@ -7,7 +7,7 @@ installed Ollama model:
 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 uv run python scripts/check_chat.py
 ```
 
-The question set is [chat-questions.json](../benchmarks/chat-questions.json). It
+The question set is [chat-questions.json](../../benchmarks/chat-questions.json). It
 covers each supplied edition, the Wilson corpus, a follow-up, a two-commentator
 comparison, an unsupported technical question, and a named work absent from the
 library. Supporting review locations and conceptual review points are metadata;

@@ -1,4 +1,4 @@
-# Local answers and chat API
+# Chat and answers
 
 Ollama must already be running with the chosen model installed. Pramana never pulls
 an answer model automatically. Check `ollama list`; to acquire a missing model,
@@ -19,38 +19,8 @@ errors. The total request can include two model calls for follow-ups, each with 
 chat-template headroom within the configured context. Context budgets limit recent history and complete evidence
 passages conservatively by UTF-8 bytes; no Gemma tokenizer is downloaded.
 
-```sh
-curl http://127.0.0.1:8000/api/chat \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"How does Chinmayananda explain acting without attachment?","history":[]}'
-```
-
-`POST /api/chat/stream` accepts the same request and returns newline-delimited JSON
-(`application/x-ndjson`): zero or more `{"type":"stage","stage":...}` progress events
-(`understanding` for follow-up rewriting, `searching`, `composing`), then one final
-`{"type":"answer", ...ChatResponse}` or `{"type":"error","status":...,"detail":...}`.
-Answer prose is sent only after validation; unchecked model tokens are never streamed.
-The web chat uses this endpoint to show progress.
-
-`ChatRequest` accepts `message` (1–2,000 characters) and up to six completed
-user/assistant exchanges. History must alternate and end with an assistant. Each
-history message is limited to 6,000 characters. The server retains no conversation.
-For follow-ups, recent bounded history forms a standalone retrieval question;
-previous assistant text is not supplied as evidence to the final answer call.
-Every question retrieves fresh evidence. Explicitly requested editions can be
-filtered and their evidence interleaved for comparison. Otherwise retrieval covers
-the indexed library. The local app serializes model requests and shares a retrieval
-lock with search. Disconnecting cancels the provider HTTP request; runtime unloading
-or GPU release is controlled by Ollama.
-
-`ChatResponse` returns:
-
-- `answer`: English prose or short lists, without citation controls or source metadata.
-- `status`: `grounded` or `insufficient_evidence`, as assessed by the answer model.
-- `retrieval_question`: the standalone question used for this retrieval.
-- `evidence`: internal references, complete supplied passages/citations, and labeled
-  retrieval relevance scores for the references used by the answer.
-- `model`: configured answer model name.
+The HTTP endpoints, request limits and response fields are in the
+[API reference](../reference/api.md).
 
 A grounded response must name at least one supplied internal reference. Unknown
 references and inconsistent status/reference combinations fail validation. A missing
@@ -73,12 +43,6 @@ Stopping or reloading an unfinished answer leaves a retryable question. Only the
 last 60 exchanges are retained in the browser; the last six completed exchanges
 are sent. If storage is unavailable, a visible notice explains reload persistence
 is unavailable. Responses are rendered as React text, not arbitrary HTML.
-
-`POST /api/search`, `GET /api/status`, and `GET /api/chapters/{id}` remain available.
-Source origins can be HTTP URLs or paths relative to `PRAMANA_HOME`; the API does
-not expose a file-serving endpoint for PDFs. `status.state` distinguishes `empty`,
-`stale`, `incompatible`, and `ready`. Index schema 2 includes local origins and
-commentary metadata; rebuild older indexes with `pramana index --rebuild`.
 
 ```python
 import asyncio
@@ -110,7 +74,7 @@ Dense retrieval and the index are unchanged, so no rebuild is needed. None of th
 ## Objection/reply roles
 
 Commentaries often print an objection (`Objection:`, `Question:—`, `(Doubt)`) before
-the author's reply (`Answer:`, `Reply. —`). [`discourse.py`](../src/pramana/discourse.py)
+the author's reply (`Answer:`, `Reply. —`). [`discourse.py`](../../src/pramana/discourse.py)
 recognises only these printed labels; unlabelled prose is never assigned a role.
 When a supplied passage contains, or directly follows, a label, the model receives
 its text as consecutive `segments` (`objection`, `reply` or `unmarked`) that rejoin
@@ -123,7 +87,7 @@ The prompt also asks the model to attribute interpretations to the author named 
 each evidence item, and not to name schools or sub-commentators (Vivaraṇa, Bhāmatī,
 Viśiṣṭādvaita, Dvaita) unless the evidence does. Label detection depends on OCR
 quality and has not yet been measured against the private PDFs; the recorded
-comparison failure in [chat validation](chat-validation.md) has not been re-run.
+comparison failure in [chat validation](../verification/chat-validation.md) has not been re-run.
 
 ## Comparing thinkers
 

@@ -27,7 +27,7 @@ that chapter answers the question; passage-level labels are a future improvement
 and aggregates. This small, development-visible set is a smoke benchmark, not a
 held-out measurement of general retrieval quality. Query phrasing and corpus
 spelling can affect lexical and hybrid rankings. This benchmark does not measure generated-answer faithfulness or correctness.
-[Chat verification](../docs/chat-validation.md) records separate, small manual
+[Chat verification](../docs/verification/chat-validation.md) records separate, small manual
 diagnostics with the local answer model.
 
 ## Historical v0.1 run

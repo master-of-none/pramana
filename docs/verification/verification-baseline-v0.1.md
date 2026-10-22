@@ -14,7 +14,7 @@
   all passed. The already-downloaded model was reused; network acquisition was tested
   separately rather than repeated.
 - Actual source archive: 126 chapters across six books, 587 indexed passages.
-- Twenty-question benchmark: results and methodology in [benchmarks](../benchmarks/README.md).
+- Twenty-question benchmark: results and methodology in [benchmarks](../../benchmarks/README.md).
 - Browser: hybrid search, filtered mobile search, chapter context, source highlighting,
   note links, copy-to-clipboard, Escape, result arrow navigation, and desktop/mobile
   layouts checked. No browser console errors observed. Mobile viewport: 390 × 844;
@@ -28,4 +28,4 @@ quickstart. No challenge was bypassed. Model setup succeeded directly from the H
 The test server is temporary. Run `uv run pramana serve` from the repository to
 start the prepared library at [localhost:8000](http://127.0.0.1:8000).
 
-![Verified reader](images/reader.jpg)
+![Verified reader](../images/reader.jpg)

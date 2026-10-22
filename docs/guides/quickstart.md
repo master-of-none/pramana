@@ -13,8 +13,8 @@ uv sync --locked
 npm --prefix web ci
 npm --prefix web run build
 uv run pramana model setup
-uv run pramana corpus download
-uv run pramana ingest .pramana/corpora/vishnu-purana/chapters.jsonl
+uv run pramana corpus download --source advaita
+for f in .pramana/corpora/*/chapters.jsonl; do uv run pramana ingest "$f"; done
 uv run pramana index --rebuild
 ollama list  # verify gemma4:e4b is present
 uv run pramana serve
@@ -29,31 +29,11 @@ reading, importing, indexing, and evaluating use local resources. The pinned mod
 runs on CPU. Its weights are approximately 133 MB; Python's ML dependencies take
 additional disk space. Initial indexing takes longer than subsequent searches.
 
-## Add Śaṅkara's Brahma Sūtra commentary (optional)
+## Choose sources
 
-Thibaut's public-domain English translation (Sacred Books of the East 34 and 38)
-is fetched page by page from Sacred Texts, about 5 minutes at a polite rate:
-
-```sh
-uv run pramana corpus download --source brahma-sutra
-uv run pramana ingest .pramana/corpora/brahma-sutra-thibaut/chapters.jsonl
-uv run pramana index
-```
-
-An interrupted download resumes from cached pages. `--offline` rebuilds from the
-cache only. See [source notices](sources.md#brahma-sutra-bhashya-thibaut).
-
-To fetch every public-domain Vedanta source (Śaṅkara's and Rāmānuja's Brahma Sūtra
-commentaries, Śaṅkara's select works, the principal and thirty minor Upaniṣads,
-Swarupananda's Gītā and Barnett's _Brahma-Knowledge_; about 15 minutes):
-
-```sh
-uv run pramana corpus download --source advaita
-for f in .pramana/corpora/*/chapters.jsonl; do uv run pramana ingest "$f"; done
-uv run pramana index
-```
-
-Single sources are listed by `uv run pramana corpus download --help`.
+`--source advaita` fetches every public-domain Vedanta edition (about 15 minutes);
+single sources, offline rebuilds and saved archives are described in
+[building the library](corpus.md). Wilson's Vishnu Purana is `--source vishnu-purana`.
 
 ## Add the supplied PDF books
 
@@ -160,7 +140,7 @@ uv run pramana evaluate --output benchmarks/results.json
 
 Ordinary tests use deterministic vectors and require no model or network. The model
 smoke test requires `pramana model setup`. The evaluation command needs the complete
-demo corpus and local model. See [benchmark methodology](../benchmarks/README.md).
+demo corpus and local model. See [benchmark methodology](../../benchmarks/README.md).
 
 For frontend development, run `uv run pramana serve` and `npm --prefix web run dev`
 in separate terminals. Vite proxies `/api` to port 8000. Production builds copy the
