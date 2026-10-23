@@ -702,8 +702,21 @@ class Answerer:
             remaining -= size
             history[0:0] = items
         question, selected = request.message, []
+        focused, selection = [], ""
+        if request.focus:
+            focused, selection = await asyncio.to_thread(self._focus, request.focus)
+        await report("understanding")
+        # Route what the reader typed, before any rewrite: a rewrite can turn an off-topic
+        # follow-up ("help me with linked list") into a question about the library.
+        # A question about a passage selected in the library is about the texts.
+        if not focused and await self.route(request.message) == "unrelated":
+            return ChatResponse(
+                answer=UNRELATED,
+                status="insufficient_evidence",
+                retrieval_question=question,
+                model=self.provider.model,
+            )
         if history:
-            await report("understanding")
             raw = await self.provider.chat(
                 [
                     {
@@ -778,19 +791,6 @@ class Answerer:
                 if any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", plain) for n in names):
                     if doc["id"] not in selected:
                         selected.append(doc["id"])
-        focused, selection = [], ""
-        if request.focus:
-            focused, selection = await asyncio.to_thread(self._focus, request.focus)
-        if not history:
-            await report("understanding")
-        # A question about a passage selected in the library is about the texts.
-        if not focused and await self.route(question) == "unrelated":
-            return ChatResponse(
-                answer=UNRELATED,
-                status="insufficient_evidence",
-                retrieval_question=question,
-                model=self.provider.model,
-            )
         named = fold(question)
         thinkers = [key for key, names in THINKERS.items() if any(n in named for n in names)]
         authors = list(

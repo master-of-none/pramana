@@ -309,7 +309,7 @@ def test_unrelated_question_is_declined_before_retrieval(indexed, embedder):
     assert provider.calls == [] and searched == []  # no retrieval, no answer call
 
 
-def test_follow_up_is_routed_after_rewriting(indexed, embedder):
+def test_follow_up_is_routed_as_typed(indexed, embedder):
     provider = Provider(
         [{"question": "How does Krishna shelter cattle?", "document_ids": []}, grounded()]
     )
@@ -318,7 +318,19 @@ def test_follow_up_is_routed_after_rewriting(indexed, embedder):
         ChatMessage(role="assistant", content="A cowherd."),
     ]
     run(Answerer(Retriever(indexed, embedder=embedder), provider=provider), "And cattle?", history)
-    assert provider.routes == ["How does Krishna shelter cattle?"]
+    assert provider.routes == ["And cattle?"]  # what the reader typed, not the rewrite
+
+
+def test_off_topic_follow_up_is_declined_before_any_rewrite(indexed, embedder):
+    # Rewriting first once turned "help me with linked list" into a question about books.
+    provider = Provider([], route="unrelated")
+    history = [
+        ChatMessage(role="user", content="Can you help me with Brahman?"),
+        ChatMessage(role="assistant", content="Brahman is the one reality."),
+    ]
+    engine = Answerer(Retriever(indexed, embedder=embedder), provider=provider)
+    response = run(engine, "can you help me with linked list", history)
+    assert response.status == "insufficient_evidence" and provider.calls == []  # no rewrite
 
 
 def test_one_bounded_repair_retains_original_evidence(indexed, embedder):
