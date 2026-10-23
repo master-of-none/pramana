@@ -235,8 +235,8 @@ wheel serves its compiled reader and API without relying on editable source path
   Devanagari spot checks.
 - [x] **Benchmark v2** (October 2026): 214 AI-drafted, unreviewed questions over every
   text, six types, per-type/per-text/failure breakdowns, an embedding model comparison
-  (BGE-large best, not adopted), an HTML report. **Human review and the answer-level run
-  remain.**
+  (BGE-large best, not adopted), a real-model answer run (expected outcome 0.93, gold
+  cited 0.66), an HTML report. **Human review of every question remains.**
 - [x] **Off-topic routing** (October 2026): a short model call declines questions about
   other fields before search; tuned on the v2 set.
 - **More texts** (each

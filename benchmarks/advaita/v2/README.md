@@ -12,6 +12,7 @@ engineering diagnostics, not validated measurements.
 | [results-with-opt-in.json](results-with-opt-in.json) | Retrieval over the whole index |
 | [models.json](models.json) | BGE-small, BGE-base and BGE-large on the same passages |
 | [routing.json](routing.json) | The off-topic routing call, question by question |
+| [answers.json](answers.json) | Every question through chat with `gemma4:e4b`: status, citations, timing, answer text |
 
 ## What is in it
 
@@ -84,9 +85,35 @@ the evaluator refuse the dataset rather than score it.
 through chat with the local Ollama model. Per question it records whether the status
 matches the expectation, whether a cited passage contains a gold span, whether a
 single-thinker question's evidence comes from that thinker, whether a comparison returns a
-view for each thinker, and latency. It runs the GPU at full load for about 1–2 hours,
-resumes from `answers.partial.jsonl` if interrupted, and **has not been run on v2 yet**.
-These checks are structural; none of them establishes that an answer is correct.
+view for each thinker, and latency. `--limit N` answers the next N unfinished questions
+and keeps the rest for the next run (`answers.partial.jsonl`); an Ollama outage stops the
+run without recording an answer. These checks are structural; none of them establishes
+that an answer is correct.
+
+Run of 23 October 2026 (`gemma4:e4b`, RTX 5070 Ti, about 6 minutes of answering in
+batches of 20, with the model unloaded between batches; on a 15 GB machine with zram,
+keeping it loaded let swapped model pages fill memory):
+
+| Group | Questions | Expected outcome | Gold cited | Named thinker's evidence | Median time |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| All | 214 | 0.93 | 0.66 | 0.96 | 1.1 s |
+| fact | 65 | 0.89 | 0.71 | 0.94 | 1.1 s |
+| concept | 100 | 0.96 | 0.63 | 0.98 | 1.1 s |
+| comparison | 12 | 1.00 | 0.54 | – | 2.4 s |
+| objection | 13 | 0.77 | 0.62 | 0.97 | 1.1 s |
+| followup | 8 | 1.00 | 0.88 | 0.83 | 1.8 s |
+| out_of_corpus | 16 | 1.00 (all declined) | – | – | 0.1 s |
+
+Comparisons returned a view for each thinker in 11 of 12. Thirteen answerable questions
+were not answered: adv-061 and adv-068 by routing, and adv-055, 069, 078, 079, 088, 114,
+123, 151, 153, 158 and 162 by the answer step (insufficient evidence); adv-135 failed
+validation. By text, the Crest-Jewel is weakest (gold cited 0.39, 15 of 18 answered).
+
+Found and fixed during the run: comparisons only produced per-thinker views when the
+question said "compare", "differ" and the like (1 of 12 before; naming two thinkers now
+suffices), and a retry after failed validation was not trimmed to the request budget
+(adv-111 exceeded it). The affected 21 questions, and 8 that hit an Ollama outage, were
+re-run; nothing else was.
 
 ## Reviewing questions
 

@@ -123,8 +123,13 @@ philosophy"; a version listing the library's titles turned away 39 real question
 Two of its worked examples are the questions reported above, so those two are not a
 test of it. Five further questions written afterwards ("How do I center a div in
 CSS?", "What's the best laptop for coding?", "Explain quicksort", "Is the world real?",
-"How do I deal with anger?") routed as expected. The full answer-level evaluation
-(`pramana evaluate-answers`) was not run: it keeps the GPU at full load for 1–2 hours.
+"How do I deal with anger?") routed as expected. The full answer-level run (`pramana evaluate-answers`, 214 questions, about 6 minutes
+of answering in batches) is in [benchmark v2](../../benchmarks/advaita/v2/README.md):
+expected outcome 0.93, all 16 out-of-corpus questions declined, gold cited 0.66.
+During it, Ollama's runner held about 4 GB in RAM and 4 GB in zram (compressed swap in
+RAM); unloading the model between batches (`ollama stop`) kept about 11 GB free. One
+earlier attempt was killed mid-run and recorded 8 "Cannot reach Ollama" failures as
+answers; the harness now stops on an outage instead, and those 8 were re-run.
 
 ## Vedānta library and comparisons — 23 October 2026
 

@@ -407,7 +407,9 @@ async def evaluate_answers(
     single-thinker question's evidence comes from that thinker's editions, whether a
     comparison returns a view for each expected thinker, and wall-clock latency. None of
     this measures whether an answer's claims are correct; that needs human review.
-    `partial` keeps finished questions so an interrupted run resumes.
+    `partial` keeps finished questions so an interrupted run resumes; `limit` answers at
+    most that many not-yet-finished questions, so repeated runs work through the set in
+    batches. The report covers every finished question, and says how many remain.
     """
     import hashlib
     import time
@@ -418,7 +420,7 @@ async def evaluate_answers(
     raw = path.read_bytes()
     dataset_sha = hashlib.sha256(raw).hexdigest()
     questions = json.loads(raw.decode("utf-8")).get("questions", [])
-    questions = [q for q in questions if split is None or q.get("split") == split][:limit]
+    questions = [q for q in questions if split is None or q.get("split") == split]
     if not questions:
         raise PramanaError("No questions selected.")
     chapters = answerer.retriever.corpus.store.chapters()
@@ -428,11 +430,14 @@ async def evaluate_answers(
             row = json.loads(line)
             if row.get("dataset_sha256") == dataset_sha and row.get("check") == check:
                 done[row["id"]] = row
-    rows = []
+    rows, new = [], 0
     for n, q in enumerate(questions, 1):
         if q["id"] in done:
             rows.append(done[q["id"]])
             continue
+        if limit is not None and new >= limit:
+            continue
+        new += 1
         golds = [(_resolve_span(chapters, g), g) for g in q.get("gold", [])]
         expect = q.get("expect", "grounded")
         request = ChatRequest(
@@ -446,6 +451,10 @@ async def evaluate_answers(
             response = await answerer.answer(request)
             status, error = response.status, None
         except AnswerError as exc:
+            if exc.status_code in (503, 504):
+                # Ollama down, missing or timing out is not an answer: stop without saving,
+                # so the next run retries this question.
+                raise PramanaError(f"Stopped at {q['id']}: {exc}") from exc
             response, status, error = None, "error", str(exc)
         seconds = time.perf_counter() - started
         evidence = [e.passage for e in response.evidence] if response else []
@@ -508,6 +517,8 @@ async def evaluate_answers(
         "dataset_sha256": dataset_sha,
         "model": getattr(answerer.provider, "model", None),
         "check": check,
+        "answered": len(rows),
+        "remaining": len(questions) - len(rows),
         "index": answerer.retriever.corpus.store.get_meta("index_config"),
         "overall": _answer_summary(rows),
         "by_split": {

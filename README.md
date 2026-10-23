@@ -17,9 +17,9 @@ the explicit download commands.
 | **Library** | 13 editions · 66 works · 2,639 chapters · 8,851 indexed passages · 12.3 million characters |
 | **Commentaries side by side** | Śaṅkara (SBE 34/38) and Rāmānuja (SBE 48) on the Brahma Sūtra, matched page by page on printed adhyāya, pāda and sūtra |
 | **Concepts** | 110-term Advaita glossary with IAST, Devanagari, meanings and concept pages |
-| **Measured** | 214-question benchmark (v2) over every text, six question types, exact gold spans; three embedding models compared; off-topic routing measured |
+| **Measured** | 214-question benchmark (v2) over every text, six question types, exact gold spans; retrieval, real-model answers, three embedding models and off-topic routing |
 | **Local** | SQLite FTS5 + pinned BGE-small embeddings + Ollama; no accounts, API keys or hosted services |
-| **Tested** | 126 deterministic Python tests, 6 frontend tests, Markdown link checks, installed-wheel check |
+| **Tested** | 130 deterministic Python tests, 6 frontend tests, Markdown link checks, installed-wheel check |
 
 ## What you can do
 
@@ -274,7 +274,39 @@ from 0.65 to 1.00. Four questions are too few to generalise from.
 
 ### Answers with the real model
 
-Diagnostic review of individual answers with `gemma4:e4b`, not a measured accuracy
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/answers-dark.svg">
+  <img alt="Answer quality with gemma4:e4b on 214 questions. Expected status 0.92 dev, 0.95 heldout; answered when answerable 0.92 and 0.95; declined when out of corpus 1.00 and 1.00; cited the gold passage 0.63 and 0.71; evidence from the named thinker 0.95 and 0.97." src="docs/images/benchmarks/answers-light.svg" width="100%">
+</picture>
+
+All 214 v2 questions through chat with `gemma4:e4b` on an RTX 5070 Ti
+(`pramana evaluate-answers`; [answers.json](benchmarks/advaita/v2/answers.json) keeps
+every answer):
+
+| | All | Dev | Heldout |
+| --- | ---: | ---: | ---: |
+| Expected outcome (answered, or declined if out of corpus) | 0.93 | 0.92 | 0.95 |
+| Out-of-corpus questions declined | 16 / 16 | 9 / 9 | 7 / 7 |
+| Answerable questions answered | 185 / 198 | | |
+| A cited passage contains the gold span | 0.66 | 0.63 | 0.71 |
+| Evidence from the named thinker (single-thinker questions) | 0.96 | 0.95 | 0.97 |
+| Comparisons with a view for each thinker | 11 / 12 | | |
+| Median / 90th-percentile time per answer | 1.1 s / 2.8 s | | |
+
+By type, the weakest are **objections** (10 of 13 answered) and **comparisons** (gold
+spans of both thinkers cited 0.54); by text, the **Crest-Jewel** (gold cited 0.39). Of the
+13 answerable questions not answered, 2 were turned away by routing and 11 by the answer
+step finding the evidence insufficient; one more failed validation (the model wrote
+internal reference codes into its answer twice).
+
+**These checks are structural.** "Cited the gold passage" counts a correct answer from
+another passage as a miss, and an answer can cite the right passage and misread it;
+none of this measures correctness, which needs reading the answers. Two fixes came out
+of this run: naming two thinkers now makes a question a comparison (views for each
+thinker: 1 of 12 → 11 of 12), and a retry after a failed answer is trimmed to the
+request budget like the first attempt (one comparison had exceeded it).
+
+Diagnostic review of individual answers, earlier
 ([full notes](docs/verification/verification.md)):
 
 | Question | Outcome |
@@ -309,8 +341,8 @@ Pramana checks that answers cite passages they were given and that each thinker'
 cites that thinker's own text. It does **not** verify that a reading is correct. The model
 can misread an argument, especially where a commentator restates a rival view at length
 without a printed cue, and the optional check is the same model judging itself. The
-benchmark questions are unreviewed, and the answer-level evaluation
-(`pramana evaluate-answers`, about 1–2 hours of GPU time) has not been run on v2 yet. Treat answers as a starting point for reading the
+benchmark questions are unreviewed, and the answer-level scores are structural
+checks, not correctness. Treat answers as a starting point for reading the
 texts, which the Study view keeps one click away.
 
 ## Documentation

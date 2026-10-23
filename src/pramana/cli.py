@@ -229,7 +229,7 @@ def evaluate_answers(
     check: bool = False,
     route_only: bool = False,
 ):
-    """Answer-level evaluation with the local Ollama model (slow; resumable).
+    """Answer-level evaluation with the local Ollama model (slow; resumable in batches).
 
     --route-only runs just the short routing call per question (fast) and writes
     routing.json beside the output.
@@ -265,8 +265,10 @@ def evaluate_answers(
         )
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", "utf-8")
-        partial.unlink(missing_ok=True)
+        if not result["remaining"]:
+            partial.unlink(missing_ok=True)  # every selected question is finished
         typer.echo(json.dumps(result["overall"], indent=2))
+        typer.echo(f"{result['answered']} answered, {result['remaining']} remaining.")
     except (PramanaError, OSError) as exc:
         fail(exc)
 

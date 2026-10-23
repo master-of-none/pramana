@@ -216,7 +216,7 @@ Study view shows the passages behind every answer.
 
 ```sh
 uv run ruff check src tests scripts && uv run ruff format --check src tests scripts
-uv run pytest                          # 126 deterministic tests; no downloads or models
+uv run pytest                          # 130 deterministic tests; no downloads or models
 uv run python scripts/check_links.py
 npm --prefix web run typecheck && npm --prefix web test && npm --prefix web run build
 uv run python tests/manual_chat_server.py    # fixture app on :8001, no library or model needed

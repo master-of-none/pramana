@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">Answer quality with gemma4:e4b</title><desc id="d">214 questions · local Ollama · structural checks, not correctness</desc>
+<rect width="820" height="420" rx="10" fill="#1a1a19"/>
+<text x="24" y="30" font-size="17" font-weight="700" fill="#f0efec">Answer quality with gemma4:e4b</text>
+<text x="24" y="48" font-size="12" fill="#c3c2b7">214 questions · local Ollama · structural checks, not correctness</text>
+<rect x="24" y="58" width="12" height="12" rx="3" fill="#3987e5"/><text x="42" y="68" font-size="12" fill="#c3c2b7">Dev (128)</text><rect x="142" y="58" width="12" height="12" rx="3" fill="#d95926"/><text x="160" y="68" font-size="12" fill="#c3c2b7">Heldout (86)</text>
+<text x="24" y="92" font-size="14" font-weight="600" fill="#f0efec">Share of questions</text>
+<line x1="271" y1="110" x2="271" y2="364" stroke="#383835" stroke-width="1"/>
+<text x="271" y="382" font-size="11" text-anchor="middle" fill="#c3c2b7">0</text>
+<line x1="395.75" y1="110" x2="395.75" y2="364" stroke="#383835" stroke-width="1"/>
+<text x="395.75" y="382" font-size="11" text-anchor="middle" fill="#c3c2b7">0.25</text>
+<line x1="520.5" y1="110" x2="520.5" y2="364" stroke="#383835" stroke-width="1"/>
+<text x="520.5" y="382" font-size="11" text-anchor="middle" fill="#c3c2b7">0.5</text>
+<line x1="645.25" y1="110" x2="645.25" y2="364" stroke="#383835" stroke-width="1"/>
+<text x="645.25" y="382" font-size="11" text-anchor="middle" fill="#c3c2b7">0.75</text>
+<line x1="770.0" y1="110" x2="770.0" y2="364" stroke="#383835" stroke-width="1"/>
+<text x="770.0" y="382" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
+<text x="259" y="133.0" font-size="13" text-anchor="end" fill="#f0efec">Expected status</text>
+<path d="M271,110 h456.015625 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-456.015625 z" fill="#3987e5"/>
+<text x="737.015625" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.92</text>
+<path d="M271,130 h471.7906976744186 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-471.7906976744186 z" fill="#d95926"/>
+<text x="752.7906976744187" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.95</text>
+<text x="259" y="187.0" font-size="13" text-anchor="end" fill="#f0efec">Answered when answerable</text>
+<path d="M271,164 h453.0672268907563 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-453.0672268907563 z" fill="#3987e5"/>
+<text x="734.0672268907563" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.92</text>
+<path d="M271,184 h469.73417721518985 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-469.73417721518985 z" fill="#d95926"/>
+<text x="750.7341772151899" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.95</text>
+<text x="259" y="241.0" font-size="13" text-anchor="end" fill="#f0efec">Declined when out of corpus</text>
+<path d="M271,218 h495.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-495.0 z" fill="#3987e5"/>
+<text x="776.0" y="231.0" font-size="12" font-weight="600" fill="#f0efec">1.00</text>
+<path d="M271,238 h495.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-495.0 z" fill="#d95926"/>
+<text x="776.0" y="251.0" font-size="12" font-weight="600" fill="#f0efec">1.00</text>
+<text x="259" y="295.0" font-size="13" text-anchor="end" fill="#f0efec">Cited the gold passage</text>
+<path d="M271,272 h308.39915966386553 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-308.39915966386553 z" fill="#3987e5"/>
+<text x="589.3991596638655" y="285.0" font-size="12" font-weight="600" fill="#f0efec">0.63</text>
+<path d="M271,292 h349.72151898734177 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-349.72151898734177 z" fill="#d95926"/>
+<text x="630.7215189873418" y="305.0" font-size="12" font-weight="600" fill="#f0efec">0.71</text>
+<text x="259" y="349.0" font-size="13" text-anchor="end" fill="#f0efec">Evidence from the named thinker</text>
+<path d="M271,326 h470.04999999999995 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-470.04999999999995 z" fill="#3987e5"/>
+<text x="751.05" y="339.0" font-size="12" font-weight="600" fill="#f0efec">0.95</text>
+<path d="M271,346 h482.525 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-482.525 z" fill="#d95926"/>
+<text x="763.525" y="359.0" font-size="12" font-weight="600" fill="#f0efec">0.97</text>
+</svg>

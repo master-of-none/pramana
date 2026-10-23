@@ -217,3 +217,74 @@ def test_answer_evaluation_scores_status_citations_and_resumes(indexed, embedder
     assert report["by_type"]["fact"]["questions"] == 1
     again = asyncio.run(evaluate_answers(fake, path, partial=partial))
     assert fake.calls == 2 and again["overall"] == report["overall"]  # resumed, no new calls
+    assert again["answered"] == 2 and again["remaining"] == 0
+
+
+def test_answer_evaluation_stops_on_an_outage_without_saving(indexed, embedder, tmp_path):
+    import asyncio
+
+    from pramana.answering import AnswerError
+    from pramana.errors import PramanaError
+    from pramana.evaluation import evaluate_answers
+
+    class Down:
+        provider = type("P", (), {"model": "fake-model"})()
+
+        def __init__(self):
+            self.retriever = Retriever(indexed, embedder=embedder)
+
+        async def answer(self, request):
+            raise AnswerError("Cannot reach Ollama.", 503)
+
+    question = {
+        "id": "o1",
+        "split": "dev",
+        "type": "out_of_corpus",
+        "text": "Out of corpus",
+        "expect": "insufficient_evidence",
+        "query": "Kubernetes",
+    }
+    path, partial = write(tmp_path, [question]), tmp_path / "a.partial.jsonl"
+    with pytest.raises(PramanaError, match="Stopped at o1"):
+        asyncio.run(evaluate_answers(Down(), path, partial=partial))
+    assert not partial.exists()  # an outage is never recorded as an answer
+
+
+def test_answer_evaluation_runs_in_batches(indexed, embedder, tmp_path):
+    import asyncio
+
+    from pramana.evaluation import evaluate_answers
+    from pramana.models import ChatResponse
+
+    class Fake:
+        provider = type("P", (), {"model": "fake-model"})()
+
+        def __init__(self):
+            self.retriever, self.asked = Retriever(indexed, embedder=embedder), []
+
+        async def answer(self, request):
+            self.asked.append(request.message)
+            return ChatResponse(
+                answer="No.",
+                status="insufficient_evidence",
+                retrieval_question=request.message,
+                model="fake-model",
+            )
+
+    questions = [
+        {
+            "id": f"o{i}",
+            "split": "dev",
+            "type": "out_of_corpus",
+            "text": "Out of corpus",
+            "expect": "insufficient_evidence",
+            "query": f"Kubernetes question {i}",
+        }
+        for i in range(5)
+    ]
+    path, partial, fake = write(tmp_path, questions), tmp_path / "a.partial.jsonl", Fake()
+    first = asyncio.run(evaluate_answers(fake, path, limit=2, partial=partial))
+    assert (first["answered"], first["remaining"]) == (2, 3)
+    second = asyncio.run(evaluate_answers(fake, path, limit=2, partial=partial))
+    assert (second["answered"], second["remaining"]) == (4, 1)
+    assert fake.asked == [f"Kubernetes question {i}" for i in range(4)]  # never repeated
