@@ -1,0 +1,161 @@
+{
+ "label": "Printed scripture references in the library, resolved by pramana.citations",
+ "references": 1609,
+ "status": {
+  "chapter": 405,
+  "numbered": 203,
+  "verified": 1001
+ },
+ "passages": [
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "IV, 4",
+   "verse": 22,
+   "by": {
+    "Sankaracharya": 12,
+    "Ramanuja": 11
+   },
+   "total": 23
+  },
+  {
+   "document": "Chandogya Upanishad",
+   "place": "VI, 2",
+   "verse": 3,
+   "by": {
+    "Sankaracharya": 9,
+    "Ramanuja": 8
+   },
+   "total": 17
+  },
+  {
+   "document": "Chandogya Upanishad",
+   "place": "VIII, 7",
+   "verse": 1,
+   "by": {
+    "Sankaracharya": 9,
+    "Ramanuja": 4
+   },
+   "total": 13
+  },
+  {
+   "document": "Svetasvatara Upanishad",
+   "place": "Adhyâya III",
+   "verse": 8,
+   "by": {
+    "Ramanuja": 9,
+    "Sankaracharya": 4
+   },
+   "total": 13
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "III, 7",
+   "verse": 23,
+   "by": {
+    "Sankaracharya": 9,
+    "Ramanuja": 3
+   },
+   "total": 12
+  },
+  {
+   "document": "Mundaka Upanishad",
+   "place": "III, 1",
+   "verse": 1,
+   "by": {
+    "Sankaracharya": 7,
+    "Ramanuja": 5
+   },
+   "total": 12
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "II, 4",
+   "verse": null,
+   "by": {
+    "Ramanuja": 6,
+    "Sankaracharya": 5
+   },
+   "total": 11
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "I, 4",
+   "verse": 10,
+   "by": {
+    "Sankaracharya": 8,
+    "Ramanuja": 3
+   },
+   "total": 11
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "IV, 5",
+   "verse": 15,
+   "by": {
+    "Sankaracharya": 7,
+    "Ramanuja": 4
+   },
+   "total": 11
+  },
+  {
+   "document": "Mundaka Upanishad",
+   "place": "II, 1",
+   "verse": 3,
+   "by": {
+    "Sankaracharya": 7,
+    "Ramanuja": 4
+   },
+   "total": 11
+  },
+  {
+   "document": "Taittiriya Upanishad",
+   "place": "II, 6",
+   "verse": null,
+   "by": {
+    "Ramanuja": 6,
+    "Sankaracharya": 5
+   },
+   "total": 11
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "II, 4",
+   "verse": 6,
+   "by": {
+    "Sankaracharya": 8,
+    "Ramanuja": 2
+   },
+   "total": 10
+  },
+  {
+   "document": "Brihadaranyaka Upanishad",
+   "place": "II, 5",
+   "verse": null,
+   "by": {
+    "Sankaracharya": 8,
+    "Ramanuja": 2
+   },
+   "total": 10
+  },
+  {
+   "document": "Chandogya Upanishad",
+   "place": "VI, 2",
+   "verse": 1,
+   "by": {
+    "Sankaracharya": 5,
+    "Ramanuja": 5
+   },
+   "total": 10
+  },
+  {
+   "document": "Chandogya Upanishad",
+   "place": "VIII, 12",
+   "verse": 3,
+   "by": {
+    "Ramanuja": 7,
+    "Sankaracharya": 3
+   },
+   "total": 10
+  }
+ ]
+}

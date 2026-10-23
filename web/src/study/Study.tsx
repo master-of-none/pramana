@@ -3,12 +3,14 @@ import type { FormEvent, ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  BookMarked,
   Columns2,
   Route as PathIcon,
   Search as SearchIcon,
 } from "lucide-react";
 import { getJSON, placeLabel } from "../lib/api.ts";
 import type {
+  ChapterCitations,
   ChapterContext,
   LibraryDocument,
   ParallelEntry,
@@ -23,6 +25,7 @@ import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
 import { Argument } from "./Argument.tsx";
 import { Paths } from "./Paths.tsx";
+import { Citations } from "./Citations.tsx";
 
 // Shared per page load; the catalogue changes only when the library is re-imported.
 let catalogue: Promise<LibraryDocument[]> | null = null;
@@ -51,6 +54,19 @@ function useChapter(id: string | undefined) {
       .catch((e: Error) => setError(e.message));
   }, [id]);
   return { context, error };
+}
+
+function useCitations(id: string | undefined) {
+  const [citations, setCitations] = useState<ChapterCitations | null>(null);
+  useEffect(() => {
+    setCitations(null);
+    if (!id) return;
+    // Links are an addition to the text: a failure leaves the reader unchanged.
+    getJSON<ChapterCitations>(`/api/citations/${encodeURIComponent(id)}`)
+      .then(setCitations)
+      .catch(() => setCitations(null));
+  }, [id]);
+  return citations;
 }
 
 function Status({ error, children }: { error?: string; children?: ReactNode }) {
@@ -124,6 +140,11 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
               <Columns2 size={15} /> Śaṅkara and Rāmānuja side by side
             </a>
           )}
+          {sutra && (
+            <a href={href("study", "citations")}>
+              <BookMarked size={15} /> Śruti most cited
+            </a>
+          )}
         </div>
       </header>
       <ConceptList />
@@ -180,6 +201,7 @@ function Reader({
   glossary: Glossary | null;
 }) {
   const { context, error } = useChapter(id);
+  const citations = useCitations(id);
   const { docs } = useLibrary();
   if (!context) return <Status error={error} />;
   const { chapter } = context;
@@ -253,6 +275,7 @@ function Reader({
         context={context}
         glossary={glossary}
         highlight={highlight}
+        citations={citations}
       />
       <SourceNote context={context} />
     </article>
@@ -563,6 +586,7 @@ export function Study({ route }: { route: Route }) {
   else if (page === "search") content = <Search route={route} />;
   else if (page === "concept" && rest[0]) content = <Concept slug={rest[0]} />;
   else if (page === "paths") content = <Paths />;
+  else if (page === "citations") content = <Citations />;
   else content = <Library glossary={glossary} />;
   return (
     <div className="view study">

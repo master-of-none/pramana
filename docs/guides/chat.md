@@ -193,6 +193,19 @@ stays answers-only. It needs no answer model.
 - **Side by side:** `#/study/sutra/1/1/1` shows Śaṅkara's and Rāmānuja's commentary
   pages for the same sūtra. When a commentary treats the sūtra on a page that begins
   with an earlier one, that page is shown and labelled as such.
+- **Śruti citation links:** printed references in Thibaut's Brahma Sūtra translations
+  ("(Kh. Up. VI, 8, 7)", "(Bri. Up. IV, 4, 22)", "(Bha. Gî. XIII, 31)") open the cited
+  passage. A reference is resolved only from what is printed: the abbreviation names the
+  edition and its numbers its printed division (Thibaut's Kaṭha "II, 1-3" are Müller's
+  vallīs "II, 4-6"). Underlines show how far a link was checked: **solid** when the
+  words quoted just before the reference occur in that passage (as consecutive word
+  pairs; the best-matching paragraph is used when the translator's verse number points
+  elsewhere), **dashed** for the numbered verse when there is no quotation to check, and
+  **dotted** for the chapter alone. Bare references that rely on an earlier one, and
+  numbers naming no division, stay plain text. On the cited side, each verse shows
+  "Cited · Śaṅkara n · Rāmānuja m" with links back, and `#/study/citations` ranks the
+  most-cited passages. Of 1,609 resolved references, 1,001 were verified, 203 linked by
+  number and 405 to the chapter (23 October 2026).
 - **Passages behind an answer:** opened from the chat, from evidence pointers kept with
   the conversation in the tab's `sessionStorage`; they disappear with New chat.
 - **Reading paths:** `#/study/paths` offers curated sequences ("First steps in

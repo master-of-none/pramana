@@ -535,6 +535,74 @@ def unit_grid(name, title, subtitle, groups, kinds, theme_name, width=980, per_l
     save(name, title, subtitle, "".join(body), width, y + 12, theme_name)
 
 
+def count_bars(name, title, subtitle, cats, series, theme_name, width=980):
+    """Horizontal bars of counts, one segment per series, the total at the bar's end."""
+    theme = THEMES[theme_name]
+    colors = [theme["series"][0], theme["series"][1], theme["context"][0]]
+    lw = label_width(cats, 6.8)
+    plot_w = width - lw - 90
+    top, bar_h, gap = 100, 18, 10
+    most = max(sum(values[i] for _, values in series) for i in range(len(cats)))
+    body = [
+        legend(
+            [(lab, colors[j], "box") for j, (lab, vals) in enumerate(series) if any(vals)], theme
+        )
+    ]
+    for i, cat in enumerate(cats):
+        y = top + i * (bar_h + gap)
+        body.append(t(24 + lw - 12, y + bar_h - 4, cat, theme, 13, anchor="end"))
+        x = 24 + lw
+        for j, (lab, values) in enumerate(series):
+            w = values[i] / most * plot_w
+            if w > 0:
+                body.append(
+                    f'<rect x="{x:.1f}" y="{y}" width="{max(0, w - 2):.1f}" height="{bar_h}" '
+                    f'rx="3" fill="{colors[j]}">{tip(f"{cat}: {lab} {values[i]}")}</rect>'
+                )
+                if w > 24:
+                    body.append(
+                        t(
+                            x + w / 2 - 1,
+                            y + bar_h - 5,
+                            values[i],
+                            theme,
+                            11,
+                            700,
+                            fill=ink_on(colors[j]),
+                            anchor="middle",
+                        )
+                    )
+            x += w
+        total = sum(values[i] for _, values in series)
+        body.append(t(x + 8, y + bar_h - 4, total, theme, 12, 600))
+    save(
+        name,
+        title,
+        subtitle,
+        "".join(body),
+        width,
+        top + len(cats) * (bar_h + gap) + 14,
+        theme_name,
+    )
+
+
+def refresh_citations():
+    """Snapshot the library's citation summary into benchmarks/citations.json."""
+    from pramana.citations import summary
+    from pramana.corpus import Corpus
+
+    data = summary(Corpus().store, limit=15)
+    keep = ("document", "place", "verse", "by", "total")
+    snapshot = {
+        "label": "Printed scripture references in the library, resolved by pramana.citations",
+        "references": data["references"],
+        "status": data["status"],
+        "passages": [{k: p[k] for k in keep} for p in data["passages"]],
+    }
+    path = BENCH / "citations.json"
+    path.write_text(json.dumps(snapshot, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 # ---------------------------------------------------------------- the charts
 
 
@@ -562,8 +630,34 @@ def short(label):
     return label
 
 
+SHORT_DOC = {
+    "Brihadaranyaka Upanishad": "Bṛhadāraṇyaka",
+    "Chandogya Upanishad": "Chāndogya",
+    "Svetasvatara Upanishad": "Śvetāśvatara",
+    "Mundaka Upanishad": "Muṇḍaka",
+    "Taittiriya Upanishad": "Taittirīya",
+    "Katha Upanishad": "Kaṭha",
+    "Bhagavad Gita": "Gītā",
+}
+
+
+def cite_place(p):
+    where = p["place"].replace("Adhyâya ", "")
+    verse = f", {p['verse']}" if p["verse"] is not None else ""
+    return f"{SHORT_DOC.get(p['document'], p['document'])} {where}{verse}"
+
+
+def cite_count(p, key):
+    return sum(v for a, v in p["by"].items() if key in a.lower())
+
+
 def main():
+    import sys
+
     OUT.mkdir(parents=True, exist_ok=True)
+    if "--citations" in sys.argv:
+        refresh_citations()
+    cites = load("citations.json")
     v1 = load("advaita/results.json")
     history = load("advaita/history.json")
     spelling = load("advaita/spelling-results.json")
@@ -577,6 +671,30 @@ def main():
     metrics = (("Recall@10", "recall_at_10"), ("MRR@10", "mrr_at_10"))
 
     for theme in THEMES:
+        if cites:
+            rows = cites["passages"][:12]
+            top = rows[0]
+            verified = cites["status"].get("verified", 0)
+            count_bars(
+                "citations",
+                f"{cite_place(top)} is the passage the commentaries cite most: "
+                f"{top['total']} times",
+                f"{cites['references']:,} printed references in Thibaut's translations resolve to "
+                f"passages in the library; {verified:,} are checked against the quoted words",
+                [cite_place(p) for p in rows],
+                [
+                    ("Śaṅkara", [cite_count(p, "sankara") for p in rows]),
+                    ("Rāmānuja", [cite_count(p, "ramanuja") for p in rows]),
+                    (
+                        "Others",
+                        [
+                            p["total"] - cite_count(p, "sankara") - cite_count(p, "ramanuja")
+                            for p in rows
+                        ],
+                    ),
+                ],
+                theme,
+            )
         s = v1["strategies"]
         pair_rows(
             "passage",

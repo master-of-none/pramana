@@ -46,6 +46,9 @@ the explicit download commands.
 **Study (reader)**
 - **Library and reader** with page marks, footnotes, marked objections and replies, and an
   argument outline per page.
+- **Śruti citation links.** Thibaut's printed references, such as "(Kh. Up. VI, 8, 7)",
+  open the cited Upaniṣad or Gītā verse; each scripture verse lists where Śaṅkara and
+  Rāmānuja cite it, and **Śruti most cited** ranks the passages they rely on (below).
 - **Side by side:** Śaṅkara and Rāmānuja on any sūtra (`#/study/sutra/1/1/1`).
 - **Concept pages:** where each group of texts discusses *adhyāsa*, *māyā*, *sākṣin*…
 - **Passages behind an answer**, **search**, and **reading paths** such as "First steps
@@ -174,6 +177,24 @@ numbers are not comparable with v1's, and the v1 subset remains the continuity m
 Semantic search alone is weakest on the Gītā (0.27) and the minor Upaniṣads (0.44). The
 Crest-Jewel is the one group where it beats keyword search (0.61 against 0.56), perhaps
 because Johnston's English ("vestures", "the Eternal") rarely shares the asker's words.
+
+### Śruti citations
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/citations-dark.svg">
+  <img alt="The twelve most-cited scripture passages, split by thinker. Bṛhadāraṇyaka IV, 4, 22: Śaṅkara 12, Rāmānuja 11; Chāndogya VI, 2, 3: 9 and 8; Chāndogya VIII, 7, 1: 9 and 4; Śvetāśvatara III, 8: 4 and 9; Bṛhadāraṇyaka III, 7, 23: 9 and 3; Muṇḍaka III, 1, 1: 7 and 5." src="docs/images/benchmarks/citations-light.svg" width="100%">
+</picture>
+
+Of 1,609 printed references in Thibaut's two Brahma Sūtra translations that name a work
+in the library, 1,001 (62%) are **verified**: the words quoted just before the reference
+occur in the passage it opens. Another 203 link to the numbered verse with no quotation
+to check, and 405 to the cited chapter only (no unique verse, or the translations word
+the quotation differently). References that rely on an earlier one ("II, 4, 5") or name
+a division that does not exist stay plain text. Both thinkers lean hardest on the
+Bṛhadāraṇyaka's "great unborn Self" (IV, 4, 22); Rāmānuja cites Śvetāśvatara III, 8
+("that great person of sunlike lustre") more than twice as often as Śaṅkara. Counts come
+from [`pramana.citations`](src/pramana/citations.py) on the local library
+([citations.json](benchmarks/citations.json)).
 
 ### Embedding models
 

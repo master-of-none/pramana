@@ -237,6 +237,9 @@ wheel serves its compiled reader and API without relying on editable source path
   text, six types, per-type/per-text/failure breakdowns, an embedding model comparison
   (BGE-large best, not adopted), a real-model answer run (expected outcome 0.93, gold
   cited 0.66), an HTML report. **Human review of every question remains.**
+- [x] **Śruti citation links** (October 2026): 1,609 printed references in Thibaut's
+  translations resolved to the cited passages, 1,001 verified against the quoted words;
+  "cited by" lists per verse and a most-cited ranking in Study.
 - [x] **Off-topic routing** (October 2026): a short model call declines questions about
   other fields before search; tuned on the v2 set.
 - **More texts** (each

@@ -8,6 +8,8 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from pramana.answering import Answerer, AnswerError
+from pramana.citations import for_chapter
+from pramana.citations import summary as citation_summary
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
 from pramana.glossary import terms
@@ -186,6 +188,19 @@ def create_app(
     @api.get("/api/scopes")
     def chat_scopes():
         return scopes(corpus.store)
+
+    @api.get("/api/citations")
+    def citation_index():
+        # Study view only: the most-cited scripture passages and how references resolved.
+        return citation_summary(corpus.store)
+
+    @api.get("/api/citations/{chapter_id}")
+    def chapter_citations(chapter_id: str):
+        try:
+            corpus.store.chapter(chapter_id)
+        except KeyError as exc:
+            raise HTTPException(404, "Chapter not found.") from exc
+        return for_chapter(corpus.store, chapter_id)
 
     @api.get("/api/parallel")
     def sutra_parallel(book: str, chapter: str, sutra: str):

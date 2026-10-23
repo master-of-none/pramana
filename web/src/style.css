@@ -1762,3 +1762,129 @@ a.chip {
   margin-bottom: 8px;
   min-height: 0;
 }
+
+/* Printed scripture references and where a passage is cited (Study view). */
+.cite {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--olive);
+  text-underline-offset: 3px;
+}
+.cite-numbered {
+  text-decoration-style: dashed;
+}
+.cite-chapter {
+  text-decoration-style: dotted;
+  text-decoration-color: var(--muted);
+}
+.cited-paragraph > p {
+  margin-bottom: 6px;
+}
+.cited-by {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 18px;
+  border-left: 2px solid var(--line);
+  padding: 2px 0 2px 12px;
+}
+.cited-by.whole {
+  margin-bottom: 22px;
+}
+.cited-by summary {
+  cursor: pointer;
+  color: var(--olive);
+}
+.cited-group h5 {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  color: var(--ink);
+}
+.cited-group ul {
+  margin: 0;
+  padding-left: 16px;
+}
+.cited-group li {
+  margin: 0 0 6px;
+}
+.cited-group a {
+  color: var(--olive);
+}
+.cited-group q {
+  display: block;
+  font-family: var(--serif);
+  font-size: 13.5px;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.cite-status {
+  font-size: 10.5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0 5px;
+  white-space: nowrap;
+}
+.cite-status.verified {
+  border-color: var(--olive);
+  color: var(--olive);
+}
+.citation-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.citation-status .cite-status {
+  font-size: 12px;
+  padding: 2px 8px;
+}
+.cited-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  counter-reset: cited;
+}
+.cited-list li {
+  counter-increment: cited;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.cited-place {
+  font-weight: 600;
+  color: var(--ink);
+}
+.cited-place::before {
+  content: counter(cited) ". ";
+  display: inline-block;
+  margin-right: 4px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.cited-opening {
+  font-family: var(--serif);
+  margin: 4px 0 8px;
+  color: var(--ink);
+}
+.cited-bars {
+  display: grid;
+  gap: 4px;
+}
+.cited-bar {
+  display: grid;
+  grid-template-columns: 76px 1fr 28px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.cited-fill {
+  height: 8px;
+  border-radius: 0 4px 4px 0;
+  background: var(--olive);
+}
+.cited-fill.t1 {
+  background: var(--c-956d50);
+}
+.cited-count {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}

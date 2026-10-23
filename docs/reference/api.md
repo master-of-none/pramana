@@ -15,6 +15,8 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `GET` | `/api/scopes` | Chat scopes that contain imported books, with document counts |
 | `GET` | `/api/library` | Every document with its divisions in reading order, without text |
 | `GET` | `/api/parallel?book=&chapter=&sutra=` | Each Brahma Sūtra commentary's pages for one sūtra |
+| `GET` | `/api/citations` | Most-cited scripture passages with counts per citing author, and how references resolved |
+| `GET` | `/api/citations/{chapter_id}` | A chapter's printed references (`outgoing`, with target span and `status`) and where it is cited (`incoming`) |
 | `POST` | `/api/chat` | One grounded answer (`ChatResponse`) |
 | `POST` | `/api/chat/stream` | Progress events, then one validated answer, as NDJSON |
 | `GET` | `/api/glossary` | The curated Advaita glossary |

@@ -90,3 +90,63 @@ export function placeLabel(category: string, location: Location): string {
   if (location.sections.length) return location.sections.join(" · ");
   return `Book ${location.book}, chapter ${location.chapter}`;
 }
+
+// Printed scripture references, resolved in the Study view only (code-point offsets).
+export type CitationStatus = "verified" | "numbered" | "chapter";
+export type Citation = {
+  start: number;
+  end: number;
+  label: string;
+  status: CitationStatus;
+  quote: string | null;
+  target: {
+    chapter_id: string;
+    document: string;
+    place: string;
+    start: number;
+    end: number;
+  };
+};
+export type CitedBy = {
+  chapter_id: string;
+  document: string;
+  author: string;
+  place: string;
+  start: number;
+  end: number;
+  label: string;
+  status: CitationStatus;
+  quote: string | null;
+  target_start: number;
+  target_end: number;
+};
+export type ChapterCitations = { outgoing: Citation[]; incoming: CitedBy[] };
+export type CitedPassage = {
+  chapter_id: string;
+  document: string;
+  place: string;
+  start: number;
+  end: number;
+  opening: string;
+  verse: number | null;
+  by: Record<string, number>;
+  total: number;
+};
+export type CitationSummary = {
+  references: number;
+  status: Partial<Record<CitationStatus, number>>;
+  passages: CitedPassage[];
+};
+
+export const CITATION_STATUS: Record<CitationStatus, string> = {
+  verified: "The quoted words were found in this passage",
+  numbered: "Linked by verse number; there was no quotation to check",
+  chapter: "The cited chapter; the verse could not be matched",
+};
+
+// Common names for the edition authors, for labels only.
+export function thinkerName(author: string): string {
+  if (/sankara/i.test(author)) return "Śaṅkara";
+  if (/ramanuja/i.test(author)) return "Rāmānuja";
+  return author || "Translator's note";
+}

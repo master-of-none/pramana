@@ -26,3 +26,9 @@ export function useRoute(): Route {
 export function href(...parts: (string | number)[]): string {
   return "#/" + parts.map((p) => encodeURIComponent(String(p))).join("/");
 }
+
+// The reader at a chapter, optionally highlighting a code-point span.
+export function readAt(chapterId: string, start?: number, end?: number): string {
+  const base = href("study", "read", chapterId);
+  return start === undefined || end === undefined ? base : `${base}?s=${start}&e=${end}`;
+}
