@@ -73,6 +73,19 @@ spellings and English renderings (for example `adhyāsa` ↔ `superimposition`).
 Dense retrieval and the index are unchanged, so no rebuild is needed. None of the
 20 chapter-benchmark queries trigger an expansion.
 
+**Speaker-naming cues** (added 23 October 2026): Thibaut's translations often stage the
+debate with formulas that name who speaks. Objection: "an objection is raised", "our
+opponent may/will…", "the advaita-vādin replies/argues…", "Against this (view) it will
+be urged / the Pūrvapakshin…". Reply: "Not so, we reply", "Not so, the Sūtra declares",
+"This is not so, we reply", "This objection is without force / not valid", "Against this
+(view) the Sūtra declares / we remark". Forms that do not name the speaker are not used:
+bare "Not so" can be the opponent's rejoinder ("Not so, the advaita-vādin replies"), and
+"If it be said…" carries its own reply in the same sentence. Each adopted pattern matched
+its role in every one of 41 sampled cases, judged by the AI model that wrote them, not
+by a human reviewer. Detected cues rose from 125 to 243 in Śaṅkara's commentary and from
+5 to 98 in Rāmānuja's; pages with an argument outline from 32 to 83. Long restatements
+of a rival view that use none of these formulas remain unmarked.
+
 ## Spelling tolerance
 
 Keyword search also tries other spellings that **occur in the indexed library**
@@ -176,7 +189,7 @@ stays answers-only. It needs no answer model.
   "To this we make the following reply." is skipped) and jumps to it in the text. It
   also heads each column of the side-by-side view. Unmarked discussion is omitted, so
   the outline shows the argument as the translator marks it, not a full analysis;
-  about 32 of Śaṅkara's 552 pages have one, and few of Rāmānuja's.
+  83 Brahma Sūtra pages have one.
 - **Side by side:** `#/study/sutra/1/1/1` shows Śaṅkara's and Rāmānuja's commentary
   pages for the same sūtra. When a commentary treats the sūtra on a page that begins
   with an earlier one, that page is shown and labelled as such.

@@ -133,3 +133,9 @@ argument). Neither the authorship check nor the same-model claim check can tell 
 restatement from the author's own view. Doctrinal comparisons remain material for
 review against the texts in the Study view. Browser checks of the new UI were not part
 of this session.
+
+After adding speaker-naming objection/reply cues, the world-reality comparison gave
+correctly attributed views again (Check on, nothing removed). "How do Śaṅkara and
+Rāmānuja differ on Nescience (avidyā)?" returned insufficient evidence: retrieval did
+not surface Rāmānuja's "The theory of Nescience cannot be maintained" pages, a
+retrieval-ranking limit recorded rather than tuned for.

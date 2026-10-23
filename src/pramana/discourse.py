@@ -19,12 +19,26 @@ MARKER = re.compile(
     rf"(?:(?P<objection>{OBJECTION})|(?P<reply>{REPLY}))"
     r"\s*\)?\s*(?::\s*[—–-]*|—|–|--|\.\s*[—–-]+)"
 )
-START = r"(?:^|(?<=\n)|(?<=[.?!;] )|(?<=[.?!;][\"'’”] ))"
+START = r"(?:^|(?<=\n)|(?<=[.?!;] )|(?<=[.?!;][\"'’”] )|(?<=--))"
+# Only forms that name who is speaking. "Not so" alone can be the opponent's rejoinder
+# ("Not so, the advaita-vâdin replies") and "If it be said ..." carries its own reply
+# in the same sentence, so neither is used. Each pattern below matched its role in
+# every sampled case (41 samples in Thibaut's SBE 34/38/48, 23 October 2026).
 PHRASE = re.compile(
     START + r"(?:(?P<objection>(?:Here )?[Tt]he (?:p[uûū]rvapak[sṣ]h?in|opponent) "
-    r"(?:maintains|says|argues|objects|holds|contends)\b)"
+    r"(?:maintains|says|argues|objects|holds|contends)\b"
+    r"|(?:But,? )?[Aa]n objection is (?:raised|here raised|urged)\b"
+    r"|(?:But )?(?:[Tt]he advaita-v[âa]din|[Oo]ur opponent) (?:may|might|will|would|now|here"
+    r"|replies|argues|says|maintains|objects|rejoins)\b"
+    r"|Against this(?: view| argumentation| conclusion)? (?:it (?:will|may|might) (?:perhaps )?"
+    r"be (?:urged|objected|said)|our opponent|the P[ûu]rvapakshin)\b)"
     r"|(?P<reply>To this(?: objection)? we (?:make the following reply|reply|answer)\b"
-    r"|We reply\b))"
+    r"|We reply\b"
+    r"|Not so,? (?:we reply|the S[ûu]tra (?:declares|replies|points out|says))\b"
+    r"|(?:This|That|It) is not so,? we reply\b"
+    r"|This objection(?: too| also)? is (?:without force|not valid|futile|unfounded)\b"
+    r"|Against this(?: view| interpretation| conclusion| prim[âa] facie view)? "
+    r"(?:the S[ûu]tra(?:k[âa]ra)? (?:declares|remarks|replies)|we (?:remark|reply|point out))\b))"
 )
 # Standalone printed headings, e.g. "THE GREAT PÛRVAPAKSHA." / "THE SMALL SIDDHÂNTA."
 HEADING = re.compile(

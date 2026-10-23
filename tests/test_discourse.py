@@ -67,3 +67,26 @@ def test_standalone_role_headings():
     assert segments("The siddhânta follows.") == [
         {"role": "unmarked", "text": "The siddhânta follows."}
     ]
+
+
+def test_speaker_naming_cues_and_ambiguous_forms():
+    text = (
+        "Brahman is the cause. But, an objection is raised, the world is unreal.--"
+        "Not so, we reply. The world is the body of Brahman. Our opponent may now argue "
+        "that Nescience hides Brahman. This objection is without force, for Nescience "
+        "cannot hide pure light."
+    )
+    assert [p["role"] for p in segments(text)] == [
+        "unmarked",
+        "objection",
+        "reply",
+        "objection",
+        "reply",
+    ]
+    # Ambiguous: the opponent's rejoinder, and a conditional carrying its own reply.
+    for prose in (
+        "Not so, the advaita-vâdin replies. Nescience is beginningless.",
+        "If it be said that the soul is meant; we deny this, on account of impossibility.",
+        "It is not so enveloped, the pûrvapakshin says.",
+    ):
+        assert [p["role"] for p in segments(prose)] == ["unmarked"], prose

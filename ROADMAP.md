@@ -211,6 +211,8 @@ wheel serves its compiled reader and API without relying on editable source path
   texts, related concepts. Covered by API tests; not browser-checked.
 - [x] **Argument outline** (October 2026): pūrvapakṣa → siddhānta steps from explicit
   cues in the reader and side-by-side view. Not browser-checked.
+- [x] **Speaker-naming objection/reply cues** (October 2026): seven sampled patterns;
+  Rāmānuja's detected cues 5 → 98.
 - **Reviewed role annotations** for passages without printed cues.
 - [x] **Claim check** (October 2026): optional per-sentence filter by the same local
   model; covered by deterministic tests, effect on answer quality not measured.
