@@ -104,6 +104,8 @@ ROUTE_EXAMPLES = (
     ("How can I apply the Gita's teaching on duty to my work?", "texts"),
     ("What is the capital of France?", "unrelated"),
 )
+# Bytes of serialized messages and schema per answer request, below the provider's cap.
+REQUEST_BUDGET = 13800
 UNRELATED = (
     "Neti, neti: not this, not this. I give knowledge, but this is not the knowledge you "
     "seek. For that, another teacher awaits; for the Self, Brahman, or what the sages "
@@ -720,8 +722,9 @@ class Answerer:
         evidence_authors = list(
             dict.fromkeys(e.passage.citation.author for e in evidence if e.passage.citation.author)
         )
+        # Naming two thinkers ("How do Shankara and Ramanuja read...?") is a comparison too.
         comparative = len(evidence_authors) >= 2 and bool(
-            COMPARISON.search(request.message) or COMPARISON.search(question)
+            COMPARISON.search(request.message) or COMPARISON.search(question) or len(thinkers) > 1
         )
         schema = Draft.model_json_schema()
         refs = [e.reference for e in evidence]
@@ -740,26 +743,34 @@ class Answerer:
             schema["required"] = [*schema.get("required", []), "questions"]
         else:
             schema["properties"].pop("questions")
-        # Keep the whole request within the provider budget, dropping the lowest-ranked
-        # passages only when the instructions and schema leave too little room.
-        while len(payloads) > 1 and (
-            len(json.dumps({"messages": messages, "format": schema}, ensure_ascii=False).encode())
-            > 13800
-        ):
-            payloads.pop()
-            evidence.pop()
-            refs = [e.reference for e in evidence]
-            supplied = {item.reference: item for item in evidence}
-            messages[1]["content"] = json.dumps(
-                {"question": fit(question, 6000), "evidence": payloads}, ensure_ascii=False
-            )
-            schema["properties"]["evidence_ids"]["items"]["enum"] = refs
-            if comparative:
-                schema["$defs"]["DraftPerspective"]["properties"]["evidence_ids"]["items"][
-                    "enum"
-                ] = refs
+
+        def within_budget():
+            # Keep the whole request within the provider budget, dropping the lowest-ranked
+            # passages only when the instructions and schema leave too little room.
+            nonlocal refs, supplied
+
+            def size():
+                body = {"messages": messages, "format": schema}
+                return len(json.dumps(body, ensure_ascii=False).encode())
+
+            while len(payloads) > 1 and size() > REQUEST_BUDGET:
+                payloads.pop()
+                evidence.pop()
+                refs = [e.reference for e in evidence]
+                supplied = {item.reference: item for item in evidence}
+                messages[1]["content"] = json.dumps(
+                    {"question": fit(question, 6000), "evidence": payloads}, ensure_ascii=False
+                )
+                schema["properties"]["evidence_ids"]["items"]["enum"] = refs
+                if comparative:
+                    schema["$defs"]["DraftPerspective"]["properties"]["evidence_ids"]["items"][
+                        "enum"
+                    ] = refs
+
         system = messages[0]["content"]
         for attempt in range(2):
+            # Before each attempt: a repair adds instructions, which must fit as well.
+            within_budget()
             raw = await self.provider.chat(messages, schema)
             try:
                 draft = Draft.model_validate(raw)

@@ -555,6 +555,28 @@ def test_claim_check_judges_each_view_against_its_own_thinker(
     assert result.check.removed == 1
 
 
+def test_two_named_thinkers_make_a_comparison(indexed, embedder, tmp_path, make_chapter):
+    chapters = [
+        make_chapter("Sankara: the released soul is non-separate from Brahman.", chapter="7"),
+        make_chapter("Ramanuja: the released soul is a mode of Brahman.", chapter="8"),
+    ]
+    chapters[0].author, chapters[1].author = "Sankaracharya", "Ramanuja"
+    chapters[0].edition, chapters[1].edition = "Edition S", "Edition R"
+    path = tmp_path / "pair.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    probe = Provider([AnswerError("stop", 503)])
+    with pytest.raises(AnswerError):
+        # No "compare" or "differ": naming both thinkers is enough.
+        run(
+            Answerer(Retriever(indexed, embedder=embedder), provider=probe),
+            "How do Shankara and Ramanuja read the released soul?",
+        )
+    schema = probe.calls[0][1]
+    assert "perspectives" in schema["required"]
+
+
 def test_named_scriptural_work_is_searched_itself(indexed, embedder, tmp_path, make_chapter):
     katha = make_chapter("The knowing Self is not born, it dies not.", chapter="9")
     katha.document_id, katha.document = "katha-upanishad-x", "Katha Upanishad"
@@ -590,6 +612,42 @@ def test_long_instructions_trim_lowest_ranked_evidence(indexed, embedder, tmp_pa
     assert size <= 13800
     ids = [e["id"] for e in json.loads(messages[-1]["content"])["evidence"]]
     assert schema["properties"]["evidence_ids"]["items"]["enum"] == ids
+
+
+def test_repair_retry_is_trimmed_to_the_budget(
+    indexed, embedder, tmp_path, make_chapter, monkeypatch
+):
+    from pramana import answering
+
+    chapters = [
+        make_chapter(f"Vishnu passage {i}. " + "word " * 120, chapter=str(40 + i)) for i in range(8)
+    ]
+    path = tmp_path / "long.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+
+    class Sizing(Provider):
+        async def chat(self, messages, schema):
+            if "topic" not in schema["properties"]:
+                body = {"messages": messages, "format": schema}
+                self.sizes.append(len(json.dumps(body, ensure_ascii=False).encode()))
+                self.counts.append(len(json.loads(messages[-1]["content"])["evidence"]))
+            return await super().chat(messages, schema)
+
+    def ask(outputs):
+        provider = Sizing(outputs)
+        provider.sizes, provider.counts = [], []
+        run(Answerer(Retriever(indexed, embedder=embedder), provider=provider), "Vishnu passage")
+        return provider
+
+    first = ask([grounded()]).sizes[0]
+    # The first request just fits; the repair's extra instructions would not.
+    monkeypatch.setattr(answering, "REQUEST_BUDGET", first + 50)
+    invalid = {"answer": "A tentative answer", "status": "grounded", "evidence_ids": []}
+    repaired = ask([invalid, grounded()])
+    assert repaired.sizes[0] == first and repaired.sizes[1] <= first + 50
+    assert repaired.counts[1] < repaired.counts[0]  # lowest-ranked evidence dropped
 
 
 def test_opt_in_works_are_searched_only_when_chosen_or_named(

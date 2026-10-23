@@ -16,7 +16,8 @@ and a 1,200-token output cap. It disables thinking output. Model availability,
 connection failures, unfinished/malformed output, and timeouts produce actionable
 errors. Every question first makes one short routing call (below). The total request can include two more model calls for follow-ups, each with a
 180-second read timeout; a format repair can add a third call. Serialized messages/schema are capped at 14,000 UTF-8 bytes, leaving output and
-chat-template headroom within the configured context. Context budgets limit recent history and complete evidence
+chat-template headroom within the configured context; the budget is re-applied before a
+repair attempt, whose added instructions could otherwise exceed it. Context budgets limit recent history and complete evidence
 passages conservatively by UTF-8 bytes; no Gemma tokenizer is downloaded.
 
 The HTTP endpoints, request limits and response fields are in the
@@ -114,8 +115,9 @@ comparison failure in [chat validation](../verification/chat-validation.md) has 
 
 ## Comparing thinkers
 
-When a question compares (`compare`, `differ`, `versus`, `agree`, …) and the supplied
-evidence comes from two or more distinct authors, the model must also return
+When a question compares (`compare`, `differ`, `versus`, `agree`, …) or names two known
+thinkers ("How do Śaṅkara and Rāmānuja read this sūtra?"), and the supplied evidence
+comes from two or more distinct authors, the model must also return
 `perspectives`: one entry per thinker with a `thinker`, a `view` and `evidence_ids`.
 `thinker` is restricted by the JSON schema to authors actually present in the
 evidence. Pramana then checks that **every passage a view cites was written by that
