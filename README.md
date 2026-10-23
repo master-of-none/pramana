@@ -392,7 +392,8 @@ texts, which the Study view keeps one click away.
 
 ## Documentation
 
-Everything is indexed in [docs/](docs/README.md): the [first run](docs/guides/first-run.md),
+Everything is indexed in [docs/](docs/README.md). How it is built: the
+[architecture](docs/reference/architecture.md). Also the [first run](docs/guides/first-run.md),
 [building the library](docs/guides/corpus.md), [chat and answers](docs/guides/chat.md), the
 [HTTP API](docs/reference/api.md), [source notices](docs/notices/sources.md) and
 [verification](docs/verification/verification.md). Plans: the [roadmap](ROADMAP.md), the

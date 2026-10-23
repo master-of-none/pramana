@@ -2,8 +2,8 @@
 
 Pramana is a local book-aware chat app, Python library, CLI, and API. Retrieval
 remains independently usable; an `Answerer` uses retrieved evidence through local
-Ollama. Read [README.md](README.md), [quickstart](docs/guides/quickstart.md), and
-[ROADMAP.md](ROADMAP.md). The requested task determines scope; roadmap tasks guide
+Ollama. Read [README.md](README.md), [quickstart](docs/guides/quickstart.md),
+[architecture](docs/reference/architecture.md) and [ROADMAP.md](ROADMAP.md). The requested task determines scope; roadmap tasks guide
 sequencing and do not authorize unrelated work.
 
 ## Architecture and commands

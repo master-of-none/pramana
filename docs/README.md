@@ -11,6 +11,9 @@
 
 ## Reference
 
+- [Architecture](reference/architecture.md): data model, ingestion, storage, indexing,
+  retrieval, the answer pipeline, providers, the web app, invariants and where they are
+  enforced.
 - [HTTP API](reference/api.md): endpoints, request limits, response fields, streaming.
 - [Import format](reference/import-format.md): the provenance-bearing JSONL contract.
 
