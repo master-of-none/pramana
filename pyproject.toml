@@ -16,7 +16,7 @@ dependencies = [
   "numpy>=2.0,<3",
   "pydantic>=2.10,<3",
   "pypdf>=6,<7",
-  "sentence-transformers>=5.0,<6",
+  "sentence-transformers>=6.2,<7",
   "typer>=0.15,<1",
   "uvicorn>=0.34,<1",
 ]
