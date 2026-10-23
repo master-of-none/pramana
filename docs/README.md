@@ -34,6 +34,7 @@
 
 - [UX and feature plan](plans/ux.md): the Study view and the next features.
 - [Hosted public deployment](plans/hosted-deployment.md): not deployed.
+- [Texts to add](plans/texts.md): candidate texts, translations to verify, and priority.
 - The project [roadmap](../ROADMAP.md) sequences milestones.
 
 `docs/sources/` is not documentation: it is the drop folder for your private PDFs

@@ -247,7 +247,7 @@ wheel serves its compiled reader and API without relying on editable source path
   models only, private books never sent; search stays local.
 - [x] **Off-topic routing** (October 2026): a short model call declines questions about
   other fields before search; tuned on the v2 set.
-- **More texts** (each
+- **More texts**: candidates and order in [docs/plans/texts.md](docs/plans/texts.md) (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the
   [hosted deployment plan](docs/plans/hosted-deployment.md). A local spike of the
