@@ -92,7 +92,7 @@ uv run pramana index
 
 Importing prints `Imported N new or changed chapters.` for each source; running it again
 prints `Imported 0 …`, which is expected. Indexing embeds every passage: about **3
-minutes for 4,500 passages** on a 16-thread CPU, and about 6 minutes for 8,681 passages
+minutes for 4,500 passages** on a 16-thread CPU, and about 6.5 minutes for 8,599 passages
 with the Yoga Vāsiṣṭha. Check the result:
 
 ```sh

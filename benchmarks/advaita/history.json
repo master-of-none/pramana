@@ -5,8 +5,8 @@
     {"date": "2026-10-23", "label": "First results", "passages": 4352, "scope": "whole index", "recall": {"dev": 0.633, "heldout": 0.75}, "mrr": {"dev": 0.416, "heldout": 0.545}},
     {"date": "2026-10-23", "label": "+ Crest-Jewel", "passages": 4469, "scope": "whole index", "recall": {"dev": 0.633, "heldout": 0.75}, "mrr": {"dev": 0.414, "heldout": 0.545}},
     {"date": "2026-10-23", "label": "+ Ashtavakra Gita", "passages": 4507, "scope": "whole index", "recall": {"dev": 0.633, "heldout": 0.75}, "mrr": {"dev": 0.431, "heldout": 0.543}},
-    {"date": "2026-10-23", "label": "+ Yoga Vasishtha, searched", "passages": 8681, "scope": "whole index", "recall": {"dev": 0.6, "heldout": 0.65}, "mrr": {"dev": 0.372, "heldout": 0.535}},
-    {"date": "2026-10-23", "label": "+ Yoga Vasishtha, excluded (chat)", "passages": 8681, "scope": "chat's All texts", "recall": {"dev": 0.667, "heldout": 0.65}, "mrr": {"dev": 0.412, "heldout": 0.533}}
+    {"date": "2026-10-23", "label": "+ Yoga Vasishtha, searched", "passages": 8599, "scope": "whole index", "recall": {"dev": 0.6, "heldout": 0.65}, "mrr": {"dev": 0.372, "heldout": 0.51}, "note": "re-measured after page numbers became page marks (8,681 to 8,599 passages); heldout MRR was 0.535"},
+    {"date": "2026-10-23", "label": "+ Yoga Vasishtha, excluded (chat)", "passages": 8599, "scope": "chat's All texts", "recall": {"dev": 0.667, "heldout": 0.65}, "mrr": {"dev": 0.412, "heldout": 0.533}}
   ],
   "spelling": {
     "label": "Spelling diagnostic set (4 questions written after the baseline), MRR@10",

@@ -254,7 +254,7 @@
     "lexical": {
       "all": {
         "recall_at_10": 0.56,
-        "mrr_at_10": 0.3637460317460317,
+        "mrr_at_10": 0.3632698412698413,
         "questions": 50
       },
       "dev": {
@@ -264,7 +264,7 @@
       },
       "heldout": {
         "recall_at_10": 0.55,
-        "mrr_at_10": 0.34541666666666665,
+        "mrr_at_10": 0.34422619047619046,
         "questions": 20
       },
       "failures": [
@@ -707,7 +707,7 @@
           "top": [
             "Brahma Sutra Bhashya 1.1",
             "Brahma Sutra Bhashya 3.1",
-            "Yoga Vasishtha Maharamayana 2.17"
+            "Brahma Sutra Bhashya 4.1"
           ]
         },
         {
@@ -989,7 +989,7 @@
           "id": "adv-044",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666,
+          "reciprocal_rank": 0.14285714285714285,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 3.2",
@@ -1066,8 +1066,8 @@
     },
     "dense": {
       "all": {
-        "recall_at_10": 0.4,
-        "mrr_at_10": 0.3255555555555556,
+        "recall_at_10": 0.38,
+        "mrr_at_10": 0.32333333333333336,
         "questions": 50
       },
       "dev": {
@@ -1076,8 +1076,8 @@
         "questions": 30
       },
       "heldout": {
-        "recall_at_10": 0.45,
-        "mrr_at_10": 0.32222222222222224,
+        "recall_at_10": 0.4,
+        "mrr_at_10": 0.31666666666666665,
         "questions": 20
       },
       "failures": [
@@ -1175,9 +1175,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 6.1.53",
             "Knowledge of Self 1.1",
-            "Yoga Vasishtha Maharamayana 6.2.22"
+            "Yoga Vasishtha Maharamayana 6.2.22",
+            "Yoga Vasishtha Maharamayana 3.4"
           ]
         },
         {
@@ -1242,8 +1242,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Vishnu Purana 1.9",
-            "Yoga Vasishtha Maharamayana 6.1.11",
-            "Yoga Vasishtha Maharamayana 3.6"
+            "Yoga Vasishtha Maharamayana 5.72",
+            "Yoga Vasishtha Maharamayana 6.1.11"
           ]
         },
         {
@@ -1264,8 +1264,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Yoga Vasishtha Maharamayana 5.76",
-            "Yoga Vasishtha Maharamayana 6.1.51",
-            "Yoga Vasishtha Maharamayana 5.15"
+            "Yoga Vasishtha Maharamayana 5.15",
+            "Yoga Vasishtha Maharamayana 6.1.51"
           ]
         },
         {
@@ -1357,6 +1357,17 @@
           ]
         },
         {
+          "id": "adv-044",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Yoga Vasishtha Maharamayana 3.121",
+            "Yoga Vasishtha Maharamayana 6.2.190",
+            "Yoga Vasishtha Maharamayana 6.1.52"
+          ]
+        },
+        {
           "id": "adv-045",
           "split": "dev",
           "recall_at_10": 0.0,
@@ -1364,7 +1375,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
-            "Brahma Sutra Bhashya 3.3"
+            "Yoga Vasishtha Maharamayana 6.1.128"
           ]
         },
         {
@@ -1573,9 +1584,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 6.1.53",
             "Knowledge of Self 1.1",
-            "Yoga Vasishtha Maharamayana 6.2.22"
+            "Yoga Vasishtha Maharamayana 6.2.22",
+            "Yoga Vasishtha Maharamayana 3.4"
           ]
         },
         {
@@ -1652,7 +1663,7 @@
           "top": [
             "Knowledge of Self 1.1",
             "Yoga Vasishtha Maharamayana 5.78",
-            "Knowledge of Self 1.1"
+            "Yoga Vasishtha Maharamayana 5.72"
           ]
         },
         {
@@ -1662,8 +1673,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Vishnu Purana 1.9",
-            "Yoga Vasishtha Maharamayana 6.1.11",
-            "Yoga Vasishtha Maharamayana 3.6"
+            "Yoga Vasishtha Maharamayana 5.72",
+            "Yoga Vasishtha Maharamayana 6.1.11"
           ]
         },
         {
@@ -1685,7 +1696,7 @@
           "top": [
             "Hymn to Dakshinamurti 1.1",
             "The Century of Verses 1.1",
-            "Yoga Vasishtha Maharamayana 6.1.53"
+            "Hymn to Dakshinamurti 1.1"
           ]
         },
         {
@@ -1706,8 +1717,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Yoga Vasishtha Maharamayana 5.76",
-            "Yoga Vasishtha Maharamayana 6.1.51",
-            "Yoga Vasishtha Maharamayana 5.15"
+            "Yoga Vasishtha Maharamayana 5.15",
+            "Yoga Vasishtha Maharamayana 6.1.51"
           ]
         },
         {
@@ -1751,7 +1762,7 @@
           "top": [
             "Brahma-Knowledge 2.44",
             "Brahma Sutra Bhashya 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Yoga Vasishtha Maharamayana 6.2.175"
           ]
         },
         {
@@ -1889,8 +1900,8 @@
         {
           "id": "adv-044",
           "split": "heldout",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.1111111111111111,
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
           "top": [
             "Yoga Vasishtha Maharamayana 3.121",
             "Yoga Vasishtha Maharamayana 6.2.190",
@@ -1905,7 +1916,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
-            "Brahma Sutra Bhashya 3.3"
+            "Yoga Vasishtha Maharamayana 6.1.128"
           ]
         },
         {
@@ -1968,7 +1979,7 @@
     "hybrid": {
       "all": {
         "recall_at_10": 0.62,
-        "mrr_at_10": 0.43719047619047624,
+        "mrr_at_10": 0.42719047619047623,
         "questions": 50
       },
       "dev": {
@@ -1978,7 +1989,7 @@
       },
       "heldout": {
         "recall_at_10": 0.65,
-        "mrr_at_10": 0.5349999999999999,
+        "mrr_at_10": 0.51,
         "questions": 20
       },
       "failures": [
@@ -2065,7 +2076,7 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 6.1.53",
+            "Knowledge of Self 1.1",
             "Brihadaranyaka Upanishad 2.5",
             "The Century of Verses 1.1"
           ]
@@ -2143,8 +2154,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Yoga Vasishtha Maharamayana 2.2"
+            "Yoga Vasishtha Maharamayana 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2353,7 +2364,7 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 6.1.53",
+            "Knowledge of Self 1.1",
             "Brihadaranyaka Upanishad 2.5",
             "The Century of Verses 1.1"
           ]
@@ -2428,10 +2439,10 @@
           "id": "adv-022",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 1.0,
+          "reciprocal_rank": 0.5,
           "top": [
-            "Knowledge of Self 1.1",
             "Yoga Vasishtha Maharamayana 5.72",
+            "Knowledge of Self 1.1",
             "Direct Realisation 1.1"
           ]
         },
@@ -2443,7 +2454,7 @@
           "top": [
             "Yoga Vasishtha Maharamayana 5.72",
             "Vishnu Purana 1.9",
-            "Yoga Vasishtha Maharamayana 6.2.190"
+            "Yoga Vasishtha Maharamayana 6.2.34"
           ]
         },
         {
@@ -2465,7 +2476,7 @@
           "top": [
             "Hymn to Dakshinamurti 1.1",
             "The Century of Verses 1.1",
-            "Yoga Vasishtha Maharamayana 6.2.155"
+            "Hymn to Dakshinamurti 1.1"
           ]
         },
         {
@@ -2563,8 +2574,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Yoga Vasishtha Maharamayana 2.2"
+            "Yoga Vasishtha Maharamayana 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2674,7 +2685,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Yoga Vasishtha Maharamayana 3.121",
-            "Brahma Sutra Bhashya 2.1"
+            "Yoga Vasishtha Maharamayana 6.2.190"
           ]
         },
         {
@@ -2798,7 +2809,7 @@
       "retrieved": [
         "Vishnu Purana",
         "Vishnu Purana",
-        "Yoga Vasishtha Maharamayana"
+        "Vishnu Purana"
       ]
     },
     {

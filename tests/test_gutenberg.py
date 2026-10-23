@@ -12,7 +12,9 @@ VOL1 = """<html><body><h2>Transcriber's Notes</h2><p>Front matter.</p>
 <h2>THE YOGA PHILOSOPHY.</h2><p>The translator's essay.</p>
 <div class="chapter"><h2>BOOK I. ON APATHY<br/>CHAPTER I.<br/>INTRODUCTION.</h2>
 <p><span class="dropcap">O</span>m, salutation to Reality.</p>
-<p>2. He is the knower 𑀅 of all<a id="FNanchor_1" href="#Footnote_1">[1]</a>.</p></div>
+<p>2. He is the knower 𑀅 of all<a id="FNanchor_1" href="#Footnote_1">[1]</a>.</p>
+<p>3. You must not <span class="pagenum">[Pg 816]</span> give up your duties [4].</p>
+<p>[817]</p><p>4. Next page begins here.</p></div>
 <div class="chapter"><h2>CHAPTER II.</h2><p>Second chapter text.</p></div>
 <h2>BOOK II.</h2>
 <div class="chapter"><h2>CHAPTER I.</h2><p>Book two begins.</p></div>
@@ -88,6 +90,11 @@ def test_volumes_parse_by_heading_and_continue_books(tmp_path, monkeypatch):
     (note,) = first.notes
     assert note.text == "A note on knowing." and first.text[: note.anchor_offset].endswith("of all")
     assert "A note on knowing" not in records[2].text  # footnotes never enter chapter text
+    # Printed page numbers become page marks; small unlinked footnote markers stay.
+    assert "You must not give up your duties [4]." in first.text and "Pg" not in first.text
+    assert "[817]" not in first.text
+    marks = {p.label: first.text[p.offset :].lstrip()[:9] for p in first.pages}
+    assert marks == {"816": "give up y", "817": "4. Next p"}
     assert records[0].source.url.unicode_string() == "https://example.org/1"
 
 

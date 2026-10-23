@@ -20,7 +20,7 @@ import httpx
 from bs4 import BeautifulSoup, NavigableString
 
 from pramana.errors import PramanaError
-from pramana.models import Chapter, Location, Note, Source
+from pramana.models import Chapter, Location, Note, PageMark, Source
 
 MANIFESTS = Path(__file__).with_name("gutenberg")
 CHAPTER = re.compile(r"\bCHAPTER\s+([IVXLC]+)\b", re.I)
@@ -73,7 +73,7 @@ def parse_volume(html: str, volume: dict) -> list[dict]:
         if book is None:
             continue
         stop = headings[i + 1][0] if i + 1 < len(headings) else None
-        parts, notes, length = [], [], 0
+        parts, notes, length, pages, pending = [], [], 0, [], []
         for element in tag.find_all_next():
             if element is stop:
                 break
@@ -81,18 +81,38 @@ def parse_volume(html: str, volume: dict) -> list[dict]:
                 continue
             for anchor in element.select('a[href^="#Footnote_"]'):
                 anchor.replace_with(NavigableString(f"\x00{anchor['href'][1:]}\x00"))
+            # Printed page numbers ("[Pg 816]" spans) become page marks, not text.
+            for span in element.select("span.pagenum"):
+                label = re.sub(r"[\[\]]|Pg\s*", "", span.get_text("")).strip()
+                span.replace_with(NavigableString(f"\x00PAGE:{label}\x00" if label else ""))
             for br in element.find_all("br"):
                 br.replace_with(NavigableString(" "))
             # No separator: drop capitals are separate elements ("O" + "m" is "Om").
             raw = re.sub(r"\s+", " ", element.get_text("")).strip()
-            raw = re.sub(r"\s*(\x00[^\x00]+\x00)", r"\1", raw)
+            # Some volumes print page numbers as bare "[816]": 404-982 in this edition,
+            # while its unlinked footnote markers run 1-23. Numbers >= 30 are pages.
+            raw = re.sub(
+                r"\[(\d{2,4})\]",
+                lambda m: f"\x00PAGE:{m[1]}\x00" if int(m[1]) >= 30 else m[0],
+                raw,
+            )
+            raw = re.sub(r"\s*(\x00[^\x00]+\x00)", r"\1", raw).strip()
             if not raw:
+                continue
+            tokens = raw.split("\x00")
+            if not "".join(tokens[0::2]).strip():
+                # A paragraph that is only a page number marks the next paragraph.
+                pending += [t[5:] for t in tokens[1::2] if t.startswith("PAGE:")]
                 continue
             if parts:
                 parts.append("\n\n")
                 length += 2
-            for j, piece in enumerate(raw.split("\x00")):
-                if j % 2:
+            pages += [(length, label) for label in pending]
+            pending = []
+            for j, piece in enumerate(tokens):
+                if j % 2 and piece.startswith("PAGE:"):
+                    pages.append((length, piece[5:]))
+                elif j % 2:
                     if piece in footnotes:
                         notes.append(
                             Note(
@@ -116,6 +136,7 @@ def parse_volume(html: str, volume: dict) -> list[dict]:
                 "notes": [
                     n.model_copy(update={"anchor_offset": n.anchor_offset + shift}) for n in notes
                 ],
+                "pages": [(offset + shift, label) for offset, label in pages],
             }
         )
     expected = {x["book"]: x["chapters"] for x in volume["books"] if "chapters" in x}
@@ -217,6 +238,7 @@ def acquire(home: Path, key: str, archive: Path | None = None, *, offline: bool 
                     source=source,
                     text=chapter["text"],
                     notes=chapter["notes"],
+                    pages=[PageMark(offset=o, label=lab) for o, lab in chapter["pages"]],
                 )
             )
         for book in {c["book"] for c in chapters}:

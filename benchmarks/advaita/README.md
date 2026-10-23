@@ -85,7 +85,10 @@ shifts come from keyword statistics over a growing library, not from tuning.
 **With the opt-in Yoga Vāsiṣṭha also indexed** (8,681 passages; the benchmark searches the
 whole index unfiltered): hybrid dev R@10 0.633 → 0.600 and heldout 0.750 → 0.650;
 lexical heldout 0.650 → 0.550; dense dev 0.400 → 0.367. Yoga Vāsiṣṭha passages took 16
-of the 150 hybrid top-3 slots. This crowding is why it is opt-in and why chat's "All
+of the 150 hybrid top-3 slots. Its printed page numbers (`[Pg 816]`, `[816]`) were later
+moved out of the text into page marks (8,599 passages). Re-measured: chat-scope results
+unchanged; with the Yoga Vāsiṣṭha searched, hybrid heldout MRR 0.535 → 0.510 and dense
+heldout R@10 0.450 → 0.400, recall otherwise unchanged ([results-with-opt-in.json](results-with-opt-in.json)). This crowding is why it is opt-in and why chat's "All
 texts" excludes it unless the question names it or its scope is chosen. The chapter
 benchmark (edition-filtered) was unaffected.
 

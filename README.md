@@ -14,7 +14,7 @@ the explicit download commands.
 
 | | |
 | --- | --- |
-| **Library** | 12 editions · 65 works · 2,387 chapters · 8,681 indexed passages · 12.1 million characters |
+| **Library** | 12 editions · 65 works · 2,387 chapters · 8,599 indexed passages · 12.1 million characters |
 | **Commentaries side by side** | Śaṅkara (SBE 34/38) and Rāmānuja (SBE 48) on the Brahma Sūtra, matched page by page on printed adhyāya, pāda and sūtra |
 | **Concepts** | 110-term Advaita glossary with IAST, Devanagari, meanings and concept pages |
 | **Measured** | 50-question passage benchmark with exact gold spans, a chapter benchmark, and recorded real-model sessions |
@@ -86,9 +86,9 @@ measured parse results are in the [source notices](docs/notices/sources.md).
 | Bhagavad Gītā with commentary | Swami Swarupananda, 1909 | `gita-swarupananda` | 1 | 18 | 83 | 111,243 |
 | _Brahma-Knowledge_ | L. D. Barnett, 1911 | `brahma-knowledge` | 1 | 42 | 95 | 118,007 |
 | Aṣṭāvakra Gītā (_The Heart of Awareness_) | John Richards, 1996 | `ashtavakra-gita` | 1 | 20 | 38 | 47,668 |
-| **Yoga Vāsiṣṭha** (opt-in) | Vihari-Lala Mitra, 1891–99 | `yoga-vasistha` | 1 | 673 | 4,174 | 6,198,439 |
+| **Yoga Vāsiṣṭha** (opt-in) | Vihari-Lala Mitra, 1891–99 | `yoga-vasistha` | 1 | 673 | 4,092 | 6,177,442 |
 | Vishnu Purana | H. H. Wilson, 1840 | `vishnu-purana` | 1 | 126 | 587 | 846,941 |
-| **Total** | | | **65** | **2,387** | **8,681** | **12,144,947** |
+| **Total** | | | **65** | **2,387** | **8,599** | **12,123,950** |
 
 `--source advaita` fetches every Vedānta source except the Yoga Vāsiṣṭha. That one is
 opt-in: it is larger than the rest of the library together and measurably crowds other
@@ -152,7 +152,7 @@ whole index, so importing a large work shifts keyword ranking even when it is fi
 | Semantic | 100% | 0.8026 | 100% | 0.8026 |
 
 20 development-visible questions with chapter-level labels, filtered to Wilson's edition.
-The v0.1 index held 587 passages and today's holds 8,681, so keyword runs are not
+The v0.1 index held 587 passages and today's holds 8,599, so keyword runs are not
 directly comparable. See [benchmarks/README.md](benchmarks/README.md).
 
 ### Spelling tolerance

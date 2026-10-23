@@ -1935,12 +1935,12 @@
     "hybrid": {
       "all": {
         "recall_at_10": 0.66,
-        "mrr_at_10": 0.4602698412698413,
+        "mrr_at_10": 0.46074603174603174,
         "questions": 50
       },
       "dev": {
         "recall_at_10": 0.6666666666666666,
-        "mrr_at_10": 0.41156084656084657,
+        "mrr_at_10": 0.41235449735449736,
         "questions": 30
       },
       "heldout": {
@@ -2219,7 +2219,7 @@
           "id": "adv-008",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.14285714285714285,
+          "reciprocal_rank": 0.16666666666666666,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.4",
