@@ -161,6 +161,11 @@ stays answers-only. It needs no answer model.
   with an earlier one, that page is shown and labelled as such.
 - **Passages behind an answer:** opened from the chat, from evidence pointers kept with
   the conversation in the tab's `sessionStorage`; they disappear with New chat.
+- **Reading paths:** `#/study/paths` offers curated sequences ("First steps in
+  Advaita"; Śaṅkara and Rāmānuja on the first four sūtras) defined in
+  `src/pramana/paths.json` by printed location. Steps for editions you have not
+  imported are listed but not linked. Marking steps read is stored per browser in
+  `localStorage`. The step notes are short editorial descriptions.
 - **Search:** hybrid (needs the embedding model) or exact-word search.
 - **Concepts:** each glossary concept (`#/study/concept/adhyasa`) shows its editorial
   definition and the passages that mention it most strongly for Śaṅkara, Rāmānuja,

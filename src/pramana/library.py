@@ -256,3 +256,56 @@ def concepts() -> list[dict]:
     from pramana.glossary import terms
 
     return [{"slug": slug(t.term), **t.model_dump()} for t in terms()]
+
+
+def paths(store: Store) -> list[dict]:
+    """Curated reading paths resolved against the imported library.
+
+    Steps name printed locations, not chapter IDs, so an edition that is not imported
+    shows as an unavailable step instead of a broken link.
+    """
+    from pathlib import Path
+
+    curated = json.loads(Path(__file__).with_name("paths.json").read_text(encoding="utf-8"))
+    docs = catalogue(store)
+    result = []
+    for path in curated:
+        steps = []
+        for step in path["steps"]:
+            if "sutra" in step:
+                book, chapter, sutra = step["sutra"]
+                found = parallel(store, book, chapter, sutra)
+                steps.append(
+                    {
+                        "kind": "sutra",
+                        "sutra": step["sutra"],
+                        "note": step["note"],
+                        "available": len(found) >= 2,
+                    }
+                )
+                continue
+            doc = next((d for d in docs if d["document_id"] == step["document_id"]), None)
+            target = step.get("sections")
+            match = next(
+                (
+                    c
+                    for c in (doc["chapters"] if doc else [])
+                    if c["location"]["book"] == step["book"]
+                    and c["location"]["chapter"] == step["chapter"]
+                    and (target is None or c["location"].get("sections") == target)
+                ),
+                None,
+            )
+            steps.append(
+                {
+                    "kind": "chapter",
+                    "document": doc["document"] if doc else step["document_id"],
+                    "location": match["location"] if match else None,
+                    "category": doc["category"] if doc else "",
+                    "chapter_id": match["id"] if match else None,
+                    "note": step["note"],
+                    "available": match is not None,
+                }
+            )
+        result.append({**{k: path[k] for k in ("slug", "title", "description")}, "steps": steps})
+    return result

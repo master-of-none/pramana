@@ -112,3 +112,17 @@ def test_concept_pages_group_passages_and_skip_compounds(indexed, embedder, tmp_
     assert client.get("/api/concepts/nothing").status_code == 404
     listed = {c["slug"]: c["term"] for c in client.get("/api/concepts").json()}
     assert listed["tat-tvam-asi"] == "tat tvam asi" and listed["saksin"] == "sākṣin"
+
+
+def test_reading_paths_resolve_or_mark_missing(indexed, embedder, tmp_path, make_chapter):
+    gita = make_chapter("The Self is never born.", book="1", chapter="2")
+    gita.document_id, gita.document = "bhagavad-gita-sbg", "Bhagavad Gita"
+    client = client_with(indexed, embedder, tmp_path, [gita])
+    found = {p["slug"]: p for p in client.get("/api/paths").json()}
+    steps = found["first-steps"]["steps"]
+    gita_step = next(s for s in steps if s["document"] == "Bhagavad Gita")
+    assert gita_step["available"] and gita_step["chapter_id"] == gita.id
+    assert not any(s["available"] for s in steps if s is not gita_step)
+    assert all(
+        s["kind"] == "sutra" and not s["available"] for s in found["two-commentaries"]["steps"]
+    )

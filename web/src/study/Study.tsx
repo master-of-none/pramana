@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Columns2,
+  Route as PathIcon,
   Search as SearchIcon,
 } from "lucide-react";
 import { getJSON, placeLabel } from "../lib/api.ts";
@@ -21,6 +22,7 @@ import { restore } from "../lib/storage.ts";
 import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
 import { Argument } from "./Argument.tsx";
+import { Paths } from "./Paths.tsx";
 
 // Shared per page load; the catalogue changes only when the library is re-imported.
 let catalogue: Promise<LibraryDocument[]> | null = null;
@@ -111,6 +113,9 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
           rights and attribution.
         </p>
         <div className="study-actions">
+          <a href={href("study", "paths")}>
+            <PathIcon size={15} /> Reading paths
+          </a>
           <a href={href("study", "search")}>
             <SearchIcon size={15} /> Search the library
           </a>
@@ -557,6 +562,7 @@ export function Study({ route }: { route: Route }) {
     content = <Evidence turnId={rest[0]} glossary={glossary} />;
   else if (page === "search") content = <Search route={route} />;
   else if (page === "concept" && rest[0]) content = <Concept slug={rest[0]} />;
+  else if (page === "paths") content = <Paths />;
   else content = <Library glossary={glossary} />;
   return (
     <div className="view study">

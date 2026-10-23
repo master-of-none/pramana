@@ -217,7 +217,8 @@ wheel serves its compiled reader and API without relying on editable source path
 - **Advaita benchmark:** 50 questions with gold spans across the Vedānta library.
 - [x] **Vichāra mode** (October 2026): short answer plus reflective questions; prompt
   guidance only.
-- **Study paths, transliteration-tolerant search, more texts** (each
+- [x] **Reading paths** (October 2026): two curated paths with per-browser progress.
+- **Transliteration-tolerant search, more texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the
   [hosted deployment plan](docs/plans/hosted-deployment.md).

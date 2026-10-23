@@ -17,6 +17,7 @@ from pramana.library import (
     concepts,
     neighbours,
     parallel,
+    paths,
     role_spans,
     scopes,
 )
@@ -145,6 +146,10 @@ def create_app(
         if found is None:
             raise HTTPException(404, "No glossary concept by that name.")
         return found
+
+    @api.get("/api/paths")
+    def reading_paths():
+        return paths(corpus.store)
 
     @api.get("/api/scopes")
     def chat_scopes():

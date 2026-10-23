@@ -11,6 +11,7 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `GET` | `/api/chapters/{id}` | A stored chapter (`?passage_id=` selects one), its explicit role spans, and previous/next IDs |
 | `GET` | `/api/concepts` | Glossary concepts with their page slugs |
 | `GET` | `/api/concepts/{slug}` | A concept with its strongest passages per group of texts |
+| `GET` | `/api/paths` | Curated reading paths resolved against the imported library |
 | `GET` | `/api/scopes` | Chat scopes that contain imported books, with document counts |
 | `GET` | `/api/library` | Every document with its divisions in reading order, without text |
 | `GET` | `/api/parallel?book=&chapter=&sutra=` | Each Brahma Sūtra commentary's pages for one sūtra |

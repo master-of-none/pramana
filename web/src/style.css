@@ -1700,3 +1700,59 @@ a.chip {
   opacity: 0.45;
   cursor: default;
 }
+
+/* Reading paths */
+.reading-path h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  margin: 34px 0 4px;
+}
+.reading-path ol {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.reading-path li {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.reading-path li a {
+  color: var(--c-383a30);
+  font-family: var(--serif);
+  font-size: 17px;
+  text-decoration: none;
+}
+.reading-path li a:hover {
+  color: var(--olive);
+}
+.reading-path li p {
+  margin: 3px 0 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.reading-path li.read a {
+  color: var(--muted);
+}
+.step-check {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 1px solid var(--c-bfc3ae);
+  color: transparent;
+  display: grid;
+  place-items: center;
+}
+.step-check[aria-pressed="true"] {
+  background: var(--c-717b54);
+  border-color: var(--c-717b54);
+  color: var(--paper);
+}
+.step-missing {
+  color: var(--muted);
+  font-family: var(--serif);
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "first-steps",
+    "title": "First steps in Advaita",
+    "description": "Two short works attributed to Śaṅkara, the Gītā's second chapter, three Upaniṣads, and the opening sūtras with Śaṅkara's commentary.",
+    "steps": [
+      {"document_id": "knowledge-of-self-wos", "book": "1", "chapter": "1", "note": "A short treatise that, in its opening verses, calls knowledge the only direct means to liberation."},
+      {"document_id": "direct-realisation-wos", "book": "1", "chapter": "1", "note": "The qualifications for enquiry and the question \"Who am I?\"."},
+      {"document_id": "bhagavad-gita-sbg", "book": "1", "chapter": "2", "note": "The Way of Knowledge: the Self that is never born and never dies."},
+      {"document_id": "isa-upanishad-sbe01", "book": "1", "chapter": "1", "note": "Seeing all beings in the Self, and the Self in all beings."},
+      {"document_id": "kena-upanishad-sbe01", "book": "1", "chapter": "1", "note": "That by which speech and mind are themselves known."},
+      {"document_id": "katha-upanishad-sbe15", "book": "1", "chapter": "2", "note": "Nachiketas is taught the unborn Self."},
+      {"document_id": "katha-upanishad-sbe15", "book": "1", "chapter": "3", "note": "The chariot: Self, body, intellect and mind."},
+      {"document_id": "mundaka-upanishad-sbe15", "book": "1", "chapter": "1", "note": "The higher and the lower knowledge."},
+      {"document_id": "brahma-sutra-shankara-thibaut", "book": "1", "chapter": "1", "sections": ["1"], "note": "Śaṅkara's introduction on superimposition, and the first sūtra."},
+      {"document_id": "brahma-sutra-shankara-thibaut", "book": "1", "chapter": "1", "sections": ["2"], "note": "Brahman as that from which the world originates."}
+    ]
+  },
+  {
+    "slug": "two-commentaries",
+    "title": "Śaṅkara and Rāmānuja on the first four sūtras",
+    "description": "Read the two great commentaries side by side where they first diverge.",
+    "steps": [
+      {"sutra": ["1", "1", "1"], "note": "Then therefore the enquiry into Brahman; Rāmānuja's Great Pūrvapakṣa and Siddhānta sit here."},
+      {"sutra": ["1", "1", "2"], "note": "That from which the origin of this world proceeds."},
+      {"sutra": ["1", "1", "3"], "note": "On scripture and the knowledge of Brahman."},
+      {"sutra": ["1", "1", "4"], "note": "Harmony of the Upaniṣads, and whether knowledge is subordinate to action."}
+    ]
+  }
+]
