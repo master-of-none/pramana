@@ -197,6 +197,39 @@ excluded. Verse numbers printed at the end of each verse (e.g. `1.2`) stay in th
 No author is recorded: the translator notes only that tradition ascribes the work to
 the sage Aṣṭāvakra. Checked on 23 October 2026: 20 records, about 48,000 characters.
 
+## Yoga Vāsiṣṭha (Mitra)
+
+- Translation: Vihari-Lala Mitra, _The Yoga-Vásishtha Mahárámáyana of Válmíki_, four
+  volumes (1891–1899); the Gutenberg transcriptions name the India: Low Price
+  Publications printing. The edition attributes the work to Vālmīki; Pramana records
+  no author and says "attributed to Valmiki by this edition".
+- Copy used: seven Project Gutenberg HTML ebooks (71326, 71063, 71064, 71095, 46531,
+  71248, 71249). Each states it is "for the use of anyone anywhere in the United
+  States and most other parts of the world at no cost and with almost no restrictions
+  whatsoever"; outside the US, check local laws. "Project Gutenberg" is a trademark:
+  records keep only the text, not the Gutenberg licence or name.
+
+**Opt-in:** `pramana corpus download --source yoga-vasistha` (not part of `advaita`;
+about 6.2 million characters, more than the rest of the library together). The
+adapter ([`gutenberg.py`](../../src/pramana/ingestion/gutenberg.py)) and manifest
+([`gutenberg/yoga-vasistha.json`](../../src/pramana/ingestion/gutenberg/yoga-vasistha.json))
+pin each volume's SHA-256 and the chapter count of each book; any other file or
+structure is refused. Downloads use HTTP/1.1, because Gutenberg's HTTP/2 endpoint
+truncated large files in testing.
+
+A chapter starts at a heading element reading "CHAPTER …"; contents tables are not
+headings, so transcriber's notes, front matter, contents, Mitra's introduction ("The
+Yoga Philosophy") and the footnote sections are excluded; linked footnotes become
+notes. Books: 1 Vairāgya (33), 2 Mumukṣu (20), 3 Utpatti (122), 4 Sthiti (62),
+5 Upaśama (92), 6.1 Nirvāṇa first half (128), 6.2 Nirvāṇa second half (216); books
+spanning two volumes continue their numbering. **`chapter` is the position within the
+book, not the printed number**, because the transcription's printed numbers contain
+misprints and repeats (e.g. two "CHAPTER CV." headings in 6.2, and Upaśama has no
+"CHAPTER XV." heading, so that chapter's text is inside the record headed "CHAPTER XIV.";
+Upaśama therefore has 92 records against its printed 93). The printed heading is kept
+as the section label. Drop capitals are joined ("Om"). Checked on 23 October 2026:
+673 records, about 6.2 million characters, 56 notes.
+
 ## Embedding model
 
 [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) is distributed

@@ -45,9 +45,10 @@ your computer: the only network use is the explicit download commands.
 | Bhagavad Gītā with commentary | Swami Swarupananda, 1909 | `--source gita-swarupananda` |
 | Thirty Minor Upaniṣads | Narayanasvami Aiyar, 1914 | `--source minor-upanishads` |
 | _Brahma-Knowledge_ | L. D. Barnett, 1911 | `--source brahma-knowledge` |
+| Yoga Vāsiṣṭha (opt-in; larger than the rest together) | Vihari-Lala Mitra, 1891–99 | `--source yoga-vasistha` |
 | Vishnu Purana | H. H. Wilson, 1840 | `--source vishnu-purana` |
 
-`--source advaita` fetches every Vedānta source above. You can also add three
+`--source advaita` fetches every Vedānta source above except the Yoga Vāsiṣṭha. You can also add three
 private PDFs locally (Chinmayananda's _Holy Geeta_, Śaṅkara's Gītā commentary
 translated by Alladi Mahadeva Sastry, and the Taittirīya Ānanda-valli); they are
 never distributed. See [building the library](docs/guides/corpus.md) and the

@@ -31,9 +31,12 @@ yourself (for one source at a time).
 | `ashtavakra-gita` | _The Heart of Awareness: Ashtavakra Gita_, tr. John Richards, 1996 | 20 | dedicated to the public domain by the translator |
 | `brahma-knowledge` | _Brahma-Knowledge_, L. D. Barnett, 1911 | 42 | public domain in the US (before 1923) |
 | `vishnu-purana` | _Vishnu Purana_, tr. H. H. Wilson, 1840 | 126 | public domain in the US |
+| `yoga-vasistha` | _Yoga-Vásishtha Mahárámáyana_, tr. Vihari-Lala Mitra, 1891–99 (7 Gutenberg volumes) | 673 | public domain in the US (Project Gutenberg) |
 
-`advaita` fetches every source above except `vishnu-purana`, which is the default
-when `--source` is omitted. Record counts were measured on 22 October 2026 and
+`advaita` fetches every source above except `vishnu-purana` (the default when
+`--source` is omitted) and `yoga-vasistha`, which is **opt-in**: it is larger than
+the rest of the library together and would dominate answers to general questions.
+It gets its own Study category and chat scope (**Yoga Vāsiṣṭha**) when imported. Record counts were measured on 22 October 2026 and
 change only if the source site changes; the parsers then fail rather than import a
 partial edition. Rights statements are recorded as the source states them, not as
 legal advice. Details, exclusions and provenance are in the

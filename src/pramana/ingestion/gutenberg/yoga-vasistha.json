@@ -1,0 +1,126 @@
+{
+  "id": "yoga-vasistha-mitra",
+  "document_id": "yoga-vasistha-mitra",
+  "document": "Yoga Vasishtha Maharamayana",
+  "translator": "Vihari-Lala Mitra",
+  "author": "",
+  "edition": "Mitra translation, 1891-1899 (Low Price Publications reprint as transcribed); attributed to Valmiki by this edition · Project Gutenberg HTML",
+  "content_type": "translation",
+  "rights": "Stated by the source: Project Gutenberg eBook \"for the use of anyone anywhere in the United States and most other parts of the world at no cost and with almost no restrictions whatsoever\"; outside the US, check local laws. Project Gutenberg is a trademark; this record keeps only the public-domain text.",
+  "attribution": "Vihari-Lala Mitra (translator); transcribed by Project Gutenberg volunteers.",
+  "volumes": [
+    {
+      "ebook": 71326,
+      "label": "Vol. 1",
+      "url": "https://www.gutenberg.org/cache/epub/71326/pg71326-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71326",
+      "sha256": "3489b62e66892d92f73b90ccaaef547ffe5d959b97254f8e440e3b6e5ec3df65",
+      "books": [
+        {
+          "book": "1",
+          "printed": "I",
+          "chapters": 33
+        },
+        {
+          "book": "2",
+          "printed": "II",
+          "chapters": 20
+        },
+        {
+          "book": "3",
+          "printed": "III",
+          "chapters": 50
+        }
+      ]
+    },
+    {
+      "ebook": 71063,
+      "label": "Vol. 2, Part 1",
+      "url": "https://www.gutenberg.org/cache/epub/71063/pg71063-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71063",
+      "sha256": "1ac0b83fa81d572afe3d1eea857758c23b17739d8873b79a31e4933ac7368cbe",
+      "books": [
+        {
+          "book": "3",
+          "printed": "III",
+          "chapters": 72
+        }
+      ]
+    },
+    {
+      "ebook": 71064,
+      "label": "Vol. 2, Part 2",
+      "url": "https://www.gutenberg.org/cache/epub/71064/pg71064-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71064",
+      "sha256": "33c19a647aef62d212c721e197be921a7b14b2b6212cd9c25eca8930ed26f3c6",
+      "books": [
+        {
+          "book": "4",
+          "printed": "IV",
+          "chapters": 62
+        },
+        {
+          "book": "5",
+          "printed": "V",
+          "chapters": 52
+        }
+      ]
+    },
+    {
+      "ebook": 71095,
+      "label": "Vol. 3, Part 1",
+      "url": "https://www.gutenberg.org/cache/epub/71095/pg71095-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71095",
+      "sha256": "9006a3d102679371964bf6e245a233d75535ebd7963a4980d1b4be0602f631ed",
+      "books": [
+        {
+          "book": "5",
+          "printed": "V",
+          "chapters": 40
+        }
+      ]
+    },
+    {
+      "ebook": 46531,
+      "label": "Vol. 3, Part 2",
+      "url": "https://www.gutenberg.org/cache/epub/46531/pg46531-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/46531",
+      "sha256": "985e03dde556ab70dc18d108bfbba08d45a8a1fd6fa6fb5fc8ebbf018793712e",
+      "books": [
+        {
+          "book": "6.1",
+          "printed": "VI",
+          "chapters": 128
+        }
+      ]
+    },
+    {
+      "ebook": 71248,
+      "label": "Vol. 4, Part 1",
+      "url": "https://www.gutenberg.org/cache/epub/71248/pg71248-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71248",
+      "sha256": "b8660210f78834d597c30b0e576bf4dd60b701412bc1a797e312ac6581845f36",
+      "books": [
+        {
+          "book": "6.2",
+          "printed": "VI",
+          "chapters": 105
+        }
+      ]
+    },
+    {
+      "ebook": 71249,
+      "label": "Vol. 4, Part 2",
+      "url": "https://www.gutenberg.org/cache/epub/71249/pg71249-images.html",
+      "page_url": "https://www.gutenberg.org/ebooks/71249",
+      "sha256": "d9a37c36960fa38376c430957032165ff7fb537ed48aa0970863104839071437",
+      "books": [
+        {
+          "book": "6.2",
+          "printed": "VI",
+          "chapters": 111
+        }
+      ]
+    }
+  ]
+}

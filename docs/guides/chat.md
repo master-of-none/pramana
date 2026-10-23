@@ -145,7 +145,10 @@ Chips above the composer limit a question to **All texts**, **Upaniṣads**, **B
 Gītā**, **Śaṅkara** or **Rāmānuja**; only scopes with imported books are offered.
 Scopes are resolved from the library catalogue, so every document in a group is
 searched in one query. Editions or thinkers named in the question narrow a scope but
-never widen it. **Compare Śaṅkara & Rāmānuja** starts a comparison question across all
+never widen it. **All texts leaves out opt-in works** (currently the Yoga Vāsiṣṭha):
+they are searched only with their chip or when the question names them ("…in the Yoga
+Vasishtha"), because the Yoga Vāsiṣṭha alone is larger than the rest of the library and
+measurably crowded other passages out of the benchmarks. **Compare Śaṅkara & Rāmānuja** starts a comparison question across all
 texts. **Brief / Explain / In depth** changes only the length guidance given to the
 model; evidence, validation and the output cap are unchanged. **Vichāra** asks for a
 two-to-four-sentence answer followed by "To reflect on:" and two or three questions

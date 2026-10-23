@@ -27,9 +27,17 @@ const stageLabels: Record<Stage, string> = {
   composing: "Composing an answer…",
   checking: "Checking the answer against the passages…",
 };
-type Scope = "all" | "upanishads" | "gita" | "shankara" | "ramanuja";
+type Scope =
+  "all" | "upanishads" | "gita" | "yoga-vasistha" | "shankara" | "ramanuja";
 type Depth = "brief" | "explain" | "deep";
-const SCOPES: Scope[] = ["all", "upanishads", "gita", "shankara", "ramanuja"];
+const SCOPES: Scope[] = [
+  "all",
+  "upanishads",
+  "gita",
+  "yoga-vasistha",
+  "shankara",
+  "ramanuja",
+];
 const DEPTHS: [Depth, string][] = [
   ["brief", "Brief"],
   ["explain", "Explain"],

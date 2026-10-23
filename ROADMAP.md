@@ -228,6 +228,8 @@ wheel serves its compiled reader and API without relying on editable source path
   more works, via a new HTML mode of the Sacred Texts adapter.
 - [x] **Aṣṭāvakra Gītā** (October 2026): Richards' public-domain translation via a
   pinned single-text adapter.
+- [x] **Yoga Vāsiṣṭha** (October 2026, opt-in): Mitra's translation from seven Gutenberg
+  volumes; excluded from "All texts" because it measurably crowds retrieval.
 - **More texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the

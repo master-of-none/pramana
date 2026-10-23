@@ -162,7 +162,7 @@ class ChatMessage(Record):
     content: str = Field(min_length=1, max_length=6000)
 
 
-Scope = Literal["all", "upanishads", "gita", "shankara", "ramanuja"]
+Scope = Literal["all", "upanishads", "gita", "yoga-vasistha", "shankara", "ramanuja"]
 Depth = Literal["brief", "explain", "deep"]
 
 

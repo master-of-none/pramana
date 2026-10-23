@@ -45,6 +45,7 @@ SOURCES = {
     "brahma-knowledge": "Brahma-Knowledge, Barnett (1911)",
     "crest-jewel": "Crest-Jewel of Wisdom (Vivekachudamani) and other works, Johnston (1946)",
     "ashtavakra-gita": "Ashtavakra Gita, The Heart of Awareness, Richards (1996)",
+    "yoga-vasistha": "Yoga Vasishtha, Mitra (1891-99), 7 Gutenberg volumes; opt-in, large",
 }
 # Single plain-text editions keyed by their manifest ID in ingestion/textfiles/.
 TEXT_FILES = {"ashtavakra-gita": "ashtavakra-richards"}
@@ -57,10 +58,15 @@ SACRED_TEXTS = {
     "brahma-knowledge": "brk",
     "crest-jewel": "cjw",
 }
-ADVAITA = [s for s in SOURCES if s != "vishnu-purana"]
+# The Yoga Vasishtha is opt-in: it would double the library and crowd general answers.
+ADVAITA = [s for s in SOURCES if s not in {"vishnu-purana", "yoga-vasistha"}]
 
 
 def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
+    if source == "yoga-vasistha":
+        from pramana.ingestion.gutenberg import acquire
+
+        return acquire(data_dir(), "yoga-vasistha-mitra", archive, offline=offline)
     if source in TEXT_FILES:
         from pramana.ingestion.textfile import acquire
 

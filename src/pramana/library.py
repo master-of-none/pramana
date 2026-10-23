@@ -14,6 +14,7 @@ from pramana.storage import Store
 
 CATEGORIES = (
     ("Brahma Sūtra", r"brahma[ -]?sutra|sribhashya"),
+    ("Yoga Vāsiṣṭha", r"yoga[ -]?vas[iu]sh?th?a"),
     ("Upaniṣads", r"[uo]panish|aranyaka"),  # "Brahmopanishad": sandhi joins the vowel.
     # "Gita" alone is not enough: the Ashtavakra Gita is a different work.
     ("Bhagavad Gītā", r"bhagavad|holy geeta"),
@@ -84,10 +85,23 @@ def catalogue(store: Store) -> list[dict]:
     return sorted(result, key=lambda d: (names.index(d["category"]), d["document"], d["edition"]))
 
 
+# Large works searched only when chosen or named: they would crowd general answers.
+OPT_IN = {"Yoga Vāsiṣṭha"}
+
+
+def default_documents(store: Store) -> list[str] | None:
+    """Documents "All texts" searches, or None when nothing is opt-in (search everything)."""
+    docs = catalogue(store)
+    if not any(d["category"] in OPT_IN for d in docs):
+        return None
+    return list(dict.fromkeys(d["document_id"] for d in docs if d["category"] not in OPT_IN))
+
+
 # Chat scopes: display groupings or a named commentator, resolved to document IDs.
 SCOPES = {
     "upanishads": ("Upaniṣads", lambda d: d["category"] == "Upaniṣads"),
     "gita": ("Bhagavad Gītā", lambda d: d["category"] == "Bhagavad Gītā"),
+    "yoga-vasistha": ("Yoga Vāsiṣṭha", lambda d: d["category"] == "Yoga Vāsiṣṭha"),
     "shankara": ("Śaṅkara", lambda d: "sankara" in fold(d["author"])),
     "ramanuja": ("Rāmānuja", lambda d: "ramanuja" in fold(d["author"])),
 }

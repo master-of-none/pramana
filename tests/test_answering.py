@@ -558,3 +558,29 @@ def test_long_instructions_trim_lowest_ranked_evidence(indexed, embedder, tmp_pa
     assert size <= 13800
     ids = [e["id"] for e in json.loads(messages[-1]["content"])["evidence"]]
     assert schema["properties"]["evidence_ids"]["items"]["enum"] == ids
+
+
+def test_opt_in_works_are_searched_only_when_chosen_or_named(
+    indexed, embedder, tmp_path, make_chapter
+):
+    yv = make_chapter("Vishnu preserves the universe in the dream of the mind.", chapter="30")
+    yv.document_id, yv.document = "yoga-vasistha-x", "Yoga Vasishtha Maharamayana"
+    path = tmp_path / "yv.jsonl"
+    path.write_text(yv.model_dump_json())
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    retriever = Retriever(indexed, embedder=embedder)
+
+    def works(message, **request):
+        provider = Provider([grounded()])
+        run_request = ChatRequest(message=message, **request)
+        asyncio.run(Answerer(retriever, provider=provider).answer(run_request))
+        return {e["work"] for e in json.loads(provider.calls[0][0][-1]["content"])["evidence"]}
+
+    assert "Yoga Vasishtha Maharamayana" not in works("Who preserves the universe?")
+    assert works("Who preserves the universe in the Yoga Vasishtha?") == {
+        "Yoga Vasishtha Maharamayana"
+    }
+    assert works("Who preserves the universe?", scope="yoga-vasistha") == {
+        "Yoga Vasishtha Maharamayana"
+    }

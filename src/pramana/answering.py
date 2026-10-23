@@ -17,7 +17,15 @@ from pydantic import Field, ValidationError
 from pramana.discourse import annotate
 from pramana.errors import PramanaError
 from pramana.glossary import fold
-from pramana.library import OTHER, SCOPES, category, scope_documents
+from pramana.library import (
+    CATEGORIES,
+    OPT_IN,
+    OTHER,
+    SCOPES,
+    category,
+    default_documents,
+    scope_documents,
+)
 from pramana.models import (
     ChatRequest,
     ChatResponse,
@@ -555,6 +563,12 @@ class Answerer:
                 names = {title} | ({short} if len(short) >= 4 and short != title else set())
                 if re.search(r"\b(?:gita|geeta)\b", title):
                     names |= {"gita", "geeta"}
+                group = category(doc["title"] or "")
+                if group in OPT_IN:
+                    # Opt-in works are named by their usual short name ("the Yoga Vasishtha").
+                    pattern = dict(CATEGORIES)[group]
+                    if re.search(pattern, plain) and doc["id"] not in selected:
+                        selected.append(doc["id"])
                 if any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", plain) for n in names):
                     if doc["id"] not in selected:
                         selected.append(doc["id"])
@@ -582,6 +596,9 @@ class Answerer:
                 )
             # Named editions and thinkers narrow the scope; they never widen it.
             selected = [doc for doc in selected if doc in within]
+        elif not selected:
+            # "All texts" leaves out opt-in works unless the question names one.
+            within = await asyncio.to_thread(default_documents, self.retriever.corpus.store)
         await report("searching")
         hits = await asyncio.to_thread(
             self._retrieve, question, list(dict.fromkeys(selected)), authors, within
