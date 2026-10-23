@@ -1,0 +1,1621 @@
+{
+  "label": "Advaita passage-level benchmark · draft, AI-drafted and unreviewed · not a validated measurement",
+  "version": 1,
+  "created": "2026-10-23",
+  "split_policy": "Frozen at creation before any tuning: every 2nd and 4th question of each five is heldout.",
+  "questions": [
+    {
+      "id": "adv-001",
+      "split": "dev",
+      "query": "What does Uddalaka tell Svetaketu about his identity with the subtle essence?",
+      "match": "any",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "8",
+          "sections": [
+            "VI, 8"
+          ],
+          "start": 2680,
+          "end": 2726,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "9",
+          "sections": [
+            "VI, 9"
+          ],
+          "start": 668,
+          "end": 714,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "10",
+          "sections": [
+            "VI, 10"
+          ],
+          "start": 763,
+          "end": 809,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "12",
+          "sections": [
+            "VI, 12"
+          ],
+          "start": 536,
+          "end": 582,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "13",
+          "sections": [
+            "VI, 13"
+          ],
+          "start": 848,
+          "end": 894,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "14",
+          "sections": [
+            "VI, 14"
+          ],
+          "start": 938,
+          "end": 984,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "15",
+          "sections": [
+            "VI, 15"
+          ],
+          "start": 504,
+          "end": 550,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "16",
+          "sections": [
+            "VI, 16"
+          ],
+          "start": 719,
+          "end": 765,
+          "quote": "It is the Self, and thou, O Svetaketu, art it."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-002",
+      "split": "heldout",
+      "query": "Which Upanishad says all this is Brahman and how should one meditate on it?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "14",
+          "sections": [
+            "III, 14"
+          ],
+          "start": 23,
+          "end": 148,
+          "quote": "All this is Brahman (n.) Let a man meditate on that (visible world) as beginning, ending, and breathing  in it (the Brahman)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-003",
+      "split": "dev",
+      "query": "How is the Self described by negation as 'No, no' in the Brihadaranyaka?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "brihadaranyaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "4",
+          "chapter": "4",
+          "sections": [
+            "IV, 4"
+          ],
+          "start": 6775,
+          "end": 6819,
+          "quote": "He, the Self, is to be described by No, no !"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-004",
+      "split": "heldout",
+      "query": "In the beginning what did Brahman know about itself?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "brihadaranyaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "4",
+          "sections": [
+            "I, 4"
+          ],
+          "start": 4204,
+          "end": 4329,
+          "quote": "Verily in the beginning this was Brahman, that Brahman knew (its) Self only, saying, 'I am Brahman.' From it all this sprang."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-005",
+      "split": "dev",
+      "query": "Why can the Self not be seen or perceived as an object?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "brihadaranyaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "4",
+          "sections": [
+            "III, 4"
+          ],
+          "start": 943,
+          "end": 1117,
+          "quote": "Thou couldst not see the (true) seer of sight, thou couldst not hear the (true) hearer of hearing, nor perceive the perceiver of perception, nor know the knower of knowledge."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-006",
+      "split": "dev",
+      "query": "When the Self alone is all this, how could one see another?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "brihadaranyaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "4",
+          "chapter": "5",
+          "sections": [
+            "IV, 5"
+          ],
+          "start": 5697,
+          "end": 5787,
+          "quote": "but when the Self only is all this, how should he see another, how should he smell another"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-007",
+      "split": "heldout",
+      "query": "Does the knowing Self die when the body dies, according to the Katha Upanishad?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "katha-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "I, 2"
+          ],
+          "start": 3639,
+          "end": 3732,
+          "quote": "'The knowing (Self) is not born, it dies not; it sprang from nothing, nothing sprang from it."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-008",
+      "split": "dev",
+      "query": "What is the chariot image for the Self, body, intellect and mind?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "katha-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "3",
+          "sections": [
+            "I, 3"
+          ],
+          "start": 506,
+          "end": 641,
+          "quote": "Know the Self to be sitting in the chariot, the body to be the chariot, the intellect (buddhi) the charioteer, and the mind the reins ."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-009",
+      "split": "heldout",
+      "query": "Can the Self be gained by studying the Veda or by much learning?",
+      "match": "any",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "katha-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "I, 2"
+          ],
+          "start": 4541,
+          "end": 4614,
+          "quote": "cannot be gained by the Veda, nor by understanding, nor by much learning."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "mundaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "2",
+          "sections": [
+            "III, 2"
+          ],
+          "start": 480,
+          "end": 553,
+          "quote": "cannot be gained by the Veda, nor by understanding, nor by much learning."
+        },
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "10"
+          ],
+          "start": 235,
+          "end": 308,
+          "quote": "cannot be gained by the Veda, nor by understanding, nor by much learning."
+        },
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "3",
+          "chapter": "2",
+          "sections": [
+            "23"
+          ],
+          "start": 313,
+          "end": 386,
+          "quote": "cannot be gained by the Veda, nor by understanding, nor by much learning."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-010",
+      "split": "dev",
+      "query": "What is the image of the two birds on the same tree?",
+      "match": "any",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "3",
+          "chapter": "3",
+          "sections": [
+            "34"
+          ],
+          "start": 130,
+          "end": 185,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "mundaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "1",
+          "sections": [
+            "III, 1"
+          ],
+          "start": 38,
+          "end": 93,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "svetasvatara-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "4",
+          "sections": [
+            "Adhyâya IV"
+          ],
+          "start": 1108,
+          "end": 1163,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        },
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "Nor do Smriti and Purâna teach such a doctrine"
+          ],
+          "start": 26165,
+          "end": 26220,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        },
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "3",
+          "sections": [
+            "6"
+          ],
+          "start": 43,
+          "end": 98,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        },
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "3",
+          "chapter": "2",
+          "sections": [
+            "13"
+          ],
+          "start": 329,
+          "end": 384,
+          "quote": "Two birds, inseparable friends, cling to the same tree."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-011",
+      "split": "dev",
+      "query": "What are the higher and the lower knowledge in the Mundaka Upanishad?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "mundaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "I, 1"
+          ],
+          "start": 608,
+          "end": 724,
+          "quote": "Two kinds of knowledge must be known, this is what all who know Brahman tell us, the higher and the lower knowledge."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-012",
+      "split": "heldout",
+      "query": "What becomes of one who knows the highest Brahman?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "mundaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "2",
+          "sections": [
+            "III, 2"
+          ],
+          "start": 1862,
+          "end": 1918,
+          "quote": "He who knows that highest Brahman, becomes even Brahman."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-013",
+      "split": "dev",
+      "query": "What did Bhrigu finally perceive Brahman to be?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "taittiriya-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "3",
+          "chapter": "6",
+          "sections": [
+            "III, 6"
+          ],
+          "start": 16,
+          "end": 159,
+          "quote": "He perceived that bliss is Brahman, for from bliss these beings are born; by bliss, when born, they live; into bliss they enter at their death."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-014",
+      "split": "heldout",
+      "query": "What does the Kena Upanishad say about Brahman and speech?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "kena-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Khanda I"
+          ],
+          "start": 796,
+          "end": 887,
+          "quote": "by which speech is expressed, that alone know as Brahman, not that which people here adore."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-015",
+      "split": "dev",
+      "query": "What happens to one who sees all beings in the Self and the Self in all beings?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "isa-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Îsâ-Upanishad"
+          ],
+          "start": 1057,
+          "end": 1157,
+          "quote": "And he who beholds all beings in the Self, and the Self in all beings, he never turns away from it ."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-016",
+      "split": "dev",
+      "query": "Where does an Upanishad call nature maya and the great Lord the mayin?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "svetasvatara-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "4",
+          "sections": [
+            "Adhyâya IV"
+          ],
+          "start": 1865,
+          "end": 1998,
+          "quote": "Know then Prakriti (nature) is Maya (art), and the great Lord the Mayin (maker); the whole world is filled with what are his members."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-017",
+      "split": "heldout",
+      "query": "Is the Self ever born or does it die, according to the Gita?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbg",
+          "document_id": "bhagavad-gita-sbg",
+          "edition": "Swarupananda 1909 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "Second Chapter. The Way of Knowledge"
+          ],
+          "start": 3220,
+          "end": 3256,
+          "quote": "This in never born, nor does It die."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-018",
+      "split": "dev",
+      "query": "Does the Gita say we have a right to the fruits of our work?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbg",
+          "document_id": "bhagavad-gita-sbg",
+          "edition": "Swarupananda 1909 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "Second Chapter. The Way of Knowledge"
+          ],
+          "start": 7561,
+          "end": 7620,
+          "quote": "Thy right is to work only; but never to the fruits thereof."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-019",
+      "split": "heldout",
+      "query": "What does the Gita teach about the unreal and the real?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbg",
+          "document_id": "bhagavad-gita-sbg",
+          "edition": "Swarupananda 1909 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "2",
+          "sections": [
+            "Second Chapter. The Way of Knowledge"
+          ],
+          "start": 2658,
+          "end": 2678,
+          "quote": "The unreal never is."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-020",
+      "split": "dev",
+      "query": "How are actions burnt by the fire of knowledge?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbg",
+          "document_id": "bhagavad-gita-sbg",
+          "edition": "Swarupananda 1909 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "4",
+          "sections": [
+            "Fourth Chapter. The Way of Renunciation of Action in Knowledge"
+          ],
+          "start": 2630,
+          "end": 2775,
+          "quote": "Whose undertakings are all devoid of plan and desire for results, and whose actions are burnt by the fire of knowledge, him, the sages call wise."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-021",
+      "split": "dev",
+      "query": "What are the field and the knower of the field?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbg",
+          "document_id": "bhagavad-gita-sbg",
+          "edition": "Swarupananda 1909 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "13",
+          "sections": [
+            "Thirteenth Chapter. The Discrimination of the Kshetra and the Kshetrajna"
+          ],
+          "start": 217,
+          "end": 355,
+          "quote": "This body, O son of Kunti, is called Kshetra, and he who knows it is called Kshetrajna by those who know of them (Kshetra and Kshetrajna)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-022",
+      "split": "heldout",
+      "query": "Is knowledge the only direct means to liberation in the Knowledge of Self?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "knowledge-of-self-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Knowledge of Self"
+          ],
+          "start": 223,
+          "end": 303,
+          "quote": "Compared with all other means, knowledge is the only direct means to liberation."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-023",
+      "split": "dev",
+      "query": "What knowledge arising from 'That thou art' leads to liberation?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "commentary-on-the-text-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Commentary on the Text"
+          ],
+          "start": 969,
+          "end": 1124,
+          "quote": "The knowledge relating to the identity of the individual soul and the Supreme Self that arises from texts like \"That thou art,\" is the means to liberation."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-024",
+      "split": "heldout",
+      "query": "How is the relation of the Self to objects like the rope and the serpent?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "definition-of-one-s-own-self-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Definition of One's Own Self"
+          ],
+          "start": 13579,
+          "end": 13687,
+          "quote": "Its relation to them as (subject and) object is (illusory) like the relation of rope, etc., to serpent, etc."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-025",
+      "split": "dev",
+      "query": "How does the hymn to Dakshinamurti describe the universe as a reflection in a mirror?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "hymn-to-dakshinamurti-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Hymn to Dakshinamurti"
+          ],
+          "start": 98,
+          "end": 227,
+          "quote": "the universe as existing outside Himself although (more truly) it exists within Himself like the reflection of a city in a mirror"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-026",
+      "split": "dev",
+      "query": "What kind of enquiry does Direct Realisation recommend, such as 'Who am I?'",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "direct-realisation-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "Direct Realisation"
+          ],
+          "start": 1711,
+          "end": 1845,
+          "quote": "\"Who am I? How was this (universe) born? Who is its maker? What is its material cause?\" This is the kind of enquiry referred to above."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-027",
+      "split": "heldout",
+      "query": "How does the real seeker of liberation live while walking, sitting and sleeping?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "the-century-of-verses-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "The Century of Verses."
+          ],
+          "start": 4741,
+          "end": 4811,
+          "quote": "Feeling, while going about, that he is a wave of the ocean of the self"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-028",
+      "split": "dev",
+      "query": "What alone remains in deep sleep according to the Ten-versed Hymn?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-wos",
+          "document_id": "the-ten-versed-hymn-wos",
+          "edition": "Venkataramanan 1921, works attributed to Sankaracharya · Sacred Texts plain-text",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "The Ten-versed Hymn."
+          ],
+          "start": 169,
+          "end": 272,
+          "quote": "I am He that alone remains in deep sleep, the secondless, uncontradictable  attributeless Bliss (Siva)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-029",
+      "split": "heldout",
+      "query": "What does the Kaivalya Upanishad say the witness is, other than enjoyer and enjoyed?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-tmu",
+          "document_id": "kaivalya-upanishad-tmu",
+          "edition": "Narayanasvami Aiyar 1914 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "5. Kaivalya-Upanishaḍ of Kṛshṇa-Yajurveḍa"
+          ],
+          "start": 3815,
+          "end": 3990,
+          "quote": "I am that Sadas'iva, (or the eternal happiness) who is other than the enjoyer, the enjoyed, and the enjoyment in the three seats (or bodies), and who is witness and Chinmatra."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-030",
+      "split": "dev",
+      "query": "When does the word maya first appear in the Upanishads, according to Barnett?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-brk",
+          "document_id": "brahma-knowledge-brk",
+          "edition": "Barnett 1911 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "19",
+          "sections": [
+            "Maya"
+          ],
+          "start": 145,
+          "end": 224,
+          "quote": "and in this sense it does not appear in the Upanishads until the S'vetas'vatara"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-031",
+      "split": "dev",
+      "query": "In the Advaita-Makaranda, why is the Self called the Light that is everywhere?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-brk",
+          "document_id": "brahma-knowledge-brk",
+          "edition": "Barnett 1911 · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "2",
+          "chapter": "44",
+          "sections": [
+            "XVI: The Advaita-Makaranda of Lakshmidara"
+          ],
+          "start": 903,
+          "end": 947,
+          "quote": "I am the Light, and therefore am everywhere."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-032",
+      "split": "heldout",
+      "query": "How does Shankara define superimposition (adhyasa)?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1"
+          ],
+          "start": 1213,
+          "end": 1339,
+          "quote": "The apparent presentation, in the form of remembrance, to consciousness of something previously observed, in some other thing."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-033",
+      "split": "dev",
+      "query": "What must precede the enquiry into Brahman according to Shankara?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1"
+          ],
+          "start": 12988,
+          "end": 13277,
+          "quote": "the antecedent conditions are the discrimination of what is eternal and what is non-eternal; the renunciation of all desire to enjoy the fruit (of one's actions) both here and hereafter; the acquirement of tranquillity, self-restraint, and the other means, and the desire of final release."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-034",
+      "split": "heldout",
+      "query": "What does Shankara say learned men call Nescience and knowledge?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1"
+          ],
+          "start": 3119,
+          "end": 3374,
+          "quote": "This superimposition thus defined, learned men consider to be Nescience (avidyâ), and the ascertainment of the true nature of that which is (the Self) by means of the discrimination of that (which is superimposed on the Self), they call knowledge (vidyâ)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-035",
+      "split": "dev",
+      "query": "Why is release not a fruit of action according to Shankara?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "4"
+          ],
+          "start": 12825,
+          "end": 12979,
+          "quote": "All which passages establish the fact that so-called release differs from all the fruits of action, and is an eternally and essentially disembodied state."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-036",
+      "split": "dev",
+      "query": "How does the second sutra define Brahman?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "2"
+          ],
+          "start": 0,
+          "end": 120,
+          "quote": "2. (Brahman is that) from which the origin, &c. (i.e. the origin, subsistence, and dissolution) of this (world proceed)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-037",
+      "split": "heldout",
+      "query": "Why does Shankara say Brahman creates without any purpose, as sport?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "2",
+          "chapter": "1",
+          "sections": [
+            "33"
+          ],
+          "start": 303,
+          "end": 398,
+          "quote": "but proceed from mere sportfulness, as, for instance, their recreations in places of amusement."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-038",
+      "split": "dev",
+      "query": "How does Shankara use the example of clay for cause and effect?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "2",
+          "chapter": "1",
+          "sections": [
+            "14"
+          ],
+          "start": 1143,
+          "end": 1276,
+          "quote": "if there is known a lump of clay which really and truly is nothing but clay, there are known thereby likewise all things made of clay"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-039",
+      "split": "heldout",
+      "query": "What happens to earlier and later sins when Brahman is attained, according to Shankara?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "4",
+          "chapter": "1",
+          "sections": [
+            "13"
+          ],
+          "start": 64,
+          "end": 163,
+          "quote": "the non-clinging and the destruction of later and earlier sins; this being declared (by scripture)."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-040",
+      "split": "dev",
+      "query": "Does Shankara hold that Brahman is absolutely devoid of all difference?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "3",
+          "chapter": "2",
+          "sections": [
+            "11"
+          ],
+          "start": 2158,
+          "end": 2291,
+          "quote": "we must decide in favour of that according to which Brahma is absolutely devoid of all difference, not in favour of the opposite one."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-041",
+      "split": "dev",
+      "query": "Why do released souls not enter new courses of existence, according to Shankara?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "4",
+          "sections": [
+            "3"
+          ],
+          "start": 1181,
+          "end": 1364,
+          "quote": "The existence of such a causal potentiality renders it moreover possible that the released souls should not enter on new courses of existence, as it is destroyed by perfect knowledge."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-042",
+      "split": "heldout",
+      "query": "How does Ramanuja describe the world as the body of Brahman?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "Nor do Smriti and Purâna teach such a doctrine"
+          ],
+          "start": 15141,
+          "end": 15224,
+          "quote": "owing to which the world is the body of Brahman, and Brahman the Self of the world."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-043",
+      "split": "dev",
+      "query": "Why does Ramanuja say Nescience cannot exist in pure knowledge without a knowing subject?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "The view that the conscious subject is something unreal, due to the ahamkâra, cannot be maintained"
+          ],
+          "start": 10041,
+          "end": 10192,
+          "quote": "In pure knowledge where there is no knowing subject and no object of knowledge--the so-called 'witnessing' principle (sâkshin)--Nescience cannot exist."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-044",
+      "split": "heldout",
+      "query": "Are the experiences of dreams unreal, according to Ramanuja?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "In cases of Scripture conflicting with Perception, Scripture is not stronger. The True cannot be known through the Untrue"
+          ],
+          "start": 5674,
+          "end": 5772,
+          "quote": "The conscious states experienced in dreams are not unreal; it is only their objects that are false"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-045",
+      "split": "dev",
+      "query": "In Ramanuja's Great Purvapaksha, what does the opponent hold to be real?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "The Great Pûrvapaksha"
+          ],
+          "start": 4152,
+          "end": 4226,
+          "quote": "non-differenced pure intelligence is real, while everything else is false."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-046",
+      "split": "dev",
+      "query": "Why does Ramanuja deny any proof of a substance free from all difference?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "There is no proof of non-differenced substance"
+          ],
+          "start": 170,
+          "end": 257,
+          "quote": "for all means of right knowledge have for their object things affected with difference."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-047",
+      "split": "heldout",
+      "query": "Why is plurality not unreal, according to Ramanuja?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "Plurality is not unreal"
+          ],
+          "start": 540,
+          "end": 653,
+          "quote": "But jars, pieces of cloth and the like, do not contradict one another, since they are separate in place and time."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-048",
+      "split": "dev",
+      "query": "How does Ramanuja's opening invocation describe Brahman's creation of the universe?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "First Pâda"
+          ],
+          "start": 200,
+          "end": 266,
+          "quote": "who in sport produces, sustains, and reabsorbs the entire Universe"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-049",
+      "split": "heldout",
+      "query": "Does the released soul enter into real union with the highest Self, according to Ramanuja?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "1",
+            "Nor do Smriti and Purâna teach such a doctrine"
+          ],
+          "start": 27469,
+          "end": 27751,
+          "quote": "It is false to maintain that the individual Self and the highest Self enter into real union; for one substance cannot pass over into the nature of another substance.' Accordingly the Bhagavad Gîtâ declares that the released soul attains only the same attributes as the highest Self."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "adv-050",
+      "split": "dev",
+      "query": "How does Ramanuja distinguish Brahman's intelligence from that of released souls?",
+      "gold": [
+        {
+          "corpus_id": "sribhashya-thibaut",
+          "document_id": "brahma-sutra-ramanuja-thibaut",
+          "edition": "Thibaut, SBE 48 (1904) · Sacred Texts HTML",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "2"
+          ],
+          "start": 8306,
+          "end": 8411,
+          "quote": "thus distinguishes Brahman from the released souls whose intelligence is sometimes in a contracted state."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    }
+  ],
+  "out_of_corpus": [
+    {
+      "id": "ooc-01",
+      "query": "How do I configure a Kubernetes ingress controller?"
+    },
+    {
+      "id": "ooc-02",
+      "query": "What does the Quran say about fasting in Ramadan?"
+    },
+    {
+      "id": "ooc-03",
+      "query": "Who won the 2018 football World Cup?"
+    },
+    {
+      "id": "ooc-04",
+      "query": "What does the Book of Job say about undeserved suffering?"
+    },
+    {
+      "id": "ooc-05",
+      "query": "How does the Yoga Vasistha describe the story of Lila?"
+    },
+    {
+      "id": "ooc-06",
+      "query": "What is the capital of Australia?"
+    },
+    {
+      "id": "ooc-07",
+      "query": "Explain the Kashmir Shaivism doctrine of spanda."
+    },
+    {
+      "id": "ooc-08",
+      "query": "What does Madhva say about the five differences (panchabheda)?"
+    },
+    {
+      "id": "ooc-09",
+      "query": "How do I bake sourdough bread?"
+    },
+    {
+      "id": "ooc-10",
+      "query": "What does the Ashtavakra Gita teach in its first chapter?"
+    }
+  ]
+}

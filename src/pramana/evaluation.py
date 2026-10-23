@@ -97,3 +97,135 @@ def evaluate(retriever: Retriever, path: Path) -> dict:
             "details": details,
         }
     return report
+
+
+GOLD_KEYS = ("corpus_id", "document_id", "edition", "language", "book", "chapter")
+
+
+def _resolve_span(chapters, gold: dict):
+    """Exactly one chapter, and its text at [start, end) must equal the quote."""
+    if any(not gold.get(k) for k in GOLD_KEYS) or not str(gold.get("quote", "")).strip():
+        raise PramanaError(
+            "Passage gold spans need corpus_id, document_id, edition, language, book, "
+            "chapter, sections, start, end and a nonempty quote."
+        )
+    matches = [
+        c
+        for c in chapters
+        if (c.corpus_id, c.document_id, c.edition, c.language, c.location.book, c.location.chapter)
+        == tuple(str(gold[k]) for k in GOLD_KEYS)
+        and c.location.sections == gold.get("sections", [])
+    ]
+    if len(matches) != 1:
+        raise PramanaError(
+            f"Gold span source for {gold['document_id']} {gold['book']}.{gold['chapter']} is "
+            "missing or ambiguous; import the exact annotated edition."
+        )
+    chapter = matches[0]
+    start, end = gold.get("start"), gold.get("end")
+    if (
+        not isinstance(start, int)
+        or not isinstance(end, int)
+        or not 0 <= start < end <= len(chapter.text)
+        or chapter.text[start:end] != gold["quote"]
+    ):
+        raise PramanaError(
+            f"Gold span in {chapter.document} no longer matches its quote; the stored text "
+            "changed or the annotation is wrong."
+        )
+    return chapter
+
+
+def evaluate_passages(retriever: Retriever, path: Path, limit: int = 10) -> dict:
+    """Passage-level benchmark over the whole library; separate from the chapter benchmark.
+
+    A retrieved passage is relevant only if it lies in the gold chapter and contains a
+    complete gold span (Python code points), so chunking changes cannot invent evidence.
+    `"match": "any"` marks gold spans that are alternatives (a refrain or a verse shared
+    by several texts): finding one of them is full recall for that question.
+    """
+    import hashlib
+
+    raw = path.read_bytes()
+    dataset = json.loads(raw.decode("utf-8"))
+    questions = dataset.get("questions", [])
+    if not questions:
+        raise PramanaError("Passage benchmark has no questions.")
+    chapters = retriever.corpus.store.chapters()
+    resolved = []
+    for q in questions:
+        if q.get("match", "all") not in {"all", "any"}:
+            raise PramanaError(f"Question {q.get('id')} has an unknown match mode.")
+        if q.get("split") not in {"dev", "heldout"} or not q.get("gold"):
+            raise PramanaError(f"Question {q.get('id')} needs a dev/heldout split and gold spans.")
+        resolved.append([(_resolve_span(chapters, g), g) for g in q["gold"]])
+    review = [q.get("review", {}).get("status", "unreviewed") for q in questions]
+    report = {
+        "label": dataset.get("label", "Passage-level benchmark"),
+        "dataset_sha256": hashlib.sha256(raw).hexdigest(),
+        "questions": len(questions),
+        "splits": {s: sum(q["split"] == s for q in questions) for s in ("dev", "heldout")},
+        "review": {s: review.count(s) for s in sorted(set(review))},
+        "scope": "unfiltered search across the whole indexed library",
+        "index": retriever.corpus.store.get_meta("index_config"),
+        "sources": sorted(
+            {(c.id, c.source.checksum) for group in resolved for c, _ in group}, key=str
+        ),
+        "strategies": {},
+        "out_of_corpus": [],
+    }
+    report["sources"] = [{"chapter_id": i, "source_checksum": s} for i, s in report["sources"]]
+    for strategy in ("lexical", "dense", "hybrid"):
+        rows = []
+        for q, golds in zip(questions, resolved, strict=True):
+            hits = retriever.search(q["query"], limit=limit, strategy=strategy)
+            found, first = set(), None
+            for rank, hit in enumerate(hits, 1):
+                p = hit.passage
+                for i, (chapter, gold) in enumerate(golds):
+                    if (
+                        p.chapter_id == chapter.id
+                        and p.start <= gold["start"]
+                        and gold["end"] <= p.end
+                    ):
+                        found.add(i)
+                        first = first or rank
+            needed = 1 if q.get("match") == "any" else len(golds)
+            rows.append(
+                {
+                    "id": q["id"],
+                    "split": q["split"],
+                    "recall_at_10": min(1.0, len(found) / needed),
+                    "reciprocal_rank": 1 / first if first else 0.0,
+                    "top": [
+                        f"{h.passage.citation.document} {h.passage.citation.location.book}."
+                        f"{h.passage.citation.location.chapter}"
+                        for h in hits[:3]
+                    ],
+                }
+            )
+        summary = {}
+        for split in ("all", "dev", "heldout"):
+            part = [r for r in rows if split == "all" or r["split"] == split]
+            if part:
+                summary[split] = {
+                    "recall_at_10": sum(r["recall_at_10"] for r in part) / len(part),
+                    "mrr_at_10": sum(r["reciprocal_rank"] for r in part) / len(part),
+                    "questions": len(part),
+                }
+        report["strategies"][strategy] = {
+            **summary,
+            "failures": [r for r in rows if r["recall_at_10"] < 1],
+            "details": rows,
+        }
+    for q in dataset.get("out_of_corpus", []):
+        hits = retriever.search(q["query"], limit=3, strategy="hybrid")
+        report["out_of_corpus"].append(
+            {
+                "id": q["id"],
+                "query": q["query"],
+                # Diagnostics only: nearby material is expected; this is not abstention.
+                "retrieved": [h.passage.citation.document for h in hits],
+            }
+        )
+    return report

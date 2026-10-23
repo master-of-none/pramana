@@ -179,6 +179,23 @@ def evaluate(questions: Path = Path("benchmarks/questions.json"), output: Path |
         fail(exc)
 
 
+@app.command("evaluate-passages")
+def evaluate_passages(
+    dataset: Path = Path("benchmarks/advaita/questions.json"), output: Path | None = None
+):
+    """Passage-level Recall@10 and MRR@10 against exact gold spans, per split."""
+    from pramana.evaluation import evaluate_passages as run
+
+    try:
+        report = json.dumps(run(Retriever(Corpus()), dataset), indent=2, ensure_ascii=False)
+        if output:
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_text(report + "\n", encoding="utf-8")
+        typer.echo(report)
+    except (PramanaError, OSError) as exc:
+        fail(exc)
+
+
 @app.command()
 def serve(port: int = 8000):
     """Serve the API and compiled reader on localhost."""
