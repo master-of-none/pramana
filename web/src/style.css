@@ -1628,3 +1628,49 @@ a.chip {
   font-size: 22px;
   margin: 34px 0 4px;
 }
+
+/* Argument outline */
+.argument {
+  margin: 22px 0 6px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--c-956d50);
+  border-radius: 8px;
+  background: var(--c-fcfbf7);
+}
+.argument h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+.argument p {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.argument ol {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.argument li {
+  margin: 6px 0;
+}
+.argument li.reply {
+  margin-left: 14px;
+}
+.argument a {
+  color: var(--c-4c5141);
+  text-decoration: none;
+}
+.argument a:hover {
+  color: var(--olive);
+}
+.argument .role-label {
+  font-size: 9px;
+}
+.role-label[id] {
+  scroll-margin-top: 90px;
+}

@@ -6,7 +6,9 @@ import { codePointIndex, cuts } from "../lib/offsets.ts";
 import type { Span } from "../lib/offsets.ts";
 import type { ChapterContext } from "../lib/api.ts";
 
-const ROLE_LABEL = { objection: "Objection", reply: "Reply" };
+export const ROLE_LABEL = { objection: "Objection", reply: "Reply" };
+export const stepId = (chapter: string, index: number) =>
+  `${chapter}-step-${index}`;
 
 // Renders canonical chapter text; every API offset is a Python code point.
 export function ChapterText({
@@ -104,12 +106,17 @@ export function ChapterText({
         const out: ReactNode[] = [];
         for (let j = 0; j < points.length; j++) {
           const x = points[j];
-          for (const r of roleSpans.filter((r) => r.label === x && inside(x)))
-            out.push(
-              <span key={`r${j}${r.role}`} className={`role-label ${r.role}`}>
-                {ROLE_LABEL[r.role]}
-              </span>,
-            );
+          for (const [k, r] of roleSpans.entries())
+            if (r.label === x && inside(x))
+              out.push(
+                <span
+                  key={`r${j}${r.role}`}
+                  id={stepId(context.id, k)}
+                  className={`role-label ${r.role}`}
+                >
+                  {ROLE_LABEL[r.role]}
+                </span>,
+              );
           for (const pg of pages.filter((pg) => pg.at === x && inside(x)))
             out.push(
               <span

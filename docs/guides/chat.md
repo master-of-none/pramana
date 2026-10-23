@@ -130,6 +130,12 @@ stays answers-only. It needs no answer model.
 - **Reader:** chapter text with page marks, footnotes on hover or focus, glossary terms,
   previous/next navigation, and passages tinted **Objection** or **Reply** only where
   the book itself labels them (see [objection/reply roles](#objectionreply-roles)).
+- **Argument outline:** on a page with at least two explicitly cued steps, an outline
+  lists each objection and reply in order with its opening words (a bare cue such as
+  "To this we make the following reply." is skipped) and jumps to it in the text. It
+  also heads each column of the side-by-side view. Unmarked discussion is omitted, so
+  the outline shows the argument as the translator marks it, not a full analysis;
+  about 32 of Śaṅkara's 552 pages have one, and few of Rāmānuja's.
 - **Side by side:** `#/study/sutra/1/1/1` shows Śaṅkara's and Rāmānuja's commentary
   pages for the same sūtra. When a commentary treats the sūtra on a page that begins
   with an earlier one, that page is shown and labelled as such.

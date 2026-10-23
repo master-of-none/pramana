@@ -20,6 +20,7 @@ import type { Route } from "../lib/router.ts";
 import { restore } from "../lib/storage.ts";
 import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
+import { Argument } from "./Argument.tsx";
 
 // Shared per page load; the catalogue changes only when the library is re-imported.
 let catalogue: Promise<LibraryDocument[]> | null = null;
@@ -356,6 +357,7 @@ function Parallel({
                           .join(" · ")}
                       </h3>
                     )}
+                    <Argument context={contexts[id]} />
                     <ChapterText context={contexts[id]} glossary={glossary} />
                     <a className="open-reader" href={href("study", "read", id)}>
                       Open in reader
