@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import type { FormEvent, ReactNode } from "react";
+import type { FormEvent, MouseEvent as ReactMouseEvent, ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   BookMarked,
   Columns2,
+  Highlighter,
   MessageCircleQuestion,
+  NotebookPen,
+  StickyNote,
   Route as PathIcon,
   Search as SearchIcon,
 } from "lucide-react";
@@ -23,7 +26,9 @@ import { href } from "../lib/router.ts";
 import type { Route } from "../lib/router.ts";
 import { restore, setPendingFocus } from "../lib/storage.ts";
 import type { FocusRef } from "../lib/storage.ts";
-import { codePointOf, locate } from "../lib/offsets.ts";
+import { codePointIndex, codePointOf, locate } from "../lib/offsets.ts";
+import { useNotes } from "../lib/notes.ts";
+import { Notes } from "./Notes.tsx";
 import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
 import { Argument } from "./Argument.tsx";
@@ -143,6 +148,9 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
               <Columns2 size={15} /> Śaṅkara and Rāmānuja side by side
             </a>
           )}
+          <a href={href("study", "notes")}>
+            <StickyNote size={15} /> My notes
+          </a>
           {sutra && (
             <a href={href("study", "citations")}>
               <BookMarked size={15} /> Śruti most cited
@@ -243,14 +251,57 @@ function Reader({
   const { docs } = useLibrary();
   const textBox = useRef<HTMLDivElement>(null);
   const [ask, setAsk] = useState<ReturnType<typeof selectionFocus>>(null);
-  useEffect(() => setAsk(null), [id]);
+  // The note being written or edited: a new selection, or an existing note's id.
+  const [editing, setEditing] = useState<{
+    id?: string;
+    focus?: FocusRef;
+    text: string;
+    top: number;
+    left: number;
+  } | null>(null);
+  const study = useNotes();
+  useEffect(() => {
+    setAsk(null);
+    setEditing(null);
+  }, [id]);
   if (!context) return <Status error={error} />;
-  const onSelect = () =>
+  const onSelect = () => {
+    if (editing) return;
     setAsk(
       textBox.current
         ? selectionFocus(textBox.current, context.chapter.text, context.id)
         : null,
     );
+  };
+  const at = codePointIndex(context.chapter.text);
+  const mine = study.notes.filter((n) => n.chapter_id === context.id);
+  // A note whose words no longer match the stored text is listed, not drawn.
+  const fits = (n: (typeof mine)[number]) =>
+    context.chapter.text.slice(at(n.start), at(n.end)) === n.quote;
+  const drawn = mine.filter(fits);
+  const moved = mine.filter((n) => !fits(n));
+  const save = (focus: FocusRef, note: string) =>
+    study.add({
+      ...focus,
+      quote: context.chapter.text.slice(at(focus.start), at(focus.end)),
+      note,
+      document: context.chapter.document,
+      place: placeLabel(category, context.chapter.location),
+    });
+  const openMark = (event: ReactMouseEvent) => {
+    const el = (event.target as HTMLElement).closest<HTMLElement>("[data-mark]");
+    const note = el && mine.find((n) => n.id === el.dataset.mark);
+    if (!note || !textBox.current || window.getSelection()?.toString()) return;
+    const box = textBox.current.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+    setAsk(null);
+    setEditing({
+      id: note.id,
+      text: note.note,
+      top: rect.bottom - box.top + 8,
+      left: Math.max(0, Math.min(rect.left - box.left, box.width - 320)),
+    });
+  };
   const { chapter } = context;
   const doc = docs?.find(
     (d) =>
@@ -318,32 +369,112 @@ function Reader({
           itself labels them.
         </p>
       )}
+      {moved.length > 0 && (
+        <p className="notes-moved" role="status">
+          {moved.length === 1 ? "One of your notes" : `${moved.length} of your notes`} no
+          longer match this text; they are kept in <a href={href("study", "notes")}>My
+          notes</a>.
+        </p>
+      )}
       <div
         className="reader-text"
         ref={textBox}
         onMouseUp={onSelect}
         onKeyUp={onSelect}
         onTouchEnd={() => setTimeout(onSelect, 0)}
+        onClick={openMark}
       >
         <ChapterText
           context={context}
           glossary={glossary}
           highlight={highlight}
           citations={citations}
+          marks={drawn}
         />
-        {ask && (
-          <button
-            type="button"
-            className="ask-selection"
+        {ask && !editing && (
+          <div
+            className="selection-tools"
             style={{ top: ask.top, left: ask.left }}
-            // Keep the selection while the button is pressed.
+            // Keep the selection while a tool is pressed.
             onMouseDown={(event) => event.preventDefault()}
-            onClick={() => askAbout(ask.focus)}
           >
-            <MessageCircleQuestion size={14} /> Ask about this
-          </button>
+            <button type="button" onClick={() => askAbout(ask.focus)}>
+              <MessageCircleQuestion size={14} /> Ask about this
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                save(ask.focus, "");
+                setAsk(null);
+                window.getSelection()?.removeAllRanges();
+              }}
+            >
+              <Highlighter size={14} /> Highlight
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEditing({ focus: ask.focus, text: "", top: ask.top, left: ask.left });
+                setAsk(null);
+              }}
+            >
+              <NotebookPen size={14} /> Note
+            </button>
+          </div>
+        )}
+        {editing && (
+          <form
+            className="note-editor"
+            style={{ top: editing.top, left: editing.left }}
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (editing.id) study.update(editing.id, editing.text.trim());
+              else if (editing.focus) save(editing.focus, editing.text.trim());
+              setEditing(null);
+              window.getSelection()?.removeAllRanges();
+            }}
+          >
+            <label className="sr-only" htmlFor="note-text">
+              Your note
+            </label>
+            <textarea
+              id="note-text"
+              autoFocus
+              rows={3}
+              maxLength={4000}
+              placeholder="Your note (kept in this browser only)"
+              value={editing.text}
+              onChange={(event) => setEditing({ ...editing, text: event.target.value })}
+              onKeyDown={(event) => event.key === "Escape" && setEditing(null)}
+            />
+            <div className="note-actions">
+              {editing.id && (
+                <button
+                  type="button"
+                  className="danger"
+                  onClick={() => {
+                    study.remove(editing.id!);
+                    setEditing(null);
+                  }}
+                >
+                  Delete
+                </button>
+              )}
+              <button type="button" onClick={() => setEditing(null)}>
+                Cancel
+              </button>
+              <button type="submit" className="primary">
+                Save
+              </button>
+            </div>
+          </form>
         )}
       </div>
+      {study.failed && (
+        <p className="study-status" role="alert">
+          This browser would not save the note (storage is full or disabled).
+        </p>
+      )}
       {highlight && highlight.end - highlight.start <= 6000 && (
         // Sticks to the bottom of the screen while the highlighted page is read.
         <div className="reader-ask-bar">
@@ -666,6 +797,7 @@ export function Study({ route }: { route: Route }) {
   else if (page === "concept" && rest[0]) content = <Concept slug={rest[0]} />;
   else if (page === "paths") content = <Paths />;
   else if (page === "citations") content = <Citations />;
+  else if (page === "notes") content = <Notes />;
   else content = <Library glossary={glossary} />;
   return (
     <div className="view study">

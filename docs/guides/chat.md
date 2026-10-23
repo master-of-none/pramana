@@ -213,6 +213,13 @@ stays answers-only. It needs no answer model.
   evidence for that one question, which then works like any other: its answer's **Read
   in the texts** shows them. A selection whose exact words occur more than once in the
   touched paragraphs falls back to those whole paragraphs.
+- **Notes and highlights:** the same selection offers **Highlight** and **Note**.
+  They are drawn in the reader (a note shows a ✎ marker; click to edit or delete) and
+  listed under **My notes** (`#/study/notes`) by work, with **Export Markdown**, **Export
+  JSON** and **Import JSON** (merged by note, the later edit winning). They are kept in
+  this browser's `localStorage` only and never sent to the server or a model. Each note
+  stores the words it covers; if a text changes so they no longer match, the note is
+  listed but not drawn.
 - **Passages behind an answer:** opened from the chat, from evidence pointers kept with
   the conversation in the tab's `sessionStorage`; they disappear with New chat.
 - **Reading paths:** `#/study/paths` offers curated sequences ("First steps in

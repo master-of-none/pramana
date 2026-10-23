@@ -46,6 +46,9 @@ the explicit download commands.
 **Study (reader)**
 - **Library and reader** with page marks, footnotes, marked objections and replies, and an
   argument outline per page.
+- **Ask about a passage, highlight it, or note it.** Select words in any text: **Ask
+  about this** sends a pointer to that passage to the chat, and **Highlight** and **Note**
+  keep your own study notes in this browser, with Markdown and JSON export.
 - **Śruti citation links.** Thibaut's printed references, such as "(Kh. Up. VI, 8, 7)",
   open the cited Upaniṣad or Gītā verse; each scripture verse lists where Śaṅkara and
   Rāmānuja cite it, and **Śruti most cited** ranks the passages they rely on (below).

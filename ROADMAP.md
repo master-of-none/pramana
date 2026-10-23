@@ -240,6 +240,9 @@ wheel serves its compiled reader and API without relying on editable source path
 - [x] **Śruti citation links** (October 2026): 1,609 printed references in Thibaut's
   translations resolved to the cited passages, 1,001 verified against the quoted words;
   "cited by" lists per verse and a most-cited ranking in Study.
+- [x] **Ask about a passage; notes and highlights** (October 2026): a selection in the
+  reader goes to the chat as a pointer only; highlights and notes stay in the browser,
+  with Markdown/JSON export and import.
 - [x] **Off-topic routing** (October 2026): a short model call declines questions about
   other fields before search; tuned on the v2 set.
 - **More texts** (each

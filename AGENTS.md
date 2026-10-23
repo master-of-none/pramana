@@ -78,8 +78,9 @@ on localhost:8001 without using the private library. Documentation-only edits ne
   objection/reply only from explicit cues. Keep conversation history (with its
   evidence pointers) in tab sessionStorage; New chat clears it. A passage handed from
   Study to chat ("Ask about this") travels as a pointer only and is never rendered in
-  the chat. Display preferences may use localStorage. No accounts or server-side
-  conversation persistence.
+  the chat. Display preferences, reading progress and the reader's own Study notes and
+  highlights may use localStorage; notes never leave the browser except by the user's
+  own export. No accounts or server-side conversation persistence.
 
 ## Local operation and hygiene
 

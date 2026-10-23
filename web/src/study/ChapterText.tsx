@@ -53,11 +53,14 @@ export function ChapterText({
   glossary,
   highlight,
   citations,
+  marks = [],
 }: {
   context: ChapterContext;
   glossary: Glossary | null;
   highlight?: Span;
   citations?: ChapterCitations | null;
+  // The reader's own highlights and notes (code points); clicking one opens it.
+  marks?: { id: string; start: number; end: number; note: string }[];
 }) {
   const { chapter, roles } = context;
   const text = chapter.text;
@@ -115,6 +118,7 @@ export function ChapterText({
     const i = paragraphs.findIndex((p) => p.start <= x && x < Math.max(p.end, p.start + 1));
     if (i >= 0) byParagraph.set(i, [...(byParagraph.get(i) ?? []), r]);
   }
+  const own = marks.map((m) => ({ ...m, start: at(m.start), end: at(m.end) }));
   const seen = new Set<string>();
   let litMarked = false;
 
@@ -138,9 +142,11 @@ export function ChapterText({
     ) : (
       words
     );
+    const mine = own.find((m) => m.start <= from && to <= m.end && from < to);
     const className = [
       role && `role-${role.role}`,
       inLit && "passage-highlight",
+      mine && "user-mark",
     ]
       .filter(Boolean)
       .join(" ");
@@ -148,7 +154,12 @@ export function ChapterText({
     const first = inLit && !litMarked;
     if (first) litMarked = true;
     return (
-      <span key={key} className={className} ref={first ? mark : undefined}>
+      <span
+        key={key}
+        className={className}
+        ref={first ? mark : undefined}
+        data-mark={mine?.id}
+      >
         {content}
       </span>
     );
@@ -168,6 +179,7 @@ export function ChapterText({
             ? [{ start: lit.start - p.start, end: lit.end - p.start }]
             : []),
           ...links.map((c) => ({ start: c.start - p.start, end: c.end - p.start })),
+          ...own.map((m) => ({ start: m.start - p.start, end: m.end - p.start })),
           ...[...pages, ...notes, ...roleSpans.map((r) => ({ at: r.label }))]
             .filter((x) => inside(x.at))
             .map((x) => ({
@@ -213,6 +225,19 @@ export function ChapterText({
                   {n.note.text}
                 </span>
               </span>,
+            );
+          for (const m of own.filter((m) => m.end === x && m.note.trim() && inside(x)))
+            out.push(
+              <button
+                type="button"
+                key={`m${j}${m.id}`}
+                className="note-pin"
+                data-mark={m.id}
+                aria-label="Your note"
+                title={m.note}
+              >
+                ✎
+              </button>,
             );
           if (j + 1 < points.length && points[j + 1] > x)
             out.push(piece(x, points[j + 1], `t${j}`));

@@ -1212,7 +1212,11 @@ a.brand {
   gap: 10px;
   margin: 18px 0 8px;
 }
-.study-actions a {
+.study-actions a,
+.study-actions button,
+.study-actions .import-notes {
+  position: relative;
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -1934,4 +1938,142 @@ a.chip {
   color: var(--olive);
   text-decoration: underline;
   padding: 0;
+}
+
+/* The reader's own highlights and notes (kept in this browser). */
+.user-mark {
+  background: color-mix(in srgb, var(--c-956d50) 22%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--c-956d50) 70%, transparent);
+  cursor: pointer;
+}
+.note-pin {
+  border: 0;
+  background: var(--c-956d50);
+  color: var(--paper);
+  font-size: 10px;
+  line-height: 1;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0 3px;
+  vertical-align: 2px;
+}
+.selection-tools {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.selection-tools button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--olive);
+  font-family: "DM Sans", sans-serif;
+  font-size: 12.5px;
+  padding: 5px 10px;
+}
+.selection-tools button:hover,
+.selection-tools button:focus-visible {
+  background: color-mix(in srgb, var(--olive) 12%, transparent);
+}
+.note-editor {
+  position: absolute;
+  z-index: 6;
+  width: min(320px, 100%);
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--ink) 16%, transparent);
+}
+.note-editor textarea,
+.note-item textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.note-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 6px;
+}
+.note-actions button {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12.5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+  padding: 4px 10px;
+}
+.note-actions .primary {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: var(--paper);
+}
+.note-actions .danger {
+  margin-right: auto;
+  color: var(--c-956d50);
+}
+.notes-moved {
+  font-size: 13px;
+  color: var(--muted);
+}
+.notes-group h2 {
+  font-size: 18px;
+  margin: 28px 0 8px;
+}
+.notes-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.note-item {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+}
+.note-place {
+  font-weight: 600;
+  color: var(--olive);
+}
+.note-item blockquote {
+  font-family: var(--serif);
+  margin: 6px 0;
+  padding-left: 12px;
+  border-left: 3px solid color-mix(in srgb, var(--c-956d50) 60%, transparent);
+  color: var(--ink);
+}
+.note-text {
+  margin: 6px 0;
+  white-space: pre-wrap;
+}
+.study-actions button,
+.import-notes {
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.study-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.import-notes input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
