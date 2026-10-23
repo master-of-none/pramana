@@ -293,3 +293,20 @@ uv run pramana serve
   the 214-question set takes several days in batches.
 
 Unset `PRAMANA_PROVIDER` (or set it to `ollama`) to return to the local model.
+
+## Without any answer model
+
+Pramana runs without Ollama or OpenRouter once the library is downloaded, imported and
+indexed (the index needs only the small embedding model). The chat checks whether its
+answer model is ready (`/api/config` reports `provider.ready` and a reason, checked at
+most every 30 seconds) and, if not, says "Answers need a language model, and none is
+ready" with the reason; a question then opens as a search in the Study view instead of
+failing. Search, the reader, side by side, citations, concepts and notes all work.
+
+## Ollama's cloud
+
+The Ollama provider also works with Ollama's cloud: set `PRAMANA_OLLAMA_URL=https://ollama.com`,
+`OLLAMA_API_KEY` and a cloud model name in `PRAMANA_CHAT_MODEL`. Any Ollama that is not
+on this machine counts as remote: private local editions are never sent to it, and the
+chat says where answers come from. Ollama's cloud limits and pricing are its own; check
+them before relying on it.

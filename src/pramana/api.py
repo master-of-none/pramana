@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 from pathlib import Path
 from threading import Lock
 
@@ -7,7 +8,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from pramana.answering import Answerer, AnswerError
+from pramana.answering import Answerer, AnswerError, OpenRouterProvider
 from pramana.citations import for_chapter
 from pramana.citations import summary as citation_summary
 from pramana.corpus import Corpus
@@ -54,8 +55,19 @@ def create_app(
             payload.model_dump(mode="json"),
         )
 
+    readiness: dict = {}
+
+    async def provider_ready() -> tuple[bool, str]:
+        # Checked at most every 30 seconds; a model started later is noticed soon after.
+        now = time.monotonic()
+        if now - readiness.get("at", -60) > 30:
+            check = getattr(chat_engine.provider, "ready", None)
+            readiness.update(at=now, value=await check() if check else (True, ""))
+        return readiness["value"]
+
     @api.get("/api/config")
-    def config():
+    async def config():
+        ready, reason = await provider_ready()
         # Public settings only; no secrets or quota internals.
         return {
             "hosted": hosted is not None,
@@ -63,9 +75,14 @@ def create_app(
             # Who writes answers, so the chat can say where questions go; never the key.
             "provider": {
                 "name": "openrouter"
-                if getattr(chat_engine.provider, "hosted", False)
+                if isinstance(chat_engine.provider, OpenRouterProvider)
                 else "ollama",
+                # True when questions leave this machine (OpenRouter, or a remote Ollama).
+                "remote": bool(getattr(chat_engine.provider, "hosted", False)),
                 "model": chat_engine.provider.model,
+                # False: no answer model is usable; search and the Study view still are.
+                "ready": ready,
+                "reason": reason,
             },
         }
 

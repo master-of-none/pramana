@@ -123,3 +123,19 @@ def test_private_books_never_reach_a_hosted_model(indexed, embedder, tmp_path, m
             )
         )
     assert caught.value.status_code == 403
+
+
+def test_readiness_says_why_no_model_can_answer():
+    # Port 9 (discard) is not an Ollama server: refused at once, no network needed.
+    ready, reason = asyncio.run(OllamaProvider(url="http://127.0.0.1:9", model="m").ready())
+    assert not ready and "not running" in reason
+    ready, reason = asyncio.run(OpenRouterProvider(key="", model="m:free").ready())
+    assert not ready and "OPENROUTER_API_KEY" in reason
+    assert asyncio.run(OpenRouterProvider(key="k", model="m:free").ready()) == (True, "")
+
+
+def test_a_remote_ollama_counts_as_hosted(monkeypatch):
+    monkeypatch.setenv("OLLAMA_API_KEY", "key")
+    cloud = OllamaProvider(url="https://ollama.com", model="m")
+    assert cloud.hosted and cloud.headers == {"Authorization": "Bearer key"}
+    assert not OllamaProvider(url="http://localhost:11434", model="m").hosted

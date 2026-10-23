@@ -92,15 +92,29 @@ export function Chat({
   const [turns, setTurns] = useState<Turn[]>(restore);
   const [message, setMessage] = useState("");
   // Which model writes answers; a hosted one is disclosed under the question box.
-  const [provider, setProvider] = useState<{ name: string; model: string } | null>(null);
+  const [provider, setProvider] = useState<{
+    name: string;
+    model: string;
+    remote?: boolean;
+    ready?: boolean;
+    reason?: string;
+  } | null>(null);
   useEffect(() => {
+    if (!active) return;
+    // Checked whenever the chat is opened: a model started meanwhile is noticed.
     fetch("/api/config")
-      .then((r): Promise<{ provider?: { name: string; model: string } }> =>
+      .then((r): Promise<{ provider?: NonNullable<typeof provider> }> =>
         r.ok ? r.json() : Promise.resolve({}),
       )
       .then((c) => c?.provider && setProvider(c.provider))
       .catch(() => undefined);
-  }, []);
+  }, [active]);
+  const noModel = provider?.ready === false;
+  // Without an answer model, a question becomes a search of the texts in Study.
+  function searchInstead(text: string) {
+    const params = new URLSearchParams({ q: text.trim() });
+    window.location.hash = `${href("study", "search")}?${params}`;
+  }
   // Words selected in an answer, offered as the start of the next question.
   const [quote, setQuote] = useState<{
     text: string;
@@ -307,6 +321,7 @@ export function Chat({
 
   async function send(text: string, retryId?: string) {
     if (!text.trim() || controller.current) return;
+    if (noModel) return searchInstead(text);
     const asked = retryId ? turns.find((t) => t.id === retryId)?.focus : (focus ?? undefined);
     const previous = retryId
       ? turns.slice(
@@ -762,6 +777,14 @@ export function Chat({
           </div>
         </div>
         {human.hosted && <div className="human-check" ref={human.holder} />}
+        {noModel && (
+          <p className="no-model" role="status">
+            <strong>Answers need a language model, and none is ready.</strong>{" "}
+            {provider?.reason} You can still search and read every text: your question
+            will open as a search in Study. See <em>docs/guides/chat.md</em> to start Ollama
+            or use OpenRouter's free models.
+          </p>
+        )}
         {focus && (
           <p className="focus-note" role="status">
             Asking about the passage you selected in Study.{" "}
@@ -778,7 +801,9 @@ export function Chat({
             ref={composer}
             id="message"
             placeholder={
-              focus
+              noModel
+                ? "Search the texts…"
+                : focus
                 ? "What would you like to understand about it?"
                 : hasConversation
                 ? "Keep the conversation going…"
@@ -825,6 +850,8 @@ export function Chat({
               ? "Take a moment. Good questions are worth sitting with."
               : provider?.name === "openrouter"
                 ? `Answers by ${provider.model} on OpenRouter's free plan: your question and public-domain passages are sent there; private books never are.`
+                : provider?.remote
+                  ? `Answers by ${provider.model} on a remote Ollama: your question and public-domain passages are sent there; private books never are.`
                 : "A conversation with the books in your local library."}
           </span>
           <span className="keyboard-hint">

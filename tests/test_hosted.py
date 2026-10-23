@@ -122,7 +122,14 @@ def test_hosted_app_refuses_before_any_model_call(indexed, embedder, tmp_path):
     assert client.get("/api/config").json() == {
         "hosted": True,
         "turnstile_site_key": "site-key",
-        "provider": {"name": "ollama", "model": "fixture"},  # no secrets, only the model
+        # No secrets: the provider, its model, and whether it can answer.
+        "provider": {
+            "name": "ollama",
+            "remote": False,
+            "model": "fixture",
+            "ready": True,
+            "reason": "",
+        },
     }
     assert client.post("/api/chat", json=body).status_code == 403  # no human check
     bad = client.post("/api/chat/stream", json=body, headers={"x-turnstile-token": "bad"})
