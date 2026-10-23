@@ -1,0 +1,1537 @@
+{
+ "label": "Routing step (texts or unrelated) before retrieval",
+ "dataset_sha256": "22332385cee34a9271138a572d1c0ea7519eca4df61b1fd00addc7ae9378bb79",
+ "model": "gemma4:e4b",
+ "answerable_routed_to_texts": 196,
+ "answerable": 198,
+ "out_of_corpus_routed_unrelated": {
+  "far": [
+   7,
+   7
+  ],
+  "near": [
+   1,
+   5
+  ],
+  "other-tradition": [
+   3,
+   4
+  ]
+ },
+ "wrongly_declined": [
+  {
+   "id": "adv-061",
+   "type": "concept",
+   "kind": null,
+   "query": "For the sage whose bonds are broken, are things fair or foul?",
+   "route": "unrelated"
+  },
+  {
+   "id": "adv-068",
+   "type": "fact",
+   "kind": null,
+   "query": "How does Charles Johnston compare Schopenhauer's will-toward-life with Indian thought?",
+   "route": "unrelated"
+  }
+ ],
+ "details": [
+  {
+   "id": "adv-001",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Uddalaka tell Svetaketu about his identity with the subtle essence?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-002",
+   "type": "fact",
+   "kind": null,
+   "query": "Which Upanishad says all this is Brahman and how should one meditate on it?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-003",
+   "type": "concept",
+   "kind": null,
+   "query": "How is the Self described by negation as 'No, no' in the Brihadaranyaka?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-004",
+   "type": "fact",
+   "kind": null,
+   "query": "In the beginning what did Brahman know about itself?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-005",
+   "type": "concept",
+   "kind": null,
+   "query": "Why can the Self not be seen or perceived as an object?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-006",
+   "type": "concept",
+   "kind": null,
+   "query": "When the Self alone is all this, how could one see another?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-007",
+   "type": "concept",
+   "kind": null,
+   "query": "Does the knowing Self die when the body dies, according to the Katha Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-008",
+   "type": "fact",
+   "kind": null,
+   "query": "What is the chariot image for the Self, body, intellect and mind?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-009",
+   "type": "concept",
+   "kind": null,
+   "query": "Can the Self be gained by studying the Veda or by much learning?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-010",
+   "type": "fact",
+   "kind": null,
+   "query": "What is the image of the two birds on the same tree?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-011",
+   "type": "concept",
+   "kind": null,
+   "query": "What are the higher and the lower knowledge in the Mundaka Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-012",
+   "type": "concept",
+   "kind": null,
+   "query": "What becomes of one who knows the highest Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-013",
+   "type": "fact",
+   "kind": null,
+   "query": "What did Bhrigu finally perceive Brahman to be?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-014",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the Kena Upanishad say about Brahman and speech?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-015",
+   "type": "concept",
+   "kind": null,
+   "query": "What happens to one who sees all beings in the Self and the Self in all beings?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-016",
+   "type": "fact",
+   "kind": null,
+   "query": "Where does an Upanishad call nature maya and the great Lord the mayin?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-017",
+   "type": "concept",
+   "kind": null,
+   "query": "Is the Self ever born or does it die, according to the Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-018",
+   "type": "concept",
+   "kind": null,
+   "query": "Does the Gita say we have a right to the fruits of our work?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-019",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the Gita teach about the unreal and the real?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-020",
+   "type": "concept",
+   "kind": null,
+   "query": "How are actions burnt by the fire of knowledge?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-021",
+   "type": "concept",
+   "kind": null,
+   "query": "What are the field and the knower of the field?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-022",
+   "type": "concept",
+   "kind": null,
+   "query": "Is knowledge the only direct means to liberation in the Knowledge of Self?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-023",
+   "type": "concept",
+   "kind": null,
+   "query": "What knowledge arising from 'That thou art' leads to liberation?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-024",
+   "type": "concept",
+   "kind": null,
+   "query": "How is the relation of the Self to objects like the rope and the serpent?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-025",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the hymn to Dakshinamurti describe the universe as a reflection in a mirror?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-026",
+   "type": "fact",
+   "kind": null,
+   "query": "What kind of enquiry does Direct Realisation recommend, such as 'Who am I?'",
+   "route": "texts"
+  },
+  {
+   "id": "adv-027",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the real seeker of liberation live while walking, sitting and sleeping?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-028",
+   "type": "fact",
+   "kind": null,
+   "query": "What alone remains in deep sleep according to the Ten-versed Hymn?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-029",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the Kaivalya Upanishad say the witness is, other than enjoyer and enjoyed?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-030",
+   "type": "fact",
+   "kind": null,
+   "query": "When does the word maya first appear in the Upanishads, according to Barnett?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-031",
+   "type": "concept",
+   "kind": null,
+   "query": "In the Advaita-Makaranda, why is the Self called the Light that is everywhere?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-032",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Shankara define superimposition (adhyasa)?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-033",
+   "type": "fact",
+   "kind": null,
+   "query": "What must precede the enquiry into Brahman according to Shankara?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-034",
+   "type": "concept",
+   "kind": null,
+   "query": "What does Shankara say learned men call Nescience and knowledge?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-035",
+   "type": "concept",
+   "kind": null,
+   "query": "Why is release not a fruit of action according to Shankara?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-036",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the second sutra define Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-037",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Shankara say Brahman creates without any purpose, as sport?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-038",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Shankara use the example of clay for cause and effect?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-039",
+   "type": "fact",
+   "kind": null,
+   "query": "What happens to earlier and later sins when Brahman is attained, according to Shankara?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-040",
+   "type": "concept",
+   "kind": null,
+   "query": "Does Shankara hold that Brahman is absolutely devoid of all difference?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-041",
+   "type": "concept",
+   "kind": null,
+   "query": "Why do released souls not enter new courses of existence, according to Shankara?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-042",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Ramanuja describe the world as the body of Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-043",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Ramanuja say Nescience cannot exist in pure knowledge without a knowing subject?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-044",
+   "type": "concept",
+   "kind": null,
+   "query": "Are the experiences of dreams unreal, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-045",
+   "type": "objection",
+   "kind": null,
+   "query": "In Ramanuja's Great Purvapaksha, what does the opponent hold to be real?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-046",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Ramanuja deny any proof of a substance free from all difference?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-047",
+   "type": "concept",
+   "kind": null,
+   "query": "Why is plurality not unreal, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-048",
+   "type": "fact",
+   "kind": null,
+   "query": "How does Ramanuja's opening invocation describe Brahman's creation of the universe?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-049",
+   "type": "concept",
+   "kind": null,
+   "query": "Does the released soul enter into real union with the highest Self, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-050",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Ramanuja distinguish Brahman's intelligence from that of released souls?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-051",
+   "type": "concept",
+   "kind": null,
+   "query": "According to the Crest-Jewel of Wisdom, is the mind the cause of bondage or of liberation?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-052",
+   "type": "concept",
+   "kind": null,
+   "query": "In the Vivekachudamani, how long does the false world last, like the snake seen in a rope?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-053",
+   "type": "concept",
+   "kind": null,
+   "query": "What marks a person as free even in life (jivanmukta) in Shankara's Crest-Jewel?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-054",
+   "type": "fact",
+   "kind": null,
+   "query": "What are the workings of the power of extension that keeps sending a person this way and that?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-055",
+   "type": "fact",
+   "kind": null,
+   "query": "After his awakening, what does the pupil in the Crest-Jewel say about going forth and returning?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-056",
+   "type": "concept",
+   "kind": null,
+   "query": "Which image of a motionless ocean describes the Eternal that 'thou art' in the Crest-Jewel?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-057",
+   "type": "fact",
+   "kind": null,
+   "query": "What burns up the forest of unwisdom, according to the Crest-Jewel of Wisdom?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-058",
+   "type": "fact",
+   "kind": null,
+   "query": "Which potency is pure like water and a reflected spark of the Self?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-059",
+   "type": "fact",
+   "kind": null,
+   "query": "What does the Crest-Jewel give as the last and final word of the teaching?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-060",
+   "type": "concept",
+   "kind": null,
+   "query": "What is the analogy of the grub and the bee for meditation on the supreme Self?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-061",
+   "type": "concept",
+   "kind": null,
+   "query": "For the sage whose bonds are broken, are things fair or foul?",
+   "route": "unrelated"
+  },
+  {
+   "id": "adv-062",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Crest-Jewel define the higher Self as witness of the intellect?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-063",
+   "type": "concept",
+   "kind": null,
+   "query": "In the Atma Bodha, why does fear arise and when does it end?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-064",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Awakening to the Self describe what is other than the Eternal?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-065",
+   "type": "fact",
+   "kind": null,
+   "query": "How should the sage live, according to the Atma Bodha, though knowing all?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-066",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the Tattva Bodha define mind, soul and self-assertion?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-067",
+   "type": "fact",
+   "kind": null,
+   "query": "In the Song of the Self, what is absent in dreamlessness for the lonely Self?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-068",
+   "type": "fact",
+   "kind": null,
+   "query": "How does Charles Johnston compare Schopenhauer's will-toward-life with Indian thought?",
+   "route": "unrelated"
+  },
+  {
+   "id": "adv-069",
+   "type": "fact",
+   "kind": null,
+   "query": "What three things does Janaka ask Ashtavakra at the start of the Ashtavakra Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-070",
+   "type": "concept",
+   "kind": null,
+   "query": "What should a seeker of liberation avoid like poison, according to Ashtavakra?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-071",
+   "type": "concept",
+   "kind": null,
+   "query": "Does Ashtavakra say we consist of the elements earth, water and fire?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-072",
+   "type": "concept",
+   "kind": null,
+   "query": "What does Ashtavakra say about thinking of oneself as free or bound?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-073",
+   "type": "concept",
+   "kind": null,
+   "query": "Which analogy of waves, foam and bubbles does Janaka use for the world?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-074",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Janaka say cloth is found to be when analysed?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-075",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Ashtavakra define liberation and bondage in a single verse?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-076",
+   "type": "concept",
+   "kind": null,
+   "query": "Am I the doer of actions or the reaper of consequences, in the Heart of Awareness?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-077",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does a self-realized man take no pleasure in acquiring wealth?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-078",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the image of space and a jar teach in the Ashtavakra Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-079",
+   "type": "concept",
+   "kind": null,
+   "query": "In the Ashtavakra Gita, what is the ocean and what are the waves?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-080",
+   "type": "fact",
+   "kind": null,
+   "query": "Can one be happy through acquiring objects of enjoyment, according to Ashtavakra?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-081",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the wise man regard pleasure and pain, man and woman, success and failure?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-082",
+   "type": "fact",
+   "kind": null,
+   "query": "Why does awareness of the truth make a clever, energetic man seem dumb and lazy?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-083",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Shankara say about the bodily warmth that is no longer felt after death?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-084",
+   "type": "objection",
+   "kind": null,
+   "query": "What objection says absolute unity would make perception and the other means of knowledge invalid?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-085",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Shankara say the distinction of many Selfs is due only to limiting adjuncts?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-086",
+   "type": "fact",
+   "kind": null,
+   "query": "Which passage does Shankara cite as blaming the Veda in his criticism of the Bhagavata doctrine?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-087",
+   "type": "concept",
+   "kind": null,
+   "query": "Is final release dependent on place, time and special causes like the fruit of works, according to Shankara?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-088",
+   "type": "objection",
+   "kind": null,
+   "query": "Why does the Chandogya Upanishad end with the householder if the ascetic's order is established by scripture?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-089",
+   "type": "objection",
+   "kind": null,
+   "query": "Is there an injunction that sacrifices are means of knowledge, in Shankara's commentary on 'By sacrifice they seek to know'?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-090",
+   "type": "objection",
+   "kind": null,
+   "query": "If there was no merit before creation, how can the Lord's unequal creation be explained?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-091",
+   "type": "fact",
+   "kind": null,
+   "query": "Why must the Self be an agent for the meditation taught in the Vedanta texts?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-092",
+   "type": "concept",
+   "kind": null,
+   "query": "Which texts, for Shankara, deny a world apart from Brahman and leave Brahman alone?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-093",
+   "type": "fact",
+   "kind": null,
+   "query": "Which Upanishad text does Ramanuja cite to show the individual Self is atomic (anu)?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-094",
+   "type": "fact",
+   "kind": null,
+   "query": "According to Ramanuja, what is the result of the study of the Veda enjoined on a pupil?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-095",
+   "type": "concept",
+   "kind": null,
+   "query": "Why can the Pradhana not be the cause of the world if everything is known through knowing the Sat, for Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-096",
+   "type": "fact",
+   "kind": null,
+   "query": "Whom does the person not human lead to the worlds of Brahman, in Ramanuja's reading?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-097",
+   "type": "concept",
+   "kind": null,
+   "query": "Does 'the True, knowledge, infinite is Brahman' deny Brahman's other attributes, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-098",
+   "type": "concept",
+   "kind": null,
+   "query": "Why is the Self called knowledge in scripture, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-099",
+   "type": "fact",
+   "kind": null,
+   "query": "Does ether have an origin, according to Ramanuja, even though perception cannot prove it?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-100",
+   "type": "objection",
+   "kind": null,
+   "query": "What 'logical see-saw' does Ramanuja find in the view that Nescience hides Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-101",
+   "type": "concept",
+   "kind": null,
+   "query": "In what respect is the released soul equal to Brahman, according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-102",
+   "type": "comparison",
+   "kind": null,
+   "query": "How do Shankara and Ramanuja interpret the sutra that the released soul abides in non-division?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-103",
+   "type": "comparison",
+   "kind": null,
+   "query": "Is the individual soul atomic or all-pervading, for Shankara and for Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-104",
+   "type": "comparison",
+   "kind": null,
+   "query": "How do Shankara and Ramanuja each explain creation as Brahman's sport (lila)?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-105",
+   "type": "comparison",
+   "kind": null,
+   "query": "In what sense is the soul a part of the Lord, according to Shankara and to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-106",
+   "type": "comparison",
+   "kind": null,
+   "query": "What must precede the enquiry into Brahman, according to Shankara and to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-107",
+   "type": "comparison",
+   "kind": null,
+   "query": "Do Shankara and Ramanuja accept Nescience (avidya) as the root of the world's appearance?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-108",
+   "type": "comparison",
+   "kind": null,
+   "query": "What does 'Not so, not so' negate, according to Shankara and according to Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-109",
+   "type": "comparison",
+   "kind": null,
+   "query": "How do Shankara and Ramanuja explain the second sutra's definition of Brahman as that from which the world originates?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-110",
+   "type": "comparison",
+   "kind": null,
+   "query": "Does Brahman have twofold characteristics, according to Shankara and to Ramanuja on sutra III, 2, 11?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-111",
+   "type": "comparison",
+   "kind": null,
+   "query": "How do Shankara and Ramanuja argue against the Buddhist view that only cognitions exist, and against comparing waking to dreams?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-112",
+   "type": "comparison",
+   "kind": null,
+   "query": "Should Brahman be meditated on as one's own Self, for Shankara and for Ramanuja?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-113",
+   "type": "comparison",
+   "kind": null,
+   "query": "How do Shankara and Ramanuja understand the non-difference of the world as effect from Brahman as cause?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-114",
+   "type": "objection",
+   "kind": null,
+   "query": "What objection does the Sankhya raise against Ramanuja's view that Brahman has a body?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-115",
+   "type": "objection",
+   "kind": null,
+   "query": "What does the opponent argue against taking the Lord as one's own Self, in Shankara's commentary on sutra IV, 1, 3?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-116",
+   "type": "objection",
+   "kind": null,
+   "query": "Which purvapaksha ascribes a double nature to Brahman, in Shankara's commentary?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-117",
+   "type": "objection",
+   "kind": null,
+   "query": "According to the Buddhist idealists in Shankara's commentary, why did Buddha teach the reality of external things?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-118",
+   "type": "objection",
+   "kind": null,
+   "query": "How does the school of Kanada argue that an effect cannot be non-different from its cause, in Ramanuja's commentary?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-119",
+   "type": "fact",
+   "kind": null,
+   "query": "In the Katha Upanishad, why does Nachiketas refuse the offer of a long life of pleasures?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-120",
+   "type": "fact",
+   "kind": null,
+   "query": "Which Katha Upanishad verse says the path to the Self is like the sharp edge of a razor?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-121",
+   "type": "concept",
+   "kind": null,
+   "query": "Who is the highest Person awake in us while we sleep, in the Katha Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-122",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Yajnavalkya tell Maitreyi that a husband is dear?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-123",
+   "type": "fact",
+   "kind": null,
+   "query": "Which Upanishad prayer asks to be led from the unreal to the real?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-124",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Yajnavalkya first answer when Janaka asks what is the light of man?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-125",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the Chandogya Upanishad say about the Infinite (bhuman) and bliss?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-126",
+   "type": "concept",
+   "kind": null,
+   "query": "Where does the Chandogya teach that the Self is below, above, behind and before?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-127",
+   "type": "fact",
+   "kind": null,
+   "query": "Why did Indra come back to Prajapati after leaving with Virochana?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-128",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Chandogya describe the Self in the city of Brahman as free from sin, old age and death?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-129",
+   "type": "concept",
+   "kind": null,
+   "query": "What are the five Selfs, of food, breath, mind, understanding and bliss, in the Taittiriya?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-130",
+   "type": "fact",
+   "kind": null,
+   "query": "What does the Taittiriya Upanishad say sprang from the Self first?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-131",
+   "type": "fact",
+   "kind": null,
+   "query": "What questions does Gargya ask about sleep and dreams in the Prasna Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-132",
+   "type": "concept",
+   "kind": null,
+   "query": "When does the god in man see no dreams, according to the Prasna Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-133",
+   "type": "concept",
+   "kind": null,
+   "query": "Which image of rivers flowing into the sea describes the wise man freed from name and form?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-134",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Indra tell Pratardana to meditate on him as, in the Kaushitaki Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-135",
+   "type": "concept",
+   "kind": null,
+   "query": "What does the Isa Upanishad say all this that moves on earth is to be hidden in?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-136",
+   "type": "concept",
+   "kind": null,
+   "query": "Which Upanishad says the enjoyer, the enjoyed and the ruler are threefold and this is Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-137",
+   "type": "concept",
+   "kind": null,
+   "query": "Which Upanishad says mind alone is the cause of bondage and liberty?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-138",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does a wise man not seek pleasure in contact-born enjoyments, according to the Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-139",
+   "type": "concept",
+   "kind": null,
+   "query": "Does the Bhagavad Gita say action is superior to inaction?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-140",
+   "type": "fact",
+   "kind": null,
+   "query": "What does the Gita call sacrifice, gifts or austerity performed without Shraddha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-141",
+   "type": "fact",
+   "kind": null,
+   "query": "How does Arjuna describe the universal form without beginning, middle or end?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-142",
+   "type": "concept",
+   "kind": null,
+   "query": "What is the reason for the soul's birth in good and evil wombs, according to the Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-143",
+   "type": "fact",
+   "kind": null,
+   "query": "After the wisdom of Self-realisation, which wisdom does Krishna say breaks the bonds of Karma?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-144",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Krishna say he does whenever there is a decline of Dharma?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-145",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Arjuna ask about the man of steady wisdom merged in Samadhi?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-146",
+   "type": "concept",
+   "kind": null,
+   "query": "What is the Gita's final instruction to relinquish all Dharmas and take refuge?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-147",
+   "type": "fact",
+   "kind": null,
+   "query": "What are the natural duties of the Brahmanas in the eighteenth chapter of the Gita?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-148",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Sandilya Upanishad define samadhi?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-149",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Tejobindu Upanishad describe the Jivanmukta who reigns in the kingdom of Atma?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-150",
+   "type": "concept",
+   "kind": null,
+   "query": "In the Vajrasuchi Upanishad, how should one meditate on one's Atma to be a true brahmana?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-151",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the Muktika Upanishad say Vedanta is latent in the Vedas?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-152",
+   "type": "concept",
+   "kind": null,
+   "query": "When should even good vasanas be given up, according to the Muktika Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-153",
+   "type": "fact",
+   "kind": null,
+   "query": "How many tattvas do the munis count in the Varaha Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-154",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the Sarvasara Upanishad define the actor (karta)?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-155",
+   "type": "fact",
+   "kind": null,
+   "query": "Which syllable should be contemplated as Brahman, according to the Dhyanabindu Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-156",
+   "type": "fact",
+   "kind": null,
+   "query": "In Barnett's Brahma-Knowledge, what peril does Indra foresee in the bodily Self taught to Virochana?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-157",
+   "type": "concept",
+   "kind": null,
+   "query": "In what is the ether woven, according to Yajnavalkya's answer to Gargi in Barnett?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-158",
+   "type": "fact",
+   "kind": null,
+   "query": "In the creation story translated by Barnett, what does the Self ask before entering the body?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-159",
+   "type": "concept",
+   "kind": null,
+   "query": "Why are Brahma and the individual Self often described as self-luminous light, according to Barnett?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-160",
+   "type": "fact",
+   "kind": null,
+   "query": "What does the swan say to Satyakama as he tends the cows?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-161",
+   "type": "fact",
+   "kind": null,
+   "query": "In the Century of Verses, why is the teacher greater than the philosopher's stone?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-162",
+   "type": "objection",
+   "kind": null,
+   "query": "What objection does the opponent raise in Direct Realisation that the manifested world is real?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-163",
+   "type": "concept",
+   "kind": null,
+   "query": "In Direct Realisation, what happens to the universe when ignorance, its cause, is destroyed?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-164",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Commentary on the Text define lakshana, the derived meaning?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-165",
+   "type": "objection",
+   "kind": null,
+   "query": "Is knowledge an auxiliary to ritual, as ritualists argue in the Definition of One's Own Self?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-166",
+   "type": "fact",
+   "kind": null,
+   "query": "How does the Hymn to Hari refer to Varuna's teaching of Bhrigu?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-167",
+   "type": "fact",
+   "kind": null,
+   "query": "In the Yoga Vasishtha, what did Lila do at midnight when the household was asleep?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-168",
+   "type": "fact",
+   "kind": null,
+   "query": "Who was Karkati in the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-169",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Brahma tell Karkati when he is pleased with her austerity?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-170",
+   "type": "fact",
+   "kind": null,
+   "query": "Why does Vasishtha travel to Mount Meru?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-171",
+   "type": "fact",
+   "kind": null,
+   "query": "Whom did the princess Chudala marry?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-172",
+   "type": "concept",
+   "kind": null,
+   "query": "Why does Rama call egoism a disease in the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-173",
+   "type": "concept",
+   "kind": null,
+   "query": "What does Rama say the mind is the cause of, in the chapter on its ungovernableness?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-174",
+   "type": "concept",
+   "kind": null,
+   "query": "Is the body anything other than a creation of the mind, according to the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-175",
+   "type": "concept",
+   "kind": null,
+   "query": "Why is fixed nirvikalpa samadhi hard while the visible world is before us?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-176",
+   "type": "concept",
+   "kind": null,
+   "query": "How does Vasishtha introduce disembodied liberation after living liberation?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-177",
+   "type": "concept",
+   "kind": null,
+   "query": "Does Vasishtha tell Rama to rely on fate or on his own exertion?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-178",
+   "type": "concept",
+   "kind": null,
+   "query": "Is a lesson repeated a hundred times of any use without understanding, in the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-179",
+   "type": "concept",
+   "kind": null,
+   "query": "How is the body shaped by the mind, like wind perfumed by a flowerbed?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-180",
+   "type": "concept",
+   "kind": null,
+   "query": "What arises when the sun of the intellect is hidden by the mist of ignorance?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-181",
+   "type": "fact",
+   "kind": null,
+   "query": "What does Sikhidhwaja ask about leaving his forest retreat?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-182",
+   "type": "concept",
+   "kind": null,
+   "query": "How does the Yoga Vasishtha compare the worship of Indra and the gods with that of the God in spirit?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-183",
+   "type": "concept",
+   "kind": null,
+   "query": "Is there any ego besides that of the supreme soul, in the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-184",
+   "type": "concept",
+   "kind": null,
+   "query": "What happens when the mind and the senses are curbed in the great soul?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-185",
+   "type": "fact",
+   "kind": null,
+   "query": "How does Rama describe cruel Fate as a cat?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-186",
+   "type": "concept",
+   "kind": null,
+   "query": "Who stays free from the pleasure and pain of having or not having things?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-187",
+   "type": "concept",
+   "kind": null,
+   "query": "Is there anything real in a dream, according to the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-188",
+   "type": "concept",
+   "kind": null,
+   "query": "What is said to be the effect of the practice of Yoga in the Yoga Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-189",
+   "type": "concept",
+   "kind": null,
+   "query": "What happens to the ties of passion when the string of desire breaks?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-190",
+   "type": "concept",
+   "kind": null,
+   "query": "Are materialists or spiritualists right in their conceptions, according to Vasishtha?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-191",
+   "type": "followup",
+   "kind": null,
+   "query": "How does Ramanuja respond to Shankara's theory of Nescience?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-192",
+   "type": "followup",
+   "kind": null,
+   "query": "How does Ramanuja interpret the sutra that the released soul abides in non-division from Brahman?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-193",
+   "type": "followup",
+   "kind": null,
+   "query": "What does Ramanuja say is Brahman's motive for creating the world?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-194",
+   "type": "followup",
+   "kind": null,
+   "query": "When does the mortal become immortal, according to the Katha Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-195",
+   "type": "followup",
+   "kind": null,
+   "query": "What does Yajnavalkya tell Maitreyi about immortality and wealth in the Brihadaranyaka Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-196",
+   "type": "followup",
+   "kind": null,
+   "query": "What did Virochana teach the Asuras after learning from Prajapati in the Chandogya Upanishad?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-197",
+   "type": "followup",
+   "kind": null,
+   "query": "What does Ashtavakra say happens if one remains resting in consciousness, distinct from the body?",
+   "route": "texts"
+  },
+  {
+   "id": "adv-198",
+   "type": "followup",
+   "kind": null,
+   "query": "In the Yoga Vasishtha, why did Lila not meet her husband in her own person despite her boon?",
+   "route": "texts"
+  },
+  {
+   "id": "ooc-01",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "How do I configure a Kubernetes ingress controller?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-02",
+   "type": "out_of_corpus",
+   "kind": "other-tradition",
+   "query": "What does the Quran say about fasting in Ramadan?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-03",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "Who won the 2018 football World Cup?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-04",
+   "type": "out_of_corpus",
+   "kind": "other-tradition",
+   "query": "What does the Book of Job say about undeserved suffering?",
+   "route": "texts"
+  },
+  {
+   "id": "ooc-06",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "What is the capital of Australia?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-07",
+   "type": "out_of_corpus",
+   "kind": "near",
+   "query": "Explain the Kashmir Shaivism doctrine of spanda.",
+   "route": "texts"
+  },
+  {
+   "id": "ooc-08",
+   "type": "out_of_corpus",
+   "kind": "near",
+   "query": "What does Madhva say about the five differences (panchabheda)?",
+   "route": "texts"
+  },
+  {
+   "id": "ooc-09",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "How do I bake sourdough bread?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-19",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "What is the boiling point of water at sea level in Fahrenheit?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-20",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "Write a Python function that reverses a list.",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-21",
+   "type": "out_of_corpus",
+   "kind": "far",
+   "query": "Summarize the plot of Shakespeare's Hamlet.",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-22",
+   "type": "out_of_corpus",
+   "kind": "other-tradition",
+   "query": "What does the Sermon on the Mount say about the meek?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-23",
+   "type": "out_of_corpus",
+   "kind": "other-tradition",
+   "query": "What is Kant's categorical imperative?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-24",
+   "type": "out_of_corpus",
+   "kind": "near",
+   "query": "What does Nagarjuna say about emptiness in the Mulamadhyamakakarika?",
+   "route": "unrelated"
+  },
+  {
+   "id": "ooc-25",
+   "type": "out_of_corpus",
+   "kind": "near",
+   "query": "What does Abhinavagupta teach about recognition (pratyabhijna)?",
+   "route": "texts"
+  },
+  {
+   "id": "ooc-26",
+   "type": "out_of_corpus",
+   "kind": "near",
+   "query": "In the Tripura Rahasya, how does Hemachuda's wife Hemalekha teach him?",
+   "route": "texts"
+  }
+ ]
+}

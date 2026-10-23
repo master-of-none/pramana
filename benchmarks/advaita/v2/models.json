@@ -1,0 +1,1168 @@
+{
+ "label": "Embedding model comparison on the v2 passage benchmark (unreviewed dataset)",
+ "dataset_sha256": "22332385cee34a9271138a572d1c0ea7519eca4df61b1fd00addc7ae9378bb79",
+ "note": "Passages, chunking and keyword search identical across models; only the embedding model differs. Vectors computed on the stated device.",
+ "models": {
+  "bge-small": {
+   "model": "BAAI/bge-small-en-v1.5",
+   "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+   "dimensions": 384,
+   "parameters": 33360000,
+   "device": "cuda",
+   "passages": 8851,
+   "embedding_seconds": 21.7,
+   "benchmark_seconds": 74.0,
+   "strategies": {
+    "lexical": {
+     "all": {
+      "recall_at_10": 0.7171717171717171,
+      "mrr_at_10": 0.5262506012506012,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.6974789915966386,
+      "mrr_at_10": 0.5377050820328131,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.7468354430379747,
+      "mrr_at_10": 0.508996383363472,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.67,
+       "mrr_at_10": 0.49267857142857147,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8,
+       "mrr_at_10": 0.6014468864468865,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.875,
+       "mrr_at_10": 0.4886904761904762,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5923076923076923,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.9333333333333333,
+       "mrr_at_10": 0.7466666666666666,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.8571428571428571,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.7333333333333333,
+       "mrr_at_10": 0.5166666666666667,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.6956521739130435,
+       "mrr_at_10": 0.4522256728778468,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.8333333333333334,
+       "mrr_at_10": 0.6635912698412698,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.437037037037037,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.8888888888888888,
+       "mrr_at_10": 0.5546296296296296,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5945945945945946,
+       "mrr_at_10": 0.39623552123552125,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.76,
+       "mrr_at_10": 0.5403333333333333,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5897435897435898,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 42,
+      "right chapter, other passage": 2,
+      "right work, other chapter": 14
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 33,
+      "not_in_top_50": 25
+     },
+     "comparison_coverage": {
+      "both": 5,
+      "one": 4,
+      "neither": 3
+     },
+     "followup_raw": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.35119047619047616,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.875,
+      "mrr_at_10": 0.4886904761904762,
+      "questions": 8
+     }
+    },
+    "dense": {
+     "all": {
+      "recall_at_10": 0.5454545454545454,
+      "mrr_at_10": 0.3804172679172679,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.5378151260504201,
+      "mrr_at_10": 0.386187808456716,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.5569620253164557,
+      "mrr_at_10": 0.37172493469961826,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.4148148148148148,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.47,
+       "mrr_at_10": 0.3169126984126984,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.6307692307692307,
+       "mrr_at_10": 0.45386446886446885,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.5,
+       "mrr_at_10": 0.20238095238095238,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5794871794871794,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.5333333333333333,
+       "mrr_at_10": 0.30833333333333335,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.7142857142857143,
+       "mrr_at_10": 0.7142857142857143,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.26666666666666666,
+       "mrr_at_10": 0.2,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.4782608695652174,
+       "mrr_at_10": 0.34679089026915116,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.7083333333333334,
+       "mrr_at_10": 0.4747685185185185,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.6111111111111112,
+       "mrr_at_10": 0.4134920634920635,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.4444444444444444,
+       "mrr_at_10": 0.2777777777777778,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5135135135135135,
+       "mrr_at_10": 0.43018018018018017,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.52,
+       "mrr_at_10": 0.2318095238095238,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.4148148148148148,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.514957264957265,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 53,
+      "right chapter, other passage": 13,
+      "right work, other chapter": 28
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 40,
+      "not_in_top_50": 54
+     },
+     "comparison_coverage": {
+      "both": 3,
+      "one": 8,
+      "neither": 1
+     },
+     "followup_raw": {
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.2857142857142857,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.20238095238095238,
+      "questions": 8
+     }
+    },
+    "hybrid": {
+     "all": {
+      "recall_at_10": 0.73989898989899,
+      "mrr_at_10": 0.5480599647266313,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.7605042016806722,
+      "mrr_at_10": 0.5366179805255435,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.7088607594936709,
+      "mrr_at_10": 0.565295358649789,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.625,
+       "mrr_at_10": 0.6785714285714285,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.68,
+       "mrr_at_10": 0.5009404761904762,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8307692307692308,
+       "mrr_at_10": 0.5887606837606838,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 1.0,
+       "mrr_at_10": 0.4699404761904762,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.6346153846153846,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.8666666666666667,
+       "mrr_at_10": 0.6129629629629629,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.75,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.6666666666666666,
+       "mrr_at_10": 0.4574074074074074,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.7391304347826086,
+       "mrr_at_10": 0.5460662525879918,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.9166666666666666,
+       "mrr_at_10": 0.653587962962963,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.5,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.7777777777777778,
+       "mrr_at_10": 0.4398148148148148,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.7027027027027027,
+       "mrr_at_10": 0.4879021879021879,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.68,
+       "mrr_at_10": 0.4524444444444445,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.625,
+       "mrr_at_10": 0.6785714285714285,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.8461538461538461,
+       "mrr_at_10": 0.6538461538461539,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 30,
+      "right chapter, other passage": 8,
+      "right work, other chapter": 17
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 34,
+      "not_in_top_50": 21
+     },
+     "comparison_coverage": {
+      "both": 4,
+      "one": 7,
+      "neither": 1
+     },
+     "followup_raw": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.4322916666666667,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 1.0,
+      "mrr_at_10": 0.4699404761904762,
+      "questions": 8
+     }
+    }
+   }
+  },
+  "bge-base": {
+   "model": "BAAI/bge-base-en-v1.5",
+   "revision": "a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
+   "dimensions": 768,
+   "parameters": 109482240,
+   "device": "cuda",
+   "passages": 8851,
+   "embedding_seconds": 34.2,
+   "benchmark_seconds": 73.0,
+   "strategies": {
+    "lexical": {
+     "all": {
+      "recall_at_10": 0.7171717171717171,
+      "mrr_at_10": 0.5262506012506012,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.6974789915966386,
+      "mrr_at_10": 0.5377050820328131,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.7468354430379747,
+      "mrr_at_10": 0.508996383363472,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.67,
+       "mrr_at_10": 0.49267857142857147,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8,
+       "mrr_at_10": 0.6014468864468865,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.875,
+       "mrr_at_10": 0.4886904761904762,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5923076923076923,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.9333333333333333,
+       "mrr_at_10": 0.7466666666666666,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.8571428571428571,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.7333333333333333,
+       "mrr_at_10": 0.5166666666666667,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.6956521739130435,
+       "mrr_at_10": 0.4522256728778468,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.8333333333333334,
+       "mrr_at_10": 0.6635912698412698,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.437037037037037,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.8888888888888888,
+       "mrr_at_10": 0.5546296296296296,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5945945945945946,
+       "mrr_at_10": 0.39623552123552125,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.76,
+       "mrr_at_10": 0.5403333333333333,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5897435897435898,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 42,
+      "right chapter, other passage": 2,
+      "right work, other chapter": 14
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 33,
+      "not_in_top_50": 25
+     },
+     "comparison_coverage": {
+      "both": 5,
+      "one": 4,
+      "neither": 3
+     },
+     "followup_raw": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.35119047619047616,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.875,
+      "mrr_at_10": 0.4886904761904762,
+      "questions": 8
+     }
+    },
+    "dense": {
+     "all": {
+      "recall_at_10": 0.5580808080808081,
+      "mrr_at_10": 0.38072390572390574,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.5966386554621849,
+      "mrr_at_10": 0.4222222222222222,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.3182137834036568,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.7083333333333334,
+       "mrr_at_10": 0.7013888888888888,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.5,
+       "mrr_at_10": 0.3128611111111111,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.5846153846153846,
+       "mrr_at_10": 0.3976495726495726,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.625,
+       "mrr_at_10": 0.2916666666666667,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5769230769230769,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.5333333333333333,
+       "mrr_at_10": 0.4083333333333333,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.5714285714285714,
+       "mrr_at_10": 0.5,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.2,
+       "mrr_at_10": 0.16666666666666666,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.6521739130434783,
+       "mrr_at_10": 0.44106280193236713,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.7916666666666666,
+       "mrr_at_10": 0.5399305555555556,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5,
+       "mrr_at_10": 0.33487654320987653,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.3055555555555556,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5405405405405406,
+       "mrr_at_10": 0.31351351351351353,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.44,
+       "mrr_at_10": 0.22111111111111112,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.7083333333333334,
+       "mrr_at_10": 0.7013888888888888,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6153846153846154,
+       "mrr_at_10": 0.4487179487179487,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 53,
+      "right chapter, other passage": 8,
+      "right work, other chapter": 29
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 33,
+      "not_in_top_50": 57
+     },
+     "comparison_coverage": {
+      "both": 6,
+      "one": 5,
+      "neither": 1
+     },
+     "followup_raw": {
+      "recall_at_10": 0.375,
+      "mrr_at_10": 0.2916666666666667,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.2916666666666667,
+      "questions": 8
+     }
+    },
+    "hybrid": {
+     "all": {
+      "recall_at_10": 0.7550505050505051,
+      "mrr_at_10": 0.5145502645502645,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.7815126050420168,
+      "mrr_at_10": 0.5301320528211285,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.7151898734177216,
+      "mrr_at_10": 0.491078963230862,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.7916666666666666,
+       "mrr_at_10": 0.6064814814814815,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.69,
+       "mrr_at_10": 0.4768571428571428,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8153846153846154,
+       "mrr_at_10": 0.5418070818070818,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 1.0,
+       "mrr_at_10": 0.38958333333333334,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.7692307692307693,
+       "mrr_at_10": 0.6602564102564104,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.8,
+       "mrr_at_10": 0.5994444444444444,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.7142857142857143,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.7333333333333333,
+       "mrr_at_10": 0.35079365079365077,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.782608695652174,
+       "mrr_at_10": 0.5670289855072463,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.9166666666666666,
+       "mrr_at_10": 0.6680555555555556,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.4351851851851852,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.8888888888888888,
+       "mrr_at_10": 0.41358024691358025,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.7297297297297297,
+       "mrr_at_10": 0.4633204633204633,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.64,
+       "mrr_at_10": 0.41838095238095235,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.7916666666666666,
+       "mrr_at_10": 0.6064814814814815,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.7692307692307693,
+       "mrr_at_10": 0.5474358974358974,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 27,
+      "right chapter, other passage": 8,
+      "right work, other chapter": 15
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 30,
+      "not_in_top_50": 20
+     },
+     "comparison_coverage": {
+      "both": 8,
+      "one": 3,
+      "neither": 1
+     },
+     "followup_raw": {
+      "recall_at_10": 0.5,
+      "mrr_at_10": 0.3125,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 1.0,
+      "mrr_at_10": 0.38958333333333334,
+      "questions": 8
+     }
+    }
+   }
+  },
+  "bge-large": {
+   "model": "BAAI/bge-large-en-v1.5",
+   "revision": "d4aa6901d3a41ba39fb536a557fa166f842b0e09",
+   "dimensions": 1024,
+   "parameters": 335141888,
+   "device": "cuda",
+   "passages": 8851,
+   "embedding_seconds": 103.3,
+   "benchmark_seconds": 62.7,
+   "strategies": {
+    "lexical": {
+     "all": {
+      "recall_at_10": 0.7171717171717171,
+      "mrr_at_10": 0.5262506012506012,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.6974789915966386,
+      "mrr_at_10": 0.5377050820328131,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.7468354430379747,
+      "mrr_at_10": 0.508996383363472,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.67,
+       "mrr_at_10": 0.49267857142857147,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8,
+       "mrr_at_10": 0.6014468864468865,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.875,
+       "mrr_at_10": 0.4886904761904762,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5923076923076923,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.9333333333333333,
+       "mrr_at_10": 0.7466666666666666,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.8571428571428571,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.7333333333333333,
+       "mrr_at_10": 0.5166666666666667,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.6956521739130435,
+       "mrr_at_10": 0.4522256728778468,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.8333333333333334,
+       "mrr_at_10": 0.6635912698412698,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.437037037037037,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.8888888888888888,
+       "mrr_at_10": 0.5546296296296296,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5945945945945946,
+       "mrr_at_10": 0.39623552123552125,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.76,
+       "mrr_at_10": 0.5403333333333333,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.5833333333333334,
+       "mrr_at_10": 0.3521825396825397,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.5897435897435898,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 42,
+      "right chapter, other passage": 2,
+      "right work, other chapter": 14
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 33,
+      "not_in_top_50": 25
+     },
+     "comparison_coverage": {
+      "both": 5,
+      "one": 4,
+      "neither": 3
+     },
+     "followup_raw": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.35119047619047616,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.875,
+      "mrr_at_10": 0.4886904761904762,
+      "questions": 8
+     }
+    },
+    "dense": {
+     "all": {
+      "recall_at_10": 0.6035353535353535,
+      "mrr_at_10": 0.4498516915183582,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.6260504201680672,
+      "mrr_at_10": 0.45938375350140054,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.569620253164557,
+      "mrr_at_10": 0.4354932690375728,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.7083333333333334,
+       "mrr_at_10": 0.6805555555555555,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.51,
+       "mrr_at_10": 0.36945634920634923,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.7076923076923077,
+       "mrr_at_10": 0.48653846153846153,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 0.625,
+       "mrr_at_10": 0.5625,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.6923076923076923,
+       "mrr_at_10": 0.6025641025641025,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.5333333333333333,
+       "mrr_at_10": 0.4166666666666667,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.5714285714285714,
+       "mrr_at_10": 0.5714285714285714,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.6,
+       "mrr_at_10": 0.4277777777777778,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.6521739130434783,
+       "mrr_at_10": 0.4337474120082816,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.7916666666666666,
+       "mrr_at_10": 0.607638888888889,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.6111111111111112,
+       "mrr_at_10": 0.43209876543209874,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.4444444444444444,
+       "mrr_at_10": 0.2685185185185185,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.5675675675675675,
+       "mrr_at_10": 0.3927927927927928,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.48,
+       "mrr_at_10": 0.32799999999999996,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.7083333333333334,
+       "mrr_at_10": 0.6805555555555555,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.6153846153846154,
+       "mrr_at_10": 0.5192307692307693,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 46,
+      "right chapter, other passage": 8,
+      "right work, other chapter": 28
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 40,
+      "not_in_top_50": 42
+     },
+     "comparison_coverage": {
+      "both": 5,
+      "one": 7,
+      "neither": 0
+     },
+     "followup_raw": {
+      "recall_at_10": 0.375,
+      "mrr_at_10": 0.3125,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.5625,
+      "questions": 8
+     }
+    },
+    "hybrid": {
+     "all": {
+      "recall_at_10": 0.7727272727272727,
+      "mrr_at_10": 0.5688251563251563,
+      "questions": 198
+     },
+     "dev": {
+      "recall_at_10": 0.7941176470588235,
+      "mrr_at_10": 0.5799119647859144,
+      "questions": 119
+     },
+     "heldout": {
+      "recall_at_10": 0.740506329113924,
+      "mrr_at_10": 0.552124773960217,
+      "questions": 79
+     },
+     "by_type": {
+      "comparison": {
+       "recall_at_10": 0.75,
+       "mrr_at_10": 0.6180555555555556,
+       "questions": 12
+      },
+      "concept": {
+       "recall_at_10": 0.72,
+       "mrr_at_10": 0.5206785714285714,
+       "questions": 100
+      },
+      "fact": {
+       "recall_at_10": 0.8153846153846154,
+       "mrr_at_10": 0.6405311355311356,
+       "questions": 65
+      },
+      "followup": {
+       "recall_at_10": 1.0,
+       "mrr_at_10": 0.4625,
+       "questions": 8
+      },
+      "objection": {
+       "recall_at_10": 0.8461538461538461,
+       "mrr_at_10": 0.6006410256410256,
+       "questions": 13
+      }
+     },
+     "by_text": {
+      "A\u1e63\u1e6d\u0101vakra G\u012bt\u0101": {
+       "recall_at_10": 0.8666666666666667,
+       "mrr_at_10": 0.66,
+       "questions": 15
+      },
+      "Barnett, Brahma-Knowledge": {
+       "recall_at_10": 0.8571428571428571,
+       "mrr_at_10": 0.6571428571428571,
+       "questions": 7
+      },
+      "Bhagavad G\u012bt\u0101": {
+       "recall_at_10": 0.7333333333333333,
+       "mrr_at_10": 0.6166666666666667,
+       "questions": 15
+      },
+      "Brahma S\u016btra \u00b7 R\u0101m\u0101nuja": {
+       "recall_at_10": 0.8260869565217391,
+       "mrr_at_10": 0.5405797101449276,
+       "questions": 23
+      },
+      "Brahma S\u016btra \u00b7 \u015aa\u1e45kara": {
+       "recall_at_10": 0.9166666666666666,
+       "mrr_at_10": 0.6684027777777778,
+       "questions": 24
+      },
+      "Crest-Jewel and Johnston": {
+       "recall_at_10": 0.5555555555555556,
+       "mrr_at_10": 0.4833333333333333,
+       "questions": 18
+      },
+      "Minor Upani\u1e63ads": {
+       "recall_at_10": 0.7777777777777778,
+       "mrr_at_10": 0.4166666666666667,
+       "questions": 9
+      },
+      "Principal Upani\u1e63ads": {
+       "recall_at_10": 0.7027027027027027,
+       "mrr_at_10": 0.5292792792792792,
+       "questions": 37
+      },
+      "Yoga V\u0101si\u1e63\u1e6dha": {
+       "recall_at_10": 0.72,
+       "mrr_at_10": 0.48833333333333334,
+       "questions": 25
+      },
+      "\u015aa\u1e45kara and R\u0101m\u0101nuja": {
+       "recall_at_10": 0.75,
+       "mrr_at_10": 0.6180555555555556,
+       "questions": 12
+      },
+      "\u015aa\u1e45kara's shorter works": {
+       "recall_at_10": 0.9230769230769231,
+       "mrr_at_10": 0.6726190476190476,
+       "questions": 13
+      }
+     },
+     "failure_kinds": {
+      "other work": 31,
+      "right chapter, other passage": 7,
+      "right work, other chapter": 9
+     },
+     "failure_depth": {
+      "found_at_11_to_50": 32,
+      "not_in_top_50": 15
+     },
+     "comparison_coverage": {
+      "both": 7,
+      "one": 4,
+      "neither": 1
+     },
+     "followup_raw": {
+      "recall_at_10": 0.625,
+      "mrr_at_10": 0.43125,
+      "questions": 8
+     },
+     "followup_rewritten": {
+      "recall_at_10": 1.0,
+      "mrr_at_10": 0.4625,
+      "questions": 8
+     }
+    }
+   }
+  }
+ }
+}

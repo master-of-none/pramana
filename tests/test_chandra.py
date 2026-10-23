@@ -114,3 +114,35 @@ def test_public_scan_must_match_its_pin(tmp_path, monkeypatch):
     wrong.write_bytes(b"%PDF-1.4 not the reviewed scan")
     with pytest.raises(PramanaError, match="differs from the reviewed scan"):
         pdf.acquire_public(home, "vivekachudamani", wrong)
+
+
+def test_verse_runs_math_and_marginalia(scan, monkeypatch):
+    from pramana.ingestion.pdf import clean_text
+
+    monkeypatch.setitem(pdf.MARGINALIA, "scan-fixture", ("v<sub>2</sub> {",))
+    raw = (
+        "v<sub>2</sub> { [ Note ends. ] सर्वदा स्थापनं बुद्धेः ।\n\n"
+        "न, तत्समाधानमित्युक्तं न तु चित्तस्य बाधनम् ॥२६॥ 26. Not the mere thought.\n\n"
+        "an impulse of मोह or blind attachment; briefly, $X + \\text{mind}$ . Vedanta."
+    )
+    text = clean_text(raw, spec(keep_devanagari=False))
+    assert text == (
+        "[ Note ends. ]\n\n26. Not the mere thought.\n\n"
+        "an impulse of मोह or blind attachment; briefly, X + mind. Vedanta."
+    )
+
+
+def test_newer_cleanup_recomputes_cached_text_without_ocr(scan):
+    from pramana.models import Chapter
+
+    home, target, log = scan
+    out = extract_pdf(target, home, spec())
+    page = next(out.parent.glob("pages/0002.json"))
+    data = json.loads(page.read_text())
+    stale = {**data, "text": "stale text", "cleanup": 1}
+    page.write_text(json.dumps(stale))
+    out = extract_pdf(target, home, spec())
+    first = Chapter.model_validate_json(out.read_text().splitlines()[0])
+    assert "stale" not in first.text and "Let the wise man" in first.text
+    assert json.loads(page.read_text())["cleanup"] == pdf.CHANDRA_CLEANUP
+    assert log.read_text().count("run") == 1  # raw OCR reused; Chandra not run again

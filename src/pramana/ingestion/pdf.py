@@ -278,6 +278,12 @@ def ocr_page(path: Path, number: int, tools: dict[str, str]) -> dict:
 
 
 CHANDRA = {"method": "hf", "checkpoint": "datalab-to/chandra-ocr-2", "batch": 12}
+# Version of the cleanup applied to Chandra output. Cached pages keep their raw OCR, so a
+# newer cleanup recomputes their text from it without running OCR again.
+CHANDRA_CLEANUP = 3
+# A reader's handwriting in a scan's margins, read by OCR; checked against the page images.
+DERIVED = {"page", "text", "quality", "reasons", "indexed", "cleanup"}
+MARGINALIA = {"vivekachudamani-madhavananda": ("v<sub>2</sub> {",)}
 
 
 def chandra_tools() -> dict[str, str]:
@@ -347,9 +353,17 @@ def chandra_pages(path: Path, numbers: list[int], tools: dict[str, str]) -> dict
         return found
 
 
-def clean_markdown(raw: str) -> str:
+def clean_markdown(raw: str, marginalia: tuple[str, ...] = ()) -> str:
     """Chandra emits Markdown: drop image links, heading marks and emphasis markers only."""
+    for note in marginalia:
+        raw = raw.replace(note, "")
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", raw)
+    # Inline math for printed formulas ("$X + \\text{mind}$") becomes the printed text.
+    text = re.sub(
+        r"\$([^$\n]{1,80})\$(?:\s+(?=[.,;:]))?",
+        lambda m: re.sub(r"\\text\{([^}]*)\}", r"\1", m[1]).strip(),
+        text,
+    )
     # Handwritten tick marks in a scan's margins are a reader's, not the book's.
     text = re.sub(r"\s*[✓✔✗✘]", "", text)
     text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
@@ -362,9 +376,16 @@ def clean_markdown(raw: str) -> str:
 def clean_text(raw: str, spec: BookSpec) -> str:
     """Canonical extraction; raw text is retained separately. No speculative OCR word repair."""
     if spec.ocr_engine == "chandra":
-        raw = clean_markdown(raw)
+        raw = clean_markdown(raw, MARGINALIA.get(spec.id, ()))
     lines = raw.replace("\x00", "").replace("\u00ad", "").splitlines()
     if not spec.keep_devanagari:
+        # Verse text joined to an English line: Devanagari words ending in a danda (and
+        # verse number). Short inline citations without a danda stay as printed.
+        verse = r"[\u0900-\u0963\u0966-\u097f]+(?:[,;]?[ \t]+[\u0900-\u0963\u0966-\u097f]+)*"
+        lines = [
+            re.sub(verse + r"[ \t]*(?:\u0964|\u0965[\u0966-\u096f0-9]*\u0965?)", "", line)
+            for line in lines
+        ]
         # Documented rule: lines that are mostly Devanagari leave the canonical text.
         lines = [
             line
@@ -499,17 +520,26 @@ def extract_pdf(
                 raise PramanaError(
                     f"Invalid extraction cache {page_file}; remove this page and retry."
                 )
-            return data
+            if data.get("engine") != "chandra" or data.get("cleanup") == CHANDRA_CLEANUP:
+                return data
+            # Older cleanup of retained raw OCR: recompute the text, never the OCR.
+            details = {k: v for k, v in data.items() if k not in DERIVED}
+            return finish(index, details)
         if index in prefetched:
             details = prefetched.pop(index)
         elif chandra:
             details = {"raw": "", "engine": "chandra", "skipped": "outside the page range"}
         else:
             details = ocr_page(path, index + 1, tools) if spec.ocr else {"raw": extracted[index]}
+        return finish(index, details)
+
+    def finish(index, details):
+        page_file = cache / "pages" / f"{index + 1:04d}.json"
         text = clean_text(details["raw"], spec)
         quality, reasons = page_quality(text, details)
         data = {
             **details,
+            **({"cleanup": CHANDRA_CLEANUP} if details.get("engine") == "chandra" else {}),
             "page": index + 1,
             "text": text,
             "quality": quality,

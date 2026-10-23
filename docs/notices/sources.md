@@ -172,10 +172,44 @@ introduction ("Śankara, the Teacher") and the appendix symposium on Śaṅkara'
 are excluded. One page anchor without a page number is skipped rather than guessed.
 Checked on 23 October 2026: 17 records, about 181,000 characters, 145 page marks.
 
-This is not Swami Madhavananda's 1921 translation. That edition is on
-[archive.org](https://archive.org/details/vivekachudamanio00sankrich) (marked not in
-copyright), but its OCR is too damaged to import without guessing words; it could be
-re-OCRed locally once Tesseract is installed.
+This is not Swami Madhavananda's 1921 translation, which is a separate edition below.
+
+## Vivekacūḍāmaṇi (Madhavananda, 1921)
+
+- Translation: Swami Madhavananda, _Vivekachudamani of Sri Sankaracharya_, Advaita
+  Ashrama, Mayavati, 1921: Sanskrit verses, English translation and notes. Recorded with
+  author "Sankaracharya" and an edition string saying "attributed to Sankaracharya by
+  this edition"; translator Swami Madhavananda; content `mixed`.
+- Copy used: the University of California Libraries scan on
+  [archive.org](https://archive.org/details/vivekachudamanio00sankrich), which lists it
+  as `NOT_IN_COPYRIGHT` (public domain in the US). The PDF is pinned by SHA-256
+  (`7a2756c7…8558`) and never edited; `--archive PATH` accepts a manually downloaded
+  copy, which must match the pin.
+
+**OCR.** The archive's own OCR is unusable, so pages 9–260 are re-OCRed locally with
+[Chandra OCR](https://github.com/datalab-to/chandra) (`chandra-ocr` 0.2.0, checkpoint
+`datalab-to/chandra-ocr-2`, Hugging Face method) on an RTX 5070 Ti: 252 pages in 71
+minutes. Pages 261–264 (index), 265 (errata, not applied) and 266 are left out. Raw OCR
+is kept per page beside the cleaned text. The weights' licence restricts use of the
+model, not the public-domain text it reads.
+
+**Cleanup** (`clean_markdown` and `clean_text` in
+[`pdf.py`](../../src/pramana/ingestion/pdf.py), versioned so cached pages are re-cleaned
+from their raw OCR without OCR running again): Markdown headings, emphasis and image
+links are removed; inline math for a printed formula ("$X + \text{mind}$") becomes the
+printed text; a reader's handwriting in the margins is removed (tick marks, and one
+pencilled "V½ {" on PDF page 20, checked against the page image). **The Sanskrit verses
+are left out**: in a sample of verses checked against the page images, roughly 15–30% of
+Devanagari words were misread, too many to keep as text. Lines that are mostly
+Devanagari, and Devanagari runs ending in a daṇḍa (verse halves joined to an English
+line), are removed. Short Sanskrit citations inside the English notes ("Narada defines
+it as सा कस्मैचित् परमप्रेमरूपा") stay as OCRed, unverified; 365 Devanagari characters
+remain. Printed verse numbers stay in the English text; no verse references are
+inferred, and records are physical PDF pages (`pdf-page-0009` …).
+
+Checked on 23 October 2026: 252 records, 191,945 characters. Two randomly chosen pages
+(PDF 39 and 90, about 500 English words) matched the page images word for word, apart
+from transliteration style ("Tanmātrās" for the printed "Tanmâtrâs").
 
 ## Aṣṭāvakra Gītā (Richards)
 

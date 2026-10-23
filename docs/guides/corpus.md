@@ -63,8 +63,13 @@ uv run pramana index
 ```
 
 OCR runs in batches of 12 pages with one model load each; finished pages are cached,
-so an interrupted run resumes. Pages 261–264 (index), 265 (errata, not applied) and
-266 are excluded. Records are physical PDF pages, as for the private PDFs.
+so an interrupted run resumes (the full 252 pages took 71 minutes on an RTX 5070 Ti).
+Pages 261–264 (index), 265 (errata, not applied) and 266 are excluded. Records are
+physical PDF pages, as for the private PDFs. The English translation and notes are kept;
+the Sanskrit verses are left out because too many Devanagari words were misread (see
+the [source notice](../notices/sources.md#vivekacūḍāmaṇi-madhavananda-1921) for the
+measured rules). It is part of chat's **All texts**, a separate edition from Johnston's
+_Crest-Jewel_.
 
 ## Private PDF books
 
