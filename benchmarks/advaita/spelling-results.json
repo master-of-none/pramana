@@ -9,7 +9,7 @@
   "review": {
     "unreviewed": 4
   },
-  "scope": "unfiltered search across the whole indexed library",
+  "scope": "chat's All texts: opt-in works excluded",
   "index": {
     "chunking": {
       "max_tokens": 448,
@@ -68,7 +68,7 @@
           "top": [
             "Katha Upanishad 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.2",
-            "Brihadaranyaka Upanishad 4.1"
+            "Brahma Sutra Bhashya 1.4"
           ]
         },
         {
@@ -198,7 +198,7 @@
           "top": [
             "Katha Upanishad 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.2",
-            "Vishnu Purana 4.13"
+            "Vishnu Purana 4.10"
           ]
         },
         {

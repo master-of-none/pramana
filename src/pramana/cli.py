@@ -202,13 +202,16 @@ def evaluate(questions: Path = Path("benchmarks/questions.json"), output: Path |
 
 @app.command("evaluate-passages")
 def evaluate_passages(
-    dataset: Path = Path("benchmarks/advaita/questions.json"), output: Path | None = None
+    dataset: Path = Path("benchmarks/advaita/questions.json"),
+    output: Path | None = None,
+    include_opt_in: bool = False,
 ):
     """Passage-level Recall@10 and MRR@10 against exact gold spans, per split."""
     from pramana.evaluation import evaluate_passages as run
 
     try:
-        report = json.dumps(run(Retriever(Corpus()), dataset), indent=2, ensure_ascii=False)
+        result = run(Retriever(Corpus()), dataset, include_opt_in=include_opt_in)
+        report = json.dumps(result, indent=2, ensure_ascii=False)
         if output:
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(report + "\n", encoding="utf-8")

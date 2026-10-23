@@ -7,7 +7,13 @@ evaluation; the numbers are not comparable with either.
 
 ```sh
 uv run pramana evaluate-passages --output benchmarks/advaita/results.json
+uv run pramana evaluate-passages --include-opt-in --output benchmarks/advaita/results-with-opt-in.json
+uv run python scripts/plot_benchmarks.py   # README charts from these files
 ```
+
+By default the search scope matches chat's "All texts" (opt-in works such as the Yoga
+Vāsiṣṭha excluded); `--include-opt-in` searches the whole index. `history.json` records
+the hybrid results of each run as the library grew.
 
 ## Dataset rules
 
@@ -18,7 +24,7 @@ uv run pramana evaluate-passages --output benchmarks/advaita/results.json
 - A retrieved passage is relevant only when it is in the gold chapter **and contains a
   whole gold span**. Gold spans are independent of chunk IDs, so re-chunking cannot
   invent or erase evidence; a span crossing a chunk boundary simply cannot be hit.
-- Search is unfiltered across the whole library, as in chat.
+- Search covers what chat's "All texts" covers (see above).
 - **Split:** 30 `dev` and 20 `heldout` questions, frozen when the dataset was created
   (23 October 2026), before any ranking change. Tune only against `dev`; record any
   inspection or reuse of `heldout` questions here.

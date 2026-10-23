@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="312" viewBox="0 0 980 312" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">Advaita passage benchmark</title><desc id="d">50 questions with exact gold spans · chat&#x27;s All texts scope · AI-drafted, unreviewed</desc>
+<rect width="980" height="312" rx="10" fill="#1a1a19"/>
+<text x="24" y="30" font-size="17" font-weight="700" fill="#f0efec">Advaita passage benchmark</text>
+<text x="24" y="48" font-size="12" fill="#c3c2b7">50 questions with exact gold spans · chat&#x27;s All texts scope · AI-drafted, unreviewed</text>
+<rect x="24" y="58" width="12" height="12" rx="3" fill="#3987e5"/><text x="42" y="68" font-size="12" fill="#c3c2b7">Dev (30)</text><rect x="134" y="58" width="12" height="12" rx="3" fill="#d95926"/><text x="152" y="68" font-size="12" fill="#c3c2b7">Heldout (20)</text>
+<text x="24.0" y="92" font-size="14" font-weight="600" fill="#f0efec">Recall@10</text>
+<line x1="214.0" y1="110" x2="214.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="214.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0</text>
+<line x1="270.5" y1="110" x2="270.5" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="270.5" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.25</text>
+<line x1="327.0" y1="110" x2="327.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="327.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.5</text>
+<line x1="383.5" y1="110" x2="383.5" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="383.5" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.75</text>
+<line x1="440.0" y1="110" x2="440.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="440.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
+<text x="202.0" y="133.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
+<path d="M214.0,110 h146.66666666666666 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-146.66666666666666 z" fill="#3987e5"/>
+<text x="370.66666666666663" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.67</text>
+<path d="M214.0,130 h142.9 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-142.9 z" fill="#d95926"/>
+<text x="366.9" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.65</text>
+<text x="202.0" y="187.0" font-size="13" text-anchor="end" fill="#f0efec">Keyword (BM25)</text>
+<path d="M214.0,164 h124.06666666666666 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-124.06666666666666 z" fill="#3987e5"/>
+<text x="348.06666666666666" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.57</text>
+<path d="M214.0,184 h142.9 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-142.9 z" fill="#d95926"/>
+<text x="366.9" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.65</text>
+<text x="202.0" y="241.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic (BGE-small)</text>
+<path d="M214.0,218 h86.4 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-86.4 z" fill="#3987e5"/>
+<text x="310.4" y="231.0" font-size="12" font-weight="600" fill="#f0efec">0.40</text>
+<path d="M214.0,238 h97.7 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-97.7 z" fill="#d95926"/>
+<text x="321.7" y="251.0" font-size="12" font-weight="600" fill="#f0efec">0.45</text>
+<text x="514.0" y="92" font-size="14" font-weight="600" fill="#f0efec">MRR@10</text>
+<line x1="704.0" y1="110" x2="704.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="704.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0</text>
+<line x1="760.5" y1="110" x2="760.5" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="760.5" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.25</text>
+<line x1="817.0" y1="110" x2="817.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="817.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.5</text>
+<line x1="873.5" y1="110" x2="873.5" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="873.5" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">0.75</text>
+<line x1="930.0" y1="110" x2="930.0" y2="256" stroke="#383835" stroke-width="1"/>
+<text x="930.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
+<text x="692.0" y="133.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
+<path d="M704.0,110 h89.01275132275133 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-89.01275132275133 z" fill="#3987e5"/>
+<text x="803.0127513227513" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.41</text>
+<path d="M704.0,130 h116.53333333333333 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-116.53333333333333 z" fill="#d95926"/>
+<text x="830.5333333333333" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.53</text>
+<text x="692.0" y="187.0" font-size="13" text-anchor="end" fill="#f0efec">Keyword (BM25)</text>
+<path d="M704.0,164 h85.42544973544973 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-85.42544973544973 z" fill="#3987e5"/>
+<text x="799.4254497354498" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.40</text>
+<path d="M704.0,184 h79.3375 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-79.3375 z" fill="#d95926"/>
+<text x="793.3375" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.37</text>
+<text x="692.0" y="241.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic (BGE-small)</text>
+<path d="M704.0,218 h72.58888888888887 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-72.58888888888887 z" fill="#3987e5"/>
+<text x="786.5888888888888" y="231.0" font-size="12" font-weight="600" fill="#f0efec">0.34</text>
+<path d="M704.0,238 h71.33333333333334 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-71.33333333333334 z" fill="#d95926"/>
+<text x="785.3333333333334" y="251.0" font-size="12" font-weight="600" fill="#f0efec">0.33</text>
+</svg>

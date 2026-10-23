@@ -136,14 +136,22 @@ def _resolve_span(chapters, gold: dict):
     return chapter
 
 
-def evaluate_passages(retriever: Retriever, path: Path, limit: int = 10) -> dict:
+def evaluate_passages(
+    retriever: Retriever, path: Path, limit: int = 10, *, include_opt_in: bool = False
+) -> dict:
     """Passage-level benchmark over the whole library; separate from the chapter benchmark.
 
     A retrieved passage is relevant only if it lies in the gold chapter and contains a
     complete gold span (Python code points), so chunking changes cannot invent evidence.
     `"match": "any"` marks gold spans that are alternatives (a refrain or a verse shared
     by several texts): finding one of them is full recall for that question.
+    By default search covers what chat's "All texts" covers (opt-in works excluded);
+    `include_opt_in` searches the whole index.
     """
+    from pramana.library import default_documents
+
+    within = None if include_opt_in else default_documents(retriever.corpus.store)
+    scoped = SearchFilters(document_ids=within) if within is not None else None
     import hashlib
 
     raw = path.read_bytes()
@@ -166,7 +174,11 @@ def evaluate_passages(retriever: Retriever, path: Path, limit: int = 10) -> dict
         "questions": len(questions),
         "splits": {s: sum(q["split"] == s for q in questions) for s in ("dev", "heldout")},
         "review": {s: review.count(s) for s in sorted(set(review))},
-        "scope": "unfiltered search across the whole indexed library",
+        "scope": (
+            "whole index, opt-in works included"
+            if include_opt_in or within is None
+            else "chat's All texts: opt-in works excluded"
+        ),
         "index": retriever.corpus.store.get_meta("index_config"),
         "sources": sorted(
             {(c.id, c.source.checksum) for group in resolved for c, _ in group}, key=str
@@ -178,7 +190,7 @@ def evaluate_passages(retriever: Retriever, path: Path, limit: int = 10) -> dict
     for strategy in ("lexical", "dense", "hybrid"):
         rows = []
         for q, golds in zip(questions, resolved, strict=True):
-            hits = retriever.search(q["query"], limit=limit, strategy=strategy)
+            hits = retriever.search(q["query"], limit=limit, strategy=strategy, filters=scoped)
             found, first = set(), None
             for rank, hit in enumerate(hits, 1):
                 p = hit.passage
@@ -219,7 +231,7 @@ def evaluate_passages(retriever: Retriever, path: Path, limit: int = 10) -> dict
             "details": rows,
         }
     for q in dataset.get("out_of_corpus", []):
-        hits = retriever.search(q["query"], limit=3, strategy="hybrid")
+        hits = retriever.search(q["query"], limit=3, strategy="hybrid", filters=scoped)
         report["out_of_corpus"].append(
             {
                 "id": q["id"],

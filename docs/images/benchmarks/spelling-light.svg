@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="258" viewBox="0 0 720 258" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">Spelling tolerance (diagnostic)</title><desc id="d">4 questions in modern spellings of old SBE forms (Naciketas for Nakiketas) · MRR@10</desc>
+<rect width="720" height="258" rx="10" fill="#fcfcfb"/>
+<text x="24" y="30" font-size="17" font-weight="700" fill="#0b0b0b">Spelling tolerance (diagnostic)</text>
+<text x="24" y="48" font-size="12" fill="#52514e">4 questions in modern spellings of old SBE forms (Naciketas for Nakiketas) · MRR@10</text>
+<rect x="24" y="58" width="12" height="12" rx="3" fill="#2a78d6"/><text x="42" y="68" font-size="12" fill="#52514e">Spelling tolerance off</text><rect x="246" y="58" width="12" height="12" rx="3" fill="#eb6834"/><text x="264" y="68" font-size="12" fill="#52514e">On</text>
+<text x="24" y="92" font-size="14" font-weight="600" fill="#0b0b0b">MRR@10</text>
+<line x1="214" y1="110" x2="214" y2="202" stroke="#e4e3df" stroke-width="1"/>
+<text x="214" y="220" font-size="11" text-anchor="middle" fill="#52514e">0</text>
+<line x1="328.0" y1="110" x2="328.0" y2="202" stroke="#e4e3df" stroke-width="1"/>
+<text x="328.0" y="220" font-size="11" text-anchor="middle" fill="#52514e">0.25</text>
+<line x1="442.0" y1="110" x2="442.0" y2="202" stroke="#e4e3df" stroke-width="1"/>
+<text x="442.0" y="220" font-size="11" text-anchor="middle" fill="#52514e">0.5</text>
+<line x1="556.0" y1="110" x2="556.0" y2="202" stroke="#e4e3df" stroke-width="1"/>
+<text x="556.0" y="220" font-size="11" text-anchor="middle" fill="#52514e">0.75</text>
+<line x1="670.0" y1="110" x2="670.0" y2="202" stroke="#e4e3df" stroke-width="1"/>
+<text x="670.0" y="220" font-size="11" text-anchor="middle" fill="#52514e">1</text>
+<text x="202" y="133.0" font-size="13" text-anchor="end" fill="#0b0b0b">Keyword (BM25)</text>
+<path d="M214,110 h292.40000000000003 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-292.40000000000003 z" fill="#2a78d6"/>
+<text x="516.4000000000001" y="123.0" font-size="12" font-weight="600" fill="#0b0b0b">0.65</text>
+<path d="M214,130 h452.0 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-452.0 z" fill="#eb6834"/>
+<text x="676.0" y="143.0" font-size="12" font-weight="600" fill="#0b0b0b">1.00</text>
+<text x="202" y="187.0" font-size="13" text-anchor="end" fill="#0b0b0b">Hybrid (chat default)</text>
+<path d="M214,164 h360.8 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-360.8 z" fill="#2a78d6"/>
+<text x="584.8" y="177.0" font-size="12" font-weight="600" fill="#0b0b0b">0.80</text>
+<path d="M214,184 h366.5 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-366.5 z" fill="#eb6834"/>
+<text x="590.5" y="197.0" font-size="12" font-weight="600" fill="#0b0b0b">0.81</text>
+</svg>

@@ -2,6 +2,7 @@
 
 ## Guides
 
+- [Your first run](guides/first-run.md): from a fresh clone to your first question, with disk use, timings and fixes.
 - [Quickstart](guides/quickstart.md): install, build the library, run the chat.
 - [Building the library](guides/corpus.md): every source, download options, rights summary.
 - [Chat and answers](guides/chat.md): local model settings, grounding, glossary,

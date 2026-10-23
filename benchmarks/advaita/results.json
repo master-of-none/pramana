@@ -9,7 +9,7 @@
   "review": {
     "unreviewed": 50
   },
-  "scope": "unfiltered search across the whole indexed library",
+  "scope": "chat's All texts: opt-in works excluded",
   "index": {
     "chunking": {
       "max_tokens": 448,
@@ -254,17 +254,17 @@
     "lexical": {
       "all": {
         "recall_at_10": 0.6,
-        "mrr_at_10": 0.41657936507936505,
+        "mrr_at_10": 0.38491269841269843,
         "questions": 50
       },
       "dev": {
         "recall_at_10": 0.5666666666666667,
-        "mrr_at_10": 0.41203703703703703,
+        "mrr_at_10": 0.3956878306878307,
         "questions": 30
       },
       "heldout": {
         "recall_at_10": 0.65,
-        "mrr_at_10": 0.4233928571428572,
+        "mrr_at_10": 0.36875,
         "questions": 20
       },
       "failures": [
@@ -276,7 +276,7 @@
           "top": [
             "Vajrasūchi-Upanishaḍ 1.1",
             "Direct Realisation 1.1",
-            "Brahma-Knowledge 1.7"
+            "Aitareya Aranyaka 2.4"
           ]
         },
         {
@@ -287,7 +287,7 @@
           "top": [
             "Brihadaranyaka Upanishad 2.5",
             "Sribhashya (Brahma Sutra commentary) 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Brihadaranyaka Upanishad 3.9"
           ]
         },
         {
@@ -297,8 +297,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 4.3",
-            "The Century of Verses 1.1",
-            "Brahma Sutra Bhashya 1.4"
+            "Brahma Sutra Bhashya 1.4",
+            "The Century of Verses 1.1"
           ]
         },
         {
@@ -329,9 +329,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Kaushitaki Upanishad 1.2",
             "Katha Upanishad 1.1",
-            "Sribhashya (Brahma Sutra commentary) 4.2"
+            "Brahma Sutra Bhashya 4.3",
+            "Kaushitaki Upanishad 1.2"
           ]
         },
         {
@@ -340,9 +340,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Brihadaranyaka Upanishad 2.5",
             "Bhagavad Gita 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Brahma Sutra Bhashya 1.4"
+            "Sribhashya (Brahma Sutra commentary) 1.4"
           ]
         },
         {
@@ -353,7 +353,7 @@
           "top": [
             "Brahma Sutra Bhashya 4.2",
             "Brahma Sutra Bhashya 4.3",
-            "Definition of One's Own Self 1.1"
+            "Brahma Sutra Bhashya 1.4"
           ]
         },
         {
@@ -362,9 +362,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Kaushitaki Upanishad 1.3",
             "Brahma Sutra Bhashya 4.3",
-            "Brahma Sutra Bhashya 3.2"
+            "Kaushitaki Upanishad 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -373,8 +373,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Century of Verses 1.1",
             "Brihadaranyaka Upanishad 2.5",
+            "The Century of Verses 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -384,9 +384,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 2.1"
+            "Brahma Sutra Bhashya 4.1",
+            "Sribhashya (Brahma Sutra commentary) 2.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -395,8 +395,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Paiṅgala-Upanishaḍ 1.1",
             "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Paiṅgala-Upanishaḍ 1.1",
             "Naraḍaparivrājaka-Upanishaḍ 1.1"
           ]
         },
@@ -407,8 +407,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Hymn to Hari 1.1",
-            "Hymn to Hari 1.1",
-            "Sribhashya (Brahma Sutra commentary) 3.4"
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2",
+            "Hymn to Hari 1.1"
           ]
         },
         {
@@ -439,9 +439,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 2.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 3.2"
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
           ]
         },
         {
@@ -451,8 +451,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Brahma-Knowledge 1.7",
-            "Definition of One's Own Self 1.1"
+            "Varāha-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 2.1"
           ]
         },
         {
@@ -463,7 +463,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -473,7 +473,7 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -485,7 +485,7 @@
           "top": [
             "The Ten-versed Hymn 1.1",
             "Brahma-Knowledge 1.19",
-            "Brahma-Knowledge 1.7"
+            "Brahma Sutra Bhashya 2.1"
           ]
         }
       ],
@@ -494,7 +494,7 @@
           "id": "adv-001",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666,
+          "reciprocal_rank": 0.25,
           "top": [
             "Chandogya Upanishad 6.1",
             "Brahma Sutra Bhashya 1.1",
@@ -509,7 +509,7 @@
           "top": [
             "Vajrasūchi-Upanishaḍ 1.1",
             "Direct Realisation 1.1",
-            "Brahma-Knowledge 1.7"
+            "Aitareya Aranyaka 2.4"
           ]
         },
         {
@@ -520,7 +520,7 @@
           "top": [
             "Brihadaranyaka Upanishad 2.5",
             "Sribhashya (Brahma Sutra commentary) 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Brihadaranyaka Upanishad 3.9"
           ]
         },
         {
@@ -530,8 +530,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 4.3",
-            "The Century of Verses 1.1",
-            "Brahma Sutra Bhashya 1.4"
+            "Brahma Sutra Bhashya 1.4",
+            "The Century of Verses 1.1"
           ]
         },
         {
@@ -562,9 +562,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Kaushitaki Upanishad 1.2",
             "Katha Upanishad 1.1",
-            "Sribhashya (Brahma Sutra commentary) 4.2"
+            "Brahma Sutra Bhashya 4.3",
+            "Kaushitaki Upanishad 1.2"
           ]
         },
         {
@@ -573,9 +573,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Brihadaranyaka Upanishad 2.5",
             "Bhagavad Gita 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Brahma Sutra Bhashya 1.4"
+            "Sribhashya (Brahma Sutra commentary) 1.4"
           ]
         },
         {
@@ -585,8 +585,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Katha Upanishad 1.2",
-            "Sribhashya (Brahma Sutra commentary) 3.2",
-            "Mundaka Upanishad 3.2"
+            "Brihadaranyaka Upanishad 2.5",
+            "Sribhashya (Brahma Sutra commentary) 3.2"
           ]
         },
         {
@@ -619,7 +619,7 @@
           "top": [
             "Brahma Sutra Bhashya 4.2",
             "Brahma Sutra Bhashya 4.3",
-            "Definition of One's Own Self 1.1"
+            "Brahma Sutra Bhashya 1.4"
           ]
         },
         {
@@ -628,9 +628,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Kaushitaki Upanishad 1.3",
             "Brahma Sutra Bhashya 4.3",
-            "Brahma Sutra Bhashya 3.2"
+            "Kaushitaki Upanishad 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -640,8 +640,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Kena Upanishad 1.1",
-            "Brahma-Knowledge 1.16",
-            "Brahma Sutra Bhashya 1.4"
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma-Knowledge 1.16"
           ]
         },
         {
@@ -650,8 +650,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Century of Verses 1.1",
             "Brihadaranyaka Upanishad 2.5",
+            "The Century of Verses 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -670,22 +670,22 @@
           "id": "adv-017",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.25,
+          "reciprocal_rank": 0.1,
           "top": [
             "Brihadaranyaka Upanishad 2.5",
             "The Century of Verses 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.4"
+            "Brihadaranyaka Upanishad 1.4"
           ]
         },
         {
           "id": "adv-018",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.3333333333333333,
+          "reciprocal_rank": 0.16666666666666666,
           "top": [
             "Brahma Sutra Bhashya 1.1",
             "Brahma Sutra Bhashya 3.1",
-            "Bhagavad Gita 1.2"
+            "Brahma Sutra Bhashya 4.1"
           ]
         },
         {
@@ -694,9 +694,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 2.1"
+            "Brahma Sutra Bhashya 4.1",
+            "Sribhashya (Brahma Sutra commentary) 2.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -705,8 +705,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Paiṅgala-Upanishaḍ 1.1",
             "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Paiṅgala-Upanishaḍ 1.1",
             "Naraḍaparivrājaka-Upanishaḍ 1.1"
           ]
         },
@@ -717,18 +717,18 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Hymn to Hari 1.1",
-            "Hymn to Hari 1.1",
-            "Sribhashya (Brahma Sutra commentary) 3.4"
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2",
+            "Hymn to Hari 1.1"
           ]
         },
         {
           "id": "adv-022",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.25,
+          "reciprocal_rank": 0.16666666666666666,
           "top": [
             "Yogaṭaṭṭva-Upanishaḍ 1.1",
-            "Direct Realisation 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma-Knowledge 1.27"
           ]
         },
@@ -750,7 +750,7 @@
           "reciprocal_rank": 0.2,
           "top": [
             "The Century of Verses 1.1",
-            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
             "The Century of Verses 1.1"
           ]
         },
@@ -769,11 +769,11 @@
           "id": "adv-026",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 1.0,
+          "reciprocal_rank": 0.5,
           "top": [
             "Direct Realisation 1.1",
             "Direct Realisation 1.1",
-            "Definition of One's Own Self 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -783,8 +783,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "The Century of Verses 1.1",
-            "Sribhashya (Brahma Sutra commentary) 4.1",
-            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+            "Ashtavakra Gita (The Heart of Awareness) 1.13",
+            "Sribhashya (Brahma Sutra commentary) 4.1"
           ]
         },
         {
@@ -795,14 +795,14 @@
           "top": [
             "The Ten-versed Hymn 1.1",
             "The Ten-versed Hymn 1.1",
-            "Brahma Sutra Bhashya 1.3"
+            "Aitareya Aranyaka 1.1"
           ]
         },
         {
           "id": "adv-029",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.14285714285714285,
+          "reciprocal_rank": 0.125,
           "top": [
             "Paiṅgala-Upanishaḍ 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
@@ -817,7 +817,7 @@
           "top": [
             "Brahma-Knowledge 1.19",
             "Definition of One's Own Self 1.1",
-            "Brahma-Knowledge 1.20"
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
@@ -838,8 +838,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Brahma Sutra Bhashya 1.1",
-            "Brahma Sutra Bhashya 1.1",
-            "Brahma Sutra Bhashya 3.3"
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
@@ -850,18 +850,18 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.1",
-            "Direct Realisation 1.1"
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
           "id": "adv-034",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
           "top": [
-            "Brahma Sutra Bhashya 1.1",
             "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
@@ -881,9 +881,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 2.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 3.2"
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
           ]
         },
         {
@@ -894,7 +894,7 @@
           "top": [
             "Brahma Sutra Bhashya 2.1",
             "Brahma Sutra Bhashya 4.3",
-            "Sribhashya (Brahma Sutra commentary) 3.2"
+            "Sribhashya (Brahma Sutra commentary) 4.4"
           ]
         },
         {
@@ -912,18 +912,18 @@
           "id": "adv-039",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "reciprocal_rank": 0.25,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 4.1",
             "Sribhashya (Brahma Sutra commentary) 4.2",
-            "Mukṭikopanishaḍ 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
           "id": "adv-040",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "reciprocal_rank": 0.2,
           "top": [
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 1.1",
@@ -948,8 +948,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Brahma-Knowledge 1.7",
-            "Definition of One's Own Self 1.1"
+            "Varāha-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 2.1"
           ]
         },
         {
@@ -967,10 +967,10 @@
           "id": "adv-044",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.5,
+          "reciprocal_rank": 0.2,
           "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 3.2",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 3.2"
           ]
         },
@@ -982,7 +982,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -993,7 +993,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 4.3",
-            "Sribhashya (Brahma Sutra commentary) 2.2"
+            "Sribhashya (Brahma Sutra commentary) 3.2"
           ]
         },
         {
@@ -1003,7 +1003,7 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -1015,7 +1015,7 @@
           "top": [
             "The Ten-versed Hymn 1.1",
             "Brahma-Knowledge 1.19",
-            "Brahma-Knowledge 1.7"
+            "Brahma Sutra Bhashya 2.1"
           ]
         },
         {
@@ -1025,18 +1025,18 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 4.2",
-            "Sribhashya (Brahma Sutra commentary) 4.2"
+            "Sribhashya (Brahma Sutra commentary) 4.2",
+            "Brahma Sutra Bhashya 4.2"
           ]
         },
         {
           "id": "adv-050",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "reciprocal_rank": 0.14285714285714285,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 4.4",
             "Sribhashya (Brahma Sutra commentary) 2.1"
           ]
         }
@@ -1110,8 +1110,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brahma Sutra Bhashya 1.2",
-            "The Century of Verses 1.1"
+            "The Awakening to the Self (Atma Bodha) 1.1",
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3"
           ]
         },
         {
@@ -1231,8 +1231,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brahma-Knowledge 2.44",
-            "Brahma-Knowledge 2.35"
+            "Ashtavakra Gita (The Heart of Awareness) 1.18",
+            "Brahma-Knowledge 2.44"
           ]
         },
         {
@@ -1442,8 +1442,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brahma Sutra Bhashya 1.2",
-            "The Century of Verses 1.1"
+            "The Awakening to the Self (Atma Bodha) 1.1",
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3"
           ]
         },
         {
@@ -1673,8 +1673,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brahma-Knowledge 2.44",
-            "Brahma-Knowledge 2.35"
+            "Ashtavakra Gita (The Heart of Awareness) 1.18",
+            "Brahma-Knowledge 2.44"
           ]
         },
         {
@@ -1934,30 +1934,30 @@
     },
     "hybrid": {
       "all": {
-        "recall_at_10": 0.68,
-        "mrr_at_10": 0.4671904761904762,
+        "recall_at_10": 0.66,
+        "mrr_at_10": 0.4602698412698413,
         "questions": 50
       },
       "dev": {
-        "recall_at_10": 0.6333333333333333,
-        "mrr_at_10": 0.41555555555555557,
+        "recall_at_10": 0.6666666666666666,
+        "mrr_at_10": 0.41156084656084657,
         "questions": 30
       },
       "heldout": {
-        "recall_at_10": 0.75,
-        "mrr_at_10": 0.5446428571428571,
+        "recall_at_10": 0.65,
+        "mrr_at_10": 0.5333333333333333,
         "questions": 20
       },
       "failures": [
         {
-          "id": "adv-001",
-          "split": "dev",
+          "id": "adv-002",
+          "split": "heldout",
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Chandogya Upanishad 6.1",
-            "Chandogya Upanishad 6.8",
-            "Sribhashya (Brahma Sutra commentary) 1.2"
+            "Vajrasūchi-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Mukṭikopanishaḍ 1.1"
           ]
         },
         {
@@ -1967,8 +1967,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Brahma Sutra Bhashya 3.2",
-            "Brahma Sutra Bhashya 1.1"
+            "Brahma Sutra Bhashya 1.1",
+            "Brihadaranyaka Upanishad 2.5"
           ]
         },
         {
@@ -1979,7 +1979,7 @@
           "top": [
             "Brahma Sutra Bhashya 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Direct Realisation 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -1990,7 +1990,7 @@
           "top": [
             "The Century of Verses 1.1",
             "Brihadaranyaka Upanishad 2.5",
-            "Brahma Sutra Bhashya 1.2"
+            "The Awakening to the Self (Atma Bodha) 1.1"
           ]
         },
         {
@@ -2010,9 +2010,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 1.1",
-            "The Century of Verses 1.1",
-            "Knowledge of Self 1.1"
+            "Knowledge of Self 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "The Century of Verses 1.1"
           ]
         },
         {
@@ -2044,8 +2044,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Paiṅgala-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 3.3",
-            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+            "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 3.3"
           ]
         },
         {
@@ -2055,8 +2055,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 3.4",
-            "Brahma Sutra Bhashya 1.4"
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2065,8 +2065,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.6",
             "Direct Realisation 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
             "The Century of Verses 1.1"
           ]
         },
@@ -2077,7 +2077,18 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Naraḍaparivrājaka-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 1.2",
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3",
+            "Brahma Sutra Bhashya 1.2"
+          ]
+        },
+        {
+          "id": "adv-034",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -2087,8 +2098,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -2122,7 +2133,7 @@
           "top": [
             "Brahma-Knowledge 1.7",
             "Brahma-Knowledge 1.12",
-            "Vishnu Purana 1.2"
+            "Direct Realisation 1.1"
           ]
         }
       ],
@@ -2130,8 +2141,8 @@
         {
           "id": "adv-001",
           "split": "dev",
-          "recall_at_10": 0.0,
-          "reciprocal_rank": 0.0,
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.1,
           "top": [
             "Chandogya Upanishad 6.1",
             "Chandogya Upanishad 6.8",
@@ -2141,12 +2152,12 @@
         {
           "id": "adv-002",
           "split": "heldout",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
           "top": [
             "Vajrasūchi-Upanishaḍ 1.1",
-            "Brahma-Knowledge 1.11",
-            "Brahma Sutra Bhashya 1.1"
+            "Brahma Sutra Bhashya 1.1",
+            "Mukṭikopanishaḍ 1.1"
           ]
         },
         {
@@ -2156,8 +2167,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Brahma Sutra Bhashya 3.2",
-            "Brahma Sutra Bhashya 1.1"
+            "Brahma Sutra Bhashya 1.1",
+            "Brihadaranyaka Upanishad 2.5"
           ]
         },
         {
@@ -2168,7 +2179,7 @@
           "top": [
             "Brihadaranyaka Upanishad 1.4",
             "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Brahma Sutra Bhashya 4.3"
+            "Brahma Sutra Bhashya 1.4"
           ]
         },
         {
@@ -2179,7 +2190,7 @@
           "top": [
             "Brahma Sutra Bhashya 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Direct Realisation 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2190,7 +2201,7 @@
           "top": [
             "The Century of Verses 1.1",
             "Brihadaranyaka Upanishad 2.5",
-            "Brahma Sutra Bhashya 1.2"
+            "The Awakening to the Self (Atma Bodha) 1.1"
           ]
         },
         {
@@ -2208,7 +2219,7 @@
           "id": "adv-008",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666,
+          "reciprocal_rank": 0.14285714285714285,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.4",
@@ -2222,8 +2233,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Katha Upanishad 1.2",
-            "Taittiriya Upanishad 1.9",
-            "Brahma Sutra Bhashya 1.3"
+            "Brahma Sutra Bhashya 1.3",
+            "Mundaka Upanishad 3.2"
           ]
         },
         {
@@ -2256,18 +2267,18 @@
           "top": [
             "Mundaka Upanishad 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brihadaranyaka Upanishad 6.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
           "id": "adv-013",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.3333333333333333,
+          "reciprocal_rank": 0.25,
           "top": [
             "Taittiriya Upanishad 3.1",
             "Brahma Sutra Bhashya 1.1",
-            "Taittiriya Upanishad 3.6"
+            "Sribhashya (Brahma Sutra commentary) 1.3"
           ]
         },
         {
@@ -2278,7 +2289,7 @@
           "top": [
             "Kena Upanishad 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Kaushitaki Upanishad 1.2"
+            "Brahma Sutra Bhashya 3.2"
           ]
         },
         {
@@ -2287,9 +2298,9 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 1.1",
-            "The Century of Verses 1.1",
-            "Knowledge of Self 1.1"
+            "Knowledge of Self 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "The Century of Verses 1.1"
           ]
         },
         {
@@ -2310,7 +2321,7 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Bhagavad Gita 1.2",
-            "Brahma Sutra Bhashya 2.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 2.3"
           ]
         },
@@ -2343,8 +2354,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Paiṅgala-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 3.3",
-            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+            "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 3.3"
           ]
         },
         {
@@ -2354,8 +2365,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 3.4",
-            "Brahma Sutra Bhashya 1.4"
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2386,8 +2397,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.6",
             "Direct Realisation 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
             "The Century of Verses 1.1"
           ]
         },
@@ -2417,11 +2428,11 @@
           "id": "adv-027",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.14285714285714285,
+          "reciprocal_rank": 0.16666666666666666,
           "top": [
-            "The Century of Verses 1.1",
-            "Naraḍaparivrājaka-Upanishaḍ 1.1",
-            "Sribhashya (Brahma Sutra commentary) 3.2"
+            "Ashtavakra Gita (The Heart of Awareness) 1.13",
+            "Sribhashya (Brahma Sutra commentary) 3.2",
+            "Sribhashya (Brahma Sutra commentary) 4.1"
           ]
         },
         {
@@ -2432,7 +2443,7 @@
           "top": [
             "The Ten-versed Hymn 1.1",
             "Sribhashya (Brahma Sutra commentary) 3.2",
-            "Sribhashya (Brahma Sutra commentary) 3.2"
+            "Brahma Sutra Bhashya 3.2"
           ]
         },
         {
@@ -2442,8 +2453,8 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Naraḍaparivrājaka-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 1.2",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3",
+            "Brahma Sutra Bhashya 1.2"
           ]
         },
         {
@@ -2493,12 +2504,12 @@
         {
           "id": "adv-034",
           "split": "heldout",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Isa Upanishad 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2509,7 +2520,7 @@
           "top": [
             "Brahma Sutra Bhashya 3.4",
             "Brahma Sutra Bhashya 1.1",
-            "Brahma Sutra Bhashya 3.2"
+            "Bhagavad Gita 1.5"
           ]
         },
         {
@@ -2518,8 +2529,8 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
@@ -2538,7 +2549,7 @@
           "id": "adv-038",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.25,
+          "reciprocal_rank": 0.2,
           "top": [
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 2.1",
@@ -2560,7 +2571,7 @@
           "id": "adv-040",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.25,
+          "reciprocal_rank": 0.2,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
@@ -2571,11 +2582,11 @@
           "id": "adv-041",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.1,
+          "reciprocal_rank": 0.1111111111111111,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Sribhashya (Brahma Sutra commentary) 4.4"
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
           ]
         },
         {
@@ -2630,7 +2641,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 2.2",
-            "Brahma Sutra Bhashya 2.2"
+            "Sribhashya (Brahma Sutra commentary) 1.1"
           ]
         },
         {
@@ -2652,7 +2663,7 @@
           "top": [
             "Brahma-Knowledge 1.7",
             "Brahma-Knowledge 1.12",
-            "Vishnu Purana 1.2"
+            "Direct Realisation 1.1"
           ]
         },
         {
@@ -2663,18 +2674,18 @@
           "top": [
             "Brahma Sutra Bhashya 4.4",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 4.2"
+            "Sribhashya (Brahma Sutra commentary) 4.4"
           ]
         },
         {
           "id": "adv-050",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666,
+          "reciprocal_rank": 0.14285714285714285,
           "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.4",
             "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Sribhashya (Brahma Sutra commentary) 4.4"
+            "Sribhashya (Brahma Sutra commentary) 2.1"
           ]
         }
       ]
@@ -2685,9 +2696,9 @@
       "id": "ooc-01",
       "query": "How do I configure a Kubernetes ingress controller?",
       "retrieved": [
-        "Maiṭreya-Upanishaḍ",
+        "Ashtavakra Gita (The Heart of Awareness)",
         "Sribhashya (Brahma Sutra commentary)",
-        "Brahma-Knowledge"
+        "The Crest-Jewel of Wisdom (Vivekachudamani)"
       ]
     },
     {
@@ -2766,9 +2777,9 @@
       "id": "ooc-10",
       "query": "What does the Ashtavakra Gita teach in its first chapter?",
       "retrieved": [
-        "Kena Upanishad",
-        "Sribhashya (Brahma Sutra commentary)",
-        "Sribhashya (Brahma Sutra commentary)"
+        "Ashtavakra Gita (The Heart of Awareness)",
+        "Ashtavakra Gita (The Heart of Awareness)",
+        "Ashtavakra Gita (The Heart of Awareness)"
       ]
     }
   ]
