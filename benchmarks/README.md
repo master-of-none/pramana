@@ -21,7 +21,8 @@ passages, averaged over questions. **MRR@10** averages the reciprocal rank of th
 first passage from a relevant gold chapter, with zero for a miss. Multiple passages
 from one chapter count once toward recall. Scores use passage rank, not a deduplicated
 chapter rank. Chapter relevance does not establish that every retrieved passage in
-that chapter answers the question; passage-level labels are a future improvement.
+that chapter answers the question; the separate [Advaita passage-level
+benchmark](advaita/README.md) uses exact gold spans.
 
 `results.json` records the actual index/model configuration, per-question results,
 and aggregates. This small, development-visible set is a smoke benchmark, not a
@@ -58,3 +59,17 @@ tuning or passage/answer-level performance claim is made.
 
 Run on 14 October 2026: 2,313 chapter/page records and 3,367 passages overall;
 126 Wilson chapters / 587 Wilson passages within the evaluated edition.
+
+## Run of 23 October 2026
+
+Same 20 questions, rerun because retrieval changed (glossary expansion, spelling
+tolerance). The index now holds the whole library (1,677 chapters, 4,352 passages)
+rather than Wilson alone; lexical BM25 statistics are computed over that larger
+index, so the runs are not directly comparable and the cause of each change was not
+isolated. Spelling tolerance on and off gave identical results here.
+
+| Method  | Recall@10 | MRR@10 |
+| ------- | --------: | -----: |
+| Lexical |    95.00% | 0.7321 |
+| Dense   |   100.00% | 0.8026 |
+| Hybrid  |    95.00% | 0.8229 |

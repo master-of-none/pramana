@@ -4,12 +4,12 @@
   "strategies": {
     "lexical": {
       "recall_at_10": 0.95,
-      "mrr_at_10": 0.7583333333333333,
+      "mrr_at_10": 0.7321428571428571,
       "details": [
         {
           "query": "How does Vishnu assume the role of Rudra at the dissolution of the universe?",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666
+          "reciprocal_rank": 0.14285714285714285
         },
         {
           "query": "How many divine years make up the four Yugas?",
@@ -54,7 +54,7 @@
         {
           "query": "What ancestral rite should be performed when a son is born?",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 1.0
+          "reciprocal_rank": 0.5
         },
         {
           "query": "Whom does Revati, the daughter of Raivata, marry?",
@@ -215,13 +215,13 @@
       ]
     },
     "hybrid": {
-      "recall_at_10": 1.0,
-      "mrr_at_10": 0.8305555555555555,
+      "recall_at_10": 0.95,
+      "mrr_at_10": 0.8229166666666666,
       "details": [
         {
           "query": "How does Vishnu assume the role of Rudra at the dissolution of the universe?",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666
+          "reciprocal_rank": 0.125
         },
         {
           "query": "How many divine years make up the four Yugas?",
@@ -285,8 +285,8 @@
         },
         {
           "query": "Why does Vasudeva ask the newborn Krishna to conceal his divine form?",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.1111111111111111
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0
         },
         {
           "query": "What harm does the serpent Kaliya cause in the Yamuna?",

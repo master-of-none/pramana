@@ -73,6 +73,19 @@ spellings and English renderings (for example `adhyāsa` ↔ `superimposition`).
 Dense retrieval and the index are unchanged, so no rebuild is needed. None of the
 20 chapter-benchmark queries trigger an expansion.
 
+## Spelling tolerance
+
+Keyword search also tries other spellings that **occur in the indexed library**
+for a query word that does not. The Sacred Books of the East write k for c, kh
+for ch and g for j (*Khândogya*, *Pragâpati*, *Nakiketas*, *Pankalas*), and readers
+type sh, ri or w where IAST has ś, ṣ, ṛ or v. Words share a phonetic key with these
+letters merged, aspirates folded and doubled vowels collapsed; a query word with the
+same key as indexed words, but itself absent or in fewer than two passages, adds up to
+four of them. Thinker names (Śaṅkara, Rāmānuja, …) are never expanded because they
+indicate authorship, which chat scopes and comparisons handle. Dense retrieval is
+unaffected and no rebuild is needed. Measured effect: see the
+[Advaita benchmark](../../benchmarks/advaita/README.md#results-23-october-2026).
+
 ## Objection/reply roles
 
 Commentaries often print an objection (`Objection:`, `Question:—`, `(Doubt)`) before

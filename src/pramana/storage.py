@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS passages(
 CREATE VIRTUAL TABLE IF NOT EXISTS passages_fts USING fts5(
     id UNINDEXED, text, tokenize='unicode61 remove_diacritics 2'
 );
+CREATE VIRTUAL TABLE IF NOT EXISTS passages_vocab USING fts5vocab(passages_fts, 'row');
 """
 
 

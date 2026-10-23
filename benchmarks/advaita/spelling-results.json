@@ -1,0 +1,241 @@
+{
+  "label": "Spelling diagnostics · created after the baseline to probe spelling tolerance · not part of the frozen benchmark",
+  "dataset_sha256": "61e1630efacec90dd68fb7dae57a662c9e688695f45311ba8e0b5e7443dd64e1",
+  "questions": 4,
+  "splits": {
+    "dev": 4,
+    "heldout": 0
+  },
+  "review": {
+    "unreviewed": 4
+  },
+  "scope": "unfiltered search across the whole indexed library",
+  "index": {
+    "chunking": {
+      "max_tokens": 448,
+      "overlap_tokens": 48,
+      "target_tokens": 384,
+      "version": 2
+    },
+    "embedding": {
+      "model": "BAAI/bge-small-en-v1.5",
+      "query_prompt": "Represent this sentence for searching relevant passages: ",
+      "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+    },
+    "schema": 2
+  },
+  "sources": [
+    {
+      "chapter_id": "ch_178f5ec0b6305a1d97445885",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_262a0189e130ccd7984daafa",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_7b9cea019f264d63b2dcc6a3",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_a9a5bec9e667f52df61a335d",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_dc106cef1509dbb593dcb5f0",
+      "source_checksum": "ed0c34fe689365aaebdb02bb5ae11b1d473cd68678bb5c5c11325f83e9b65c2b"
+    }
+  ],
+  "strategies": {
+    "lexical": {
+      "all": {
+        "recall_at_10": 1.0,
+        "mrr_at_10": 1.0,
+        "questions": 4
+      },
+      "dev": {
+        "recall_at_10": 1.0,
+        "mrr_at_10": 1.0,
+        "questions": 4
+      },
+      "failures": [],
+      "details": [
+        {
+          "id": "spell-01",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Katha Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Brihadaranyaka Upanishad 4.1"
+          ]
+        },
+        {
+          "id": "spell-02",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Chandogya Upanishad 8.9",
+            "Brahma-Knowledge 2.42",
+            "Brahma-Knowledge 2.42"
+          ]
+        },
+        {
+          "id": "spell-03",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "spell-04",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brihadaranyaka Upanishad 6.2",
+            "Chandogya Upanishad 5.3",
+            "Brihadaranyaka Upanishad 6.2"
+          ]
+        }
+      ]
+    },
+    "dense": {
+      "all": {
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.3645833333333333,
+        "questions": 4
+      },
+      "dev": {
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.3645833333333333,
+        "questions": 4
+      },
+      "failures": [
+        {
+          "id": "spell-04",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vishnu Purana 5.37",
+            "Vishnu Purana 5.9",
+            "Chandogya Upanishad 4.1"
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "spell-01",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Vishnu Purana 4.13",
+            "Vishnu Purana 1.16",
+            "Vishnu Purana 4.5"
+          ]
+        },
+        {
+          "id": "spell-02",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Kaushitaki Upanishad 1.3",
+            "Chandogya Upanishad 8.11",
+            "Chandogya Upanishad 8.9"
+          ]
+        },
+        {
+          "id": "spell-03",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3",
+            "Śāṇdilya-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "spell-04",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vishnu Purana 5.37",
+            "Vishnu Purana 5.9",
+            "Chandogya Upanishad 4.1"
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "all": {
+        "recall_at_10": 1.0,
+        "mrr_at_10": 0.8125,
+        "questions": 4
+      },
+      "dev": {
+        "recall_at_10": 1.0,
+        "mrr_at_10": 0.8125,
+        "questions": 4
+      },
+      "failures": [],
+      "details": [
+        {
+          "id": "spell-01",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Katha Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Vishnu Purana 4.13"
+          ]
+        },
+        {
+          "id": "spell-02",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Chandogya Upanishad 8.9",
+            "Chandogya Upanishad 8.11",
+            "Kaushitaki Upanishad 1.3"
+          ]
+        },
+        {
+          "id": "spell-03",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "spell-04",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.25,
+          "top": [
+            "Vishnu Purana 5.27",
+            "Vishnu Purana 4.19",
+            "Vishnu Purana 5.37"
+          ]
+        }
+      ]
+    }
+  },
+  "out_of_corpus": []
+}

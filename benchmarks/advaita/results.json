@@ -1,0 +1,2775 @@
+{
+  "label": "Advaita passage-level benchmark · draft, AI-drafted and unreviewed · not a validated measurement",
+  "dataset_sha256": "98b7eab2c88edfe7089b13faac8d1213317d046fc40724be2f099c7b092d5edd",
+  "questions": 50,
+  "splits": {
+    "dev": 30,
+    "heldout": 20
+  },
+  "review": {
+    "unreviewed": 50
+  },
+  "scope": "unfiltered search across the whole indexed library",
+  "index": {
+    "chunking": {
+      "max_tokens": 448,
+      "overlap_tokens": 48,
+      "target_tokens": 384,
+      "version": 2
+    },
+    "embedding": {
+      "model": "BAAI/bge-small-en-v1.5",
+      "query_prompt": "Represent this sentence for searching relevant passages: ",
+      "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+    },
+    "schema": 2
+  },
+  "sources": [
+    {
+      "chapter_id": "ch_033a24e58ef375235cf896fa",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_04ff4157873b491977234282",
+      "source_checksum": "03bdb860bf673777e5ed8dffe96c2e852262fdfb76b8dd309109380fc60ff619"
+    },
+    {
+      "chapter_id": "ch_115857f23e4e2a19275be491",
+      "source_checksum": "047512271d5a851b4901c4d23d91d06b26af7a50c3f464721261e876c1b60e96"
+    },
+    {
+      "chapter_id": "ch_130cbc4a114ca09e122c6699",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_134b6f3a6c42ad56b888a7ab",
+      "source_checksum": "c4562c7b1da4c8896f31d315d411c119eac4b16e494e2297c4b6a6ef70a0d154"
+    },
+    {
+      "chapter_id": "ch_1518c0c0c9d12da50cab2cc9",
+      "source_checksum": "62309afb8233df947e9abf52c7d550d294eb10479cdbf5caf90fdeda57751e3a"
+    },
+    {
+      "chapter_id": "ch_17021d78305afa14cb9eb0eb",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_17237455a4a24b225b7519c2",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_1c17a4c7026558868f410eca",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_1f1635e42c5945ad9599a673",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_225824d3998ded24ecde7a56",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_284afce4d9cd5571cc3f1bdc",
+      "source_checksum": "bfb83bc769856b4970b541db44352ad0ecd5543490993f299c676bd83940a6a7"
+    },
+    {
+      "chapter_id": "ch_2f9b627880e4671c233d22f2",
+      "source_checksum": "3aa573aec666204712ab8401540d790a73b941137526770a26755028cefdaacf"
+    },
+    {
+      "chapter_id": "ch_31ceb6f366ee8713336a7da8",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_37abfc6c985eb18bf6e75758",
+      "source_checksum": "efced63e49322291bc98084643683946815d831bb62bfe9f26e3dc0dafd08838"
+    },
+    {
+      "chapter_id": "ch_392e887a45d0f4a52f6e3f79",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_3f9acf22a6f28c889a026fd7",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_4294c23a88eec506fd04fe7b",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_4ca9402cf8d673cdde3bc024",
+      "source_checksum": "505f50f2b1c23e2260308de30651266cfa48ba21b9251eeb3796b6263fc0cc33"
+    },
+    {
+      "chapter_id": "ch_4db094451ad13fedba5adced",
+      "source_checksum": "340a630646dd5aa4a709fb1860270c326993281d10f18716623fdfe875b6cf9f"
+    },
+    {
+      "chapter_id": "ch_5f7e89e2a05ad8ce88861b4c",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_6704ca1579129e1f6fd62e8f",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_6a1ce5d049f98bcccc125c7b",
+      "source_checksum": "e868724123eb65f26a22973405468fb30cd99515c9eb1ed65b052f0dd1f7a8ed"
+    },
+    {
+      "chapter_id": "ch_6db292bf8348c30ad4771d37",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_78e872a202c3639f0ca05923",
+      "source_checksum": "a4d34632c9b6fde41a28cd1d2b573a84bec86807621752e2cdaf67a5b7a24b4a"
+    },
+    {
+      "chapter_id": "ch_7a1abcd153bcb005e1f8154c",
+      "source_checksum": "3172be873f7ce0b64248f64d26d442300b25eecad8d2161c453ea0580798cb21"
+    },
+    {
+      "chapter_id": "ch_7b6871accc3b9558a161b35e",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_7de88957320d1011267da18d",
+      "source_checksum": "eb78fb41b1e6ff2398a1754c230ca1553fca40eedbd843f53433d1bb3dd2c265"
+    },
+    {
+      "chapter_id": "ch_7feee63d86fe162fd0dbc1cd",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_800ebfa883f7addeff8d5da5",
+      "source_checksum": "bdd3a1892e2f8e8d80dc7fbc7001f2a303f9d1a59aba1c0d6529a342cacfd468"
+    },
+    {
+      "chapter_id": "ch_807ac1f180f80965b6a1d718",
+      "source_checksum": "b0bc2a8f240d5aaf1c1018e726db10d6e4d1522ebfe245990fbcd15a5e4cc032"
+    },
+    {
+      "chapter_id": "ch_818036010714abe528900223",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_819e248d3af1bbdcdff1ab2d",
+      "source_checksum": "618b5d8f90dd45927dcf37e6168cdf8d91d04ba9482f99a5cf095a0db85f36fc"
+    },
+    {
+      "chapter_id": "ch_828a5b4b464c08f9713b81db",
+      "source_checksum": "3159855eeed5de75e8740511cf0407eb8aed7453b463f206e63b6e739d50b2ee"
+    },
+    {
+      "chapter_id": "ch_84acbe2b505c02e8b50c8f5b",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_859dab3a01133cab9c401b5e",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_9054dfccd67c6aedba1b43d7",
+      "source_checksum": "47d4eec433c85282db20eb47d6bc26f40dbd5adc62dfe77bcb4f1ab8b444b551"
+    },
+    {
+      "chapter_id": "ch_9a015ecdaa87c646132e18d9",
+      "source_checksum": "bfb83bc769856b4970b541db44352ad0ecd5543490993f299c676bd83940a6a7"
+    },
+    {
+      "chapter_id": "ch_9cc61d144e4a8c153ee5a98c",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_a2188ba659fa9207e802fd09",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_ac267c4eada9fc73d39301b2",
+      "source_checksum": "27491f85253683a0e238cfc433803b4db686000abf9f19ab7c80235f912c3ecd"
+    },
+    {
+      "chapter_id": "ch_ad4dcb80e93e303b1fcbd7c3",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_b7007c5913f800598abe0893",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_c4711eed68eaee3ab860a3a9",
+      "source_checksum": "14bf7ab11ac34bcf8769dba49a6f4f9eb81ed3a1010e0bc649367d63a426d57e"
+    },
+    {
+      "chapter_id": "ch_c7d406fae214cbf80b18a0e5",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_ca2db9ec9e3bd02490d00b5d",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_d01836fbee0ac76aae76678b",
+      "source_checksum": "62309afb8233df947e9abf52c7d550d294eb10479cdbf5caf90fdeda57751e3a"
+    },
+    {
+      "chapter_id": "ch_dc75eeb5e6b66c88ab5a0058",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    },
+    {
+      "chapter_id": "ch_e70cbefeab4a5b562f221d93",
+      "source_checksum": "eaf9bc7b6fa32ce4913bab053fdf26ccf625b9af5128e38116bc47396a17c617"
+    },
+    {
+      "chapter_id": "ch_eaf22a132b9bf51163ccdbee",
+      "source_checksum": "0597475d5194a8d4c591317cc70448ab93c4597d88e00ca6a0b71139a1b8d395"
+    },
+    {
+      "chapter_id": "ch_f11116533faeceb2f6cfb747",
+      "source_checksum": "5564b93cb77614a05ee62df5bd412b79ec209d58de03f142ad2bbc5e3f06eeff"
+    },
+    {
+      "chapter_id": "ch_f3fcb571db5f3f0f0e807533",
+      "source_checksum": "805b314832576f39fac5e128f03fa84a8e999587eac33414aab65528096e922b"
+    },
+    {
+      "chapter_id": "ch_f6ec2dff159cdc7770ec1564",
+      "source_checksum": "afd333fdd78280265d9861c40ed3c609a40bfc066c0c3ffa6a99fc7e0e8fdbdb"
+    },
+    {
+      "chapter_id": "ch_f7b6604b26a8bf525de7aefe",
+      "source_checksum": "62309afb8233df947e9abf52c7d550d294eb10479cdbf5caf90fdeda57751e3a"
+    },
+    {
+      "chapter_id": "ch_fcc960fe85d19bcd88101cb5",
+      "source_checksum": "35d4c480961cfef2be646f6cda95bc4d1d82c5958db9c4121ec25a881562154d"
+    },
+    {
+      "chapter_id": "ch_ffbbe564150b20bec98ff439",
+      "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
+    }
+  ],
+  "strategies": {
+    "lexical": {
+      "all": {
+        "recall_at_10": 0.6,
+        "mrr_at_10": 0.41657936507936505,
+        "questions": 50
+      },
+      "dev": {
+        "recall_at_10": 0.5666666666666667,
+        "mrr_at_10": 0.41203703703703703,
+        "questions": 30
+      },
+      "heldout": {
+        "recall_at_10": 0.65,
+        "mrr_at_10": 0.4233928571428572,
+        "questions": 20
+      },
+      "failures": [
+        {
+          "id": "adv-002",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vajrasūchi-Upanishaḍ 1.1",
+            "Direct Realisation 1.1",
+            "Brahma-Knowledge 1.7"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brihadaranyaka Upanishad 2.5",
+            "Sribhashya (Brahma Sutra commentary) 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-004",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.3",
+            "The Century of Verses 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Prasna Upanishad 1.4"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brihadaranyaka Upanishad 2.5",
+            "Katha Upanishad 2.6",
+            "Sribhashya (Brahma Sutra commentary) 1.3"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Kaushitaki Upanishad 1.2",
+            "Katha Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 4.2"
+          ]
+        },
+        {
+          "id": "adv-008",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Bhagavad Gita 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-012",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.2",
+            "Brahma Sutra Bhashya 4.3",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-013",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Kaushitaki Upanishad 1.3",
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Naraḍaparivrājaka-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Hymn to Hari 1.1",
+            "Hymn to Hari 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.4"
+          ]
+        },
+        {
+          "id": "adv-023",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma-Knowledge 1.15",
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-035",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 3.1",
+            "Brahma-Knowledge 1.27",
+            "Brahma Sutra Bhashya 3.4"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma-Knowledge 1.7",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Ten-versed Hymn 1.1",
+            "Brahma-Knowledge 1.19",
+            "Brahma-Knowledge 1.7"
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "adv-001",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "top": [
+            "Chandogya Upanishad 6.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Kaushitaki Upanishad 1.1"
+          ]
+        },
+        {
+          "id": "adv-002",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vajrasūchi-Upanishaḍ 1.1",
+            "Direct Realisation 1.1",
+            "Brahma-Knowledge 1.7"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brihadaranyaka Upanishad 2.5",
+            "Sribhashya (Brahma Sutra commentary) 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-004",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.3",
+            "The Century of Verses 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Prasna Upanishad 1.4"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brihadaranyaka Upanishad 2.5",
+            "Katha Upanishad 2.6",
+            "Sribhashya (Brahma Sutra commentary) 1.3"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Kaushitaki Upanishad 1.2",
+            "Katha Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 4.2"
+          ]
+        },
+        {
+          "id": "adv-008",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Bhagavad Gita 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-009",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Katha Upanishad 1.2",
+            "Sribhashya (Brahma Sutra commentary) 3.2",
+            "Mundaka Upanishad 3.2"
+          ]
+        },
+        {
+          "id": "adv-010",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Svetasvatara Upanishad 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.3",
+            "Mundaka Upanishad 3.1"
+          ]
+        },
+        {
+          "id": "adv-011",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Mundaka Upanishad 1.1",
+            "Brahma Sutra Bhashya 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-012",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.2",
+            "Brahma Sutra Bhashya 4.3",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-013",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Kaushitaki Upanishad 1.3",
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-014",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Kena Upanishad 1.1",
+            "Brahma-Knowledge 1.16",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-016",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Svetasvatara Upanishad 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-017",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.25,
+          "top": [
+            "Brihadaranyaka Upanishad 2.5",
+            "The Century of Verses 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.4"
+          ]
+        },
+        {
+          "id": "adv-018",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 3.1",
+            "Bhagavad Gita 1.2"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Naraḍaparivrājaka-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Hymn to Hari 1.1",
+            "Hymn to Hari 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.4"
+          ]
+        },
+        {
+          "id": "adv-022",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.25,
+          "top": [
+            "Yogaṭaṭṭva-Upanishaḍ 1.1",
+            "Direct Realisation 1.1",
+            "Brahma-Knowledge 1.27"
+          ]
+        },
+        {
+          "id": "adv-023",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma-Knowledge 1.15",
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.2,
+          "top": [
+            "The Century of Verses 1.1",
+            "The Century of Verses 1.1",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-025",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Hymn to Dakshinamurti 1.1",
+            "Hymn to Dakshinamurti 1.1",
+            "The Ten-versed Hymn 1.1"
+          ]
+        },
+        {
+          "id": "adv-026",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Direct Realisation 1.1",
+            "Direct Realisation 1.1",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-027",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Sribhashya (Brahma Sutra commentary) 4.1",
+            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-028",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "The Ten-versed Hymn 1.1",
+            "The Ten-versed Hymn 1.1",
+            "Brahma Sutra Bhashya 1.3"
+          ]
+        },
+        {
+          "id": "adv-029",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.14285714285714285,
+          "top": [
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Maṇdalabrāhmaṇa-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-030",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 1.19",
+            "Definition of One's Own Self 1.1",
+            "Brahma-Knowledge 1.20"
+          ]
+        },
+        {
+          "id": "adv-031",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 2.44",
+            "Brihadaranyaka Upanishad 2.5",
+            "Katha Upanishad 2.6"
+          ]
+        },
+        {
+          "id": "adv-032",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-033",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.1111111111111111,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Direct Realisation 1.1"
+          ]
+        },
+        {
+          "id": "adv-034",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-035",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 3.1",
+            "Brahma-Knowledge 1.27",
+            "Brahma Sutra Bhashya 3.4"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-037",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 4.3",
+            "Sribhashya (Brahma Sutra commentary) 3.2"
+          ]
+        },
+        {
+          "id": "adv-038",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-039",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.1",
+            "Sribhashya (Brahma Sutra commentary) 4.2",
+            "Mukṭikopanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-040",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-041",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 4.4",
+            "Brahma Sutra Bhashya 2.2"
+          ]
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma-Knowledge 1.7",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-043",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-044",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.2"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-046",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 4.3",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Ten-versed Hymn 1.1",
+            "Brahma-Knowledge 1.19",
+            "Brahma-Knowledge 1.7"
+          ]
+        },
+        {
+          "id": "adv-049",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 4.2",
+            "Sribhashya (Brahma Sutra commentary) 4.2"
+          ]
+        },
+        {
+          "id": "adv-050",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        }
+      ]
+    },
+    "dense": {
+      "all": {
+        "recall_at_10": 0.42,
+        "mrr_at_10": 0.33666666666666667,
+        "questions": 50
+      },
+      "dev": {
+        "recall_at_10": 0.4,
+        "mrr_at_10": 0.33888888888888885,
+        "questions": 30
+      },
+      "heldout": {
+        "recall_at_10": 0.45,
+        "mrr_at_10": 0.33333333333333337,
+        "questions": 20
+      },
+      "failures": [
+        {
+          "id": "adv-001",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-004",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Mundaka Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brahma Sutra Bhashya 1.2",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Sribhashya (Brahma Sutra commentary) 2.3",
+            "Sribhashya (Brahma Sutra commentary) 1.4"
+          ]
+        },
+        {
+          "id": "adv-008",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Knowledge of Self 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-017",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.3",
+            "Brahma Sutra Bhashya 2.4",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-018",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Isa Upanishad 1.1",
+            "Brahma Sutra Bhashya 3.4",
+            "Sribhashya (Brahma Sutra commentary) 3.4"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Ṭejobinḍu-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 4.1",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Śāṇdilya-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-023",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vishnu Purana 1.9",
+            "Commentary on the Text 1.1",
+            "Knowledge of Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-027",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brahma-Knowledge 2.44",
+            "Brahma-Knowledge 2.35"
+          ]
+        },
+        {
+          "id": "adv-029",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Nāḍabinḍu-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-034",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-035",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 4.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-038",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-040",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-041",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.3"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma-Knowledge 1.7"
+          ]
+        },
+        {
+          "id": "adv-049",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.2",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-050",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "adv-001",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-002",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Kena Upanishad 1.4",
+            "Chandogya Upanishad 3.14",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-004",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Mundaka Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brahma Sutra Bhashya 1.2",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Sribhashya (Brahma Sutra commentary) 2.3",
+            "Sribhashya (Brahma Sutra commentary) 1.4"
+          ]
+        },
+        {
+          "id": "adv-008",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-009",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Katha Upanishad 1.2",
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-010",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Aitareya Aranyaka 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-011",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Mundaka Upanishad 1.1",
+            "Brahma Sutra Bhashya 1.2"
+          ]
+        },
+        {
+          "id": "adv-012",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Mundaka Upanishad 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Mundaka Upanishad 3.2"
+          ]
+        },
+        {
+          "id": "adv-013",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Taittiriya Upanishad 3.6",
+            "Taittiriya Upanishad 3.1",
+            "Taittiriya Upanishad 3.4"
+          ]
+        },
+        {
+          "id": "adv-014",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Kena Upanishad 1.1",
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma-Knowledge 1.11"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Knowledge of Self 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-016",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Svetasvatara Upanishad 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma-Knowledge 1.19"
+          ]
+        },
+        {
+          "id": "adv-017",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.3",
+            "Brahma Sutra Bhashya 2.4",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-018",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Isa Upanishad 1.1",
+            "Brahma Sutra Bhashya 3.4",
+            "Sribhashya (Brahma Sutra commentary) 3.4"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Ṭejobinḍu-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 4.1",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Śāṇdilya-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-022",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Knowledge of Self 1.1",
+            "Knowledge of Self 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-023",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Vishnu Purana 1.9",
+            "Commentary on the Text 1.1",
+            "Knowledge of Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-025",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Hymn to Dakshinamurti 1.1",
+            "The Century of Verses 1.1",
+            "Hymn to Dakshinamurti 1.1"
+          ]
+        },
+        {
+          "id": "adv-026",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Direct Realisation 1.1",
+            "Direct Realisation 1.1",
+            "Varāha-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-027",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brahma-Knowledge 2.44",
+            "Brahma-Knowledge 2.35"
+          ]
+        },
+        {
+          "id": "adv-028",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "The Ten-versed Hymn 1.1",
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Brihadaranyaka Upanishad 4.3"
+          ]
+        },
+        {
+          "id": "adv-029",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Nāḍabinḍu-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-030",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 1.19",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-031",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 2.44",
+            "Brahma Sutra Bhashya 1.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-032",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-033",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-034",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-035",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 4.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-037",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-038",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-039",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.1",
+            "Varāha-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 4.1"
+          ]
+        },
+        {
+          "id": "adv-040",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-041",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 4.3",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-043",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-044",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "The Century of Verses 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 3.3"
+          ]
+        },
+        {
+          "id": "adv-046",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.2",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.3"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma-Knowledge 1.7"
+          ]
+        },
+        {
+          "id": "adv-049",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.2",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-050",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Sribhashya (Brahma Sutra commentary) 4.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "all": {
+        "recall_at_10": 0.68,
+        "mrr_at_10": 0.4671904761904762,
+        "questions": 50
+      },
+      "dev": {
+        "recall_at_10": 0.6333333333333333,
+        "mrr_at_10": 0.41555555555555557,
+        "questions": 30
+      },
+      "heldout": {
+        "recall_at_10": 0.75,
+        "mrr_at_10": 0.5446428571428571,
+        "questions": 20
+      },
+      "failures": [
+        {
+          "id": "adv-001",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Chandogya Upanishad 6.1",
+            "Chandogya Upanishad 6.8",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Direct Realisation 1.1"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Brahma Sutra Bhashya 1.2"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 3.3"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "The Century of Verses 1.1",
+            "Knowledge of Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-018",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.1",
+            "Isa Upanishad 1.1",
+            "Brahma Sutra Bhashya 3.1"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Ṭejobinḍu-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Direct Realisation 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-029",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Naraḍaparivrājaka-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma-Knowledge 1.7",
+            "Brahma-Knowledge 1.12",
+            "Vishnu Purana 1.2"
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "adv-001",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Chandogya Upanishad 6.1",
+            "Chandogya Upanishad 6.8",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ]
+        },
+        {
+          "id": "adv-002",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Vajrasūchi-Upanishaḍ 1.1",
+            "Brahma-Knowledge 1.11",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-003",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 3.2",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-004",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brihadaranyaka Upanishad 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 4.3"
+          ]
+        },
+        {
+          "id": "adv-005",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Direct Realisation 1.1"
+          ]
+        },
+        {
+          "id": "adv-006",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Brihadaranyaka Upanishad 2.5",
+            "Brahma Sutra Bhashya 1.2"
+          ]
+        },
+        {
+          "id": "adv-007",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 3.3"
+          ]
+        },
+        {
+          "id": "adv-008",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-009",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Katha Upanishad 1.2",
+            "Taittiriya Upanishad 1.9",
+            "Brahma Sutra Bhashya 1.3"
+          ]
+        },
+        {
+          "id": "adv-010",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 1.2",
+            "Aitareya Aranyaka 1.4"
+          ]
+        },
+        {
+          "id": "adv-011",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Mundaka Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.2",
+            "Brahma Sutra Bhashya 1.2"
+          ]
+        },
+        {
+          "id": "adv-012",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Mundaka Upanishad 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brihadaranyaka Upanishad 6.1"
+          ]
+        },
+        {
+          "id": "adv-013",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.3333333333333333,
+          "top": [
+            "Taittiriya Upanishad 3.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Taittiriya Upanishad 3.6"
+          ]
+        },
+        {
+          "id": "adv-014",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Kena Upanishad 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Kaushitaki Upanishad 1.2"
+          ]
+        },
+        {
+          "id": "adv-015",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "The Century of Verses 1.1",
+            "Knowledge of Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-016",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Svetasvatara Upanishad 1.4",
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-017",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Bhagavad Gita 1.2",
+            "Brahma Sutra Bhashya 2.3",
+            "Brahma Sutra Bhashya 2.3"
+          ]
+        },
+        {
+          "id": "adv-018",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.1",
+            "Isa Upanishad 1.1",
+            "Brahma Sutra Bhashya 3.1"
+          ]
+        },
+        {
+          "id": "adv-019",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Ṭejobinḍu-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-020",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Paiṅgala-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Yogaṭaṭṭva-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-021",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.4",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-022",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Knowledge of Self 1.1",
+            "Direct Realisation 1.1",
+            "Brahma Sutra Bhashya 3.4"
+          ]
+        },
+        {
+          "id": "adv-023",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Vishnu Purana 1.9",
+            "Commentary on the Text 1.1",
+            "Vishnu Purana 1.12"
+          ]
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Direct Realisation 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-025",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Hymn to Dakshinamurti 1.1",
+            "The Century of Verses 1.1",
+            "Hymn to Dakshinamurti 1.1"
+          ]
+        },
+        {
+          "id": "adv-026",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Direct Realisation 1.1",
+            "Direct Realisation 1.1",
+            "Definition of One's Own Self 1.1"
+          ]
+        },
+        {
+          "id": "adv-027",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.14285714285714285,
+          "top": [
+            "The Century of Verses 1.1",
+            "Naraḍaparivrājaka-Upanishaḍ 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.2"
+          ]
+        },
+        {
+          "id": "adv-028",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "The Ten-versed Hymn 1.1",
+            "Sribhashya (Brahma Sutra commentary) 3.2",
+            "Sribhashya (Brahma Sutra commentary) 3.2"
+          ]
+        },
+        {
+          "id": "adv-029",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Naraḍaparivrājaka-Upanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-030",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 1.19",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4"
+          ]
+        },
+        {
+          "id": "adv-031",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma-Knowledge 2.44",
+            "Brahma Sutra Bhashya 1.1",
+            "Brihadaranyaka Upanishad 2.5"
+          ]
+        },
+        {
+          "id": "adv-032",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 3.3",
+            "Brahma Sutra Bhashya 4.1"
+          ]
+        },
+        {
+          "id": "adv-033",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ]
+        },
+        {
+          "id": "adv-034",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.125,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Isa Upanishad 1.1"
+          ]
+        },
+        {
+          "id": "adv-035",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.2,
+          "top": [
+            "Brahma Sutra Bhashya 3.4",
+            "Brahma Sutra Bhashya 1.1",
+            "Brahma Sutra Bhashya 3.2"
+          ]
+        },
+        {
+          "id": "adv-036",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 3.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-037",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Brahma Sutra Bhashya 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-038",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.25,
+          "top": [
+            "Brahma Sutra Bhashya 1.4",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 2.1"
+          ]
+        },
+        {
+          "id": "adv-039",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 4.1",
+            "Brahma Sutra Bhashya 4.1",
+            "Maṇdalabrāhmaṇa-Upanishaḍ 1.1"
+          ]
+        },
+        {
+          "id": "adv-040",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.25,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-041",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.1,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 4.4"
+          ]
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.3"
+          ]
+        },
+        {
+          "id": "adv-043",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Definition of One's Own Self 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-044",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 2.1",
+            "The Century of Verses 1.1"
+          ]
+        },
+        {
+          "id": "adv-045",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
+          ]
+        },
+        {
+          "id": "adv-046",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 1.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Brahma Sutra Bhashya 2.2"
+          ]
+        },
+        {
+          "id": "adv-047",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.2",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ]
+        },
+        {
+          "id": "adv-048",
+          "split": "dev",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma-Knowledge 1.7",
+            "Brahma-Knowledge 1.12",
+            "Vishnu Purana 1.2"
+          ]
+        },
+        {
+          "id": "adv-049",
+          "split": "heldout",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.5,
+          "top": [
+            "Brahma Sutra Bhashya 4.4",
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 4.2"
+          ]
+        },
+        {
+          "id": "adv-050",
+          "split": "dev",
+          "recall_at_10": 1.0,
+          "reciprocal_rank": 0.16666666666666666,
+          "top": [
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 4.4"
+          ]
+        }
+      ]
+    }
+  },
+  "out_of_corpus": [
+    {
+      "id": "ooc-01",
+      "query": "How do I configure a Kubernetes ingress controller?",
+      "retrieved": [
+        "Maiṭreya-Upanishaḍ",
+        "Sribhashya (Brahma Sutra commentary)",
+        "Brahma-Knowledge"
+      ]
+    },
+    {
+      "id": "ooc-02",
+      "query": "What does the Quran say about fasting in Ramadan?",
+      "retrieved": [
+        "Sribhashya (Brahma Sutra commentary)",
+        "Chandogya Upanishad",
+        "Sribhashya (Brahma Sutra commentary)"
+      ]
+    },
+    {
+      "id": "ooc-03",
+      "query": "Who won the 2018 football World Cup?",
+      "retrieved": [
+        "Vishnu Purana",
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya"
+      ]
+    },
+    {
+      "id": "ooc-04",
+      "query": "What does the Book of Job say about undeserved suffering?",
+      "retrieved": [
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya"
+      ]
+    },
+    {
+      "id": "ooc-05",
+      "query": "How does the Yoga Vasistha describe the story of Lila?",
+      "retrieved": [
+        "Yogaṭaṭṭva-Upanishaḍ",
+        "Bhagavad Gita",
+        "Vishnu Purana"
+      ]
+    },
+    {
+      "id": "ooc-06",
+      "query": "What is the capital of Australia?",
+      "retrieved": [
+        "Vishnu Purana",
+        "Vishnu Purana",
+        "Vishnu Purana"
+      ]
+    },
+    {
+      "id": "ooc-07",
+      "query": "Explain the Kashmir Shaivism doctrine of spanda.",
+      "retrieved": [
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya"
+      ]
+    },
+    {
+      "id": "ooc-08",
+      "query": "What does Madhva say about the five differences (panchabheda)?",
+      "retrieved": [
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya",
+        "Brahma Sutra Bhashya"
+      ]
+    },
+    {
+      "id": "ooc-09",
+      "query": "How do I bake sourdough bread?",
+      "retrieved": [
+        "Chandogya Upanishad",
+        "Bhagavad Gita",
+        "Chandogya Upanishad"
+      ]
+    },
+    {
+      "id": "ooc-10",
+      "query": "What does the Ashtavakra Gita teach in its first chapter?",
+      "retrieved": [
+        "Kena Upanishad",
+        "Sribhashya (Brahma Sutra commentary)",
+        "Sribhashya (Brahma Sutra commentary)"
+      ]
+    }
+  ]
+}

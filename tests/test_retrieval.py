@@ -186,3 +186,31 @@ def test_glossary_endpoint(indexed, embedder):
     assert {"term": "adhyāsa", "devanagari": "अध्यास"}.items() <= next(
         e for e in entries if e["term"] == "adhyāsa"
     ).items()
+
+
+def test_spelling_variants_match_old_sbe_transliteration(tmp_path, make_chapter, embedder):
+    from pramana import Corpus
+    from pramana.retrieval import phonetic
+
+    assert phonetic("Chandogya") == phonetic("Khândogya")
+    assert phonetic("Prajapati") == phonetic("Pragâpati")
+    assert phonetic("jnana") == phonetic("gñâna")
+    corpus = Corpus(tmp_path / "library")
+    chapters = [
+        make_chapter("Pragâpati taught Indra in the Khândogya.", chapter="1"),
+        make_chapter("A different chapter about rivers.", chapter="2"),
+    ]
+    path = tmp_path / "sbe.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    corpus.import_jsonl(path)
+    corpus.index(embedder=embedder)
+    tolerant = Retriever(corpus, embedder=embedder)
+    strict = Retriever(corpus, embedder=embedder, spelling=False)
+    assert tolerant.search("Prajapati Chandogya", strategy="lexical")
+    assert not strict.search("Prajapati Chandogya", strategy="lexical")
+    # The vocabulary cache follows re-indexing.
+    more = make_chapter("Nakiketas asked Yama.", chapter="3")
+    path.write_text(more.model_dump_json())
+    corpus.import_jsonl(path)
+    corpus.index(embedder=embedder)
+    assert tolerant.search("Naciketas", strategy="lexical")

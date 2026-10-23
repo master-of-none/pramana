@@ -1,0 +1,130 @@
+{
+  "label": "Spelling diagnostics · created after the baseline to probe spelling tolerance · not part of the frozen benchmark",
+  "version": 1,
+  "created": "2026-10-23",
+  "questions": [
+    {
+      "id": "spell-01",
+      "split": "dev",
+      "query": "Who was Naciketas and what did his father give away?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "katha-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "1",
+          "chapter": "1",
+          "sections": [
+            "I, 1"
+          ],
+          "start": 156,
+          "end": 194,
+          "quote": "He had a son of the name of Nakiketas."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "spell-02",
+      "split": "dev",
+      "query": "What did Prajapati say to Indra when he came back after leaving with Virocana?",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "8",
+          "chapter": "9",
+          "sections": [
+            "VIII, 9"
+          ],
+          "start": 543,
+          "end": 678,
+          "quote": "Pragapati said to him: 'Maghavat (Indra), as you went away with Virokana, satisfied in your heart, for what purpose did you come back?'"
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "spell-03",
+      "split": "dev",
+      "query": "Should Vaishvanara be meditated on in his aggregate form?",
+      "gold": [
+        {
+          "corpus_id": "brahma-sutra-thibaut",
+          "document_id": "brahma-sutra-shankara-thibaut",
+          "edition": "Thibaut, SBE 34 (scan of 1904 printing) and 38 (1896) · Sacred Texts HTML",
+          "language": "en",
+          "book": "3",
+          "chapter": "3",
+          "sections": [
+            "57"
+          ],
+          "start": 4,
+          "end": 160,
+          "quote": "There is pre-eminence of the (meditation on) plenitude (i.e. Agni Vaisvânara in his aggregate form), as in the case of sacrifices; for thus scripture shows."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    },
+    {
+      "id": "spell-04",
+      "split": "dev",
+      "query": "What happened when Shvetaketu went to the Panchalas and met Pravahana Jaivali?",
+      "match": "any",
+      "gold": [
+        {
+          "corpus_id": "sacred-texts-sbe01",
+          "document_id": "chandogya-upanishad-sbe01",
+          "edition": "Max Müller, SBE 1 (1879) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "5",
+          "chapter": "3",
+          "sections": [
+            "V, 3"
+          ],
+          "start": 19,
+          "end": 74,
+          "quote": "Svetaketu Aruneya went to an assembly  of the Pankalas."
+        },
+        {
+          "corpus_id": "sacred-texts-sbe15",
+          "document_id": "brihadaranyaka-upanishad-sbe15",
+          "edition": "Max Müller, SBE 15 (1884) · Sacred Texts plain-text distribution",
+          "language": "en",
+          "book": "6",
+          "chapter": "2",
+          "sections": [
+            "VI, 2"
+          ],
+          "start": 22,
+          "end": 79,
+          "quote": "Svetaketu Aruneya went to the settlement of the Pankalas."
+        }
+      ],
+      "review": {
+        "status": "unreviewed",
+        "drafted_by": "Claude (AI model)",
+        "drafted_on": "2026-10-23",
+        "reviewed_by": null
+      }
+    }
+  ]
+}

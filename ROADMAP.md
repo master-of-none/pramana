@@ -214,11 +214,15 @@ wheel serves its compiled reader and API without relying on editable source path
 - **Reviewed role annotations** for passages without printed cues.
 - [x] **Claim check** (October 2026): optional per-sentence filter by the same local
   model; covered by deterministic tests, effect on answer quality not measured.
-- **Advaita benchmark:** 50 questions with gold spans across the Vedānta library.
+- [x] **Advaita passage benchmark** (October 2026): 50 AI-drafted, unreviewed questions
+  with exact gold spans, frozen 30/20 split, first results published. **Human review
+  of every question remains to be done.**
+- [x] **Spelling tolerance** (October 2026): no change on either frozen benchmark;
+  helps keyword ranking on a small spelling diagnostic set.
 - [x] **Vichāra mode** (October 2026): short answer plus reflective questions; prompt
   guidance only.
 - [x] **Reading paths** (October 2026): two curated paths with per-browser progress.
-- **Transliteration-tolerant search, more texts** (each
+- **More texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the
   [hosted deployment plan](docs/plans/hosted-deployment.md).

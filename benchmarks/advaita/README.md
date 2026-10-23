@@ -36,3 +36,34 @@ a question, read its span in the Study view (`#/study/read/<chapter>`), then set
 `review.status` to `reviewed`, add `review.reviewed_by`, and note any change.
 
 Private PDF editions are excluded: their text cannot be published in quotes.
+
+## Results: 23 October 2026
+
+BGE-small (pinned revision) over the whole indexed library: 1,677 chapters, 4,352
+passages. The dataset is unreviewed, so these are engineering diagnostics, not
+validated measurements. Full per-question output: [`results.json`](results.json).
+
+| Method  | Dev R@10 | Dev MRR@10 | Heldout R@10 | Heldout MRR@10 |
+| ------- | -------: | ---------: | -----------: | -------------: |
+| Lexical |    0.567 |      0.412 |        0.650 |          0.423 |
+| Dense   |    0.400 |      0.339 |        0.450 |          0.333 |
+| Hybrid  |    0.633 |      0.416 |        0.750 |          0.545 |
+
+Dense retrieval alone is clearly weakest at this level. Of its 29 misses, the gold
+chapter was in the top 10 for 6 (wrong passage), only the right work for 12, and
+neither for 11. Out-of-corpus
+diagnostics retrieved nearby material for all ten questions (e.g. a Brahma Sūtra page
+for "What is the capital of Australia?"), as expected without abstention.
+
+**Spelling tolerance.** Results above were identical with spelling tolerance off
+(the pre-change baseline) and on. The first versions of the feature lowered some
+scores; while diagnosing them, per-question differences for **all 50 questions,
+including the 20 heldout ones, were inspected** on 23 October 2026. Two fixes
+followed from that inspection (thinker names are not spelling-expanded; only words
+absent or near-absent from the index get variants), so heldout results for this
+feature are not untouched. No question gives a variant under the final rule, so the
+frozen set cannot show a benefit. A separate four-question
+[spelling diagnostic set](spelling.json), written after the baseline to probe the
+feature, gave lexical MRR@10 0.65 → 1.00 and hybrid 0.80 → 0.81 (Recall@10 1.00 both
+ways); see [`spelling-results.json`](spelling-results.json). Four questions are too few
+to generalise from.
