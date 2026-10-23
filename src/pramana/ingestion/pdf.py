@@ -122,6 +122,9 @@ PUBLIC = {
             "California Libraries for the Internet Archive.",
             corpus_id="vivekachudamani-madhavananda",
             last_page=260,  # 261-264 index, 265 errata (not applied), 266 blank
+            # Spot checks (23 Oct 2026): English read correctly; roughly 15-30% of
+            # Devanagari words were wrong, so verse lines stay only in the raw OCR.
+            keep_devanagari=False,
         ),
         "https://archive.org/download/vivekachudamanio00sankrich/vivekachudamanio00sankrich.pdf",
         "7a2756c761899ee62d88ad9e1dc1b82136ce5acf389390e11ce0e2d699fe8558",
@@ -347,6 +350,8 @@ def chandra_pages(path: Path, numbers: list[int], tools: dict[str, str]) -> dict
 def clean_markdown(raw: str) -> str:
     """Chandra emits Markdown: drop image links, heading marks and emphasis markers only."""
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", raw)
+    # Handwritten tick marks in a scan's margins are a reader's, not the book's.
+    text = re.sub(r"\s*[✓✔✗✘]", "", text)
     text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
     text = re.sub(r"(\*\*|__)(.+?)\1", r"\2", text)
     text = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"\1", text)
