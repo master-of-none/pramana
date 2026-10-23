@@ -43,6 +43,7 @@ SOURCES = {
     "gita-swarupananda": "Bhagavad Gita with commentary, Swarupananda (1909)",
     "minor-upanishads": "Thirty Minor Upanishads, Narayanasvami Aiyar (1914)",
     "brahma-knowledge": "Brahma-Knowledge, Barnett (1911)",
+    "crest-jewel": "Crest-Jewel of Wisdom (Vivekachudamani) and other works, Johnston (1946)",
 }
 SACRED_TEXTS = {
     "shankara-works": "wos",
@@ -51,6 +52,7 @@ SACRED_TEXTS = {
     "gita-swarupananda": "sbg",
     "minor-upanishads": "tmu",
     "brahma-knowledge": "brk",
+    "crest-jewel": "cjw",
 }
 ADVAITA = [s for s in SOURCES if s != "vishnu-purana"]
 

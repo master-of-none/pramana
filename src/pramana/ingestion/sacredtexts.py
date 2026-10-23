@@ -92,7 +92,7 @@ def parse_section(section: str, page: dict, manifest: dict, source: Source) -> C
         document=page["document"],
         edition=manifest["edition"],
         translator=manifest["translator"],
-        author=manifest["author"],
+        author=page.get("author", manifest["author"]),
         content_type=page["content_type"],
         language="en",
         location=Location(book=page["book"], chapter=page["chapter"], sections=[page["label"]]),
@@ -103,11 +103,117 @@ def parse_section(section: str, page: dict, manifest: dict, source: Source) -> C
     )
 
 
+def _publish(root: Path, records: list[Chapter], receipt: dict) -> Path:
+    # Publish normalized records only after the complete manifest validates.
+    output = root / "chapters.jsonl"
+    temporary = output.with_suffix(".tmp")
+    temporary.write_text("\n".join(c.model_dump_json() for c in records) + "\n", encoding="utf-8")
+    temporary.replace(output)
+    (root / "receipt.json").write_text(json.dumps(receipt, indent=2, ensure_ascii=False))
+    return output
+
+
+def _acquire_html(
+    home: Path, manifest: dict, archive: Path | None, *, offline: bool, delay: float = 0.5
+) -> Path:
+    """HTML-only books: cache each manifest page (resumable), then parse all of them."""
+    import time
+
+    from pramana.ingestion.brahmasutra import _fetch, extract
+
+    book = manifest["id"]
+    root = home / "corpora" / f"sacred-texts-{book}"
+    cache = root / "html"
+    cache.mkdir(parents=True, exist_ok=True)
+    identify = re.compile(manifest["identify"])
+    if archive:
+        for page in manifest["pages"]:
+            source = archive / page["file"]
+            if not source.is_file():
+                raise PramanaError(f"Archive directory is missing {page['file']}.")
+            if source.resolve() != (cache / page["file"]).resolve():
+                shutil.copyfile(source, cache / page["file"])
+    missing = [p for p in manifest["pages"] if not (cache / p["file"]).exists()]
+    if missing and offline:
+        raise PramanaError(f"{len(missing)} cached pages missing. Supply --archive DIR.")
+    if missing:
+        try:
+            with httpx.Client(
+                follow_redirects=True,
+                timeout=60,
+                headers={"User-Agent": "Pramana/0.1 (explicit corpus download)"},
+            ) as client:
+                for page in missing:
+                    content = _fetch(client, page["url"], identify)
+                    temporary = cache / (page["file"] + ".tmp")
+                    temporary.write_bytes(content)
+                    temporary.replace(cache / page["file"])
+                    time.sleep(delay)
+        except httpx.HTTPError as exc:
+            raise PramanaError(
+                f"Source download failed ({type(exc).__name__}); cached pages are kept. Rerun "
+                "the download to resume."
+            ) from exc
+    receipt_path = root / "receipt.json"
+    previous = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
+    known = {p["file"]: p for p in previous.get("pages", []) if "checksum" in p}
+    attribution = (
+        f"{manifest['translator']}; digitized by Sacred Texts. Title page: {manifest['title_url']}"
+    )
+    records, pages = [], []
+    for page in manifest["pages"]:
+        raw = (cache / page["file"]).read_bytes()
+        checksum = hashlib.sha256(raw).hexdigest()
+        prior = known.get(page["file"])
+        retrieved = (
+            prior["retrieved_at"]
+            if prior and prior["checksum"] == checksum
+            else datetime.now(UTC).isoformat()
+        )
+        html = raw.decode("utf-8")
+        if not identify.search(html):
+            raise PramanaError(
+                f"{page['file']} is not a page of this edition; delete it and rerun."
+            )
+        text, marks, notes = extract(html, page["file"])
+        source = Source(
+            url=page["url"],
+            retrieved_at=retrieved,
+            checksum=checksum,
+            rights=manifest["rights"],
+            attribution=attribution,
+        )
+        records.append(
+            Chapter(
+                corpus_id=f"sacred-texts-{book}",
+                document_id=page["document_id"],
+                document=page["document"],
+                edition=manifest["edition"],
+                translator=manifest["translator"],
+                author=page.get("author", manifest["author"]),
+                content_type=page["content_type"],
+                language="en",
+                location=Location(
+                    book=page["book"], chapter=page["chapter"], sections=[page["label"]]
+                ),
+                source=source,
+                text=text,
+                pages=marks,
+                notes=notes,
+            )
+        )
+        pages.append({**page, "checksum": checksum, "retrieved_at": retrieved})
+    receipt = {"index": manifest["title_url"], "rights": manifest["rights"]}
+    return _publish(root, records, {**receipt, "attribution": attribution, "pages": pages})
+
+
 def acquire(home: Path, book: str, archive: Path | None = None, *, offline: bool = False) -> Path:
     manifests = books()
     if book not in manifests:
         raise PramanaError(f"Unknown Sacred Texts book {book!r}; choose from {sorted(manifests)}.")
     manifest = manifests[book]
+    if manifest.get("format") == "html":
+        return _acquire_html(home, manifest, archive, offline=offline)
     root = home / "corpora" / f"sacred-texts-{book}"
     root.mkdir(parents=True, exist_ok=True)
     target = root / f"{book}.txt.gz"

@@ -67,3 +67,7 @@ frozen set cannot show a benefit. A separate four-question
 feature, gave lexical MRR@10 0.65 → 1.00 and hybrid 0.80 → 0.81 (Recall@10 1.00 both
 ways); see [`spelling-results.json`](spelling-results.json). Four questions are too few
 to generalise from.
+
+**After adding the Crest-Jewel edition** (same day, 4,469 passages): Recall@10 unchanged
+for every method and split; hybrid dev MRR 0.416 → 0.414 and lexical heldout MRR
+0.423 → 0.420, from changed keyword statistics. `results.json` is the earlier run.

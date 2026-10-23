@@ -27,6 +27,7 @@ yourself (for one source at a time).
 | `upanishads-2` | Upaniṣads Part 2, tr. Max Müller, SBE 15 | 108 | public domain (before 1923) |
 | `gita-swarupananda` | _Srimad-Bhagavad-Gita_, tr. and comm. Swarupananda, 1909 | 18 | public domain in the US (before 1923) |
 | `minor-upanishads` | _Thirty Minor Upanishads_, tr. Narayanasvami Aiyar, 1914 | 30 | public domain in the US (before 1923) |
+| `crest-jewel` | _The Crest-Jewel of Wisdom_ (Vivekacūḍāmaṇi) and other works attributed to Śaṅkara, tr. Charles Johnston, 1946 | 17 | public domain in the US (copyright not renewed); non-commercial use with attribution |
 | `brahma-knowledge` | _Brahma-Knowledge_, L. D. Barnett, 1911 | 42 | public domain in the US (before 1923) |
 | `vishnu-purana` | _Vishnu Purana_, tr. H. H. Wilson, 1840 | 126 | public domain in the US |
 

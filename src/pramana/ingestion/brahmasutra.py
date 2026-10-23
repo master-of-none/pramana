@@ -81,16 +81,14 @@ def manifest(volume: str = "shankara") -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara") -> Chapter:
-    """Body text after the edition header (or top navigation); anchors and own notes kept."""
-    config = VOLUMES[volume]
-    if not config["identify"].search(html):
-        raise PramanaError(f"{entry['file']} is not a Thibaut SBE page; source format changed.")
+def extract(html: str, file: str) -> tuple[str, list[PageMark], list[Note]]:
+    """Body text of a Sacred Texts page: after the edition header (or top navigation),
+    with page anchors as page marks and the page's own footnotes as notes."""
     soup = BeautifulSoup(html, "html.parser")
     header = soup.find(lambda tag: tag.name == "p" and HEADER.search(tag.get_text()))
     header = header or soup.find("hr")
     if header is None:
-        raise PramanaError(f"{entry['file']} has no recognisable body; source format changed.")
+        raise PramanaError(f"{file} has no recognisable body; source format changed.")
     parts, pages, refs, length = [], [], {}, 0
     footnotes = None
     for element in header.find_all_next(BLOCKS):
@@ -109,7 +107,9 @@ def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara")
         )
         if page is not None:
             # A page begins with the next paragraph, after its separator.
-            pages.append((length + 2 if parts else 0, page["name"][5:]))
+            # An anchor without a page number (e.g. "page_") is skipped, not guessed.
+            if page["name"][5:].strip():
+                pages.append((length + 2 if parts else 0, page["name"][5:]))
             continue
         for anchor in element.find_all("a", href=re.compile(r"^#fn_")):
             if anchor.find_parent(BLOCKS) is not element:
@@ -136,12 +136,7 @@ def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara")
                 length += len(piece)
     text = "".join(parts)
     if len(text) < 80:
-        raise PramanaError(f"Suspiciously short commentary body in {entry['file']}.")
-    first = re.search(r"(?m)(?:^|\n\n)(?:[A-Za-zâ ]+: )?(\d+)\. ", text)
-    if entry.get("sutra") and (not first or first.group(1) != entry["sutra"]):
-        raise PramanaError(
-            f"{entry['file']} does not begin sutra {entry['sutra']}; source structure changed."
-        )
+        raise PramanaError(f"Suspiciously short page body in {file}.")
     notes = []
     anchors = footnotes.find_all_next("a", attrs={"name": re.compile(r"^fn_")}) if footnotes else []
     for i, target in enumerate(anchors):
@@ -161,6 +156,20 @@ def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara")
         content = re.sub(r"\s+", " ", "".join(words)).strip()
         if content:
             notes.append(Note(id=link.get_text(strip=True), text=content, anchor_offset=refs[key]))
+    marks = [PageMark(offset=min(offset, len(text)), label=label) for offset, label in pages]
+    return text, marks, notes
+
+
+def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara") -> Chapter:
+    config = VOLUMES[volume]
+    if not config["identify"].search(html):
+        raise PramanaError(f"{entry['file']} is not a Thibaut SBE page; source format changed.")
+    text, marks, notes = extract(html, entry["file"])
+    first = re.search(r"(?m)(?:^|\n\n)(?:[A-Za-zâ ]+: )?(\d+)\. ", text)
+    if entry.get("sutra") and (not first or first.group(1) != entry["sutra"]):
+        raise PramanaError(
+            f"{entry['file']} does not begin sutra {entry['sutra']}; source structure changed."
+        )
     sutra = entry.get("sutra") or entry.get("location_sutra")
     sections = [sutra] if sutra else []
     if entry.get("topic"):
@@ -177,7 +186,7 @@ def parse_page(html: str, entry: dict, source: Source, volume: str = "shankara")
         location=Location(book=entry["adhyaya"], chapter=entry["pada"], sections=sections),
         source=source,
         text=text,
-        pages=[PageMark(offset=min(offset, len(text)), label=label) for offset, label in pages],
+        pages=marks,
         notes=notes,
     )
 

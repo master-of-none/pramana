@@ -222,6 +222,8 @@ wheel serves its compiled reader and API without relying on editable source path
 - [x] **Vichāra mode** (October 2026): short answer plus reflective questions; prompt
   guidance only.
 - [x] **Reading paths** (October 2026): two curated paths with per-browser progress.
+- [x] **Crest-Jewel of Wisdom** (October 2026): Johnston's Vivekacūḍāmaṇi and four
+  more works, via a new HTML mode of the Sacred Texts adapter.
 - **More texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the

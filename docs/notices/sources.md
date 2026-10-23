@@ -148,6 +148,35 @@ archives fetched that day:
 
 Unanchored footnotes have no matching marker on their page in the source.
 
+## Crest-Jewel of Wisdom (Johnston)
+
+- Edition: Charles Johnston, _The Crest-Jewel of Wisdom and other writings of
+  Śankarâchârya_, Theosophical University Press, Covina, first edition 1946.
+- Digitization: scanned at Sacred Texts, November 2004; proofed by John Bruno Hare.
+- [Title page with rights statement](https://archive.sacred-texts.com/hin/cjw/cjw00.htm):
+  "This text is in the public domain in the US because the copyright was not renewed
+  in a timely fashion as required by law at the time. These files may be used for any
+  non-commercial purpose, provided this notice of attribution is left intact in all
+  copies."
+
+`--source crest-jewel` fetches 17 HTML pages listed in
+[`sacredtexts/cjw.json`](../../src/pramana/ingestion/sacredtexts/cjw.json), using the same
+page extraction as the Brahma Sūtra commentaries (cached, resumable, a page that is not
+from this edition is never cached or parsed). Works carry the English and Sanskrit
+titles printed on their pages: the Vivekacūḍāmaṇi (ten parts), Ātma Bodha, Tattva
+Bodha, Vākya Sudhā and Siddhānta-Tattva-Vindu, attributed to Śaṅkara as the edition
+presents them (the edition string says "works attributed to"). Johnston's own essays
+("The Heritage of the Brâhmans", "The Teachings of Śankara", and the explanatory part
+of "Śankara's Catechism") are recorded as commentary by Charles Johnston; his
+introduction ("Śankara, the Teacher") and the appendix symposium on Śaṅkara's life
+are excluded. One page anchor without a page number is skipped rather than guessed.
+Checked on 23 October 2026: 17 records, about 181,000 characters, 145 page marks.
+
+This is not Swami Madhavananda's 1921 translation. That edition is on
+[archive.org](https://archive.org/details/vivekachudamanio00sankrich) (marked not in
+copyright), but its OCR is too damaged to import without guessing words; it could be
+re-OCRed locally once Tesseract is installed.
+
 ## Embedding model
 
 [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) is distributed

@@ -40,6 +40,7 @@ your computer: the only network use is the explicit download commands.
 | Brahma Sūtra with Rāmānuja's Śrībhāṣya | Thibaut, SBE 48 | `--source sribhashya` |
 | Chāndogya, Bṛhadāraṇyaka, Kaṭha, Muṇḍaka, Kena, Īśa and five more Upaniṣads, with the Aitareya Āraṇyaka | Max Müller, SBE 1 and 15 | `--source upanishads-1`, `upanishads-2` |
 | _Knowledge of Self_, _Direct Realisation_ and six more works attributed to Śaṅkara | Venkataramanan, 1921 | `--source shankara-works` |
+| Vivekacūḍāmaṇi (_The Crest-Jewel of Wisdom_), Ātma Bodha, Tattva Bodha and other works | Charles Johnston, 1946 | `--source crest-jewel` |
 | Bhagavad Gītā with commentary | Swami Swarupananda, 1909 | `--source gita-swarupananda` |
 | Thirty Minor Upaniṣads | Narayanasvami Aiyar, 1914 | `--source minor-upanishads` |
 | _Brahma-Knowledge_ | L. D. Barnett, 1911 | `--source brahma-knowledge` |

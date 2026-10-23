@@ -139,6 +139,65 @@ def index_entries(page: str, book: str) -> list[tuple[str | None, str, str]]:
     return entries
 
 
+# HTML-only books. Authorship follows the printed headings: Johnston's own essays are
+# his commentary; works the edition presents as Sankara's carry that attribution.
+CREST = "The Crest-Jewel of Wisdom"
+CJW = {
+    5: (CREST + " (Vivekachudamani)", "translation", "Sankaracharya"),
+    15: ("The Heritage of the Brahmans", "commentary", "Charles Johnston"),
+    16: ("The Awakening to the Self (Atma Bodha)", "translation", "Sankaracharya"),
+    17: ("The Awakening to Reality (Tattva Bodha)", "mixed", "Sankaracharya"),
+    18: ("Sankara's Catechism (explanatory)", "commentary", "Charles Johnston"),
+    19: ("The Essence of the Teaching (Vakya Sudha)", "translation", "Sankaracharya"),
+    20: ("The Teachings of Sankara", "commentary", "Charles Johnston"),
+    21: ("The Song of the Self (Siddhanta-Tattva-Vindu)", "translation", "Sankaracharya"),
+}
+
+
+def crest_jewel(client: httpx.Client):
+    """Johnston's Crest-Jewel (1946): HTML pages only; introduction and appendix excluded."""
+    index = client.get(f"{BASE}cjw/index.htm").text
+    entries = index_entries(index, "cjw")
+    title = text_of(client.get(f"{BASE}cjw/cjw00.htm").text)
+    rights = re.search(r"This text is in the public domain[^.]*\.(?: [^.]*\.)?", title)
+    pages = []
+    for _group, file, label in entries:
+        number = int(file[3:-4])
+        if not 5 <= number <= 21:
+            continue
+        work, kind, author = CJW[5 if number <= 14 else number]
+        pages.append(
+            {
+                "file": file,
+                "url": f"{BASE}cjw/{file}",
+                "document_id": f"{slug(work)}-cjw",
+                "document": work,
+                "book": "1",
+                "chapter": str(number - 4) if number <= 14 else "1",
+                "label": label,
+                "content_type": kind,
+                "author": author,
+            }
+        )
+    manifest = {
+        "id": "cjw",
+        "format": "html",
+        "identify": "The Crest-Jewel of Wisdom by Sankaracharya, at sacred-texts.com",
+        "title_url": f"{BASE}cjw/cjw00.htm",
+        "translator": "Charles Johnston",
+        "author": "Sankaracharya",
+        "edition": (
+            "Johnston, Theosophical University Press 1946, works attributed to Sankaracharya"
+            " with Johnston's commentary · Sacred Texts HTML"
+        ),
+        "rights": "Stated by the source: " + rights[0] if rights else None,
+        "pages": pages,
+    }
+    assert manifest["rights"], "no rights statement found for cjw"
+    (OUT / "cjw.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
+    print("cjw", len(pages), "pages", len({p["document_id"] for p in pages}), "works")
+
+
 def sribhashya(client: httpx.Client):
     """SBE 48 (HTML only): pages grouped by pada; topic pages nest under their sutra."""
     index = client.get(f"{BASE}sbe48/index.htm").text
@@ -230,6 +289,7 @@ def main():
             path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
             print(book, len(pages), "pages", len({p["document_id"] for p in pages}), "works")
         sribhashya(client)
+        crest_jewel(client)
 
 
 if __name__ == "__main__":
