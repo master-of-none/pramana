@@ -9,6 +9,7 @@ import {
   Copy,
   CornerDownLeft,
   Feather,
+  MessageCircleQuestion,
   RotateCcw,
   Square,
   X,
@@ -97,6 +98,47 @@ export function Chat({
       .then((c) => c?.provider && setProvider(c.provider))
       .catch(() => undefined);
   }, []);
+  // Words selected in an answer, offered as the start of the next question.
+  const [quote, setQuote] = useState<{ text: string; top: number; left: number } | null>(
+    null,
+  );
+  useEffect(() => {
+    if (!quote) return;
+    // A button fixed at the selection is wrong once the page moves.
+    const hide = () => setQuote(null);
+    window.addEventListener("scroll", hide, { capture: true, once: true });
+    return () => window.removeEventListener("scroll", hide, { capture: true });
+  }, [quote]);
+  function onAnswerSelect() {
+    const selection = window.getSelection();
+    const text = selection?.toString().replace(/\s+/g, " ").trim() ?? "";
+    const node = selection?.anchorNode;
+    const inAnswer = (node instanceof Element ? node : node?.parentElement)?.closest(
+      ".answer-prose",
+    );
+    if (!selection || !selection.rangeCount || !inAnswer || text.length < 2) {
+      setQuote(null);
+      return;
+    }
+    const rect = selection.getRangeAt(0).getBoundingClientRect();
+    setQuote({
+      text: text.length > 300 ? `${text.slice(0, 300)}…` : text,
+      top: rect.bottom + 8,
+      left: Math.max(8, Math.min(rect.left, window.innerWidth - 180)),
+    });
+  }
+  function askAboutQuote() {
+    if (!quote) return;
+    const prefix = `About “${quote.text}”: `;
+    setMessage((current) => (current.trim() ? `${current.trim()} ${prefix}` : prefix));
+    setQuote(null);
+    window.getSelection()?.removeAllRanges();
+    requestAnimationFrame(() => {
+      const input = composer.current;
+      input?.focus();
+      input?.setSelectionRange(input.value.length, input.value.length);
+    });
+  }
   // "Ask about this passage" from Study: a pointer sent with the next question only.
   const [focus, setFocus] = useState<FocusRef | null>(null);
   const [storageError, setStorageError] = useState(false);
@@ -399,7 +441,22 @@ export function Chat({
             className="conversation"
             aria-label="Conversation"
             aria-busy={pending}
+            onMouseUp={onAnswerSelect}
+            onKeyUp={onAnswerSelect}
+            onTouchEnd={() => setTimeout(onAnswerSelect, 0)}
           >
+            {quote && (
+              <button
+                type="button"
+                className="ask-selection quote-ask"
+                style={{ top: quote.top, left: quote.left }}
+                // Keep the selection while the button is pressed.
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={askAboutQuote}
+              >
+                <MessageCircleQuestion size={14} /> Ask about this
+              </button>
+            )}
             <div className="conversation-kicker">
               <span /> A THREAD OF INQUIRY
             </div>

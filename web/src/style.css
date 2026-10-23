@@ -2077,3 +2077,7 @@ a.chip {
   height: 1px;
   opacity: 0;
 }
+/* In the chat, the button floats at the selection in the viewport. */
+.quote-ask {
+  position: fixed;
+}
