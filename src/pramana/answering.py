@@ -34,6 +34,7 @@ from pramana.models import (
     Perspective,
     Record,
     SearchFilters,
+    SearchHit,
 )
 from pramana.retrieval import Retriever
 
@@ -106,6 +107,14 @@ ROUTE_EXAMPLES = (
 )
 # Bytes of serialized messages and schema per answer request, below the provider's cap.
 REQUEST_BUDGET = 13800
+FOCUS_PROMPT = " ".join(
+    """
+The reader selected the evidence marked selected in the text and is asking about it:
+explain that passage first, in its own terms, then use the other evidence only to
+illuminate it. Words such as "this", "here" or "this verse" refer to the selected
+passage.
+""".split()
+)
 UNRELATED = (
     "Neti, neti: not this, not this. I give knowledge, but this is not the knowledge you "
     "seek. For that, another teacher awaits; for the Self, Brahman, or what the sages "
@@ -381,6 +390,28 @@ class Answerer:
             return "texts"
         return route.topic
 
+    def _focus(self, focus) -> list:
+        """The indexed passages covering the reader's selection, at most two."""
+        try:
+            chapter = self.retriever.corpus.store.chapter(focus.chapter_id)
+        except KeyError as exc:
+            raise AnswerError(
+                "The selected passage is no longer in the library. Select it again.", 404
+            ) from exc
+        if focus.end > len(chapter.text):
+            raise AnswerError(
+                "The selected passage does not fit its chapter. Select it again.", 422
+            )
+        overlap = [
+            (min(p.end, focus.end) - max(p.start, focus.start), p)
+            for p in self.retriever.corpus.store.passages_for(chapter.id)
+            if p.start < focus.end and focus.start < p.end
+        ]
+        chosen = [p for _, p in sorted(overlap, key=lambda x: -x[0])[:2]]
+        if not chosen:
+            raise AnswerError("The selected passage is not indexed yet. Run pramana index.", 409)
+        return sorted(chosen, key=lambda p: p.start), chapter.text[focus.start : focus.end]
+
     def _retrieve(self, question, document_ids, authors=(), within=None):
         """`within` restricts every search to a chat scope's documents."""
         with self.search_lock:
@@ -629,9 +660,13 @@ class Answerer:
                 if any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", plain) for n in names):
                     if doc["id"] not in selected:
                         selected.append(doc["id"])
+        focused, selection = [], ""
+        if request.focus:
+            focused, selection = await asyncio.to_thread(self._focus, request.focus)
         if not history:
             await report("understanding")
-        if await self.route(question) == "unrelated":
+        # A question about a passage selected in the library is about the texts.
+        if not focused and await self.route(question) == "unrelated":
             return ChatResponse(
                 answer=UNRELATED,
                 status="insufficient_evidence",
@@ -666,9 +701,17 @@ class Answerer:
             # "All texts" leaves out opt-in works unless the question names one.
             within = await asyncio.to_thread(default_documents, self.retriever.corpus.store)
         await report("searching")
+        # A question about a selection ("what does this mean?") searches with its words.
+        search = f"{question} {fit(selection, 400)}" if focused else question
         hits = await asyncio.to_thread(
-            self._retrieve, question, list(dict.fromkeys(selected)), authors, within
+            self._retrieve, search, list(dict.fromkeys(selected)), authors, within
         )
+        if focused:
+            ids = {p.id for p in focused}
+            hits = [
+                SearchHit(passage=p, snippet=p.text[:420], score=1.0, score_kind="rrf")
+                for p in focused
+            ] + [h for h in hits if h.passage.id not in ids]
         roles = await asyncio.to_thread(self._roles, hits)
         evidence, payloads, budget = [], [], 10000 - len(fit(question, 6000).encode())
         for hit in hits:
@@ -682,6 +725,7 @@ class Answerer:
                 "author": passage.citation.author,
                 "translator": passage.citation.translator,
                 "content_type": passage.citation.content_type,
+                **({"selected": True} if any(p.id == passage.id for p in focused) else {}),
             }
             size = len(json.dumps(payload, ensure_ascii=False).encode())
             if size > budget:
@@ -708,7 +752,8 @@ class Answerer:
             {
                 "role": "system",
                 "content": ANSWER_PROMPT
-                + (VICHARA if request.mode == "vichara" else DEPTH[request.depth]),
+                + (VICHARA if request.mode == "vichara" else DEPTH[request.depth])
+                + (" " + FOCUS_PROMPT if focused else ""),
             },
             {
                 "role": "user",

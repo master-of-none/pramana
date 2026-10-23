@@ -7,9 +7,12 @@ export type EvidenceRef = {
   start: number;
   end: number;
 };
+// A passage selected in the Study view (code points); sent with one question, never shown.
+export type FocusRef = { chapter_id: string; start: number; end: number };
 export type Turn = {
   id: string;
   question: string;
+  focus?: FocusRef;
   answer?: string;
   perspectives?: View[];
   evidence?: EvidenceRef[];
@@ -116,4 +119,36 @@ export function restore(): Turn[] {
   } catch {
     return [];
   }
+}
+
+// Study -> chat hand-off for "Ask about this passage", in this tab only.
+const FOCUS = "pramana.focus.v1";
+
+export function setPendingFocus(focus: FocusRef): boolean {
+  try {
+    sessionStorage.setItem(FOCUS, JSON.stringify(focus));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function takePendingFocus(): FocusRef | null {
+  try {
+    const data = JSON.parse(sessionStorage.getItem(FOCUS) || "null");
+    sessionStorage.removeItem(FOCUS);
+    if (
+      data &&
+      ID.test(data.chapter_id) &&
+      Number.isInteger(data.start) &&
+      Number.isInteger(data.end) &&
+      0 <= data.start &&
+      data.start < data.end &&
+      data.end - data.start <= 6000
+    )
+      return { chapter_id: data.chapter_id, start: data.start, end: data.end };
+  } catch {
+    // Storage unavailable or malformed: ask without a selection.
+  }
+  return null;
 }

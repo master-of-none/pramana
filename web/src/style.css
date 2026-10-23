@@ -1888,3 +1888,50 @@ a.chip {
   color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
+
+/* "Ask about this passage": from the reader to the chat (only a pointer travels). */
+.reader-text {
+  position: relative;
+}
+.ask-selection,
+.reader-ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12.5px;
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid var(--olive);
+  background: var(--paper);
+  color: var(--olive);
+}
+.ask-selection {
+  position: absolute;
+  z-index: 5;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.reader-ask-bar {
+  position: sticky;
+  bottom: 18px;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+  margin-top: 12px;
+}
+.reader-ask {
+  pointer-events: auto;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.focus-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.focus-note button {
+  border: 0;
+  background: none;
+  color: var(--olive);
+  text-decoration: underline;
+  padding: 0;
+}

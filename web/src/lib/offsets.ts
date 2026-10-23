@@ -23,3 +23,27 @@ export function cuts(length: number, spans: Span[]): number[] {
   }
   return [...points].sort((a, b) => a - b);
 }
+
+// UTF-16 index -> Python code-point offset (the inverse of codePointIndex).
+export function codePointOf(text: string, unit: number): number {
+  let points = 0;
+  for (let i = 0; i < unit && i < text.length; i++) {
+    const code = text.charCodeAt(i);
+    if (code < 0xdc00 || code > 0xdfff) points++; // a low surrogate ends a counted pair
+  }
+  return points;
+}
+
+// Where selected text occurs in text[from, to) (UTF-16), ignoring whitespace differences
+// (the page renders line breaks as spaces); null unless it occurs exactly once.
+export function locate(text: string, selected: string, from: number, to: number): Span | null {
+  const words = selected.trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return null;
+  const escaped = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const pattern = new RegExp(escaped.join("\\s+"), "g");
+  const region = text.slice(from, to);
+  const found = [...region.matchAll(pattern)];
+  if (found.length !== 1) return null;
+  const start = from + found[0].index!;
+  return { start, end: start + found[0][0].length };
+}

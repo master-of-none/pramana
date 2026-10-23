@@ -221,11 +221,15 @@ export function ChapterText({
         const cited = byParagraph.get(i);
         return cited ? (
           <div key={i} className="cited-paragraph">
-            <p>{out}</p>
+            <p data-from={p.start} data-to={p.end}>
+              {out}
+            </p>
             <CitedByList refs={cited} />
           </div>
         ) : (
-          <p key={i}>{out}</p>
+          <p key={i} data-from={p.start} data-to={p.end}>
+            {out}
+          </p>
         );
       })}
       {chapter.notes.length > anchored.length && (

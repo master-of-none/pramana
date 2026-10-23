@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   BookMarked,
   Columns2,
+  MessageCircleQuestion,
   Route as PathIcon,
   Search as SearchIcon,
 } from "lucide-react";
@@ -20,7 +21,9 @@ import { useGlossary } from "../lib/glossary.tsx";
 import type { Glossary } from "../lib/glossary.tsx";
 import { href } from "../lib/router.ts";
 import type { Route } from "../lib/router.ts";
-import { restore } from "../lib/storage.ts";
+import { restore, setPendingFocus } from "../lib/storage.ts";
+import type { FocusRef } from "../lib/storage.ts";
+import { codePointOf, locate } from "../lib/offsets.ts";
 import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
 import { Argument } from "./Argument.tsx";
@@ -191,6 +194,41 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
   );
 }
 
+// Hand a passage to the chat: only a pointer travels; the chat never shows the text.
+function askAbout(focus: FocusRef) {
+  if (setPendingFocus(focus)) window.location.hash = "#/";
+}
+
+// The reader's selection as code points in the chapter, with where to show the button.
+function selectionFocus(container: HTMLElement, text: string, chapterId: string) {
+  const selection = window.getSelection();
+  if (!selection || selection.isCollapsed || !selection.rangeCount) return null;
+  const range = selection.getRangeAt(0);
+  if (!container.contains(range.commonAncestorContainer)) return null;
+  const paragraph = (node: Node) =>
+    (node instanceof Element ? node : node.parentElement)?.closest<HTMLElement>(
+      "p[data-from]",
+    );
+  const first = paragraph(range.startContainer);
+  const last = paragraph(range.endContainer);
+  const selected = selection.toString();
+  if (!first || !last || selected.trim().length < 2) return null;
+  const from = Number(first.dataset.from);
+  const to = Number(last.dataset.to);
+  // Exact words when they occur once; otherwise the paragraphs the selection touches.
+  const span = locate(text, selected, from, to) ?? { start: from, end: to };
+  const start = codePointOf(text, span.start);
+  const end = codePointOf(text, span.end);
+  if (end - start > 6000) return null;
+  const box = container.getBoundingClientRect();
+  const rect = range.getBoundingClientRect();
+  return {
+    focus: { chapter_id: chapterId, start, end },
+    top: rect.bottom - box.top + 8,
+    left: Math.max(0, Math.min(rect.left - box.left, box.width - 170)),
+  };
+}
+
 function Reader({
   id,
   route,
@@ -203,7 +241,16 @@ function Reader({
   const { context, error } = useChapter(id);
   const citations = useCitations(id);
   const { docs } = useLibrary();
+  const textBox = useRef<HTMLDivElement>(null);
+  const [ask, setAsk] = useState<ReturnType<typeof selectionFocus>>(null);
+  useEffect(() => setAsk(null), [id]);
   if (!context) return <Status error={error} />;
+  const onSelect = () =>
+    setAsk(
+      textBox.current
+        ? selectionFocus(textBox.current, context.chapter.text, context.id)
+        : null,
+    );
   const { chapter } = context;
   const doc = docs?.find(
     (d) =>
@@ -271,12 +318,44 @@ function Reader({
           itself labels them.
         </p>
       )}
-      <ChapterText
-        context={context}
-        glossary={glossary}
-        highlight={highlight}
-        citations={citations}
-      />
+      <div
+        className="reader-text"
+        ref={textBox}
+        onMouseUp={onSelect}
+        onKeyUp={onSelect}
+        onTouchEnd={() => setTimeout(onSelect, 0)}
+      >
+        <ChapterText
+          context={context}
+          glossary={glossary}
+          highlight={highlight}
+          citations={citations}
+        />
+        {ask && (
+          <button
+            type="button"
+            className="ask-selection"
+            style={{ top: ask.top, left: ask.left }}
+            // Keep the selection while the button is pressed.
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => askAbout(ask.focus)}
+          >
+            <MessageCircleQuestion size={14} /> Ask about this
+          </button>
+        )}
+      </div>
+      {highlight && highlight.end - highlight.start <= 6000 && (
+        // Sticks to the bottom of the screen while the highlighted page is read.
+        <div className="reader-ask-bar">
+          <button
+            type="button"
+            className="reader-ask"
+            onClick={() => askAbout({ chapter_id: context.id, ...highlight })}
+          >
+            <MessageCircleQuestion size={14} /> Ask about the highlighted passage
+          </button>
+        </div>
+      )}
       <SourceNote context={context} />
     </article>
   );

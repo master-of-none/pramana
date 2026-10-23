@@ -18,8 +18,14 @@ import { useGlossary } from "../lib/glossary.tsx";
 import { href } from "../lib/router.ts";
 import { useHumanCheck } from "../lib/hosted.ts";
 import { usePreference } from "../lib/theme.ts";
-import { STORAGE, evidenceRefs, restore, views } from "../lib/storage.ts";
-import type { Stage, Turn } from "../lib/storage.ts";
+import {
+  STORAGE,
+  evidenceRefs,
+  restore,
+  takePendingFocus,
+  views,
+} from "../lib/storage.ts";
+import type { FocusRef, Stage, Turn } from "../lib/storage.ts";
 
 const stageLabels: Record<Stage, string> = {
   understanding: "Following the thread of your question…",
@@ -81,6 +87,8 @@ export function Chat({
 }) {
   const [turns, setTurns] = useState<Turn[]>(restore);
   const [message, setMessage] = useState("");
+  // "Ask about this passage" from Study: a pointer sent with the next question only.
+  const [focus, setFocus] = useState<FocusRef | null>(null);
   const [storageError, setStorageError] = useState(false);
   const [copied, setCopied] = useState("");
   const [copyError, setCopyError] = useState("");
@@ -128,6 +136,14 @@ export function Chat({
   const bottom = useRef<HTMLDivElement>(null);
   const controller = useRef<AbortController | null>(null);
   const requestNumber = useRef(0);
+  useEffect(() => {
+    if (!active) return;
+    const pending = takePendingFocus();
+    if (pending) {
+      setFocus(pending);
+      composer.current?.focus();
+    }
+  }, [active]);
   const activeRef = useRef(active);
   activeRef.current = active;
   const pending = turns.some((t) => t.state === "pending");
@@ -174,6 +190,7 @@ export function Chat({
 
   async function send(text: string, retryId?: string) {
     if (!text.trim() || controller.current) return;
+    const asked = retryId ? turns.find((t) => t.id === retryId)?.focus : (focus ?? undefined);
     const previous = retryId
       ? turns.slice(
           0,
@@ -191,8 +208,9 @@ export function Chat({
     const abort = new AbortController();
     controller.current = abort;
     const number = ++requestNumber.current;
-    setTurns([...previous, { id, question: text.trim(), state: "pending" }]);
+    setTurns([...previous, { id, question: text.trim(), focus: asked, state: "pending" }]);
     setMessage("");
+    setFocus(null);
     const update = (value: Partial<Turn>) => {
       if (requestNumber.current === number)
         setTurns((current) =>
@@ -211,6 +229,7 @@ export function Chat({
           depth,
           check: check === "on",
           mode,
+          ...(asked ? { focus: asked } : {}),
         }),
       });
       if (!response.ok || !response.body) {
@@ -287,6 +306,7 @@ export function Chat({
     }
   }
   function newChat() {
+    setFocus(null);
     requestNumber.current++;
     controller.current?.abort();
     controller.current = null;
@@ -558,6 +578,14 @@ export function Chat({
           </div>
         </div>
         {human.hosted && <div className="human-check" ref={human.holder} />}
+        {focus && (
+          <p className="focus-note" role="status">
+            Asking about the passage you selected in Study.{" "}
+            <button type="button" onClick={() => setFocus(null)}>
+              Ask without it
+            </button>
+          </p>
+        )}
         <form className="composer" onSubmit={submit}>
           <label className="sr-only" htmlFor="message">
             Your question
@@ -566,7 +594,9 @@ export function Chat({
             ref={composer}
             id="message"
             placeholder={
-              hasConversation
+              focus
+                ? "What would you like to understand about it?"
+                : hasConversation
                 ? "Keep the conversation going…"
                 : "What would you like to understand?"
             }

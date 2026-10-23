@@ -206,6 +206,13 @@ stays answers-only. It needs no answer model.
   "Cited · Śaṅkara n · Rāmānuja m" with links back, and `#/study/citations` ranks the
   most-cited passages. Of 1,609 resolved references, 1,001 were verified, 203 linked by
   number and 405 to the chapter (23 October 2026).
+- **Ask about this passage:** select text in the reader (or open a highlighted
+  passage) and choose **Ask about this**. Only a pointer to the span travels to the
+  chat, in this tab's `sessionStorage`; the chat shows "Asking about the passage you
+  selected in Study" and never the text or its location. The selected passages lead the
+  evidence for that one question, which then works like any other: its answer's **Read
+  in the texts** shows them. A selection whose exact words occur more than once in the
+  touched paragraphs falls back to those whole paragraphs.
 - **Passages behind an answer:** opened from the chat, from evidence pointers kept with
   the conversation in the tab's `sessionStorage`; they disappear with New chat.
 - **Reading paths:** `#/study/paths` offers curated sequences ("First steps in

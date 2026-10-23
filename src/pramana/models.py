@@ -166,6 +166,20 @@ Scope = Literal["all", "upanishads", "gita", "yoga-vasistha", "shankara", "raman
 Depth = Literal["brief", "explain", "deep"]
 
 
+class Focus(Record):
+    """A span the reader selected in the Study view: code points in one stored chapter."""
+
+    chapter_id: str = Field(min_length=1, max_length=80)
+    start: int = Field(ge=0)
+    end: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def check_span(self):
+        if not self.start < self.end <= self.start + 6000:
+            raise ValueError("A selected passage must be 1 to 6,000 characters")
+        return self
+
+
 class ChatRequest(Record):
     message: str = Field(min_length=1, max_length=2000)
     history: list[ChatMessage] = Field(default_factory=list, max_length=12)
@@ -175,6 +189,8 @@ class ChatRequest(Record):
     check: bool = False
     # Vichāra: a short grounded answer followed by guiding questions for reflection.
     mode: Literal["answer", "vichara"] = "answer"
+    # "Ask about this passage" from the Study view; never shown in the chat itself.
+    focus: Focus | None = None
 
     @model_validator(mode="after")
     def check_history(self):

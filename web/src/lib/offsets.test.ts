@@ -1,7 +1,7 @@
 // Run with: npm --prefix web test (Node's built-in runner; no extra dependency).
 import assert from "node:assert/strict";
 import test from "node:test";
-import { codePointIndex, cuts } from "./offsets.ts";
+import { codePointIndex, codePointOf, cuts, locate } from "./offsets.ts";
 
 test("BMP-only text maps code points to themselves", () => {
   const at = codePointIndex("Ānanda");
@@ -26,4 +26,14 @@ test("cuts are sorted, unique and clamped", () => {
     ]),
     [0, 2, 4, 10],
   );
+});
+
+test("selections map back to Python code points", () => {
+  const text = "𑀅 It is the Self,\nand thou art it. Thou art it.";
+  const span = locate(text, "the Self, and thou", 0, text.length);
+  assert.ok(span);
+  assert.equal(text.slice(span.start, span.end), "the Self,\nand thou");
+  assert.equal(codePointOf(text, span.start), span.start - 1); // 𑀅 is two UTF-16 units
+  assert.equal(locate(text, "art it", 0, text.length), null); // ambiguous: twice
+  assert.equal(locate(text, "art it", 30, text.length)?.start, text.lastIndexOf("art it"));
 });

@@ -674,3 +674,39 @@ def test_opt_in_works_are_searched_only_when_chosen_or_named(
     assert works("Who preserves the universe?", scope="yoga-vasistha") == {
         "Yoga Vasishtha Maharamayana"
     }
+
+
+def test_focused_passage_leads_the_evidence_and_skips_routing(indexed, embedder):
+    from pramana.models import Focus
+
+    chapter = next(c for c in indexed.store.chapters() if "Krishna" in c.text)
+    provider = Provider([grounded("It means he protects the cattle.")], route="unrelated")
+    focus = Focus(chapter_id=chapter.id, start=0, end=len("Krishna shelters the cattle"))
+    request = ChatRequest(message="What does this mean?", focus=focus)
+    response = asyncio.run(
+        Answerer(Retriever(indexed, embedder=embedder), provider=provider).answer(request)
+    )
+    assert response.status == "grounded" and provider.routes == []  # selection: on-topic
+    messages, _ = provider.calls[0]
+    evidence = json.loads(messages[-1]["content"])["evidence"]
+    assert evidence[0]["selected"] is True and "Krishna shelters" in evidence[0]["text"]
+    assert all("selected" not in e for e in evidence[1:])
+    assert "selected the evidence marked selected" in messages[0]["content"]
+
+
+def test_focus_must_name_a_real_span(indexed, embedder):
+    from pramana.models import Focus
+
+    chapter = indexed.store.chapters()[0]
+    engine = Answerer(Retriever(indexed, embedder=embedder), provider=Provider([grounded()]))
+    for focus, code in (
+        (Focus(chapter_id="ch_" + "0" * 24, start=0, end=5), 404),
+        (Focus(chapter_id=chapter.id, start=0, end=len(chapter.text) + 1), 422),
+    ):
+        with pytest.raises(AnswerError) as caught:
+            asyncio.run(engine.answer(ChatRequest(message="Explain", focus=focus)))
+        assert caught.value.status_code == code
+    with pytest.raises(ValidationError):
+        Focus(chapter_id=chapter.id, start=5, end=5)
+    with pytest.raises(ValidationError):
+        Focus(chapter_id=chapter.id, start=0, end=7000)

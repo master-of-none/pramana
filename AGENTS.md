@@ -76,8 +76,10 @@ on localhost:8001 without using the private library. Documentation-only edits ne
   passages, page marks, footnotes, edition metadata, rights and attribution, but
   never internal model references (E1…) or relevance scores, and marks
   objection/reply only from explicit cues. Keep conversation history (with its
-  evidence pointers) in tab sessionStorage; New chat clears it. Display preferences
-  may use localStorage. No accounts or server-side conversation persistence.
+  evidence pointers) in tab sessionStorage; New chat clears it. A passage handed from
+  Study to chat ("Ask about this") travels as a pointer only and is never rendered in
+  the chat. Display preferences may use localStorage. No accounts or server-side
+  conversation persistence.
 
 ## Local operation and hygiene
 

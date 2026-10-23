@@ -40,8 +40,13 @@ The web chat uses this endpoint to show progress.
 `ChatRequest` accepts `message` (1–2,000 characters), up to six completed
 user/assistant exchanges, an optional `scope` (`all`, `upanishads`, `gita`,
 `shankara`, `ramanuja`; an empty scope returns 409) and `depth` (`brief`, `explain`,
-`deep`), `mode` (`answer` or `vichara`), and `check` (default `false`; see
-[checking answers](../guides/chat.md#checking-answers)). History must alternate and end with an assistant. Each
+`deep`), `mode` (`answer` or `vichara`), `check` (default `false`; see
+[checking answers](../guides/chat.md#checking-answers)), and `focus`: an optional
+`{"chapter_id", "start", "end"}` span of 1–6,000 code points that the reader selected
+in the Study view. A focused question skips off-topic routing; the indexed passages
+covering the span (at most two) lead the evidence, marked `selected`, and the search
+adds the selection's opening words to the question. An unknown chapter returns 404 and
+a span beyond the text 422. History must alternate and end with an assistant. Each
 history message is limited to 6,000 characters. The server retains no conversation.
 For follow-ups, recent bounded history forms a standalone retrieval question;
 previous assistant text is not supplied as evidence to the final answer call.
