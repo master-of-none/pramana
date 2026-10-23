@@ -34,6 +34,33 @@ class BookSpec:
     first_page: int = 1
     ocr: bool = False
     excluded_pages: tuple[int, ...] = ()
+    # Public editions only (defaults keep the private books' cache keys unchanged).
+    ocr_engine: str = "tesseract"
+    origin_url: str | None = None
+    rights: str | None = None
+    attribution: str | None = None
+    corpus_id: str = "local_books"
+    last_page: int | None = None
+    keep_devanagari: bool = True
+
+
+# Fields added after the first extractions; omitted from cache keys at their defaults,
+# so existing OCR caches stay valid.
+LATER_FIELDS = {
+    "ocr_engine": "tesseract",
+    "origin_url": None,
+    "rights": None,
+    "attribution": None,
+    "corpus_id": "local_books",
+    "last_page": None,
+    "keep_devanagari": True,
+}
+
+
+def spec_config(spec: "BookSpec") -> dict:
+    return {
+        k: v for k, v in asdict(spec).items() if not (k in LATER_FIELDS and v == LATER_FIELDS[k])
+    }
 
 
 BOOKS = (
@@ -70,6 +97,68 @@ BOOKS = (
         (10, 11, 12, 13, 14, 15, 16),
     ),
 )
+
+
+# Public-domain scans: pinned file, explicit download, same page-level pipeline.
+PUBLIC = {
+    "vivekachudamani": (
+        BookSpec(
+            "vivekachudamani-madhavananda",
+            "vivekachudamanio00sankrich.pdf",
+            "Vivekachudamani",
+            "Madhavananda, Advaita Ashrama, Mayavati, 1921; attributed to Sankaracharya by "
+            "this edition · archive.org scan (University of California Libraries)",
+            "Sankaracharya",
+            "Swami Madhavananda",
+            "Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260",
+            first_page=9,
+            ocr=True,
+            ocr_engine="chandra",
+            origin_url="https://archive.org/details/vivekachudamanio00sankrich",
+            rights="Stated by the source: archive.org lists this 1921 publication as "
+            "NOT_IN_COPYRIGHT (public domain in the US).",
+            attribution="Sankaracharya (attributed); English translation and notes by Swami "
+            "Madhavananda; Advaita Ashrama, Mayavati, 1921; scanned by the University of "
+            "California Libraries for the Internet Archive.",
+            corpus_id="vivekachudamani-madhavananda",
+            last_page=260,  # 261-264 index, 265 errata (not applied), 266 blank
+        ),
+        "https://archive.org/download/vivekachudamanio00sankrich/vivekachudamanio00sankrich.pdf",
+        "7a2756c761899ee62d88ad9e1dc1b82136ce5acf389390e11ce0e2d699fe8558",
+    ),
+}
+
+
+def acquire_public(
+    home: Path, key: str, archive: Path | None = None, *, offline: bool = False, progress=print
+) -> Path:
+    """Fetch (or copy) a pinned public-domain scan, then OCR it like the private books."""
+    spec, url, pinned = PUBLIC[key]
+    home = home.resolve()
+    target = home / "sources" / "pdfs" / spec.filename
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if archive:
+        if archive.resolve() != target.resolve():
+            shutil.copyfile(archive, target)
+    elif not target.exists():
+        if offline:
+            raise PramanaError(f"{spec.filename} is not cached; supply --archive PATH.")
+        try:
+            import httpx
+
+            with httpx.Client(follow_redirects=True, timeout=300) as client:
+                response = client.get(url, headers={"User-Agent": "Pramana/0.1"})
+                response.raise_for_status()
+        except httpx.HTTPError as exc:
+            raise PramanaError(f"Download of {url} failed ({type(exc).__name__}).") from exc
+        temporary = target.with_suffix(".pdf.partial")
+        temporary.write_bytes(response.content)
+        temporary.replace(target)
+    if checksum(target) != pinned:
+        raise PramanaError(
+            f"{spec.filename} differs from the reviewed scan; it was not OCRed or imported."
+        )
+    return extract_pdf(target, home, spec, progress=progress)
 
 
 def checksum(path: Path) -> str:
@@ -185,9 +274,98 @@ def ocr_page(path: Path, number: int, tools: dict[str, str]) -> dict:
         }
 
 
+CHANDRA = {"method": "hf", "checkpoint": "datalab-to/chandra-ocr-2", "batch": 12}
+
+
+def chandra_tools() -> dict[str, str]:
+    tools = {name: shutil.which(name) for name in ("pdftoppm", "chandra")}
+    missing = [name for name, found in tools.items() if not found]
+    if missing:
+        raise PramanaError(
+            "This edition is OCRed with Chandra; install it explicitly first: "
+            'uv tool install "chandra-ocr[hf]" (it downloads its model on first use). '
+            f"Missing: {', '.join(missing)}."
+        )
+    return tools  # type: ignore[return-value]
+
+
+def chandra_pages(path: Path, numbers: list[int], tools: dict[str, str]) -> dict[int, dict]:
+    """OCR several pages in one Chandra run (one model load); returns raw Markdown per page."""
+    with TemporaryDirectory(prefix="pramana-chandra-") as directory:
+        images, output = Path(directory) / "pages", Path(directory) / "out"
+        images.mkdir()
+        try:
+            for number in numbers:
+                subprocess.run(
+                    [
+                        tools["pdftoppm"],
+                        "-f",
+                        str(number),
+                        "-l",
+                        str(number),
+                        "-singlefile",
+                        "-r",
+                        str(PARSER["dpi"]),
+                        "-png",
+                        str(path),
+                        str(images / f"page{number:04d}"),
+                    ],
+                    check=True,
+                    capture_output=True,
+                    timeout=120,
+                )
+            subprocess.run(
+                [
+                    tools["chandra"],
+                    str(images),
+                    str(output),
+                    "--method",
+                    CHANDRA["method"],
+                    "--no-images",
+                    "--no-headers-footers",
+                ],
+                check=True,
+                capture_output=True,
+                timeout=3600,
+                env={**os.environ, "MODEL_CHECKPOINT": CHANDRA["checkpoint"]},
+            )
+        except (subprocess.SubprocessError, OSError) as exc:
+            raise PramanaError(
+                f"Chandra OCR failed on pages {numbers[0]}–{numbers[-1]}; finished pages are "
+                "cached, so repeating resumes."
+            ) from exc
+        found = {}
+        for number in numbers:
+            stem = f"page{number:04d}"
+            markdown = output / stem / f"{stem}.md"
+            if not markdown.is_file():
+                raise PramanaError(f"Chandra produced no output for PDF page {number}.")
+            found[number] = {"raw": markdown.read_text(encoding="utf-8"), "engine": "chandra"}
+        return found
+
+
+def clean_markdown(raw: str) -> str:
+    """Chandra emits Markdown: drop image links, heading marks and emphasis markers only."""
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", raw)
+    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
+    text = re.sub(r"(\*\*|__)(.+?)\1", r"\2", text)
+    text = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"\1", text)
+    text = re.sub(r"(?<![\w_])_(?!\s)(.+?)(?<!\s)_(?![\w_])", r"\1", text)
+    return text
+
+
 def clean_text(raw: str, spec: BookSpec) -> str:
     """Canonical extraction; raw text is retained separately. No speculative OCR word repair."""
+    if spec.ocr_engine == "chandra":
+        raw = clean_markdown(raw)
     lines = raw.replace("\x00", "").replace("\u00ad", "").splitlines()
+    if not spec.keep_devanagari:
+        # Documented rule: lines that are mostly Devanagari leave the canonical text.
+        lines = [
+            line
+            for line in lines
+            if sum("\u0900" <= c <= "\u097f" for c in line) <= len(line.strip()) / 2
+        ]
     cleaned = []
     for i, line in enumerate(lines):
         line = line.strip()
@@ -241,9 +419,12 @@ def extract_pdf(
     if not path.is_relative_to(home):
         raise PramanaError("Move the original into PRAMANA_HOME/sources/pdfs before extraction.")
     sha = checksum(path)
-    tools = ocr_tools() if spec.ocr else {}
+    chandra = spec.ocr and spec.ocr_engine == "chandra"
+    tools = (chandra_tools() if chandra else ocr_tools()) if spec.ocr else {}
     tool_versions = {}
-    if tools:
+    if chandra:
+        tool_versions = {"engine": "chandra", **CHANDRA, "pdftoppm": "poppler"}
+    elif tools:
         for name, executable in tools.items():
             result = subprocess.run(
                 [executable, "--version" if name == "tesseract" else "-v"],
@@ -255,7 +436,12 @@ def extract_pdf(
             tool_versions[name] = (result.stdout + result.stderr).splitlines()[0]
     import pypdf
 
-    config = {**PARSER, "pypdf": pypdf.__version__, "tools": tool_versions, "book": asdict(spec)}
+    config = {
+        **PARSER,
+        "pypdf": pypdf.__version__,
+        "tools": tool_versions,
+        "book": spec_config(spec),
+    }
     cache = home / "extractions" / (sha + "-" + digest(json.dumps(config, sort_keys=True))[:16])
     cache.mkdir(parents=True, exist_ok=True)
     receipt_path = cache / "receipt.json"
@@ -287,6 +473,13 @@ def extract_pdf(
             if not (cache / "pages" / f"{index + 1:04d}.json").exists():
                 extracted[index] = page.extract_text() or ""
 
+    in_range = [
+        i
+        for i in range(count)
+        if i + 1 >= spec.first_page and (spec.last_page is None or i + 1 <= spec.last_page)
+    ]
+    prefetched: dict[int, dict] = {}
+
     def process(index):
         page_file = cache / "pages" / f"{index + 1:04d}.json"
         if page_file.exists():
@@ -302,7 +495,12 @@ def extract_pdf(
                     f"Invalid extraction cache {page_file}; remove this page and retry."
                 )
             return data
-        details = ocr_page(path, index + 1, tools) if spec.ocr else {"raw": extracted[index]}
+        if index in prefetched:
+            details = prefetched.pop(index)
+        elif chandra:
+            details = {"raw": "", "engine": "chandra", "skipped": "outside the page range"}
+        else:
+            details = ocr_page(path, index + 1, tools) if spec.ocr else {"raw": extracted[index]}
         text = clean_text(details["raw"], spec)
         quality, reasons = page_quality(text, details)
         data = {
@@ -312,11 +510,23 @@ def extract_pdf(
             "quality": quality,
             "reasons": reasons,
             "indexed": index + 1 >= spec.first_page
+            and (spec.last_page is None or index + 1 <= spec.last_page)
             and index + 1 not in spec.excluded_pages
             and len(re.findall(r"[A-Za-z]{2,}", text)) >= 15,
         }
         atomic_json(page_file, data)
         return data
+
+    if chandra:
+        # Batches: one model load per run; each finished page is cached before the next run.
+        missing = [i + 1 for i in in_range if not (cache / "pages" / f"{i + 1:04d}.json").exists()]
+        for start in range(0, len(missing), CHANDRA["batch"]):
+            batch = missing[start : start + CHANDRA["batch"]]
+            for number, details in chandra_pages(path, batch, tools).items():
+                prefetched[number - 1] = details
+                process(number - 1)
+            if progress:
+                progress(f"{spec.id}: Chandra OCR {start + len(batch)}/{len(missing)} pages")
 
     pages = []
     with ThreadPoolExecutor(max_workers=max(1, min(workers, 4))) as pool:
@@ -329,17 +539,27 @@ def extract_pdf(
             "PDF changed during extraction; repeat with a stable original. "
             "Previous records were retained."
         )
-    source = Source(
-        local_path=path.relative_to(home).as_posix(),
-        checksum=sha,
-        retrieved_at=acquired_at,
-        rights="User-supplied private edition; redistribution permission unestablished. "
-        "Keep original and derived text out of public distribution.",
-        attribution=f"{spec.author}; English: {spec.translator}. {spec.edition}",
-    )
+    if spec.origin_url:
+        # Public edition: the origin is its URL; the cached original stays local.
+        source = Source(
+            url=spec.origin_url,
+            checksum=sha,
+            retrieved_at=acquired_at,
+            rights=spec.rights or "",
+            attribution=spec.attribution or f"{spec.author}; English: {spec.translator}.",
+        )
+    else:
+        source = Source(
+            local_path=path.relative_to(home).as_posix(),
+            checksum=sha,
+            retrieved_at=acquired_at,
+            rights="User-supplied private edition; redistribution permission unestablished. "
+            "Keep original and derived text out of public distribution.",
+            attribution=f"{spec.author}; English: {spec.translator}. {spec.edition}",
+        )
     records = [
         Chapter(
-            corpus_id="local_books",
+            corpus_id=spec.corpus_id,
             document_id=spec.id,
             document=spec.title,
             edition=spec.edition,

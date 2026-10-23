@@ -46,6 +46,7 @@ SOURCES = {
     "crest-jewel": "Crest-Jewel of Wisdom (Vivekachudamani) and other works, Johnston (1946)",
     "ashtavakra-gita": "Ashtavakra Gita, The Heart of Awareness, Richards (1996)",
     "yoga-vasistha": "Yoga Vasishtha, Mitra (1891-99), 7 Gutenberg volumes; opt-in, large",
+    "vivekachudamani": "Vivekachudamani, Madhavananda (1921) scan; OCR with Chandra (GPU)",
 }
 # Single plain-text editions keyed by their manifest ID in ingestion/textfiles/.
 TEXT_FILES = {"ashtavakra-gita": "ashtavakra-richards"}
@@ -59,10 +60,15 @@ SACRED_TEXTS = {
     "crest-jewel": "cjw",
 }
 # The Yoga Vasishtha is opt-in: it would double the library and crowd general answers.
-ADVAITA = [s for s in SOURCES if s not in {"vishnu-purana", "yoga-vasistha"}]
+# The Vivekachudamani scan needs an explicitly installed OCR model, so it is separate.
+ADVAITA = [s for s in SOURCES if s not in {"vishnu-purana", "yoga-vasistha", "vivekachudamani"}]
 
 
 def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
+    if source == "vivekachudamani":
+        from pramana.ingestion.pdf import acquire_public
+
+        return acquire_public(data_dir(), source, archive, offline=offline)
     if source == "yoga-vasistha":
         from pramana.ingestion.gutenberg import acquire
 

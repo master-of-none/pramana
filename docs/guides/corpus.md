@@ -46,6 +46,26 @@ Different editions of the same work (for example Max Müller's Taittirīya and
 Mahadeva Sastri's Ānanda-valli) remain separate documents, and Śaṅkara's and
 Rāmānuja's commentaries on the same sūtra stay distinct.
 
+## Vivekacūḍāmaṇi (Madhavananda, 1921): OCR with Chandra
+
+Swami Madhavananda's 1921 translation (Advaita Ashrama, Mayavati) survives as a scan on
+[archive.org](https://archive.org/details/vivekachudamanio00sankrich), listed as not in
+copyright. Its archive OCR is unusable, so Pramana re-OCRs the pinned PDF locally with
+[Chandra OCR](https://github.com/datalab-to/chandra) on your GPU. Install it explicitly
+(it downloads PyTorch and, on first use, the `datalab-to/chandra-ocr-2` weights; the
+weights are licensed for personal and research use):
+
+```sh
+uv tool install "chandra-ocr[hf]"
+uv run pramana corpus download --source vivekachudamani   # download, then OCR pages 9-260
+uv run pramana ingest PATH-PRINTED-ABOVE
+uv run pramana index
+```
+
+OCR runs in batches of 12 pages with one model load each; finished pages are cached,
+so an interrupted run resumes. Pages 261–264 (index), 265 (errata, not applied) and
+266 are excluded. Records are physical PDF pages, as for the private PDFs.
+
 ## Private PDF books
 
 Three user-supplied PDFs (Chinmayananda's _Holy Geeta_, Alladi Mahadeva Sastry's
