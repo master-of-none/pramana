@@ -24,6 +24,7 @@ const stageLabels: Record<Stage, string> = {
   understanding: "Following the thread of your question…",
   searching: "Searching the texts…",
   composing: "Composing an answer…",
+  checking: "Checking the answer against the passages…",
 };
 type Scope = "all" | "upanishads" | "gita" | "shankara" | "ramanuja";
 type Depth = "brief" | "explain" | "deep";
@@ -38,6 +39,7 @@ type ScopeInfo = { scope: Scope; label: string; documents: number };
 type ChatResponse = {
   perspectives?: unknown;
   evidence?: unknown;
+  check?: { status?: unknown } | null;
   answer: string;
   status: "grounded" | "insufficient_evidence";
 };
@@ -84,6 +86,12 @@ export function Chat({
     "pramana.depth",
     DEPTHS.map(([d]) => d),
     "explain",
+    () => {},
+  );
+  const [check, setCheck] = usePreference<"on" | "off">(
+    "pramana.check",
+    ["on", "off"],
+    "off",
     () => {},
   );
   const [available, setAvailable] = useState<ScopeInfo[]>([]);
@@ -185,6 +193,7 @@ export function Chat({
           history,
           scope: activeScope,
           depth,
+          check: check === "on",
         }),
       });
       if (!response.ok || !response.body) {
@@ -230,6 +239,11 @@ export function Chat({
         answer: result.answer,
         perspectives: views(result.perspectives),
         evidence: evidenceRefs(result.evidence),
+        checked:
+          result.check?.status === "checked" ||
+          result.check?.status === "unavailable"
+            ? result.check.status
+            : undefined,
         error: undefined,
         stage: undefined,
       });
@@ -360,6 +374,13 @@ export function Chat({
                   {turn.state === "complete" && (
                     <>
                       <Answer text={turn.answer!} glossary={glossary} />
+                      {turn.checked && (
+                        <p className={`check-badge ${turn.checked}`}>
+                          {turn.checked === "checked"
+                            ? "Checked against the passages by the same local model"
+                            : "The check could not run for this answer"}
+                        </p>
+                      )}
                       {!!turn.perspectives?.length && (
                         <div className="perspectives">
                           {turn.perspectives.map((p) => (
@@ -473,23 +494,34 @@ export function Chat({
               )}
             </div>
           )}
-          <div
-            className="chip-row depth"
-            role="radiogroup"
-            aria-label="Answer length"
-          >
-            {DEPTHS.map(([d, label]) => (
-              <button
-                key={d}
-                type="button"
-                role="radio"
-                aria-checked={depth === d}
-                className="chip"
-                onClick={() => setDepth(d)}
-              >
-                {label}
-              </button>
-            ))}
+          <div className="chip-row depth">
+            <span
+              role="radiogroup"
+              aria-label="Answer length"
+              className="chip-group"
+            >
+              {DEPTHS.map(([d, label]) => (
+                <button
+                  key={d}
+                  type="button"
+                  role="radio"
+                  aria-checked={depth === d}
+                  className="chip"
+                  onClick={() => setDepth(d)}
+                >
+                  {label}
+                </button>
+              ))}
+            </span>
+            <button
+              type="button"
+              className="chip"
+              aria-pressed={check === "on"}
+              title="A second pass removes sentences the passages do not support. Slower."
+              onClick={() => setCheck(check === "on" ? "off" : "on")}
+            >
+              Check
+            </button>
           </div>
         </div>
         <form className="composer" onSubmit={submit}>

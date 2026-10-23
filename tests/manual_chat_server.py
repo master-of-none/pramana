@@ -2,7 +2,8 @@
 
 Run `uv run python tests/manual_chat_server.py`, then open http://127.0.0.1:8001.
 Ask 'slow' to exercise Stop; ask 'fail' for a retryable error on the first attempt;
-ask 'How do Shankara and Ramanuja differ?' for comparison cards. The Study view has
+ask 'How do Shankara and Ramanuja differ?' for comparison cards; turn on Check to
+see an unsupported sentence removed. The Study view has
 two fixture Brahma Sutra commentaries (open #/study/sutra/1/1/1) with role cues,
 footnotes, page marks and supplementary characters. Chat must still show no
 HIDDEN_* metadata; Study may show it.
@@ -33,6 +34,17 @@ class FixtureProvider:
         if "question" in schema["properties"]:
             return {"question": "How does action relate to understanding?", "document_ids": []}
         payload = json.loads(messages[-1]["content"])
+        if "verdicts" in schema["properties"]:
+            # Claim check: the fixture's sentence about the conversation is not in any passage.
+            return {
+                "verdicts": [
+                    {
+                        "id": s["id"],
+                        "verdict": "unsupported" if "conversation" in s["text"] else "supported",
+                    }
+                    for s in payload["statements"]
+                ]
+            }
         question = payload["question"]
         if "perspectives" in schema["properties"]:
             by_author = {e["author"]: e["id"] for e in payload["evidence"] if e["author"]}

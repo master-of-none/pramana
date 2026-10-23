@@ -1,4 +1,4 @@
-export type Stage = "understanding" | "searching" | "composing";
+export type Stage = "understanding" | "searching" | "composing" | "checking";
 export type View = { thinker: string; view: string };
 // Internal pointers for the Study view's evidence page; never rendered in chat.
 export type EvidenceRef = {
@@ -13,6 +13,7 @@ export type Turn = {
   answer?: string;
   perspectives?: View[];
   evidence?: EvidenceRef[];
+  checked?: "checked" | "unavailable";
   state: "complete" | "pending" | "error" | "cancelled";
   error?: string;
   stage?: Stage;
@@ -97,6 +98,9 @@ export function restore(): Turn[] {
             answer: t.answer,
             perspectives: views(t.perspectives),
             evidence: evidenceRefs(t.evidence),
+            checked: ["checked", "unavailable"].includes(t.checked)
+              ? t.checked
+              : undefined,
             state: "complete",
           } as Turn,
         ];

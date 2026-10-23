@@ -120,6 +120,22 @@ texts. **Brief / Explain / In depth** changes only the length guidance given to 
 model; evidence, validation and the output cap are unchanged. The browser remembers
 both choices in `localStorage`.
 
+## Checking answers
+
+**Check** (off by default; `ChatRequest.check`) adds one more local model call after
+an answer passes validation. The answer and each comparison view are split into
+sentences (list items count as sentences), and the model rates each one
+`supported`, `partly` or `unsupported` against the same passages it answered from.
+Unsupported sentences are removed in place and a note says so; if nothing remains,
+the reply becomes an insufficient-evidence answer. `partly` sentences are kept.
+`ChatResponse.check` reports every verdict. If the check cannot run (too long for the
+context budget, malformed verdicts, or a provider error), the answer is returned
+unchanged with `check.status: "unavailable"`, and the chat says the check did not run.
+
+**This is a filter, not verification.** The same local model judges its own answer,
+so it can miss errors, wrongly remove correct sentences, and repeat a misreading of
+an objection. Its effect on answer quality has not been measured.
+
 ## Study view
 
 **Study** in the header (`#/study`) is where the texts themselves are shown; the chat

@@ -28,7 +28,7 @@ curl http://127.0.0.1:8000/api/chat \
 
 `POST /api/chat/stream` accepts the same request and returns newline-delimited JSON
 (`application/x-ndjson`): zero or more `{"type":"stage","stage":...}` progress events
-(`understanding` for follow-up rewriting, `searching`, `composing`), then one final
+(`understanding` for follow-up rewriting, `searching`, `composing`, `checking`), then one final
 `{"type":"answer", ...ChatResponse}` or `{"type":"error","status":...,"detail":...}`.
 Answer prose is sent only after validation; unchecked model tokens are never streamed.
 The web chat uses this endpoint to show progress.
@@ -36,7 +36,8 @@ The web chat uses this endpoint to show progress.
 `ChatRequest` accepts `message` (1–2,000 characters), up to six completed
 user/assistant exchanges, an optional `scope` (`all`, `upanishads`, `gita`,
 `shankara`, `ramanuja`; an empty scope returns 409) and `depth` (`brief`, `explain`,
-`deep`). History must alternate and end with an assistant. Each
+`deep`), and `check` (default `false`; see
+[checking answers](../guides/chat.md#checking-answers)). History must alternate and end with an assistant. Each
 history message is limited to 6,000 characters. The server retains no conversation.
 For follow-ups, recent bounded history forms a standalone retrieval question;
 previous assistant text is not supplied as evidence to the final answer call.
@@ -54,6 +55,8 @@ or GPU release is controlled by Ollama.
 - `evidence`: internal references, complete supplied passages/citations, and labeled
   retrieval relevance scores for the references used by the answer.
 - `model`: configured answer model name.
+- `check`: present when `check` was requested: `status` (`checked` or
+  `unavailable`), `reason`, `removed`, and per-sentence `{part, text, verdict}`.
 - `perspectives`: for comparisons, one `{thinker, view, evidence}` entry per thinker;
   see [comparing thinkers](../guides/chat.md#comparing-thinkers).
 

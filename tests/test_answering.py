@@ -387,3 +387,51 @@ def test_empty_document_ids_filter_matches_nothing(indexed, embedder):
     retriever = Retriever(indexed, embedder=embedder)
     assert retriever.search("Vishnu", filters=SearchFilters(document_ids=[])) == []
     assert retriever.search("Vishnu", filters=SearchFilters(document_ids=["fixture"]))
+
+
+def test_claim_check_removes_unsupported_sentences(indexed, embedder):
+    from pramana.answering import keep, statements
+
+    retriever = Retriever(indexed, embedder=embedder)
+    answer = "Vishnu preserves the universe. He also invented chess.\n\n- He is eternal."
+    verdicts = {
+        "verdicts": [
+            {"id": 1, "verdict": "supported"},
+            {"id": 2, "verdict": "unsupported"},
+            {"id": 3, "verdict": "partly"},
+        ]
+    }
+    provider = Provider([grounded(answer), verdicts])
+    request = ChatRequest(message="Who preserves the universe?", check=True)
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+    assert "chess" not in result.answer and "Vishnu preserves the universe." in result.answer
+    assert "- He is eternal." in result.answer and "were removed" in result.answer
+    assert result.check.status == "checked" and result.check.removed == 1
+    assert [s.verdict for s in result.check.sentences] == ["supported", "unsupported", "partly"]
+    check_call = json.loads(provider.calls[1][0][-1]["content"])
+    assert [s["text"] for s in check_call["statements"]][1] == "He also invented chess."
+    assert check_call["evidence"] == json.loads(provider.calls[0][0][-1]["content"])["evidence"]
+    assert keep(statements("A b. C d."), set()) == "A b. C d."
+    assert keep(statements("A b. C d.\n\n- E."), {1}) == "A b.\n\n- E."
+    assert statements("It is so. Ānanda is bliss. e.g. this.")[::2] == [
+        "It is so.",
+        "Ānanda is bliss. e.g. this.",
+    ]
+
+    # Malformed or failing checks leave the answer unchanged and say so.
+    for bad in ({"verdicts": [{"id": 1, "verdict": "supported"}]}, AnswerError("down", 503)):
+        provider = Provider([grounded(answer), bad])
+        result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+        assert result.answer == answer and result.check.status == "unavailable"
+
+    # Everything unsupported: no grounded answer remains.
+    provider = Provider(
+        [grounded("He invented chess."), {"verdicts": [{"id": 1, "verdict": "unsupported"}]}]
+    )
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+    assert result.status == "insufficient_evidence" and not result.evidence
+
+    # Off by default: one model call only.
+    provider = Provider([grounded(answer)])
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(ChatRequest(message="Who?")))
+    assert result.check is None and len(provider.calls) == 1

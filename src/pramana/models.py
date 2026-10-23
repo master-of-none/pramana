@@ -171,6 +171,8 @@ class ChatRequest(Record):
     history: list[ChatMessage] = Field(default_factory=list, max_length=12)
     scope: Scope = "all"
     depth: Depth = "explain"
+    # Opt-in second model pass that removes sentences the passages do not support.
+    check: bool = False
 
     @model_validator(mode="after")
     def check_history(self):
@@ -200,10 +202,26 @@ class Perspective(Record):
     evidence: list[str] = Field(default_factory=list)
 
 
+class SentenceCheck(Record):
+    part: str  # "answer" or a perspective's thinker
+    text: str
+    verdict: Literal["supported", "partly", "unsupported"]
+
+
+class CheckReport(Record):
+    """A model's own sentence-level filter; not verification of correctness."""
+
+    status: Literal["checked", "unavailable"]
+    reason: str = ""
+    removed: int = 0
+    sentences: list[SentenceCheck] = Field(default_factory=list)
+
+
 class ChatResponse(Record):
     answer: str
     status: Literal["grounded", "insufficient_evidence"]
     retrieval_question: str
     evidence: list[Evidence] = Field(default_factory=list)
     perspectives: list[Perspective] = Field(default_factory=list)
+    check: CheckReport | None = None
     model: str

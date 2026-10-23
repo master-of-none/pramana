@@ -1674,3 +1674,25 @@ a.chip {
 .role-label[id] {
   scroll-margin-top: 90px;
 }
+.chip-group {
+  display: flex;
+  gap: 6px;
+}
+.chip[aria-pressed="true"] {
+  background: var(--c-717b54);
+  border-color: var(--c-717b54);
+  color: var(--paper);
+}
+.check-badge {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: -4px 0 10px 31px;
+}
+.check-badge.unavailable {
+  color: var(--c-956d50);
+}
+@media (max-width: 760px) {
+  .check-badge {
+    margin-left: 0;
+  }
+}
