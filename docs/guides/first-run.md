@@ -5,7 +5,7 @@ explore and how to fix the usual problems. It assumes you have not used Pramana 
 Every command runs from the repository root.
 
 **What you will end up with:** a local web app at <http://127.0.0.1:8000> that answers
-questions from about twelve public-domain Vedānta editions, a reader for those texts,
+questions from about a dozen public-domain Vedānta editions, a reader for those texts,
 and a command-line tool. Nothing you ask leaves your machine.
 
 ## 1. Check what you need
@@ -216,12 +216,15 @@ Study view shows the passages behind every answer.
 
 ```sh
 uv run ruff check src tests scripts && uv run ruff format --check src tests scripts
-uv run pytest                          # 120 deterministic tests; no downloads or models
+uv run pytest                          # 126 deterministic tests; no downloads or models
 uv run python scripts/check_links.py
 npm --prefix web run typecheck && npm --prefix web test && npm --prefix web run build
 uv run python tests/manual_chat_server.py    # fixture app on :8001, no library or model needed
 ```
 
-Retrieval benchmarks: `uv run pramana evaluate-passages` and `uv run pramana evaluate`;
+Retrieval benchmarks: `uv run pramana evaluate-passages` (add
+`--dataset benchmarks/advaita/v2/questions.json` for the 214-question v2 set) and
+`uv run pramana evaluate`; see [benchmark v2](../../benchmarks/advaita/v2/README.md) for
+the model comparison, routing and answer-level runs;
 regenerate the README charts with `uv run python scripts/plot_benchmarks.py`. See
 [AGENTS.md](../../AGENTS.md) for the project's rules and invariants.

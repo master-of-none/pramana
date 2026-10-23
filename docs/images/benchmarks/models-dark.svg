@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="298" viewBox="0 0 980 298" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">Embedding models on the v2 benchmark</title><desc id="d">Same passages, chunks and keyword index; only the embedding model differs</desc>
+<rect width="980" height="298" rx="10" fill="#1a1a19"/>
+<text x="24" y="30" font-size="17" font-weight="700" fill="#f0efec">Embedding models on the v2 benchmark</text>
+<text x="24" y="48" font-size="12" fill="#c3c2b7">Same passages, chunks and keyword index; only the embedding model differs</text>
+<rect x="24" y="58" width="12" height="12" rx="3" fill="#3987e5"/><text x="42" y="68" font-size="12" fill="#c3c2b7">BGE-small (33M, 384d)</text><rect x="238" y="58" width="12" height="12" rx="3" fill="#d95926"/><text x="256" y="68" font-size="12" fill="#c3c2b7">BGE-base (109M, 768d)</text><rect x="452" y="58" width="12" height="12" rx="3" fill="#199e70"/><text x="470" y="68" font-size="12" fill="#c3c2b7">BGE-large (335M, 1024d)</text>
+<text x="24.0" y="92" font-size="14" font-weight="600" fill="#f0efec">Recall@10</text>
+<line x1="214.0" y1="110" x2="214.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="214.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0</text>
+<line x1="270.5" y1="110" x2="270.5" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="270.5" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.25</text>
+<line x1="327.0" y1="110" x2="327.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="327.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.5</text>
+<line x1="383.5" y1="110" x2="383.5" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="383.5" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.75</text>
+<line x1="440.0" y1="110" x2="440.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="440.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
+<text x="202.0" y="143.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic only</text>
+<path d="M214.0,110 h119.27272727272727 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-119.27272727272727 z" fill="#3987e5"/>
+<text x="343.27272727272725" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.55</text>
+<path d="M214.0,130 h122.12626262626263 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-122.12626262626263 z" fill="#d95926"/>
+<text x="346.12626262626264" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.56</text>
+<path d="M214.0,150 h132.3989898989899 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-132.3989898989899 z" fill="#199e70"/>
+<text x="356.3989898989899" y="163.0" font-size="12" font-weight="600" fill="#f0efec">0.60</text>
+<text x="202.0" y="217.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
+<path d="M214.0,184 h163.21717171717174 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-163.21717171717174 z" fill="#3987e5"/>
+<text x="387.2171717171717" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.74</text>
+<path d="M214.0,204 h166.64141414141415 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-166.64141414141415 z" fill="#d95926"/>
+<text x="390.64141414141415" y="217.0" font-size="12" font-weight="600" fill="#f0efec">0.76</text>
+<path d="M214.0,224 h170.63636363636363 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-170.63636363636363 z" fill="#199e70"/>
+<text x="394.6363636363636" y="237.0" font-size="12" font-weight="600" fill="#f0efec">0.77</text>
+<text x="514.0" y="92" font-size="14" font-weight="600" fill="#f0efec">MRR@10</text>
+<line x1="704.0" y1="110" x2="704.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="704.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0</text>
+<line x1="760.5" y1="110" x2="760.5" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="760.5" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.25</text>
+<line x1="817.0" y1="110" x2="817.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="817.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.5</text>
+<line x1="873.5" y1="110" x2="873.5" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="873.5" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">0.75</text>
+<line x1="930.0" y1="110" x2="930.0" y2="242" stroke="#383835" stroke-width="1"/>
+<text x="930.0" y="260" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
+<text x="692.0" y="143.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic only</text>
+<path d="M704.0,110 h81.97430254930254 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-81.97430254930254 z" fill="#3987e5"/>
+<text x="795.9743025493026" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.38</text>
+<path d="M704.0,130 h82.0436026936027 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-82.0436026936027 z" fill="#d95926"/>
+<text x="796.0436026936027" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.38</text>
+<path d="M704.0,150 h97.66648228314895 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-97.66648228314895 z" fill="#199e70"/>
+<text x="811.666482283149" y="163.0" font-size="12" font-weight="600" fill="#f0efec">0.45</text>
+<text x="692.0" y="217.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
+<path d="M704.0,184 h119.86155202821868 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-119.86155202821868 z" fill="#3987e5"/>
+<text x="833.8615520282187" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.55</text>
+<path d="M704.0,204 h112.28835978835978 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-112.28835978835978 z" fill="#d95926"/>
+<text x="826.2883597883598" y="217.0" font-size="12" font-weight="600" fill="#f0efec">0.51</text>
+<path d="M704.0,224 h124.55448532948532 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-124.55448532948532 z" fill="#199e70"/>
+<text x="838.5544853294853" y="237.0" font-size="12" font-weight="600" fill="#f0efec">0.57</text>
+</svg>

@@ -66,6 +66,13 @@ class Store:
             raise KeyError(passage_id)
         return Passage.model_validate_json(row[0])
 
+    def passages_for(self, chapter_id: str) -> list[Passage]:
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT data FROM passages WHERE chapter_id=? ORDER BY id", (chapter_id,)
+            ).fetchall()
+        return [Passage.model_validate_json(row[0]) for row in rows]
+
     def get_meta(self, key: str):
         with self.connect() as db:
             row = db.execute("SELECT value FROM meta WHERE key=?", (key,)).fetchone()

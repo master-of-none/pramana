@@ -220,6 +220,57 @@ def evaluate_passages(
         fail(exc)
 
 
+@app.command("evaluate-answers")
+def evaluate_answers(
+    dataset: Path = Path("benchmarks/advaita/v2/questions.json"),
+    output: Path = Path("benchmarks/advaita/v2/answers.json"),
+    split: str | None = None,
+    limit: int | None = None,
+    check: bool = False,
+    route_only: bool = False,
+):
+    """Answer-level evaluation with the local Ollama model (slow; resumable).
+
+    --route-only runs just the short routing call per question (fast) and writes
+    routing.json beside the output.
+    """
+    import asyncio
+
+    from pramana.answering import Answerer
+    from pramana.evaluation import evaluate_answers as run
+    from pramana.evaluation import evaluate_routing
+
+    partial = output.with_suffix(".partial.jsonl")
+    if route_only:
+        try:
+            result = asyncio.run(evaluate_routing(Answerer(Retriever(Corpus())), dataset))
+            target = output.with_name("routing.json")
+            target.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", "utf-8")
+            summary = {k: v for k, v in result.items() if k not in ("details",)}
+            typer.echo(json.dumps(summary, indent=2, ensure_ascii=False))
+        except (PramanaError, OSError) as exc:
+            fail(exc)
+        return
+    try:
+        result = asyncio.run(
+            run(
+                Answerer(Retriever(Corpus())),
+                dataset,
+                split=split,
+                limit=limit,
+                check=check,
+                partial=partial,
+                progress=typer.echo,
+            )
+        )
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", "utf-8")
+        partial.unlink(missing_ok=True)
+        typer.echo(json.dumps(result["overall"], indent=2))
+    except (PramanaError, OSError) as exc:
+        fail(exc)
+
+
 @app.command()
 def serve(port: int = 8000):
     """Serve the API and compiled reader on localhost."""

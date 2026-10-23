@@ -230,6 +230,15 @@ wheel serves its compiled reader and API without relying on editable source path
   pinned single-text adapter.
 - [x] **Yoga Vāsiṣṭha** (October 2026, opt-in): Mitra's translation from seven Gutenberg
   volumes; excluded from "All texts" because it measurably crowds retrieval.
+- [x] **Madhavananda's Vivekacūḍāmaṇi** (October 2026): the 1921 scan OCRed locally
+  with Chandra; English translation and notes kept, Sanskrit verses left out after
+  Devanagari spot checks.
+- [x] **Benchmark v2** (October 2026): 214 AI-drafted, unreviewed questions over every
+  text, six types, per-type/per-text/failure breakdowns, an embedding model comparison
+  (BGE-large best, not adopted), an HTML report. **Human review and the answer-level run
+  remain.**
+- [x] **Off-topic routing** (October 2026): a short model call declines questions about
+  other fields before search; tuned on the v2 set.
 - **More texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the

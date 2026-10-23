@@ -16,15 +16,15 @@
 <line x1="440.0" y1="110" x2="440.0" y2="256" stroke="#383835" stroke-width="1"/>
 <text x="440.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
 <text x="202.0" y="133.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
-<path d="M214.0,110 h146.66666666666666 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-146.66666666666666 z" fill="#3987e5"/>
-<text x="370.66666666666663" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.67</text>
+<path d="M214.0,110 h131.6 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-131.6 z" fill="#3987e5"/>
+<text x="355.6" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.60</text>
 <path d="M214.0,130 h142.9 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-142.9 z" fill="#d95926"/>
 <text x="366.9" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.65</text>
 <text x="202.0" y="187.0" font-size="13" text-anchor="end" fill="#f0efec">Keyword (BM25)</text>
 <path d="M214.0,164 h124.06666666666666 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-124.06666666666666 z" fill="#3987e5"/>
 <text x="348.06666666666666" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.57</text>
-<path d="M214.0,184 h142.9 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-142.9 z" fill="#d95926"/>
-<text x="366.9" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.65</text>
+<path d="M214.0,184 h120.30000000000001 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-120.30000000000001 z" fill="#d95926"/>
+<text x="344.3" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.55</text>
 <text x="202.0" y="241.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic (BGE-small)</text>
 <path d="M214.0,218 h86.4 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-86.4 z" fill="#3987e5"/>
 <text x="310.4" y="231.0" font-size="12" font-weight="600" fill="#f0efec">0.40</text>
@@ -42,18 +42,18 @@
 <line x1="930.0" y1="110" x2="930.0" y2="256" stroke="#383835" stroke-width="1"/>
 <text x="930.0" y="274" font-size="11" text-anchor="middle" fill="#c3c2b7">1</text>
 <text x="692.0" y="133.0" font-size="13" text-anchor="end" fill="#f0efec">Hybrid (chat default)</text>
-<path d="M704.0,110 h89.01275132275133 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-89.01275132275133 z" fill="#3987e5"/>
-<text x="803.0127513227513" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.41</text>
-<path d="M704.0,130 h116.53333333333333 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-116.53333333333333 z" fill="#d95926"/>
-<text x="830.5333333333333" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.53</text>
+<path d="M704.0,110 h87.30878306878307 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-87.30878306878307 z" fill="#3987e5"/>
+<text x="801.3087830687831" y="123.0" font-size="12" font-weight="600" fill="#f0efec">0.40</text>
+<path d="M704.0,130 h112.29583333333332 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-112.29583333333332 z" fill="#d95926"/>
+<text x="826.2958333333333" y="143.0" font-size="12" font-weight="600" fill="#f0efec">0.51</text>
 <text x="692.0" y="187.0" font-size="13" text-anchor="end" fill="#f0efec">Keyword (BM25)</text>
-<path d="M704.0,164 h85.42544973544973 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-85.42544973544973 z" fill="#3987e5"/>
-<text x="799.4254497354498" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.40</text>
-<path d="M704.0,184 h79.3375 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-79.3375 z" fill="#d95926"/>
-<text x="793.3375" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.37</text>
+<path d="M704.0,164 h88.48960317460318 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-88.48960317460318 z" fill="#3987e5"/>
+<text x="802.4896031746032" y="177.0" font-size="12" font-weight="600" fill="#f0efec">0.41</text>
+<path d="M704.0,184 h75.30178571428573 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-75.30178571428573 z" fill="#d95926"/>
+<text x="789.3017857142858" y="197.0" font-size="12" font-weight="600" fill="#f0efec">0.35</text>
 <text x="692.0" y="241.0" font-size="13" text-anchor="end" fill="#f0efec">Semantic (BGE-small)</text>
-<path d="M704.0,218 h72.58888888888887 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-72.58888888888887 z" fill="#3987e5"/>
-<text x="786.5888888888888" y="231.0" font-size="12" font-weight="600" fill="#f0efec">0.34</text>
+<path d="M704.0,218 h71.96111111111112 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-71.96111111111112 z" fill="#3987e5"/>
+<text x="785.9611111111111" y="231.0" font-size="12" font-weight="600" fill="#f0efec">0.34</text>
 <path d="M704.0,238 h71.33333333333334 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-71.33333333333334 z" fill="#d95926"/>
 <text x="785.3333333333334" y="251.0" font-size="12" font-weight="600" fill="#f0efec">0.33</text>
 </svg>

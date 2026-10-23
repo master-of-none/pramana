@@ -114,3 +114,106 @@ def test_any_match_counts_one_of_several_alternatives(indexed, embedder, tmp_pat
         assert row["recall_at_10"] == expected
     with pytest.raises(PramanaError, match="match mode"):
         evaluate_passages(retriever, write(tmp_path, [{**base, "match": "some"}]))
+
+
+def test_typed_dataset_reports_breakdowns_followups_and_probes(indexed, embedder, tmp_path):
+    chapter = next(c for c in indexed.store.chapters() if "preserves" in c.text)
+    gold = [gold_for(chapter, "Vishnu preserves the universe.")]
+    base = {"split": "dev", "gold": gold, "text": "Fixture", "scope": "all"}
+    questions = [
+        {**base, "id": "a1", "type": "fact", "query": "Who preserves the universe?"},
+        {**base, "id": "a2", "type": "concept", "query": "cattle mountain shelter"},
+        {
+            **base,
+            "id": "a3",
+            "type": "followup",
+            "query": "And what does he do?",
+            "standalone": "What does Vishnu do to the universe? preserves",
+            "history": [{"role": "user", "content": "Who is Vishnu?"}],
+        },
+        {"id": "o1", "split": "dev", "type": "out_of_corpus", "query": "Kubernetes ingress"},
+    ]
+    report = evaluate_passages(Retriever(indexed, embedder=embedder), write(tmp_path, questions))
+    assert report["questions"] == 3 and report["uncontainable_spans"] == []
+    lexical = report["strategies"]["lexical"]
+    assert set(lexical["by_type"]) == {"fact", "concept", "followup"}
+    assert lexical["by_text"]["Fixture"]["questions"] == 3
+    assert lexical["followup_rewritten"]["recall_at_10"] == 1  # the standalone rewrite
+    assert "followup_raw" in lexical
+    miss = next(r for r in lexical["details"] if r["id"] == "a2")
+    assert miss["recall_at_10"] == 0
+    kinds = {"right chapter, other passage", "right work, other chapter", "other work"}
+    assert miss["miss"] in kinds
+    assert sum(lexical["failure_depth"].values()) == len(lexical["failures"])
+    assert report["out_of_corpus"][0]["id"] == "o1"
+
+
+def test_answer_evaluation_scores_status_citations_and_resumes(indexed, embedder, tmp_path):
+    import asyncio
+
+    from pramana.evaluation import evaluate_answers
+    from pramana.models import ChatResponse, Evidence
+
+    chapter = next(c for c in indexed.store.chapters() if "preserves" in c.text)
+    retriever = Retriever(indexed, embedder=embedder)
+
+    class Fake:
+        provider = type("P", (), {"model": "fake-model"})()
+
+        def __init__(self):
+            self.retriever, self.calls = retriever, 0
+
+        async def answer(self, request):
+            self.calls += 1
+            if "Kubernetes" in request.message:
+                return ChatResponse(
+                    answer="Not in the library.",
+                    status="insufficient_evidence",
+                    retrieval_question=request.message,
+                    model="fake-model",
+                )
+            hit = retriever.search(request.message, strategy="lexical")[0]
+            return ChatResponse(
+                answer="Vishnu preserves it.",
+                status="grounded",
+                retrieval_question=request.message,
+                model="fake-model",
+                evidence=[
+                    Evidence(
+                        reference="E1",
+                        passage=hit.passage,
+                        retrieval_relevance=1.0,
+                        score_kind="bm25",
+                    )
+                ],
+            )
+
+    gold = [gold_for(chapter, "Vishnu preserves the universe.")]
+    questions = [
+        {
+            "id": "a1",
+            "split": "dev",
+            "type": "fact",
+            "text": "Fixture",
+            "expect": "grounded",
+            "query": "Who preserves the universe?",
+            "gold": gold,
+        },
+        {
+            "id": "o1",
+            "split": "heldout",
+            "type": "out_of_corpus",
+            "text": "Out of corpus",
+            "expect": "insufficient_evidence",
+            "query": "Kubernetes ingress",
+        },
+    ]
+    path, partial = write(tmp_path, questions), tmp_path / "answers.partial.jsonl"
+    fake = Fake()
+    report = asyncio.run(evaluate_answers(fake, path, partial=partial))
+    assert report["model"] == "fake-model" and fake.calls == 2
+    assert report["overall"]["status_accuracy"] == 1 and report["overall"]["gold_cited"] == 1
+    assert report["overall"]["refused_when_out_of_corpus"] == 1
+    assert report["by_type"]["fact"]["questions"] == 1
+    again = asyncio.run(evaluate_answers(fake, path, partial=partial))
+    assert fake.calls == 2 and again["overall"] == report["overall"]  # resumed, no new calls

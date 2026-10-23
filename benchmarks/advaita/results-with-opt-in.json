@@ -250,21 +250,22 @@
       "source_checksum": "3220df270f05f454d4e56fbf2b7e167908e26f9e40d9453c797787fd31fa0765"
     }
   ],
+  "uncontainable_spans": [],
   "strategies": {
     "lexical": {
       "all": {
-        "recall_at_10": 0.56,
-        "mrr_at_10": 0.3632698412698413,
+        "recall_at_10": 0.54,
+        "mrr_at_10": 0.3674920634920635,
         "questions": 50
       },
       "dev": {
         "recall_at_10": 0.5666666666666667,
-        "mrr_at_10": 0.37596560846560845,
+        "mrr_at_10": 0.3907275132275132,
         "questions": 30
       },
       "heldout": {
-        "recall_at_10": 0.55,
-        "mrr_at_10": 0.34422619047619046,
+        "recall_at_10": 0.5,
+        "mrr_at_10": 0.3326388888888889,
         "questions": 20
       },
       "failures": [
@@ -274,10 +275,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0254",
             "Vajrasūchi-Upanishaḍ 1.1",
-            "Direct Realisation 1.1",
-            "Aitareya Aranyaka 2.4"
-          ]
+            "Direct Realisation 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-003",
@@ -285,10 +288,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Sribhashya (Brahma Sutra commentary) 1.3",
-            "Brihadaranyaka Upanishad 3.9"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0191",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0052",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0252"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-004",
@@ -298,8 +303,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 1.4",
-            "The Century of Verses 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0115"
+          ],
+          "best_rank_at_50": 18,
+          "miss": "other work"
         },
         {
           "id": "adv-005",
@@ -307,10 +314,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Century of Verses 1.1",
-            "Brihadaranyaka Upanishad 2.5",
-            "Prasna Upanishad 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0139",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0104",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0105"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -318,10 +327,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Katha Upanishad 2.6",
-            "Sribhashya (Brahma Sutra commentary) 1.3"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0077",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -329,10 +340,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0075",
             "Katha Upanishad 1.1",
-            "Brahma Sutra Bhashya 4.3",
             "Kaushitaki Upanishad 1.2"
-          ]
+          ],
+          "best_rank_at_50": 24,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -340,10 +353,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Bhagavad Gita 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-012",
@@ -353,8 +368,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.2",
             "Brahma Sutra Bhashya 4.3",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0254"
+          ],
+          "best_rank_at_50": 21,
+          "miss": "other work"
         },
         {
           "id": "adv-013",
@@ -364,8 +381,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.3",
             "Kaushitaki Upanishad 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": 41,
+          "miss": "other work"
         },
         {
           "id": "adv-015",
@@ -373,10 +392,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0061",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "The Century of Verses 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-017",
@@ -384,10 +405,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1",
-            "Yoga Vasishtha Maharamayana 3.55"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0049",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0051"
+          ],
+          "best_rank_at_50": 27,
+          "miss": "other work"
         },
         {
           "id": "adv-019",
@@ -395,10 +418,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0152",
             "Brahma Sutra Bhashya 4.1",
-            "Sribhashya (Brahma Sutra commentary) 2.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 2.3"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -409,7 +434,9 @@
             "Yogaṭaṭṭva-Upanishaḍ 1.1",
             "Paiṅgala-Upanishaḍ 1.1",
             "Naraḍaparivrājaka-Upanishaḍ 1.1"
-          ]
+          ],
+          "best_rank_at_50": 16,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -420,7 +447,9 @@
             "Hymn to Hari 1.1",
             "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2",
             "Hymn to Hari 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-022",
@@ -431,7 +460,9 @@
             "Yoga Vasishtha Maharamayana 3.118",
             "Yoga Vasishtha Maharamayana 3.1",
             "Yogaṭaṭṭva-Upanishaḍ 1.1"
-          ]
+          ],
+          "best_rank_at_50": 12,
+          "miss": "other work"
         },
         {
           "id": "adv-023",
@@ -439,10 +470,25 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0116",
             "Brahma-Knowledge 1.15",
-            "Paiṅgala-Upanishaḍ 1.1",
-            "Yoga Vasishtha Maharamayana 3.118"
-          ]
+            "Paiṅgala-Upanishaḍ 1.1"
+          ],
+          "best_rank_at_50": 38,
+          "miss": "other work"
+        },
+        {
+          "id": "adv-024",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "The Century of Verses 1.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0227",
+            "The Century of Verses 1.1"
+          ],
+          "best_rank_at_50": 15,
+          "miss": "other work"
         },
         {
           "id": "adv-035",
@@ -452,8 +498,10 @@
           "top": [
             "Yoga Vasishtha Maharamayana 3.118",
             "Sribhashya (Brahma Sutra commentary) 3.1",
-            "Brahma-Knowledge 1.27"
-          ]
+            "Brahma Sutra Bhashya 3.4"
+          ],
+          "best_rank_at_50": 25,
+          "miss": "other work"
         },
         {
           "id": "adv-036",
@@ -461,10 +509,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 3.2",
-            "Sribhashya (Brahma Sutra commentary) 2.2"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0256",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0211",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-042",
@@ -473,9 +523,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Varāha-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 2.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0256",
+            "Varāha-Upanishaḍ 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-045",
@@ -486,7 +538,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-047",
@@ -497,7 +551,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -505,10 +561,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 3.7",
-            "The Ten-versed Hymn 1.1",
-            "Brahma-Knowledge 1.19"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0137",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0034",
+            "The Ten-versed Hymn 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         }
       ],
       "details": [
@@ -516,11 +574,11 @@
           "id": "adv-001",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.2,
+          "reciprocal_rank": 0.125,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0117",
             "Chandogya Upanishad 6.1",
-            "Brahma Sutra Bhashya 1.1",
-            "Kaushitaki Upanishad 1.1"
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
@@ -529,10 +587,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0254",
             "Vajrasūchi-Upanishaḍ 1.1",
-            "Direct Realisation 1.1",
-            "Aitareya Aranyaka 2.4"
-          ]
+            "Direct Realisation 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-003",
@@ -540,10 +600,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Sribhashya (Brahma Sutra commentary) 1.3",
-            "Brihadaranyaka Upanishad 3.9"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0191",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0052",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0252"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-004",
@@ -553,8 +615,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 1.4",
-            "The Century of Verses 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0115"
+          ],
+          "best_rank_at_50": 18,
+          "miss": "other work"
         },
         {
           "id": "adv-005",
@@ -562,10 +626,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Century of Verses 1.1",
-            "Brihadaranyaka Upanishad 2.5",
-            "Prasna Upanishad 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0139",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0104",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0105"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -573,10 +639,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Katha Upanishad 2.6",
-            "Sribhashya (Brahma Sutra commentary) 1.3"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0077",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -584,10 +652,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0075",
             "Katha Upanishad 1.1",
-            "Brahma Sutra Bhashya 4.3",
             "Kaushitaki Upanishad 1.2"
-          ]
+          ],
+          "best_rank_at_50": 24,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -595,10 +665,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "Bhagavad Gita 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Sribhashya (Brahma Sutra commentary) 1.4",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-009",
@@ -607,8 +679,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Katha Upanishad 1.2",
-            "Brihadaranyaka Upanishad 2.5",
-            "Sribhashya (Brahma Sutra commentary) 3.2"
+            "Sribhashya (Brahma Sutra commentary) 3.2",
+            "Mundaka Upanishad 3.2"
           ]
         },
         {
@@ -641,8 +713,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.2",
             "Brahma Sutra Bhashya 4.3",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0254"
+          ],
+          "best_rank_at_50": 21,
+          "miss": "other work"
         },
         {
           "id": "adv-013",
@@ -652,8 +726,10 @@
           "top": [
             "Brahma Sutra Bhashya 4.3",
             "Kaushitaki Upanishad 1.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106"
+          ],
+          "best_rank_at_50": 41,
+          "miss": "other work"
         },
         {
           "id": "adv-014",
@@ -663,7 +739,7 @@
           "top": [
             "Kena Upanishad 1.1",
             "Brahma Sutra Bhashya 1.4",
-            "Brahma-Knowledge 1.16"
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0211"
           ]
         },
         {
@@ -672,10 +748,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0061",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "The Century of Verses 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-016",
@@ -694,10 +772,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1",
-            "Yoga Vasishtha Maharamayana 3.55"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0049",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0051"
+          ],
+          "best_rank_at_50": 27,
+          "miss": "other work"
         },
         {
           "id": "adv-018",
@@ -716,10 +796,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0152",
             "Brahma Sutra Bhashya 4.1",
-            "Sribhashya (Brahma Sutra commentary) 2.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 2.3"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -730,7 +812,9 @@
             "Yogaṭaṭṭva-Upanishaḍ 1.1",
             "Paiṅgala-Upanishaḍ 1.1",
             "Naraḍaparivrājaka-Upanishaḍ 1.1"
-          ]
+          ],
+          "best_rank_at_50": 16,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -741,7 +825,9 @@
             "Hymn to Hari 1.1",
             "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2",
             "Hymn to Hari 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-022",
@@ -752,7 +838,9 @@
             "Yoga Vasishtha Maharamayana 3.118",
             "Yoga Vasishtha Maharamayana 3.1",
             "Yogaṭaṭṭva-Upanishaḍ 1.1"
-          ]
+          ],
+          "best_rank_at_50": 12,
+          "miss": "other work"
         },
         {
           "id": "adv-023",
@@ -760,21 +848,25 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0116",
             "Brahma-Knowledge 1.15",
-            "Paiṅgala-Upanishaḍ 1.1",
-            "Yoga Vasishtha Maharamayana 3.118"
-          ]
+            "Paiṅgala-Upanishaḍ 1.1"
+          ],
+          "best_rank_at_50": 38,
+          "miss": "other work"
         },
         {
           "id": "adv-024",
           "split": "heldout",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.2,
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brihadaranyaka Upanishad 2.5",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0227",
             "The Century of Verses 1.1"
-          ]
+          ],
+          "best_rank_at_50": 15,
+          "miss": "other work"
         },
         {
           "id": "adv-025",
@@ -791,7 +883,7 @@
           "id": "adv-026",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.5,
+          "reciprocal_rank": 1.0,
           "top": [
             "Direct Realisation 1.1",
             "Direct Realisation 1.1",
@@ -839,7 +931,7 @@
           "top": [
             "Brahma-Knowledge 1.19",
             "Definition of One's Own Self 1.1",
-            "Brahma Sutra Bhashya 1.1"
+            "Brahma-Knowledge 1.19"
           ]
         },
         {
@@ -849,8 +941,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Brahma-Knowledge 2.44",
-            "Brihadaranyaka Upanishad 2.5",
-            "Katha Upanishad 2.6"
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0049",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0020"
           ]
         },
         {
@@ -868,7 +960,7 @@
           "id": "adv-033",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.1111111111111111,
+          "reciprocal_rank": 0.14285714285714285,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.1",
@@ -894,8 +986,10 @@
           "top": [
             "Yoga Vasishtha Maharamayana 3.118",
             "Sribhashya (Brahma Sutra commentary) 3.1",
-            "Brahma-Knowledge 1.27"
-          ]
+            "Brahma Sutra Bhashya 3.4"
+          ],
+          "best_rank_at_50": 25,
+          "miss": "other work"
         },
         {
           "id": "adv-036",
@@ -903,10 +997,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 3.2",
-            "Sribhashya (Brahma Sutra commentary) 2.2"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0256",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0211",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-037",
@@ -915,7 +1011,7 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Brahma Sutra Bhashya 4.3",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0250",
             "Sribhashya (Brahma Sutra commentary) 4.4"
           ]
         },
@@ -970,9 +1066,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Varāha-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 2.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0256",
+            "Varāha-Upanishaḍ 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-043",
@@ -989,11 +1087,11 @@
           "id": "adv-044",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.14285714285714285,
+          "reciprocal_rank": 0.1111111111111111,
           "top": [
-            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0155",
             "Brahma Sutra Bhashya 3.2",
-            "Yoga Vasishtha Maharamayana 3.57"
+            "Sribhashya (Brahma Sutra commentary) 2.1"
           ]
         },
         {
@@ -1005,7 +1103,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-046",
@@ -1027,7 +1127,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -1035,10 +1137,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Yoga Vasishtha Maharamayana 3.7",
-            "The Ten-versed Hymn 1.1",
-            "Brahma-Knowledge 1.19"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0137",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0034",
+            "The Ten-versed Hymn 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-049",
@@ -1047,19 +1151,19 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 4.2",
-            "Brahma Sutra Bhashya 4.2"
+            "Brahma Sutra Bhashya 4.2",
+            "Sribhashya (Brahma Sutra commentary) 4.2"
           ]
         },
         {
           "id": "adv-050",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.125,
+          "reciprocal_rank": 0.1111111111111111,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 2.1",
-            "Brahma Sutra Bhashya 4.4",
-            "Yoga Vasishtha Maharamayana 5.2"
+            "Yoga Vasishtha Maharamayana 5.2",
+            "Sribhashya (Brahma Sutra commentary) 2.1"
           ]
         }
       ]
@@ -1090,7 +1194,9 @@
             "Yoga Vasishtha Maharamayana 5.51",
             "Yoga Vasishtha Maharamayana 5.53",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-003",
@@ -1101,7 +1207,9 @@
             "Brahma Sutra Bhashya 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-004",
@@ -1112,7 +1220,9 @@
             "Mundaka Upanishad 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": 30,
+          "miss": "other work"
         },
         {
           "id": "adv-005",
@@ -1123,7 +1233,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -1134,7 +1246,9 @@
             "The Century of Verses 1.1",
             "The Awakening to the Self (Atma Bodha) 1.1",
             "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -1145,7 +1259,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Sribhashya (Brahma Sutra commentary) 2.3",
             "Sribhashya (Brahma Sutra commentary) 1.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -1156,7 +1272,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Yoga Vasishtha Maharamayana 5.34",
             "Yoga Vasishtha Maharamayana 4.10"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-010",
@@ -1167,7 +1285,9 @@
             "Yoga Vasishtha Maharamayana 6.2.117",
             "Yoga Vasishtha Maharamayana 6.1.15",
             "Yoga Vasishtha Maharamayana 6.1.15"
-          ]
+          ],
+          "best_rank_at_50": 24,
+          "miss": "other work"
         },
         {
           "id": "adv-015",
@@ -1178,7 +1298,9 @@
             "Knowledge of Self 1.1",
             "Yoga Vasishtha Maharamayana 6.2.22",
             "Yoga Vasishtha Maharamayana 3.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-017",
@@ -1189,7 +1311,9 @@
             "Brahma Sutra Bhashya 2.3",
             "Brahma Sutra Bhashya 2.4",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": 13,
+          "miss": "other work"
         },
         {
           "id": "adv-018",
@@ -1200,7 +1324,9 @@
             "Isa Upanishad 1.1",
             "Brahma Sutra Bhashya 3.4",
             "Sribhashya (Brahma Sutra commentary) 3.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-019",
@@ -1211,7 +1337,9 @@
             "Yoga Vasishtha Maharamayana 6.2.37",
             "Ṭejobinḍu-Upanishaḍ 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -1222,7 +1350,9 @@
             "Brahma Sutra Bhashya 3.3",
             "Brahma Sutra Bhashya 4.1",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -1233,7 +1363,9 @@
             "Yoga Vasishtha Maharamayana 6.1.123",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-023",
@@ -1244,7 +1376,9 @@
             "Vishnu Purana 1.9",
             "Yoga Vasishtha Maharamayana 5.72",
             "Yoga Vasishtha Maharamayana 6.1.11"
-          ]
+          ],
+          "best_rank_at_50": 33,
+          "miss": "other work"
         },
         {
           "id": "adv-024",
@@ -1255,7 +1389,9 @@
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 3.2",
             "Yoga Vasishtha Maharamayana 3.21"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-027",
@@ -1266,7 +1402,9 @@
             "Yoga Vasishtha Maharamayana 5.76",
             "Yoga Vasishtha Maharamayana 5.15",
             "Yoga Vasishtha Maharamayana 6.1.51"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-029",
@@ -1277,7 +1415,9 @@
             "Nāḍabinḍu-Upanishaḍ 1.1",
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 2.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-034",
@@ -1286,9 +1426,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Yoga Vasishtha Maharamayana 6.2.21",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Brahma Sutra Bhashya 1.4",
+            "Yoga Vasishtha Maharamayana 6.2.21"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-035",
@@ -1299,7 +1441,9 @@
             "Brahma Sutra Bhashya 1.1",
             "Brahma Sutra Bhashya 4.1",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": 11,
+          "miss": "right chapter, other passage"
         },
         {
           "id": "adv-036",
@@ -1310,7 +1454,9 @@
             "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-038",
@@ -1321,7 +1467,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 1.4"
-          ]
+          ],
+          "best_rank_at_50": 13,
+          "miss": "other work"
         },
         {
           "id": "adv-040",
@@ -1332,7 +1480,9 @@
             "Brahma Sutra Bhashya 3.2",
             "Brahma Sutra Bhashya 3.2",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": 31,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-041",
@@ -1343,7 +1493,9 @@
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 3.2"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-042",
@@ -1354,7 +1506,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 1.2",
             "Sribhashya (Brahma Sutra commentary) 1.2"
-          ]
+          ],
+          "best_rank_at_50": 16,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-044",
@@ -1365,7 +1519,9 @@
             "Yoga Vasishtha Maharamayana 3.121",
             "Yoga Vasishtha Maharamayana 6.2.190",
             "Yoga Vasishtha Maharamayana 6.1.52"
-          ]
+          ],
+          "best_rank_at_50": 11,
+          "miss": "other work"
         },
         {
           "id": "adv-045",
@@ -1376,7 +1532,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
             "Yoga Vasishtha Maharamayana 6.1.128"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right chapter, other passage"
         },
         {
           "id": "adv-047",
@@ -1387,7 +1545,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 2.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -1398,7 +1558,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.2",
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma-Knowledge 1.7"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-049",
@@ -1409,7 +1571,9 @@
             "Sribhashya (Brahma Sutra commentary) 4.2",
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": 18,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-050",
@@ -1420,7 +1584,9 @@
             "Sribhashya (Brahma Sutra commentary) 4.4",
             "Sribhashya (Brahma Sutra commentary) 4.4",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": 41,
+          "miss": "right work, other chapter"
         }
       ],
       "details": [
@@ -1433,7 +1599,9 @@
             "Yoga Vasishtha Maharamayana 5.51",
             "Yoga Vasishtha Maharamayana 5.53",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-002",
@@ -1455,7 +1623,9 @@
             "Brahma Sutra Bhashya 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-004",
@@ -1466,7 +1636,9 @@
             "Mundaka Upanishad 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": 30,
+          "miss": "other work"
         },
         {
           "id": "adv-005",
@@ -1477,7 +1649,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -1488,7 +1662,9 @@
             "The Century of Verses 1.1",
             "The Awakening to the Self (Atma Bodha) 1.1",
             "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -1499,7 +1675,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Sribhashya (Brahma Sutra commentary) 2.3",
             "Sribhashya (Brahma Sutra commentary) 1.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -1510,7 +1688,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Yoga Vasishtha Maharamayana 5.34",
             "Yoga Vasishtha Maharamayana 4.10"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-009",
@@ -1532,7 +1712,9 @@
             "Yoga Vasishtha Maharamayana 6.2.117",
             "Yoga Vasishtha Maharamayana 6.1.15",
             "Yoga Vasishtha Maharamayana 6.1.15"
-          ]
+          ],
+          "best_rank_at_50": 24,
+          "miss": "other work"
         },
         {
           "id": "adv-011",
@@ -1587,7 +1769,9 @@
             "Knowledge of Self 1.1",
             "Yoga Vasishtha Maharamayana 6.2.22",
             "Yoga Vasishtha Maharamayana 3.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-016",
@@ -1609,7 +1793,9 @@
             "Brahma Sutra Bhashya 2.3",
             "Brahma Sutra Bhashya 2.4",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": 13,
+          "miss": "other work"
         },
         {
           "id": "adv-018",
@@ -1620,7 +1806,9 @@
             "Isa Upanishad 1.1",
             "Brahma Sutra Bhashya 3.4",
             "Sribhashya (Brahma Sutra commentary) 3.4"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-019",
@@ -1631,7 +1819,9 @@
             "Yoga Vasishtha Maharamayana 6.2.37",
             "Ṭejobinḍu-Upanishaḍ 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -1642,7 +1832,9 @@
             "Brahma Sutra Bhashya 3.3",
             "Brahma Sutra Bhashya 4.1",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -1653,7 +1845,9 @@
             "Yoga Vasishtha Maharamayana 6.1.123",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-022",
@@ -1675,7 +1869,9 @@
             "Vishnu Purana 1.9",
             "Yoga Vasishtha Maharamayana 5.72",
             "Yoga Vasishtha Maharamayana 6.1.11"
-          ]
+          ],
+          "best_rank_at_50": 33,
+          "miss": "other work"
         },
         {
           "id": "adv-024",
@@ -1686,7 +1882,9 @@
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 3.2",
             "Yoga Vasishtha Maharamayana 3.21"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-025",
@@ -1719,7 +1917,9 @@
             "Yoga Vasishtha Maharamayana 5.76",
             "Yoga Vasishtha Maharamayana 5.15",
             "Yoga Vasishtha Maharamayana 6.1.51"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-028",
@@ -1741,7 +1941,9 @@
             "Nāḍabinḍu-Upanishaḍ 1.1",
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 2.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-030",
@@ -1794,9 +1996,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Yoga Vasishtha Maharamayana 6.2.21",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Brahma Sutra Bhashya 1.4",
+            "Yoga Vasishtha Maharamayana 6.2.21"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-035",
@@ -1807,7 +2011,9 @@
             "Brahma Sutra Bhashya 1.1",
             "Brahma Sutra Bhashya 4.1",
             "Brahma Sutra Bhashya 1.1"
-          ]
+          ],
+          "best_rank_at_50": 11,
+          "miss": "right chapter, other passage"
         },
         {
           "id": "adv-036",
@@ -1818,7 +2024,9 @@
             "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-037",
@@ -1840,7 +2048,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 1.4"
-          ]
+          ],
+          "best_rank_at_50": 13,
+          "miss": "other work"
         },
         {
           "id": "adv-039",
@@ -1862,7 +2072,9 @@
             "Brahma Sutra Bhashya 3.2",
             "Brahma Sutra Bhashya 3.2",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": 31,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-041",
@@ -1873,7 +2085,9 @@
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 4.3",
             "Brahma Sutra Bhashya 3.2"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-042",
@@ -1884,7 +2098,9 @@
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Brahma Sutra Bhashya 1.2",
             "Sribhashya (Brahma Sutra commentary) 1.2"
-          ]
+          ],
+          "best_rank_at_50": 16,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-043",
@@ -1906,7 +2122,9 @@
             "Yoga Vasishtha Maharamayana 3.121",
             "Yoga Vasishtha Maharamayana 6.2.190",
             "Yoga Vasishtha Maharamayana 6.1.52"
-          ]
+          ],
+          "best_rank_at_50": 11,
+          "miss": "other work"
         },
         {
           "id": "adv-045",
@@ -1917,7 +2135,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.3",
             "Yoga Vasishtha Maharamayana 6.1.128"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right chapter, other passage"
         },
         {
           "id": "adv-046",
@@ -1939,7 +2159,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 2.1",
             "Sribhashya (Brahma Sutra commentary) 2.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -1950,7 +2172,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.2",
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma-Knowledge 1.7"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-049",
@@ -1961,7 +2185,9 @@
             "Sribhashya (Brahma Sutra commentary) 4.2",
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 2.3"
-          ]
+          ],
+          "best_rank_at_50": 18,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-050",
@@ -1972,14 +2198,16 @@
             "Sribhashya (Brahma Sutra commentary) 4.4",
             "Sribhashya (Brahma Sutra commentary) 4.4",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": 41,
+          "miss": "right work, other chapter"
         }
       ]
     },
     "hybrid": {
       "all": {
-        "recall_at_10": 0.62,
-        "mrr_at_10": 0.42719047619047623,
+        "recall_at_10": 0.6,
+        "mrr_at_10": 0.41819047619047617,
         "questions": 50
       },
       "dev": {
@@ -1988,8 +2216,8 @@
         "questions": 30
       },
       "heldout": {
-        "recall_at_10": 0.65,
-        "mrr_at_10": 0.51,
+        "recall_at_10": 0.6,
+        "mrr_at_10": 0.4875,
         "questions": 20
       },
       "failures": [
@@ -2002,7 +2230,9 @@
             "Yoga Vasishtha Maharamayana 5.50",
             "Chandogya Upanishad 6.1",
             "Chandogya Upanishad 6.8"
-          ]
+          ],
+          "best_rank_at_50": 17,
+          "miss": "other work"
         },
         {
           "id": "adv-002",
@@ -2011,9 +2241,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Vajrasūchi-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 1.1",
-            "Mukṭikopanishaḍ 1.1"
-          ]
+            "Mukṭikopanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ],
+          "best_rank_at_50": 11,
+          "miss": "other work"
         },
         {
           "id": "adv-003",
@@ -2021,10 +2253,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 2.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0191",
             "Brahma Sutra Bhashya 1.1",
-            "Brihadaranyaka Upanishad 2.5"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-005",
@@ -2033,9 +2267,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "The Century of Verses 1.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0139",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -2044,9 +2280,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brihadaranyaka Upanishad 2.5",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0077",
             "The Awakening to the Self (Atma Bodha) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -2057,7 +2295,9 @@
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 3.3"
-          ]
+          ],
+          "best_rank_at_50": 45,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -2067,8 +2307,10 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.4",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-015",
@@ -2076,10 +2318,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0061",
             "Knowledge of Self 1.1",
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1"
-          ]
+            "Yoga Vasishtha Maharamayana 6.2.22"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-018",
@@ -2090,7 +2334,9 @@
             "Brahma Sutra Bhashya 3.1",
             "Isa Upanishad 1.1",
             "Brahma Sutra Bhashya 3.1"
-          ]
+          ],
+          "best_rank_at_50": 17,
+          "miss": "other work"
         },
         {
           "id": "adv-019",
@@ -2100,8 +2346,10 @@
           "top": [
             "Ṭejobinḍu-Upanishaḍ 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 2.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0113"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -2112,7 +2360,9 @@
             "Yoga Vasishtha Maharamayana 6.2.151",
             "Yoga Vasishtha Maharamayana 6.2.141",
             "Yoga Vasishtha Maharamayana 6.2.8"
-          ]
+          ],
+          "best_rank_at_50": 33,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -2123,7 +2373,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-024",
@@ -2131,10 +2383,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.6",
-            "Direct Realisation 1.1",
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0227",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0178",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0100"
+          ],
+          "best_rank_at_50": 29,
+          "miss": "other work"
         },
         {
           "id": "adv-029",
@@ -2143,9 +2397,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Naraḍaparivrājaka-Upanishaḍ 1.1",
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3",
-            "Brahma Sutra Bhashya 1.2"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ],
+          "best_rank_at_50": 19,
+          "miss": "other work"
         },
         {
           "id": "adv-034",
@@ -2156,7 +2412,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Yoga Vasishtha Maharamayana 2.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": 15,
+          "miss": "other work"
         },
         {
           "id": "adv-036",
@@ -2167,7 +2425,22 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
+        },
+        {
+          "id": "adv-042",
+          "split": "heldout",
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
+          "top": [
+            "Brahma Sutra Bhashya 2.1",
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 2.1"
+          ],
+          "best_rank_at_50": 31,
+          "miss": "other work"
         },
         {
           "id": "adv-045",
@@ -2176,9 +2449,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-047",
@@ -2187,9 +2462,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.2",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -2200,7 +2477,9 @@
             "Brahma-Knowledge 1.7",
             "Brahma-Knowledge 1.12",
             "Sribhashya (Brahma Sutra commentary) 1.2"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         }
       ],
       "details": [
@@ -2213,7 +2492,9 @@
             "Yoga Vasishtha Maharamayana 5.50",
             "Chandogya Upanishad 6.1",
             "Chandogya Upanishad 6.8"
-          ]
+          ],
+          "best_rank_at_50": 17,
+          "miss": "other work"
         },
         {
           "id": "adv-002",
@@ -2222,9 +2503,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Vajrasūchi-Upanishaḍ 1.1",
-            "Brahma Sutra Bhashya 1.1",
-            "Mukṭikopanishaḍ 1.1"
-          ]
+            "Mukṭikopanishaḍ 1.1",
+            "Brahma Sutra Bhashya 1.1"
+          ],
+          "best_rank_at_50": 11,
+          "miss": "other work"
         },
         {
           "id": "adv-003",
@@ -2232,10 +2515,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "Brahma Sutra Bhashya 2.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0191",
             "Brahma Sutra Bhashya 1.1",
-            "Brihadaranyaka Upanishad 2.5"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-004",
@@ -2244,8 +2529,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Brihadaranyaka Upanishad 1.4",
-            "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Brahma Sutra Bhashya 1.4"
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0181",
+            "Sribhashya (Brahma Sutra commentary) 1.4"
           ]
         },
         {
@@ -2255,9 +2540,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "The Century of Verses 1.1",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0139",
             "Brahma Sutra Bhashya 3.3"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-006",
@@ -2266,9 +2553,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "The Century of Verses 1.1",
-            "Brihadaranyaka Upanishad 2.5",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0077",
             "The Awakening to the Self (Atma Bodha) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-007",
@@ -2279,7 +2568,9 @@
             "Brahma Sutra Bhashya 1.4",
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 3.3"
-          ]
+          ],
+          "best_rank_at_50": 45,
+          "miss": "other work"
         },
         {
           "id": "adv-008",
@@ -2289,8 +2580,10 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.4",
             "Brahma Sutra Bhashya 1.4",
-            "Brahma Sutra Bhashya 1.4"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-009",
@@ -2299,8 +2592,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Katha Upanishad 1.2",
-            "Brahma Sutra Bhashya 1.3",
-            "Mundaka Upanishad 3.2"
+            "Mundaka Upanishad 3.2",
+            "Brahma Sutra Bhashya 1.3"
           ]
         },
         {
@@ -2340,11 +2633,11 @@
           "id": "adv-013",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.25,
+          "reciprocal_rank": 0.16666666666666666,
           "top": [
             "Taittiriya Upanishad 3.1",
-            "Brahma Sutra Bhashya 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.3"
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0106",
+            "Brahma Sutra Bhashya 1.1"
           ]
         },
         {
@@ -2364,10 +2657,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0061",
             "Knowledge of Self 1.1",
-            "Brihadaranyaka Upanishad 2.5",
-            "The Century of Verses 1.1"
-          ]
+            "Yoga Vasishtha Maharamayana 6.2.22"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-016",
@@ -2376,8 +2671,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Svetasvatara Upanishad 1.4",
-            "Brahma Sutra Bhashya 1.4",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Brahma Sutra Bhashya 1.4"
           ]
         },
         {
@@ -2388,7 +2683,7 @@
           "top": [
             "Bhagavad Gita 1.2",
             "Brahma Sutra Bhashya 2.3",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0063"
           ]
         },
         {
@@ -2400,7 +2695,9 @@
             "Brahma Sutra Bhashya 3.1",
             "Isa Upanishad 1.1",
             "Brahma Sutra Bhashya 3.1"
-          ]
+          ],
+          "best_rank_at_50": 17,
+          "miss": "other work"
         },
         {
           "id": "adv-019",
@@ -2410,8 +2707,10 @@
           "top": [
             "Ṭejobinḍu-Upanishaḍ 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Brahma Sutra Bhashya 2.1"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0113"
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-020",
@@ -2422,7 +2721,9 @@
             "Yoga Vasishtha Maharamayana 6.2.151",
             "Yoga Vasishtha Maharamayana 6.2.141",
             "Yoga Vasishtha Maharamayana 6.2.8"
-          ]
+          ],
+          "best_rank_at_50": 33,
+          "miss": "other work"
         },
         {
           "id": "adv-021",
@@ -2433,7 +2734,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-022",
@@ -2443,7 +2746,7 @@
           "top": [
             "Yoga Vasishtha Maharamayana 5.72",
             "Knowledge of Self 1.1",
-            "Direct Realisation 1.1"
+            "Yoga Vasishtha Maharamayana 6.2.190"
           ]
         },
         {
@@ -2463,10 +2766,12 @@
           "recall_at_10": 0.0,
           "reciprocal_rank": 0.0,
           "top": [
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.6",
-            "Direct Realisation 1.1",
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.2"
-          ]
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0227",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0178",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0100"
+          ],
+          "best_rank_at_50": 29,
+          "miss": "other work"
         },
         {
           "id": "adv-025",
@@ -2494,10 +2799,10 @@
           "id": "adv-027",
           "split": "heldout",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.2,
+          "reciprocal_rank": 0.25,
           "top": [
             "Yoga Vasishtha Maharamayana 5.76",
-            "Yoga Vasishtha Maharamayana 6.2.79",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0089",
             "Yoga Vasishtha Maharamayana 6.1.51"
           ]
         },
@@ -2519,9 +2824,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Naraḍaparivrājaka-Upanishaḍ 1.1",
-            "The Crest-Jewel of Wisdom (Vivekachudamani) 1.3",
-            "Brahma Sutra Bhashya 1.2"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 1.2"
+          ],
+          "best_rank_at_50": 19,
+          "miss": "other work"
         },
         {
           "id": "adv-030",
@@ -2541,8 +2848,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Brahma-Knowledge 2.44",
-            "Brahma Sutra Bhashya 1.1",
-            "Brihadaranyaka Upanishad 2.5"
+            "Brahma Sutra Bhashya 1.3",
+            "Vivekachudamani Vivekachudamani: Sanskrit verses, English translation and notes; PDF pages 9-260.pdf-page-0049"
           ]
         },
         {
@@ -2576,13 +2883,15 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Yoga Vasishtha Maharamayana 2.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": 15,
+          "miss": "other work"
         },
         {
           "id": "adv-035",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.16666666666666666,
+          "reciprocal_rank": 0.2,
           "top": [
             "Brahma Sutra Bhashya 3.4",
             "Brahma Sutra Bhashya 1.1",
@@ -2598,7 +2907,9 @@
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Brahma Sutra Bhashya 3.2",
             "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-037",
@@ -2615,7 +2926,7 @@
           "id": "adv-038",
           "split": "dev",
           "recall_at_10": 1.0,
-          "reciprocal_rank": 0.2,
+          "reciprocal_rank": 0.25,
           "top": [
             "Brahma Sutra Bhashya 1.4",
             "Sribhashya (Brahma Sutra commentary) 2.1",
@@ -2641,7 +2952,7 @@
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
+            "Brahma Sutra Bhashya 3.2"
           ]
         },
         {
@@ -2658,13 +2969,15 @@
         {
           "id": "adv-042",
           "split": "heldout",
-          "recall_at_10": 1.0,
-          "reciprocal_rank": 0.5,
+          "recall_at_10": 0.0,
+          "reciprocal_rank": 0.0,
           "top": [
             "Brahma Sutra Bhashya 2.1",
-            "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Brahma Sutra Bhashya 2.1"
+          ],
+          "best_rank_at_50": 31,
+          "miss": "other work"
         },
         {
           "id": "adv-043",
@@ -2684,8 +2997,8 @@
           "reciprocal_rank": 1.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Yoga Vasishtha Maharamayana 3.121",
-            "Yoga Vasishtha Maharamayana 6.2.190"
+            "Yoga Vasishtha Maharamayana 6.2.190",
+            "Yoga Vasishtha Maharamayana 3.121"
           ]
         },
         {
@@ -2695,9 +3008,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 1.4",
-            "Sribhashya (Brahma Sutra commentary) 2.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 2.1",
+            "Sribhashya (Brahma Sutra commentary) 1.1"
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-046",
@@ -2717,9 +3032,11 @@
           "reciprocal_rank": 0.0,
           "top": [
             "Sribhashya (Brahma Sutra commentary) 1.1",
-            "Sribhashya (Brahma Sutra commentary) 2.2",
-            "Sribhashya (Brahma Sutra commentary) 1.1"
-          ]
+            "Sribhashya (Brahma Sutra commentary) 1.1",
+            "Sribhashya (Brahma Sutra commentary) 2.2"
+          ],
+          "best_rank_at_50": null,
+          "miss": "right work, other chapter"
         },
         {
           "id": "adv-048",
@@ -2730,7 +3047,9 @@
             "Brahma-Knowledge 1.7",
             "Brahma-Knowledge 1.12",
             "Sribhashya (Brahma Sutra commentary) 1.2"
-          ]
+          ],
+          "best_rank_at_50": null,
+          "miss": "other work"
         },
         {
           "id": "adv-049",
@@ -2845,7 +3164,7 @@
       "retrieved": [
         "Ashtavakra Gita (The Heart of Awareness)",
         "Ashtavakra Gita (The Heart of Awareness)",
-        "Ashtavakra Gita (The Heart of Awareness)"
+        "Kena Upanishad"
       ]
     }
   ]

@@ -100,6 +100,32 @@ Start the prepared app with `uv run pramana serve` and open
 
 ![Real local-model conversation](../images/chat.jpg)
 
+## Benchmark v2, Madhavananda's Vivekacūḍāmaṇi and off-topic routing — 23 October 2026
+
+Library: 13 editions, 2,639 chapters, 8,851 passages, after importing Madhavananda's
+Vivekacūḍāmaṇi (Chandra OCR, 252 pages in 71 minutes on an RTX 5070 Ti) and moving
+the Yoga Vāsiṣṭha's inline page numbers into page marks. Re-importing either changed
+nothing. Results: [benchmark v2](../../benchmarks/advaita/v2/README.md); v1 numbers
+re-measured in [benchmarks/advaita](../../benchmarks/advaita/README.md).
+
+Manual checks with Ollama `gemma4:e4b`, diagnostic only:
+
+| Question | Outcome |
+| --- | --- |
+| Madhavananda's Vivekacūḍāmaṇi: what three things are rare? | Grounded in that edition's PDF page 10 |
+| "Can you reverse a linked list?", "reverse a linked list", "What is the duty of a software engineer?", "Write a Python function that reverses a list." | **Before:** all four answered from unrelated passages (Brahman's reabsorption in reverse order; svadharma). A topic field inside the answer schema did not change that. **After** the routing call: all four declined. |
+| "What is the boiling point of water…?" | Insufficient evidence before and after |
+| Śaṅkara on superimposition; the Gītā on duty; applying the Gītā's duty to an engineer's work; Aṣṭāvakra on bondage; whether the Self is born | Grounded before and after; not routed away |
+
+The routing prompt was chosen among four variants by their results on the v2 questions
+(a field classifier sent nearly everything, Kubernetes included, to "other religion or
+philosophy"; a version listing the library's titles turned away 39 real questions).
+Two of its worked examples are the questions reported above, so those two are not a
+test of it. Five further questions written afterwards ("How do I center a div in
+CSS?", "What's the best laptop for coding?", "Explain quicksort", "Is the world real?",
+"How do I deal with anger?") routed as expected. The full answer-level evaluation
+(`pramana evaluate-answers`) was not run: it keeps the GPU at full load for 1–2 hours.
+
 ## Vedānta library and comparisons — 23 October 2026
 
 Library: every `--source advaita` edition plus Wilson, imported from the cached

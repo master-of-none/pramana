@@ -97,3 +97,16 @@ does, the current hybrid (equal weights, RRF constant 60) gives dev R@10 0.667, 
 A grid of keyword weights 1–3 against semantic weight 1, and constants 10/30/60, gave
 R@10 0.600–0.667 and MRR 0.382–0.418: every setting within one question of the current
 one. No change was made; heldout questions were not used.
+
+**Madhavananda's Vivekacūḍāmaṇi and the second Yoga Vāsiṣṭha fix (8,851 passages).**
+The new edition is part of "All texts". Chat scope: hybrid dev R@10 0.667 → 0.600, MRR
+0.412 → 0.404; heldout R@10 0.650 unchanged, MRR 0.533 → 0.515; keyword heldout R@10
+0.650 → 0.550. Hybrid lost adv-001, adv-008 and adv-042 from the top 10 and gained
+adv-034 (that one from the Yoga Vāsiṣṭha page-number fix, which shifts keyword
+statistics even with the work filtered out). Vivekacūḍāmaṇi pages took the top keyword
+slots for adv-017 ("Is the Self ever born or does it die?") and pushed adv-008's gold
+out of the keyword top 50. Its notes discuss the same teachings; with a single gold
+passage per question, a relevant passage from another text counts as a miss. No change
+was made to retrieval. The chapter benchmark is unchanged.
+
+**Benchmark v2** (214 questions, including these 50 unchanged) is in [v2](v2/README.md).

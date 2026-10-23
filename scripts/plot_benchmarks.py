@@ -3,7 +3,8 @@
 Run `uv run python scripts/plot_benchmarks.py` after re-running the benchmarks; every
 number comes from `benchmarks/`, never typed into the chart. No plotting dependency:
 plain SVG, grouped horizontal bars, values at the bar tips, one legend per chart.
-Palette: validated categorical slots 1-2 (blue, orange) in both modes.
+Palette: validated categorical slots 1-3 (blue, orange, aqua) in both modes; light aqua is
+below 3:1 on the surface, so every bar carries its value label.
 """
 
 import json
@@ -18,14 +19,14 @@ THEMES = {
         "text": "#0b0b0b",
         "secondary": "#52514e",
         "grid": "#e4e3df",
-        "series": ["#2a78d6", "#eb6834"],
+        "series": ["#2a78d6", "#eb6834", "#1baf7a"],
     },
     "dark": {
         "surface": "#1a1a19",
         "text": "#f0efec",
         "secondary": "#c3c2b7",
         "grid": "#383835",
-        "series": ["#3987e5", "#d95926"],
+        "series": ["#3987e5", "#d95926", "#199e70"],
     },
 }
 FONT = "-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
@@ -226,7 +227,151 @@ def main():
             theme,
             width=720,
         )
+    v2 = ROOT / "benchmarks/advaita/v2"
+    if (v2 / "results.json").exists():
+        plot_v2(json.loads((v2 / "results.json").read_text()), methods)
+    if (v2 / "models.json").exists():
+        plot_models(json.loads((v2 / "models.json").read_text()))
+    if (v2 / "answers.json").exists():
+        plot_answers(json.loads((v2 / "answers.json").read_text()))
     print("wrote", sorted(p.name for p in OUT.glob("*.svg")))
+
+
+TYPES = {
+    "fact": "Fact",
+    "concept": "Concept",
+    "comparison": "Comparison",
+    "objection": "Objection or reply",
+    "followup": "Follow-up (rewritten)",
+}
+
+
+def plot_v2(v2, methods):
+    s = v2["strategies"]
+    names = [label for _, label in methods]
+    n = v2["splits"]
+    types = [t for t in TYPES if t in s["hybrid"]["by_type"]]
+    texts = sorted(s["hybrid"]["by_text"], key=lambda t: -s["hybrid"]["by_text"][t]["questions"])
+    for theme in THEMES:
+        chart(
+            "v2-overview",
+            "Advaita benchmark v2: retrieval",
+            f"{v2['questions']} answerable questions with exact gold spans · chat's scopes · "
+            "AI-drafted, unreviewed",
+            [
+                (
+                    metric,
+                    names,
+                    [
+                        (split, [s[m][split.lower()][key] for m, _ in methods])
+                        for split in ("Dev", "Heldout")
+                    ],
+                )
+                for metric, key in (("Recall@10", "recall_at_10"), ("MRR@10", "mrr_at_10"))
+            ],
+            [f"Dev ({n['dev']})", f"Heldout ({n['heldout']})"],
+            theme,
+            width=980,
+        )
+        chart(
+            "v2-by-type",
+            "Recall@10 by question type",
+            "All splits · counts in labels · follow-ups searched with their reference rewrite",
+            [
+                (
+                    "Recall@10",
+                    [f"{TYPES[t]} ({s['hybrid']['by_type'][t]['questions']})" for t in types],
+                    [
+                        (label, [s[m]["by_type"][t]["recall_at_10"] for t in types])
+                        for m, label in methods
+                    ],
+                )
+            ],
+            names,
+            theme,
+            width=820,
+        )
+        chart(
+            "v2-by-text",
+            "Recall@10 by text",
+            "All splits · the text holding the gold span (comparisons need both thinkers)",
+            [
+                (
+                    "Recall@10",
+                    [f"{t} ({s['hybrid']['by_text'][t]['questions']})" for t in texts],
+                    [
+                        (label, [s[m]["by_text"][t]["recall_at_10"] for t in texts])
+                        for m, label in methods
+                    ],
+                )
+            ],
+            names,
+            theme,
+            width=860,
+        )
+
+
+def plot_models(models):
+    rows = models["models"]
+    names = list(rows)
+    labels = [
+        f"{n.replace('bge-', 'BGE-')} ({r['parameters'] / 1e6:.0f}M, {r['dimensions']}d)"
+        for n, r in rows.items()
+    ]
+    for theme in THEMES:
+        chart(
+            "models",
+            "Embedding models on the v2 benchmark",
+            "Same passages, chunks and keyword index; only the embedding model differs",
+            [
+                (
+                    metric,
+                    ["Semantic only", "Hybrid (chat default)"],
+                    [
+                        (label, [rows[n]["strategies"][s]["all"][key] for s in ("dense", "hybrid")])
+                        for n, label in zip(names, labels, strict=True)
+                    ],
+                )
+                for metric, key in (("Recall@10", "recall_at_10"), ("MRR@10", "mrr_at_10"))
+            ],
+            labels,
+            theme,
+            width=980,
+        )
+
+
+def plot_answers(answers):
+    o, splits = answers["overall"], answers["by_split"]
+    metrics = [
+        ("status_accuracy", "Expected status"),
+        ("grounded_when_answerable", "Answered when answerable"),
+        ("refused_when_out_of_corpus", "Declined when out of corpus"),
+        ("gold_cited", "Cited the gold passage"),
+        ("evidence_on_thinker", "Evidence from the named thinker"),
+    ]
+    metrics = [(k, label) for k, label in metrics if o.get(k) is not None]
+    for theme in THEMES:
+        chart(
+            "answers",
+            f"Answer quality with {answers['model']}",
+            f"{o['questions']} questions · local Ollama · structural checks, not correctness",
+            [
+                (
+                    "Share of questions",
+                    [label for _, label in metrics],
+                    [
+                        (split, [splits[split.lower()][k] or 0 for k, _ in metrics])
+                        for split in ("Dev", "Heldout")
+                    ],
+                )
+            ],
+            [
+                f"Dev ({splits['dev']['questions']})",
+                f"Heldout ({splits['heldout']['questions']})",
+            ],
+            theme,
+            width=820,
+        )
 
 
 if __name__ == "__main__":
