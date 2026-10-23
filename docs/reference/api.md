@@ -30,7 +30,7 @@ curl http://127.0.0.1:8000/api/chat \
 
 `POST /api/chat/stream` accepts the same request and returns newline-delimited JSON
 (`application/x-ndjson`): zero or more `{"type":"stage","stage":...}` progress events
-(`understanding` for follow-up rewriting, `searching`, `composing`, `checking`), then one final
+(`understanding` for routing and follow-up rewriting, `searching`, `composing`, `checking`), then one final
 `{"type":"answer", ...ChatResponse}` or `{"type":"error","status":...,"detail":...}`.
 Answer prose is sent only after validation; unchecked model tokens are never streamed.
 The web chat uses this endpoint to show progress.

@@ -36,6 +36,8 @@ class FixtureProvider:
         self.failed = False
 
     async def chat(self, messages, schema):
+        if "topic" in schema["properties"]:
+            return {"topic": "texts"}
         if "question" in schema["properties"]:
             return {"question": "How does action relate to understanding?", "document_ids": []}
         payload = json.loads(messages[-1]["content"])

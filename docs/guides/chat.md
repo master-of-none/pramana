@@ -14,13 +14,28 @@ The provider uses Ollama's documented [`POST /api/chat`](https://docs.ollama.com
 non-streaming structured JSON, temperature zero, a 16,384-token context setting,
 and a 1,200-token output cap. It disables thinking output. Model availability,
 connection failures, unfinished/malformed output, and timeouts produce actionable
-errors. The total request can include two model calls for follow-ups, each with a
+errors. Every question first makes one short routing call (below). The total request can include two more model calls for follow-ups, each with a
 180-second read timeout; a format repair can add a third call. Serialized messages/schema are capped at 14,000 UTF-8 bytes, leaving output and
 chat-template headroom within the configured context. Context budgets limit recent history and complete evidence
 passages conservatively by UTF-8 bytes; no Gemma tokenizer is downloaded.
 
 The HTTP endpoints, request limits and response fields are in the
 [API reference](../reference/api.md).
+
+**Off-topic questions.** Before any search, one short call to the same model asks
+whether the question is about the texts (their teachings, stories, people and terms, or
+how a teaching applies to the asker's life) or about another field (programming,
+technology, mathematics, science facts, careers as such, news, sport, trivia, recipes).
+It sees only the standalone question, never the library text, and is shown six worked
+examples. An unrelated question gets a fixed reply ("Neti, neti: not this, not this. I
+give knowledge, but this is not the knowledge you seek…") with status
+`insufficient_evidence` and no evidence; nothing is retrieved. An invalid routing reply
+counts as "about the texts", so the evidence-based refusal below still applies. Measured
+on benchmark v2 (tuned on that set, not held out): 196 of 198 answerable questions
+routed to the texts; all 7 clearly off-topic probes declined
+([routing.json](../../benchmarks/advaita/v2/routing.json)). Asking the answer model to
+make the same judgement inside its answer did not work: it still answered all four
+programming and career questions tried.
 
 A grounded response must name at least one supplied internal reference. Unknown
 references and inconsistent status/reference combinations fail validation. A missing

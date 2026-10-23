@@ -15,11 +15,17 @@ from pramana.models import ChatMessage, ChatRequest
 class Provider:
     model = "deterministic-fixture"
 
-    def __init__(self, outputs):
+    def __init__(self, outputs, route="texts"):
         self.outputs = list(outputs)
         self.calls = []
+        self.routes = []
+        self.route = route
 
     async def chat(self, messages, schema):
+        if "topic" in schema["properties"]:
+            # The routing call is answered separately; scripted outputs serve later calls.
+            self.routes.append(messages[-1]["content"])
+            return {"topic": self.route}
         self.calls.append((messages, schema))
         value = self.outputs.pop(0)
         if isinstance(value, Exception):
@@ -290,6 +296,31 @@ def test_insufficient_answer_always_has_readable_admission(indexed, embedder):
     assert response.evidence == []
 
 
+def test_unrelated_question_is_declined_before_retrieval(indexed, embedder):
+    # Words shared with passages ("reverse", "duty") retrieve something; routing decides.
+    provider = Provider([], route="unrelated")
+    retriever = Retriever(indexed, embedder=embedder)
+    searched = []
+    retriever.search = lambda *a, **k: searched.append(a) or []
+    response = run(Answerer(retriever, provider=provider), "Can you reverse a linked list?")
+    assert response.status == "insufficient_evidence" and response.evidence == []
+    assert "not the knowledge you seek" in response.answer
+    assert provider.routes == ["Can you reverse a linked list?"]
+    assert provider.calls == [] and searched == []  # no retrieval, no answer call
+
+
+def test_follow_up_is_routed_after_rewriting(indexed, embedder):
+    provider = Provider(
+        [{"question": "How does Krishna shelter cattle?", "document_ids": []}, grounded()]
+    )
+    history = [
+        ChatMessage(role="user", content="Who is Krishna?"),
+        ChatMessage(role="assistant", content="A cowherd."),
+    ]
+    run(Answerer(Retriever(indexed, embedder=embedder), provider=provider), "And cattle?", history)
+    assert provider.routes == ["How does Krishna shelter cattle?"]
+
+
 def test_one_bounded_repair_retains_original_evidence(indexed, embedder):
     provider = Provider(
         [{"answer": "A tentative answer", "status": "grounded", "evidence_ids": []}, grounded()]
@@ -309,7 +340,8 @@ def test_chat_stream_reports_stages_then_validated_answer(indexed, embedder):
     )
     body = {"message": "Who preserves the universe?"}
     events = [json.loads(line) for line in client.post("/api/chat/stream", json=body).iter_lines()]
-    assert [e["stage"] for e in events if e["type"] == "stage"] == ["searching", "composing"]
+    stages = [e["stage"] for e in events if e["type"] == "stage"]
+    assert stages == ["understanding", "searching", "composing"]
     assert events[-1]["type"] == "answer"
     assert events[-1]["answer"] == "Vishnu preserves the universe."
     assert events[-1]["evidence"][0]["reference"] == "E1"

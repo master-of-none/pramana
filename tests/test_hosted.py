@@ -27,6 +27,8 @@ class CountingProvider:
         self.calls = 0
 
     async def chat(self, messages, schema):
+        if "topic" in schema["properties"]:
+            return {"topic": "texts"}
         self.calls += 1
         return {
             "answer": "Vishnu preserves the universe.",
