@@ -10,7 +10,7 @@ an answer model automatically. Check `ollama list`; to acquire a missing model,
 explicitly run `ollama pull gemma4:e4b` yourself. The default settings are:
 
 ```sh
-export PRAMANA_OLLAMA_URL=http://localhost:11434
+export PRAMANA_OLLAMA_URL=http://127.0.0.1:11434
 export PRAMANA_CHAT_MODEL=gemma4:e4b
 uv run pramana serve
 ```

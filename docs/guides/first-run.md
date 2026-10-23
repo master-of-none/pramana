@@ -15,7 +15,7 @@ and a command-line tool. Nothing you ask leaves your machine.
 | Linux or macOS | tested on Fedora Linux; Windows via WSL is untested | |
 | [uv](https://docs.astral.sh/uv/) | installs Python 3.12 and the locked dependencies | `uv --version` |
 | Node.js **22.12+** and npm | builds the web interface once | `node --version` |
-| [Ollama](https://ollama.com/) with `gemma4:e4b` | writes the answers locally; or use [OpenRouter's free models](chat.md#without-a-local-model-openrouters-free-models) instead | `ollama list` |
+| [Ollama](https://ollama.com/) with `gemma4:e4b` (**optional**) | writes chat answers locally; or use [OpenRouter's free models](chat.md#without-a-local-model-openrouters-free-models). Without either, search and Study work and the chat searches instead | `ollama list` |
 | About **13 GB** of free disk | see the breakdown below | `df -h .` |
 | Internet, once | the downloads in steps 3–5; afterwards everything works offline | |
 
@@ -200,7 +200,7 @@ If `status` reports `stale` or `incompatible`, run `uv run pramana index` (or
 | `Search index is missing or stale. Run: pramana index` | books changed since the last index | `uv run pramana index` |
 | `Index is incompatible. Run: pramana index --rebuild` | the index was built by an older version | `uv run pramana index --rebuild` |
 | `Local model is missing. Run: pramana model setup` | embedding model not downloaded | step 3 |
-| `Cannot reach Ollama at http://localhost:11434…` | Ollama is not running | start Ollama (`ollama serve` or the app) |
+| `Cannot reach Ollama at http://127.0.0.1:11434…`, or "Ollama is not running" in the chat | Ollama is not running, or still starting | start the Ollama app (or `ollama serve`); the chat notices within a few seconds. Check with `curl http://127.0.0.1:11434/api/tags` |
 | `Ollama model 'gemma4:e4b' is unavailable…` | model not pulled | `ollama pull gemma4:e4b` |
 | `This question exceeds the local model context budget…` | very long question or chat | shorten it or start a new chat |
 | `Pramana could not tie each view to that thinker's own texts…` | a comparison failed its authorship check | ask about one thinker at a time |

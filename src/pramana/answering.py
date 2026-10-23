@@ -234,7 +234,7 @@ class OllamaProvider:
     """No pulls, external providers, or silent model substitution."""
 
     def __init__(self, url: str | None = None, model: str | None = None):
-        self.url = (url or os.environ.get("PRAMANA_OLLAMA_URL", "http://localhost:11434")).rstrip(
+        self.url = (url or os.environ.get("PRAMANA_OLLAMA_URL", "http://127.0.0.1:11434")).rstrip(
             "/"
         )
         self.model = model or os.environ.get("PRAMANA_CHAT_MODEL", "gemma4:e4b")
@@ -251,10 +251,14 @@ class OllamaProvider:
     async def ready(self) -> tuple[bool, str]:
         """Is Ollama reachable with the chosen model installed? Never pulls anything."""
         try:
-            async with httpx.AsyncClient(timeout=5, trust_env=False) as client:
+            async with httpx.AsyncClient(timeout=10, trust_env=False) as client:
                 tags = (await client.get(self.url + "/api/tags", headers=self.headers)).json()
+        except httpx.ConnectError:
+            return False, f"Ollama is not running at {self.url} (start the Ollama app)."
+        except httpx.TimeoutException:
+            return False, f"Ollama at {self.url} did not answer in 10 s; it may be starting."
         except (httpx.HTTPError, ValueError):
-            return False, f"Ollama is not running at {self.url}."
+            return False, f"Ollama at {self.url} sent an unexpected reply."
         names = {m.get("name") for m in tags.get("models", [])}
         if self.model not in names and f"{self.model}:latest" not in names:
             return (

@@ -321,7 +321,14 @@ export function Chat({
 
   async function send(text: string, retryId?: string) {
     if (!text.trim() || controller.current) return;
-    if (noModel) return searchInstead(text);
+    if (noModel) {
+      // The notice may be stale (Ollama started since): ask again before giving up.
+      const fresh: { provider?: NonNullable<typeof provider> } = await fetch("/api/config")
+        .then((r) => (r.ok ? r.json() : {}))
+        .catch(() => ({}));
+      if (fresh?.provider) setProvider(fresh.provider);
+      if (fresh?.provider?.ready !== true) return searchInstead(text);
+    }
     const asked = retryId ? turns.find((t) => t.id === retryId)?.focus : (focus ?? undefined);
     const previous = retryId
       ? turns.slice(

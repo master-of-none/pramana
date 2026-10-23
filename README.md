@@ -367,8 +367,9 @@ never sent, and the free plan allows about 50 requests a day
 
 ## Quickstart
 
-Requires Python 3.12 with [uv](https://docs.astral.sh/uv/), Node.js 22.12+, and Ollama with
-`gemma4:e4b` pulled. The [first-run guide](docs/guides/first-run.md) explains each step,
+Requires Python 3.12 with [uv](https://docs.astral.sh/uv/) and Node.js 22.12+. **Ollama is
+optional:** it writes chat answers (`gemma4:e4b`); without it, search and the whole Study
+view work, and the chat turns questions into searches. The [first-run guide](docs/guides/first-run.md) explains each step,
 expected times and disk use, and what to do when something fails.
 
 ```sh

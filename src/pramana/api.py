@@ -58,9 +58,11 @@ def create_app(
     readiness: dict = {}
 
     async def provider_ready() -> tuple[bool, str]:
-        # Checked at most every 30 seconds; a model started later is noticed soon after.
+        # A ready model is rechecked every 30 s; a missing one every 5 s, so starting
+        # Ollama is noticed at once.
         now = time.monotonic()
-        if now - readiness.get("at", -60) > 30:
+        wait = 30 if readiness.get("value", (False, ""))[0] else 5
+        if now - readiness.get("at", -60) > wait:
             check = getattr(chat_engine.provider, "ready", None)
             readiness.update(at=now, value=await check() if check else (True, ""))
         return readiness["value"]
