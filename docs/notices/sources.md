@@ -177,6 +177,26 @@ This is not Swami Madhavananda's 1921 translation. That edition is on
 copyright), but its OCR is too damaged to import without guessing words; it could be
 re-OCRed locally once Tesseract is installed.
 
+## Aṣṭāvakra Gītā (Richards)
+
+- Translation: John Richards, _The Heart of Awareness: Ashtavakra Gita_, second edition,
+  1996. The translator's introduction states: "The translation here is by John
+  Richards, and is presented to the public domain with his affection."
+- Copy used: the text file of an [archive.org item](https://archive.org/details/AshtavakraGita_201904)
+  uploaded without uploader, date or rights metadata. The rights rest on the
+  translator's own statement in the text, which the importer requires.
+
+`--source ashtavakra-gita` uses a single-text adapter
+([`textfile.py`](../../src/pramana/ingestion/textfile.py)) and a committed manifest
+([`textfiles/ashtavakra.json`](../../src/pramana/ingestion/textfiles/ashtavakra.json))
+that pins the file's SHA-256 (any other file is refused), requires the rights sentence,
+and checks 20 chapter headings and 298 numbered verses. Cleanup is limited to removing
+the exact running header "The Heart of Awareness: Ashtavakra Gita" and collapsing runs
+of blank lines; the translator's introduction and contents list before chapter 1 are
+excluded. Verse numbers printed at the end of each verse (e.g. `1.2`) stay in the text.
+No author is recorded: the translator notes only that tradition ascribes the work to
+the sage Aṣṭāvakra. Checked on 23 October 2026: 20 records, about 48,000 characters.
+
 ## Embedding model
 
 [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) is distributed

@@ -15,7 +15,8 @@ from pramana.storage import Store
 CATEGORIES = (
     ("Brahma Sūtra", r"brahma[ -]?sutra|sribhashya"),
     ("Upaniṣads", r"[uo]panish|aranyaka"),  # "Brahmopanishad": sandhi joins the vowel.
-    ("Bhagavad Gītā", r"\bgita\b|\bgeeta\b|bhagavad"),
+    # "Gita" alone is not enough: the Ashtavakra Gita is a different work.
+    ("Bhagavad Gītā", r"bhagavad|holy geeta"),
     ("Purāṇas", r"purana"),
 )
 OTHER = "Prakaraṇas and expositions"

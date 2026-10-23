@@ -1,0 +1,20 @@
+{
+  "id": "ashtavakra-richards",
+  "url": "https://archive.org/download/AshtavakraGita_201904/AshtavakraGita_djvu.txt",
+  "item_url": "https://archive.org/details/AshtavakraGita_201904",
+  "sha256": "8857ae4d9f786301a24729dc65ab23800081ccfa8a92f4959c855a279de198a5",
+  "document_id": "ashtavakra-gita-richards",
+  "document": "Ashtavakra Gita (The Heart of Awareness)",
+  "translator": "John Richards",
+  "author": "",
+  "edition": "Richards, The Heart of Awareness, second edition 1996 · archive.org text",
+  "content_type": "translation",
+  "rights": "Stated in the translator's introduction: \"The translation here is by John Richards, and is presented to the public domain with his affection.\"",
+  "rights_quote": "is presented to the public domain \nwith his affection",
+  "attribution": "John Richards (translator), The Heart of Awareness: Ashtavakra Gita, 1996; text from an archive.org upload without uploader metadata.",
+  "chapter_pattern": "(?m)^Chapter (\\d+) (.+?)\\s*$",
+  "chapters": 20,
+  "verse_pattern": "(?m)(\\d{1,2})\\.(\\d{1,3})\\s*$",
+  "verses": 298,
+  "strip_lines": ["The Heart of Awareness: Ashtavakra Gita"]
+}

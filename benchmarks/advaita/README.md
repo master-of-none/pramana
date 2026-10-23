@@ -71,3 +71,7 @@ to generalise from.
 **After adding the Crest-Jewel edition** (same day, 4,469 passages): Recall@10 unchanged
 for every method and split; hybrid dev MRR 0.416 → 0.414 and lexical heldout MRR
 0.423 → 0.420, from changed keyword statistics. `results.json` is the earlier run.
+
+**After also adding the Aṣṭāvakra Gītā** (4,507 passages): Recall@10 still unchanged
+everywhere; hybrid dev MRR 0.431, lexical chapter-benchmark MRR 0.7338. These small MRR
+shifts come from keyword statistics over a growing library, not from tuning.

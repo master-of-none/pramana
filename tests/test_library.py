@@ -77,6 +77,8 @@ def test_ordering_and_categories():
     assert category("Brahmopanishaḍ") == category("Mukṭikopanishaḍ") == "Upaniṣads"
     assert category("Sribhashya (Brahma Sutra commentary)") == "Brahma Sūtra"
     assert category("The Holy Geeta") == "Bhagavad Gītā"
+    assert category("Bhagavad Gita") == "Bhagavad Gītā"
+    assert category("Ashtavakra Gita (The Heart of Awareness)") == "Prakaraṇas and expositions"
     assert category("Knowledge of Self") == "Prakaraṇas and expositions"
     keys = [
         {"book": "1", "chapter": c, "sections": s}

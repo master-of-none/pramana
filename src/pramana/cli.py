@@ -44,7 +44,10 @@ SOURCES = {
     "minor-upanishads": "Thirty Minor Upanishads, Narayanasvami Aiyar (1914)",
     "brahma-knowledge": "Brahma-Knowledge, Barnett (1911)",
     "crest-jewel": "Crest-Jewel of Wisdom (Vivekachudamani) and other works, Johnston (1946)",
+    "ashtavakra-gita": "Ashtavakra Gita, The Heart of Awareness, Richards (1996)",
 }
+# Single plain-text editions keyed by their manifest ID in ingestion/textfiles/.
+TEXT_FILES = {"ashtavakra-gita": "ashtavakra-richards"}
 SACRED_TEXTS = {
     "shankara-works": "wos",
     "upanishads-1": "sbe01",
@@ -58,6 +61,10 @@ ADVAITA = [s for s in SOURCES if s != "vishnu-purana"]
 
 
 def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
+    if source in TEXT_FILES:
+        from pramana.ingestion.textfile import acquire
+
+        return acquire(data_dir(), TEXT_FILES[source], archive, offline=offline)
     if source in SACRED_TEXTS:
         from pramana.ingestion.sacredtexts import acquire
 
