@@ -282,6 +282,12 @@ chat answers only, sources in Study, nothing personal leaving the browser.
   reflective question, opening in the reader.
 - **Study packs.** Export a reading path with its texts and the reader's notes as one
   Markdown or EPUB file for offline reading.
+- **Answers without any model (extractive).** When no answer model is ready: rank the
+  sentences of the retrieved passages against the question with the embedding model,
+  keep 3–5 diverse ones, drop sentences in printed objection segments, and show them in
+  reading order with natural attribution. Good for "what does X say about Y", poor for
+  "why" or comparisons. Deferred (October 2026): in the chat it would need the "no
+  excerpts" rule relaxed for this mode; the alternative is an answer card in Study search.
 - **Sanskrit layer.** Devanagari verses from openly licensed sources, aligned by printed
   verse numbers, searchable by transliteration.
 
