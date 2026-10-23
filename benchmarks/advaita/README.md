@@ -82,3 +82,9 @@ lexical heldout 0.650 → 0.550; dense dev 0.400 → 0.367. Yoga Vāsiṣṭha p
 of the 150 hybrid top-3 slots. This crowding is why it is opt-in and why chat's "All
 texts" excludes it unless the question names it or its scope is chosen. The chapter
 benchmark (edition-filtered) was unaffected.
+
+**Fusion tuning (dev split only, 23 October 2026).** With opt-in works excluded as chat
+does, the current hybrid (equal weights, RRF constant 60) gives dev R@10 0.667, MRR 0.412.
+A grid of keyword weights 1–3 against semantic weight 1, and constants 10/30/60, gave
+R@10 0.600–0.667 and MRR 0.382–0.418: every setting within one question of the current
+one. No change was made; heldout questions were not used.
