@@ -13,7 +13,10 @@ export function Notes() {
   for (const n of [...study.notes].sort(
     (a, b) => a.document.localeCompare(b.document) || a.place.localeCompare(b.place) || a.start - b.start,
   ))
-    groups.set(n.document, [...(groups.get(n.document) ?? []), n]);
+    {
+      const group = n.kind === "answer" ? "From conversations" : n.document;
+      groups.set(group, [...(groups.get(group) ?? []), n]);
+    }
   const stamp = new Date().toISOString().slice(0, 10);
 
   async function importFile(event: ChangeEvent<HTMLInputElement>) {
@@ -92,9 +95,13 @@ export function Notes() {
           <ul>
             {items.map((n) => (
               <li key={n.id} className="note-item">
-                <a href={readAt(n.chapter_id, n.start, n.end)} className="note-place">
-                  {n.place}
-                </a>
+                {n.kind === "answer" ? (
+                  <p className="note-place">Asked: {n.question}</p>
+                ) : (
+                  <a href={readAt(n.chapter_id, n.start, n.end)} className="note-place">
+                    {n.place}
+                  </a>
+                )}
                 <blockquote>{n.quote.length > 400 ? `${n.quote.slice(0, 400)}…` : n.quote}</blockquote>
                 {editing?.id === n.id ? (
                   <form

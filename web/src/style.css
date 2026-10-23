@@ -2081,3 +2081,6 @@ a.chip {
 .quote-ask {
   position: fixed;
 }
+::highlight(pramana-note) {
+  background-color: rgba(149, 109, 80, 0.24);
+}

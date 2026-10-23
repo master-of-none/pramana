@@ -211,9 +211,13 @@ stays answers-only. It needs no answer model.
   "Cited · Śaṅkara n · Rāmānuja m" with links back, and `#/study/citations` ranks the
   most-cited passages. Of 1,609 resolved references, 1,001 were verified, 203 linked by
   number and 405 to the chapter (23 October 2026).
-- **Ask about part of an answer:** in the chat, select words in an answer and choose
-  **Ask about this**; the question box starts with *About “…”:* for you to finish. It is
-  an ordinary follow-up: your own words, with fresh retrieval.
+- **Ask about, highlight or note part of an answer:** in the chat, select words in an
+  answer. **Ask about this** starts the question box with *About “…”:* for you to
+  finish: an ordinary follow-up in your own words, with fresh retrieval. **Highlight** and
+  **Note** save the words, with the question they answered, to **My notes** under
+  "From conversations" (in this browser only), so they outlive New chat; while the
+  conversation is open the words are tinted in the answer (CSS Highlight API, so the
+  answer's markup is untouched; browsers without the API show no tint).
 - **Ask about this passage:** select text in the reader (or open a highlighted
   passage) and choose **Ask about this**. Only a pointer to the span travels to the
   chat, in this tab's `sessionStorage`; the chat shows "Asking about the passage you

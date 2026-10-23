@@ -5,6 +5,9 @@ import { mergeNotes, notesMarkdown, parseNotes } from "./notes.ts";
 
 const note = {
   id: "n1",
+  kind: "text" as const,
+  turn_id: "",
+  question: "",
   chapter_id: "ch_31ceb6f366ee8713336a7da8",
   start: 10,
   end: 40,
@@ -42,4 +45,12 @@ test("Markdown export quotes the passage, then the note", () => {
   const text = notesMarkdown([note]);
   assert.match(text, /## Brihadaranyaka Upanishad/);
   assert.match(text, /\*\*IV, 4\*\*\n\n> And he is that great unborn Self\n\nCited by both/);
+});
+
+test("answer notes need their question and words, not a chapter", () => {
+  const answer = { ...note, id: "a1", kind: "answer", turn_id: "t1", question: "What is Brahman?",
+    chapter_id: "", start: 0, end: 0, quote: "the absolute, singular Reality" };
+  const kept = parseNotes([answer, { ...answer, id: "a2", quote: "" }]);
+  assert.deepEqual(kept.map((n) => n.id), ["a1"]);
+  assert.match(notesMarkdown(kept), /## From conversations\n\n\*\*Asked: What is Brahman\?\*\*/);
 });

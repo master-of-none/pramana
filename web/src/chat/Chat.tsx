@@ -9,7 +9,9 @@ import {
   Copy,
   CornerDownLeft,
   Feather,
+  Highlighter,
   MessageCircleQuestion,
+  NotebookPen,
   RotateCcw,
   Square,
   X,
@@ -19,6 +21,7 @@ import { useGlossary } from "../lib/glossary.tsx";
 import { href } from "../lib/router.ts";
 import { useHumanCheck } from "../lib/hosted.ts";
 import { usePreference } from "../lib/theme.ts";
+import { useNotes } from "../lib/notes.ts";
 import {
   STORAGE,
   evidenceRefs,
@@ -99,9 +102,19 @@ export function Chat({
       .catch(() => undefined);
   }, []);
   // Words selected in an answer, offered as the start of the next question.
-  const [quote, setQuote] = useState<{ text: string; top: number; left: number } | null>(
+  const [quote, setQuote] = useState<{
+    text: string;
+    full: string;
+    turn: string;
+    top: number;
+    left: number;
+  } | null>(null);
+  // A note being written on words from an answer.
+  const [noting, setNoting] = useState<(NonNullable<typeof quote> & { note: string }) | null>(
     null,
   );
+  const study = useNotes();
+  const glossary = useGlossary();
   useEffect(() => {
     if (!quote) return;
     // A button fixed at the selection is wrong once the page moves.
@@ -113,16 +126,18 @@ export function Chat({
     const selection = window.getSelection();
     const text = selection?.toString().replace(/\s+/g, " ").trim() ?? "";
     const node = selection?.anchorNode;
-    const inAnswer = (node instanceof Element ? node : node?.parentElement)?.closest(
-      ".answer-prose",
-    );
-    if (!selection || !selection.rangeCount || !inAnswer || text.length < 2) {
+    const element = node instanceof Element ? node : node?.parentElement;
+    const inAnswer = element?.closest(".answer-prose");
+    const turn = element?.closest<HTMLElement>("[data-turn]")?.dataset.turn ?? "";
+    if (!selection || !selection.rangeCount || !inAnswer || text.length < 2 || noting) {
       setQuote(null);
       return;
     }
     const rect = selection.getRangeAt(0).getBoundingClientRect();
     setQuote({
       text: text.length > 300 ? `${text.slice(0, 300)}…` : text,
+      full: text.slice(0, 2000),
+      turn,
       top: rect.bottom + 8,
       left: Math.max(8, Math.min(rect.left, window.innerWidth - 180)),
     });
@@ -139,12 +154,62 @@ export function Chat({
       input?.setSelectionRange(input.value.length, input.value.length);
     });
   }
+  // Highlights and notes on answers are saved to My notes with the question they answered.
+  function saveQuote(q: NonNullable<typeof quote>, note: string) {
+    study.add({
+      kind: "answer",
+      turn_id: q.turn,
+      question: turns.find((t) => t.id === q.turn)?.question ?? "",
+      quote: q.full,
+      note,
+    });
+    window.getSelection()?.removeAllRanges();
+  }
+  // Draw saved highlights on the answers still in this conversation (CSS Highlight API:
+  // no change to the answer's markup; browsers without it simply show no tint).
+  useEffect(() => {
+    const registry = (CSS as unknown as { highlights?: Map<string, unknown> }).highlights;
+    const HighlightType = (window as unknown as { Highlight?: new (...r: Range[]) => unknown })
+      .Highlight;
+    if (!registry || !HighlightType) return;
+    // After paint: glossary annotation re-renders answers, replacing their text nodes.
+    const frame = requestAnimationFrame(() => {
+    const ranges: Range[] = [];
+    for (const n of study.notes) {
+      if (n.kind !== "answer" || !n.turn_id) continue;
+      const box = document.querySelector(`[data-turn="${CSS.escape(n.turn_id)}"] .answer-prose`);
+      if (!box) continue;
+      // Whitespace-collapsed text of the answer, mapped back to DOM positions.
+      const map: [Text, number][] = [];
+      let flat = "";
+      const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+      for (let node = walker.nextNode() as Text | null; node; node = walker.nextNode() as Text | null) {
+        if (node.parentElement?.closest(".term-card")) continue; // glossary card text
+        for (let i = 0; i < node.data.length; i++) {
+          const space = /\s/.test(node.data[i]);
+          if (space && (flat.endsWith(" ") || !flat)) continue;
+          flat += space ? " " : node.data[i];
+          map.push([node, i]);
+        }
+      }
+      const at = flat.indexOf(n.quote);
+      if (at < 0) continue;
+      const range = document.createRange();
+      const [startNode, startOffset] = map[at];
+      const [endNode, endOffset] = map[at + n.quote.length - 1];
+      range.setStart(startNode, startOffset);
+      range.setEnd(endNode, endOffset + 1);
+      ranges.push(range);
+    }
+    registry.set("pramana-note", new HighlightType(...ranges));
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [study.notes, turns, glossary]);
   // "Ask about this passage" from Study: a pointer sent with the next question only.
   const [focus, setFocus] = useState<FocusRef | null>(null);
   const [storageError, setStorageError] = useState(false);
   const [copied, setCopied] = useState("");
   const [copyError, setCopyError] = useState("");
-  const glossary = useGlossary();
   const human = useHumanCheck();
   const [scope, setScope] = usePreference<Scope>(
     "pramana.scope",
@@ -446,16 +511,67 @@ export function Chat({
             onTouchEnd={() => setTimeout(onAnswerSelect, 0)}
           >
             {quote && (
-              <button
-                type="button"
-                className="ask-selection quote-ask"
+              <div
+                className="selection-tools quote-ask"
                 style={{ top: quote.top, left: quote.left }}
-                // Keep the selection while the button is pressed.
+                // Keep the selection while a tool is pressed.
                 onMouseDown={(event) => event.preventDefault()}
-                onClick={askAboutQuote}
               >
-                <MessageCircleQuestion size={14} /> Ask about this
-              </button>
+                <button type="button" onClick={askAboutQuote}>
+                  <MessageCircleQuestion size={14} /> Ask about this
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    saveQuote(quote, "");
+                    setQuote(null);
+                  }}
+                >
+                  <Highlighter size={14} /> Highlight
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNoting({ ...quote, note: "" });
+                    setQuote(null);
+                  }}
+                >
+                  <NotebookPen size={14} /> Note
+                </button>
+              </div>
+            )}
+            {noting && (
+              <form
+                className="note-editor quote-ask"
+                style={{ top: noting.top, left: Math.min(noting.left, window.innerWidth - 330) }}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  saveQuote(noting, noting.note.trim());
+                  setNoting(null);
+                }}
+              >
+                <label className="sr-only" htmlFor="answer-note">
+                  Your note
+                </label>
+                <textarea
+                  id="answer-note"
+                  autoFocus
+                  rows={3}
+                  maxLength={4000}
+                  placeholder="Your note (kept in this browser, in My notes)"
+                  value={noting.note}
+                  onChange={(event) => setNoting({ ...noting, note: event.target.value })}
+                  onKeyDown={(event) => event.key === "Escape" && setNoting(null)}
+                />
+                <div className="note-actions">
+                  <button type="button" onClick={() => setNoting(null)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="primary">
+                    Save
+                  </button>
+                </div>
+              </form>
             )}
             <div className="conversation-kicker">
               <span /> A THREAD OF INQUIRY
@@ -463,6 +579,7 @@ export function Chat({
             {turns.map((turn, index) => (
               <article
                 className="turn"
+                data-turn={turn.id}
                 key={turn.id}
                 aria-label={`Exchange ${index + 1}`}
               >
