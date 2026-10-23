@@ -234,7 +234,7 @@ sequenceDiagram
         A->>P: one repair attempt (budget re-applied)
     end
     opt check on
-        A->>P: per-thinker sentence verdicts; drop unsupported
+        A->>P: per-thinker sentence verdicts, then drop unsupported ones
     end
     A-->>U: answer, status, evidence pointers, perspectives
 ```
