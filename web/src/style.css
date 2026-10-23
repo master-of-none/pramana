@@ -1696,3 +1696,7 @@ a.chip {
     margin-left: 0;
   }
 }
+.chip:disabled {
+  opacity: 0.45;
+  cursor: default;
+}

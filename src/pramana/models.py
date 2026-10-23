@@ -173,6 +173,8 @@ class ChatRequest(Record):
     depth: Depth = "explain"
     # Opt-in second model pass that removes sentences the passages do not support.
     check: bool = False
+    # Vichāra: a short grounded answer followed by guiding questions for reflection.
+    mode: Literal["answer", "vichara"] = "answer"
 
     @model_validator(mode="after")
     def check_history(self):

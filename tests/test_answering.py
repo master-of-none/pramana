@@ -435,3 +435,13 @@ def test_claim_check_removes_unsupported_sentences(indexed, embedder):
     provider = Provider([grounded(answer)])
     result = asyncio.run(Answerer(retriever, provider=provider).answer(ChatRequest(message="Who?")))
     assert result.check is None and len(provider.calls) == 1
+
+
+def test_vichara_mode_asks_for_guiding_questions(indexed, embedder):
+    retriever = Retriever(indexed, embedder=embedder)
+    provider = Provider([grounded("Vishnu preserves.\n\nTo reflect on:\n\n- What is preserved?")])
+    request = ChatRequest(message="Who preserves?", mode="vichara", depth="deep")
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+    system = provider.calls[0][0][0]["content"]
+    assert "To reflect on:" in system and "explain more fully" not in system
+    assert result.answer.endswith("What is preserved?")

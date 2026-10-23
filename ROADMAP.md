@@ -215,7 +215,9 @@ wheel serves its compiled reader and API without relying on editable source path
 - [x] **Claim check** (October 2026): optional per-sentence filter by the same local
   model; covered by deterministic tests, effect on answer quality not measured.
 - **Advaita benchmark:** 50 questions with gold spans across the Vedānta library.
-- **Study paths, vichāra mode, transliteration-tolerant search, more texts** (each
+- [x] **Vichāra mode** (October 2026): short answer plus reflective questions; prompt
+  guidance only.
+- **Study paths, transliteration-tolerant search, more texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the
   [hosted deployment plan](docs/plans/hosted-deployment.md).

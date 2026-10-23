@@ -154,6 +154,15 @@ def keep(pieces: list[str], dropped: set[int]) -> str:
     return re.sub(r"\n{3,}", "\n\n", "".join(t + sep for t, sep in out)).strip()
 
 
+VICHARA = (
+    " The reader chose vichara (enquiry): give a short answer of two to four sentences"
+    " from the evidence, then a line 'To reflect on:' followed by two or three questions"
+    " as a list that lead the reader deeper into what the passages themselves say, such"
+    " as a distinction, an objection and its reply, or an image the text uses. Do not"
+    " answer those questions and do not introduce ideas absent from the evidence."
+)
+
+
 class AnswerError(PramanaError):
     def __init__(self, message: str, status_code: int = 502):
         super().__init__(message)
@@ -546,7 +555,8 @@ class Answerer:
         messages = [
             {
                 "role": "system",
-                "content": ANSWER_PROMPT + DEPTH[request.depth],
+                "content": ANSWER_PROMPT
+                + (VICHARA if request.mode == "vichara" else DEPTH[request.depth]),
             },
             {
                 "role": "user",

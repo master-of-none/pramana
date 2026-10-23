@@ -36,7 +36,7 @@ The web chat uses this endpoint to show progress.
 `ChatRequest` accepts `message` (1–2,000 characters), up to six completed
 user/assistant exchanges, an optional `scope` (`all`, `upanishads`, `gita`,
 `shankara`, `ramanuja`; an empty scope returns 409) and `depth` (`brief`, `explain`,
-`deep`), and `check` (default `false`; see
+`deep`), `mode` (`answer` or `vichara`), and `check` (default `false`; see
 [checking answers](../guides/chat.md#checking-answers)). History must alternate and end with an assistant. Each
 history message is limited to 6,000 characters. The server retains no conversation.
 For follow-ups, recent bounded history forms a standalone retrieval question;

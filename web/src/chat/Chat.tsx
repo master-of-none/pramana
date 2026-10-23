@@ -88,6 +88,12 @@ export function Chat({
     "explain",
     () => {},
   );
+  const [mode, setMode] = usePreference<"answer" | "vichara">(
+    "pramana.mode",
+    ["answer", "vichara"],
+    "answer",
+    () => {},
+  );
   const [check, setCheck] = usePreference<"on" | "off">(
     "pramana.check",
     ["on", "off"],
@@ -194,6 +200,7 @@ export function Chat({
           scope: activeScope,
           depth,
           check: check === "on",
+          mode,
         }),
       });
       if (!response.ok || !response.body) {
@@ -507,12 +514,27 @@ export function Chat({
                   role="radio"
                   aria-checked={depth === d}
                   className="chip"
+                  disabled={mode === "vichara"}
+                  title={
+                    mode === "vichara"
+                      ? "Vichāra sets its own length"
+                      : undefined
+                  }
                   onClick={() => setDepth(d)}
                 >
                   {label}
                 </button>
               ))}
             </span>
+            <button
+              type="button"
+              className="chip"
+              aria-pressed={mode === "vichara"}
+              title="Vichāra: a short answer, then questions to reflect on from the same passages."
+              onClick={() => setMode(mode === "vichara" ? "answer" : "vichara")}
+            >
+              Vichāra
+            </button>
             <button
               type="button"
               className="chip"
