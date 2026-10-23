@@ -13,7 +13,7 @@ from pramana.retrieval import Retriever
 
 app = typer.Typer(help="Pramana — local retrieval with verifiable sources.", no_args_is_help=True)
 corpus_app = typer.Typer(help="Acquire source editions explicitly.")
-model_app = typer.Typer(help="Prepare the local embedding model explicitly.")
+model_app = typer.Typer(help="Prepare the local embedding model; list free answer models.")
 app.add_typer(corpus_app, name="corpus")
 app.add_typer(model_app, name="model")
 
@@ -30,6 +30,28 @@ def setup():
         typer.echo(str(setup_model(data_dir())))
     except Exception as exc:
         fail(exc)
+
+
+@model_app.command("free")
+def free_models():
+    """List OpenRouter's free models that support JSON-schema output (reads its public list)."""
+    import httpx
+
+    try:
+        data = httpx.get("https://openrouter.ai/api/v1/models", timeout=30).json()["data"]
+    except (httpx.HTTPError, ValueError, KeyError) as exc:
+        fail(PramanaError(f"Could not read OpenRouter's model list: {exc}"))
+    usable = [
+        m
+        for m in data
+        if m["id"].endswith(":free")
+        and "structured_outputs" in (m.get("supported_parameters") or [])
+    ]
+    for m in sorted(usable, key=lambda m: -(m.get("context_length") or 0)):
+        typer.echo(f"{m['id']}  (context {m.get('context_length') or '?':,})")
+    if not usable:
+        typer.echo("No free model currently offers structured output.")
+    typer.echo("Choose one with PRAMANA_CHAT_MODEL=<id> and PRAMANA_PROVIDER=openrouter.")
 
 
 # Public-domain editions; Sacred Texts plain-text books are keyed by their manifest ID.

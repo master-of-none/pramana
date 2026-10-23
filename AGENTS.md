@@ -88,7 +88,9 @@ Acquisition is explicit: `pramana model setup`, `pramana corpus download`, and
 `pramana corpus import-books`. Poppler/Tesseract installation and Ollama model pulls
 are explicit user setup. Do not silently download models, switch providers, or
 send private text to a hosted service. Default chat uses localhost Ollama and
-`gemma4:e4b`; bind FastAPI to localhost. See [chat configuration](docs/guides/chat.md).
+`gemma4:e4b`; bind FastAPI to localhost. The only hosted provider is OpenRouter,
+opt-in via `PRAMANA_PROVIDER=openrouter`, restricted to `:free` models, and never given
+private local editions (passages, titles or selections). See [chat configuration](docs/guides/chat.md).
 
 Ordinary tests use deterministic fixtures, without downloaded books/models/network.
 Preserve archival fixture whitespace (`.gitattributes` exempts fixture text).

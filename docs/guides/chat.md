@@ -1,5 +1,10 @@
 # Chat and answers
 
+Answers are written by one of two providers, chosen explicitly with `PRAMANA_PROVIDER`:
+the local **Ollama** model (the default, below) or **OpenRouter's free models**
+([without a local model](#without-a-local-model-openrouters-free-models)). Search, the
+Study view, citations and notes need neither.
+
 Ollama must already be running with the chosen model installed. Pramana never pulls
 an answer model automatically. Check `ollama list`; to acquire a missing model,
 explicitly run `ollama pull gemma4:e4b` yourself. The default settings are:
@@ -241,3 +246,43 @@ Offsets from the API are Python code points; the UI converts them to JavaScript
 UTF-16 positions in one helper tested with supplementary characters
 (`npm --prefix web test`). Theme (system, light, dark) and text size are remembered
 per browser in `localStorage`.
+
+## Without a local model: OpenRouter's free models
+
+To get answers on a machine without Ollama or a GPU, use a free model on
+[OpenRouter](https://openrouter.ai/). Search stays local (BGE-small on the CPU); only
+writing the answer is sent out.
+
+```sh
+export PRAMANA_PROVIDER=openrouter
+export OPENROUTER_API_KEY=sk-or-...            # from openrouter.ai/keys
+uv run pramana model free                       # free models with JSON-schema output
+export PRAMANA_CHAT_MODEL=nvidia/nemotron-3-super-120b-a12b:free   # the default
+uv run pramana serve
+```
+
+- **Free models only.** Any `PRAMANA_CHAT_MODEL` that does not end in `:free` is refused
+  at startup, so nothing can be billed. The free list changes; `pramana model free` reads
+  OpenRouter's public model list and shows the ones that support structured output.
+  Requests ask for JSON-schema output and route only to endpoints that support it
+  (`require_parameters`); a model with none returns an error naming the command above.
+- **Limits.** OpenRouter's free plan allows 20 requests a minute and 50 a day for
+  accounts that have not bought credits (1,000 a day after buying 10 credits; checked
+  23 October 2026 in its [limits documentation](https://openrouter.ai/docs/api-reference/limits)).
+  A question uses one routing call and one answer call, plus one more for a follow-up's
+  rewrite, a format repair or the optional check, so expect roughly 15–25 questions a
+  day. When the limit is reached the chat says so.
+- **What is sent.** Your question, recent conversation turns for follow-ups, and the
+  retrieved **public-domain** passages. **Private local books are never sent:** their
+  passages are dropped from the evidence and their titles from the catalogue, and asking
+  about a selected passage from one is refused. The chat says which model answers and
+  that questions go to OpenRouter.
+- **Privacy settings.** Each provider behind OpenRouter has its own data policy, and
+  OpenRouter has separate privacy settings for free models; some free endpoints may log
+  or train on prompts. Review the free-model settings in your OpenRouter account
+  ([privacy and logging](https://openrouter.ai/docs/features/privacy-and-logging)).
+- **Evaluation.** `pramana evaluate-answers --limit 20` works with either provider;
+  at about two requests a question, the free plan fits roughly 20 questions a day, so
+  the 214-question set takes several days in batches.
+
+Unset `PRAMANA_PROVIDER` (or set it to `ollama`) to return to the local model.

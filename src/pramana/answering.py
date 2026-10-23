@@ -297,6 +297,112 @@ class OllamaProvider:
             raise AnswerError("Ollama returned malformed output. Retry the question.") from exc
 
 
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+# A free model with strict JSON-schema output when this was written (October 2026); the
+# free list changes, so PRAMANA_CHAT_MODEL chooses another (`pramana model free`).
+OPENROUTER_DEFAULT = "nvidia/nemotron-3-super-120b-a12b:free"
+
+
+class OpenRouterProvider:
+    """OpenRouter's free models only, chosen explicitly; never a silent substitute.
+
+    Only IDs ending in ":free" are accepted, so no request can be billed. Requests ask
+    for JSON-schema output and route only to endpoints that support it.
+    """
+
+    hosted = True
+
+    def __init__(self, key: str | None = None, model: str | None = None, transport=None):
+        self.key = key if key is not None else os.environ.get("OPENROUTER_API_KEY", "")
+        self.model = model or os.environ.get("PRAMANA_CHAT_MODEL", OPENROUTER_DEFAULT)
+        self.transport = transport
+        if not self.model.endswith(":free"):
+            raise PramanaError(
+                f"Only free OpenRouter models are allowed (IDs ending in ':free'); "
+                f"{self.model!r} is not one. List them with `pramana model free`."
+            )
+
+    async def chat(self, messages: list[dict], schema: dict) -> dict:
+        if not self.key:
+            raise AnswerError(
+                "Set OPENROUTER_API_KEY to use OpenRouter, or unset PRAMANA_PROVIDER to "
+                "answer with the local Ollama model.",
+                503,
+            )
+        size = len(json.dumps({"messages": messages, "format": schema}, ensure_ascii=False))
+        if size > 14000:
+            raise AnswerError(
+                "This question exceeds the context budget. Shorten the question or start a "
+                "new chat.",
+                422,
+            )
+        body = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": 0,
+            "max_tokens": 1200,
+            "response_format": {
+                "type": "json_schema",
+                "json_schema": {"name": "pramana", "strict": False, "schema": schema},
+            },
+            "provider": {"require_parameters": True},
+        }
+        headers = {
+            "Authorization": f"Bearer {self.key}",
+            "HTTP-Referer": "https://github.com/master-of-none/pramana",
+            "X-Title": "Pramana",
+        }
+        try:
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(120, connect=10), transport=self.transport
+            ) as client:
+                result = await client.post(OPENROUTER_URL, json=body, headers=headers)
+        except httpx.TimeoutException as exc:
+            raise AnswerError("OpenRouter timed out. Retry in a moment.", 504) from exc
+        except httpx.RequestError as exc:
+            raise AnswerError(
+                "Cannot reach OpenRouter. Check the internet connection, then retry.", 503
+            ) from exc
+        if result.status_code == 401:
+            raise AnswerError("OpenRouter rejected the API key. Check OPENROUTER_API_KEY.", 503)
+        if result.status_code == 429:
+            raise AnswerError(
+                "OpenRouter's free limit is used up for now (20 requests a minute, 50 a "
+                "day on the free plan). Wait and retry, or answer locally with Ollama.",
+                429,
+            )
+        if result.status_code in (402, 404):
+            raise AnswerError(
+                f"OpenRouter cannot serve {self.model!r} with structured output for free "
+                "right now. Choose another free model with `pramana model free`.",
+                503,
+            )
+        if result.is_error:
+            raise AnswerError(
+                f"OpenRouter returned HTTP {result.status_code}. Retry in a moment.", 503
+            )
+        try:
+            choice = result.json()["choices"][0]
+            if choice.get("finish_reason") == "length":
+                raise AnswerError("The model did not finish its answer. Retry the question.")
+            content = choice["message"]["content"].strip()
+            # Some models wrap JSON in a Markdown fence despite the requested format.
+            content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content)
+            return json.loads(content)
+        except (ValueError, KeyError, TypeError, IndexError) as exc:
+            raise AnswerError("OpenRouter returned malformed output. Retry the question.") from exc
+
+
+def provider_from_settings() -> AnswerProvider:
+    """PRAMANA_PROVIDER: "ollama" (default, local) or "openrouter" (free models only)."""
+    name = os.environ.get("PRAMANA_PROVIDER", "ollama").strip().lower()
+    if name == "ollama":
+        return OllamaProvider()
+    if name == "openrouter":
+        return OpenRouterProvider()
+    raise PramanaError(f"Unknown PRAMANA_PROVIDER {name!r}; use 'ollama' or 'openrouter'.")
+
+
 class Rewrite(Record):
     question: NonEmpty = Field(max_length=2000)
     document_ids: list[str] = Field(default_factory=list, max_length=4)
@@ -355,7 +461,9 @@ class Answerer:
         search_lock: LockType | None = None,
     ):
         self.retriever = retriever
-        self.provider = provider or OllamaProvider()
+        self.provider = provider or provider_from_settings()
+        # A hosted provider never receives private local editions (AGENTS.md).
+        self.private_ok = not getattr(self.provider, "hosted", False)
         self.search_lock = search_lock or Lock()
 
     def _documents(self):
@@ -363,10 +471,14 @@ class Answerer:
             rows = db.execute(
                 "SELECT DISTINCT json_extract(data,'$.document_id') AS id, "
                 "json_extract(data,'$.document') AS title, "
-                "json_extract(data,'$.author') AS author, translator, edition FROM chapters "
+                "json_extract(data,'$.author') AS author, translator, edition, "
+                "json_extract(data,'$.source.local_path') IS NOT NULL AS private FROM chapters "
                 "ORDER BY id, edition"
             ).fetchall()
-        return [dict(r) for r in rows]
+        documents = [dict(r) for r in rows]
+        if not self.private_ok:
+            documents = [d for d in documents if not d["private"]]
+        return [{k: v for k, v in d.items() if k != "private"} for d in documents]
 
     async def route(self, question: str) -> str:
         """ "texts" or "unrelated", from one short call that sees only the question.
@@ -398,6 +510,12 @@ class Answerer:
             raise AnswerError(
                 "The selected passage is no longer in the library. Select it again.", 404
             ) from exc
+        if chapter.source.local_path and not self.private_ok:
+            raise AnswerError(
+                "This passage is from a private local book, which is never sent to a hosted "
+                "model. Answer it with the local Ollama model instead.",
+                403,
+            )
         if focus.end > len(chapter.text):
             raise AnswerError(
                 "The selected passage does not fit its chapter. Select it again.", 422
@@ -706,6 +824,8 @@ class Answerer:
         hits = await asyncio.to_thread(
             self._retrieve, search, list(dict.fromkeys(selected)), authors, within
         )
+        if not self.private_ok:
+            hits = [h for h in hits if not h.passage.citation.source_local_path]
         if focused:
             ids = {p.id for p in focused}
             hits = [

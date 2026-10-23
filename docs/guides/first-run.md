@@ -15,7 +15,7 @@ and a command-line tool. Nothing you ask leaves your machine.
 | Linux or macOS | tested on Fedora Linux; Windows via WSL is untested | |
 | [uv](https://docs.astral.sh/uv/) | installs Python 3.12 and the locked dependencies | `uv --version` |
 | Node.js **22.12+** and npm | builds the web interface once | `node --version` |
-| [Ollama](https://ollama.com/) with `gemma4:e4b` | writes the answers locally | `ollama list` |
+| [Ollama](https://ollama.com/) with `gemma4:e4b` | writes the answers locally; or use [OpenRouter's free models](chat.md#without-a-local-model-openrouters-free-models) instead | `ollama list` |
 | About **13 GB** of free disk | see the breakdown below | `df -h .` |
 | Internet, once | the downloads in steps 3–5; afterwards everything works offline | |
 

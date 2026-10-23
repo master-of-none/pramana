@@ -359,6 +359,12 @@ Diagnostic review of individual answers, earlier
 | Madhavananda's Vivekacūḍāmaṇi: the three rare things | Grounded in that edition's page 10 (human birth, longing for liberation, a sage's care) |
 | "Reverse a linked list", "What is the duty of a software engineer?" | Answered from unrelated passages before routing; now declined ("Neti, neti…") |
 
+**No local model or GPU?** Search and the whole Study view work without one. For chat
+answers, OpenRouter's free models can stand in for Ollama: set `PRAMANA_PROVIDER=openrouter`
+and an `OPENROUTER_API_KEY`. Only free (`:free`) models are allowed, private books are
+never sent, and the free plan allows about 50 requests a day
+([details](docs/guides/chat.md#without-a-local-model-openrouters-free-models)).
+
 ## Quickstart
 
 Requires Python 3.12 with [uv](https://docs.astral.sh/uv/), Node.js 22.12+, and Ollama with

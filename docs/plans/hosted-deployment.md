@@ -108,8 +108,9 @@ deployment artifacts or cloud uploads.
 
 ## 2. Select cloud models before rebuilding retrieval
 
-- [ ] Add an `OpenRouterProvider` implementing the existing `AnswerProvider` interface.
-      Use its server-side chat-completion endpoint and structured output when supported.
+- [x] Add an `OpenRouterProvider` implementing the existing `AnswerProvider` interface
+      (October 2026): chat completions with JSON-schema output, `:free` models only,
+      private editions never sent. Query embeddings remain local.
 - [ ] Evaluate 2–3 currently available, inexpensive chat models. Select one by
       source-grounded answer quality, latency, schema reliability, privacy policy,
       and cost. Do not assume the local Ollama model tag exists on OpenRouter.

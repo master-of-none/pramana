@@ -87,6 +87,16 @@ export function Chat({
 }) {
   const [turns, setTurns] = useState<Turn[]>(restore);
   const [message, setMessage] = useState("");
+  // Which model writes answers; a hosted one is disclosed under the question box.
+  const [provider, setProvider] = useState<{ name: string; model: string } | null>(null);
+  useEffect(() => {
+    fetch("/api/config")
+      .then((r): Promise<{ provider?: { name: string; model: string } }> =>
+        r.ok ? r.json() : Promise.resolve({}),
+      )
+      .then((c) => c?.provider && setProvider(c.provider))
+      .catch(() => undefined);
+  }, []);
   // "Ask about this passage" from Study: a pointer sent with the next question only.
   const [focus, setFocus] = useState<FocusRef | null>(null);
   const [storageError, setStorageError] = useState(false);
@@ -639,7 +649,9 @@ export function Chat({
           <span>
             {pending
               ? "Take a moment. Good questions are worth sitting with."
-              : "A conversation with the books in your local library."}
+              : provider?.name === "openrouter"
+                ? `Answers by ${provider.model} on OpenRouter's free plan: your question and public-domain passages are sent there; private books never are.`
+                : "A conversation with the books in your local library."}
           </span>
           <span className="keyboard-hint">
             <CornerDownLeft size={11} /> to send <span>·</span> Shift + Enter

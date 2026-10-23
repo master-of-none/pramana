@@ -60,6 +60,13 @@ def create_app(
         return {
             "hosted": hosted is not None,
             "turnstile_site_key": hosted.site_key if hosted else "",
+            # Who writes answers, so the chat can say where questions go; never the key.
+            "provider": {
+                "name": "openrouter"
+                if getattr(chat_engine.provider, "hosted", False)
+                else "ollama",
+                "model": chat_engine.provider.model,
+            },
         }
 
     @api.exception_handler(Refused)

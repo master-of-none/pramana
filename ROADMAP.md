@@ -243,6 +243,8 @@ wheel serves its compiled reader and API without relying on editable source path
 - [x] **Ask about a passage; notes and highlights** (October 2026): a selection in the
   reader goes to the chat as a pointer only; highlights and notes stay in the browser,
   with Markdown/JSON export and import.
+- [x] **OpenRouter free models** (October 2026): answers without a local model, `:free`
+  models only, private books never sent; search stays local.
 - [x] **Off-topic routing** (October 2026): a short model call declines questions about
   other fields before search; tuned on the v2 set.
 - **More texts** (each
