@@ -99,3 +99,37 @@ Start the prepared app with `uv run pramana serve` and open
 ![Verified chat homepage](../images/chat-home.jpg)
 
 ![Real local-model conversation](../images/chat.jpg)
+
+## Vedānta library and comparisons — 23 October 2026
+
+Library: every `--source advaita` edition plus Wilson, imported from the cached
+downloads and indexed with the pinned BGE-small model (1,677 chapters, 4,352 passages;
+indexing took about 3 minutes on CPU). Benchmarks are reported in
+[benchmarks/advaita](../../benchmarks/advaita/README.md#results-23-october-2026) and the
+[chapter benchmark](../../benchmarks/README.md#run-of-23-october-2026).
+
+A small manual session with Ollama `gemma4:e4b` (installed ID `dc35e8d9c606`) through
+the HTTP API. This is diagnostic review of a handful of answers, not a measured
+accuracy result:
+
+| Question | Outcome after this session's fixes |
+| --- | --- |
+| How does Shankara define superimposition? | Grounded in BS I.1.1 (Śaṅkara's introduction); matches the "apparent presentation" definition and its examples. |
+| Śaṅkara and Rāmānuja on the individual soul (Check on) | Both views attributed correctly: identity in essence vs. a real difference from the highest Self. |
+| Kaṭha Upaniṣad on the Self (vichāra) | Answered from the Kaṭha itself, with three reflective questions. |
+| Śaṅkara and Rāmānuja on whether the world is real (Check on) | **Before the fixes:** Rāmānuja's card stated the Advaita view he refutes, and Śaṅkara's card ended on the prima facie view of BS III.2.1; the authorship and claim checks passed both. **After:** with the corrected server running, one run attributed both views correctly; a later run was refused by the authorship validation instead of publishing a misattribution. |
+
+Fixes made during the session, each covered by deterministic tests: the claim check
+judges each thinker's statements only against that thinker's passages; author-filtered
+comparison retrieval drops thinker names from the search text; the comparison prompt
+describes unlabelled restatements of rival views; a named scriptural work (e.g. "Katha
+Upanishad") restricts retrieval to that work; the lowest-ranked passages are trimmed
+only when the whole request would exceed the provider budget (a longer prompt had
+caused a 422); vichāra questions are required by the JSON schema.
+
+**Open limitation:** commentators restate opposing positions at length without the
+printed cues Pramana recognises (Rāmānuja's II.1.15 page is about 73,000 characters of
+argument). Neither the authorship check nor the same-model claim check can tell such a
+restatement from the author's own view. Doctrinal comparisons remain material for
+review against the texts in the Study view. Browser checks of the new UI were not part
+of this session.

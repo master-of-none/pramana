@@ -17,7 +17,7 @@ from pydantic import Field, ValidationError
 from pramana.discourse import annotate
 from pramana.errors import PramanaError
 from pramana.glossary import fold
-from pramana.library import SCOPES, scope_documents
+from pramana.library import OTHER, SCOPES, category, scope_documents
 from pramana.models import (
     ChatRequest,
     ChatResponse,
@@ -84,7 +84,14 @@ lets you represent, using the thinker names allowed by the schema. Each perspect
 view explains only that thinker's position, and its evidence_ids must come from
 evidence items whose author is that thinker. Put a brief, neutral account of the
 agreement or difference in answer. If the evidence covers only one side, say so in
-answer instead of inferring the other thinker's view.
+answer instead of inferring the other thinker's view. Commentators often restate a
+rival position at length before refuting it, without a label: in a Rāmānuja passage the
+Advaita doctrine (a non-differenced intelligence, a world superimposed by Nescience) or
+in a Śaṅkara passage a Sāṅkhya, Buddhist or prima facie view. Signs are phrases such
+as "it is said", "this view", "the opponent", "the theory of", followed by "this is not
+so", "this is untenable" or "we reply". A restated rival position is never that
+thinker's view; prefer passages where the thinker states his own conclusion, and if
+his own conclusion is not in the evidence, say so.
 """.split()
 )
 COMPARISON = re.compile(
@@ -156,10 +163,10 @@ def keep(pieces: list[str], dropped: set[int]) -> str:
 
 VICHARA = (
     " The reader chose vichara (enquiry): give a short answer of two to four sentences"
-    " from the evidence, then a line 'To reflect on:' followed by two or three questions"
-    " as a list that lead the reader deeper into what the passages themselves say, such"
-    " as a distinction, an objection and its reply, or an image the text uses. Do not"
-    " answer those questions and do not introduce ideas absent from the evidence."
+    " from the evidence, and in the questions field two or three questions that lead the"
+    " reader deeper into what the passages themselves say, such as a distinction, an"
+    " objection and its reply, or an image the text uses. Do not answer those questions"
+    " and do not introduce ideas absent from the evidence."
 )
 
 
@@ -267,6 +274,8 @@ class Draft(Record):
     status: Literal["grounded", "insufficient_evidence"]
     evidence_ids: list[str] = Field(max_length=8)
     perspectives: list[DraftPerspective] = Field(default_factory=list, max_length=4)
+    # Vichāra mode: questions for reflection, required by the schema in that mode.
+    questions: list[NonEmpty] = Field(default_factory=list, max_length=3)
 
 
 def fit(text: str, byte_budget: int) -> str:
@@ -312,9 +321,25 @@ class Answerer:
         with self.search_lock:
             if document_ids or authors:
                 # Balance evidence across explicitly requested editions and thinkers.
-                filters = [SearchFilters(document_id=doc) for doc in document_ids]
-                filters += [SearchFilters(author=a, document_ids=within) for a in authors]
-                lists = [self.retriever.search(question, limit=6, filters=f) for f in filters]
+                # With an author filter, thinker names only dilute the search text.
+                topic = (
+                    " ".join(
+                        w
+                        for w in question.split()
+                        if not any(n in fold(w) for names in THINKERS.values() for n in names)
+                    ).strip()
+                    or question
+                )
+                lists = [
+                    self.retriever.search(question, limit=6, filters=SearchFilters(document_id=d))
+                    for d in document_ids
+                ]
+                lists += [
+                    self.retriever.search(
+                        topic, limit=6, filters=SearchFilters(author=a, document_ids=within)
+                    )
+                    for a in authors
+                ]
                 hits = [hits[i] for i in range(6) for hits in lists if i < len(hits)]
             else:
                 filters = SearchFilters(document_ids=within) if within is not None else None
@@ -351,27 +376,56 @@ class Answerer:
             for n, i in enumerate(range(0, len(pieces), 2))
             if pieces[i].strip()
         ]
-        listing = [{"id": i + 1, "text": text} for i, (_, _, text) in enumerate(units)]
-        messages = [
-            {"role": "system", "content": CHECK_PROMPT},
-            {
-                "role": "user",
-                "content": json.dumps(
-                    {"evidence": payloads, "statements": listing}, ensure_ascii=False
-                ),
-            },
-        ]
-        schema = Verdicts.model_json_schema()
-        schema["$defs"]["Verdict"]["properties"]["id"]["enum"] = [x["id"] for x in listing]
-        if len(json.dumps({"messages": messages, "format": schema}).encode()) > 14000:
-            return CheckReport(status="unavailable", reason="The answer was too long to check.")
-        try:
-            verdicts = Verdicts.model_validate(await self.provider.chat(messages, schema))
-            by_id = {v.id: v.verdict for v in verdicts.verdicts}
-            if sorted(by_id) != [x["id"] for x in listing] or len(verdicts.verdicts) != len(by_id):
-                raise ValueError("verdicts must cover every statement exactly once")
-        except (AnswerError, ValidationError, ValueError):
-            return CheckReport(status="unavailable", reason="The check did not complete.")
+        authors = {item.get("author") for item in payloads if item.get("author")}
+
+        def scope(k: int, text: str) -> str | None:
+            """The one thinker whose passages alone may support this statement, if any."""
+            if k:
+                return parts[k][0]
+            folded = fold(text)
+            named = {
+                a
+                for a in authors
+                for key, names in THINKERS.items()
+                if key in fold(a) and any(n in folded for n in names)
+            }
+            return named.pop() if len(named) == 1 else None
+
+        # A thinker's statements are judged only against that thinker's own passages, so
+        # content borrowed from another author's text cannot pass as support.
+        groups: dict[str | None, list[int]] = {}
+        for i, (k, _, text) in enumerate(units):
+            groups.setdefault(scope(k, text), []).append(i)
+        by_id: dict[int, str] = {}
+        for thinker, members in groups.items():
+            evidence = [e for e in payloads if thinker is None or e.get("author") == thinker]
+            listing = [{"id": i + 1, "text": units[i][2]} for i in members]
+            if not evidence:
+                by_id.update({x["id"]: "unsupported" for x in listing})
+                continue
+            messages = [
+                {"role": "system", "content": CHECK_PROMPT},
+                {
+                    "role": "user",
+                    "content": json.dumps(
+                        {"evidence": evidence, "statements": listing}, ensure_ascii=False
+                    ),
+                },
+            ]
+            schema = Verdicts.model_json_schema()
+            schema["$defs"]["Verdict"]["properties"]["id"]["enum"] = [x["id"] for x in listing]
+            if len(json.dumps({"messages": messages, "format": schema}).encode()) > 14000:
+                return CheckReport(status="unavailable", reason="The answer was too long to check.")
+            try:
+                verdicts = Verdicts.model_validate(await self.provider.chat(messages, schema))
+                found = {v.id: v.verdict for v in verdicts.verdicts}
+                if sorted(found) != [x["id"] for x in listing] or len(verdicts.verdicts) != len(
+                    found
+                ):
+                    raise ValueError("verdicts must cover every statement exactly once")
+            except (AnswerError, ValidationError, ValueError):
+                return CheckReport(status="unavailable", reason="The check did not complete.")
+            by_id.update(found)
         dropped: dict[int, set[int]] = {}
         for i, (k, n, _) in enumerate(units):
             if by_id[i + 1] == "unsupported":
@@ -489,6 +543,21 @@ class Answerer:
             ]
             if "taittiriya_anandavalli_sastri" in selected and "gita" not in folded:
                 selected = ["taittiriya_anandavalli_sastri"]
+            # A named work ("Katha Upanishad", "Chandogya", "Knowledge of Self") is searched
+            # itself, not only commentaries that discuss it.
+            plain = fold(question)
+            for doc in documents:
+                title = fold(doc["title"] or "")
+                # Only scriptural collections: short-work titles are ordinary phrases.
+                if category(doc["title"] or "") == OTHER:
+                    continue
+                short = re.sub(r"[-\s]*upanishad\w*$", "", title).strip()
+                names = {title} | ({short} if len(short) >= 4 and short != title else set())
+                if re.search(r"\b(?:gita|geeta)\b", title):
+                    names |= {"gita", "geeta"}
+                if any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", plain) for n in names):
+                    if doc["id"] not in selected:
+                        selected.append(doc["id"])
         named = fold(question)
         thinkers = [key for key, names in THINKERS.items() if any(n in named for n in names)]
         authors = list(
@@ -585,6 +654,29 @@ class Answerer:
         else:
             schema["properties"].pop("perspectives")
             schema.pop("$defs", None)
+        if request.mode == "vichara":
+            schema["properties"]["questions"].update(minItems=2, maxItems=3)
+            schema["required"] = [*schema.get("required", []), "questions"]
+        else:
+            schema["properties"].pop("questions")
+        # Keep the whole request within the provider budget, dropping the lowest-ranked
+        # passages only when the instructions and schema leave too little room.
+        while len(payloads) > 1 and (
+            len(json.dumps({"messages": messages, "format": schema}, ensure_ascii=False).encode())
+            > 13800
+        ):
+            payloads.pop()
+            evidence.pop()
+            refs = [e.reference for e in evidence]
+            supplied = {item.reference: item for item in evidence}
+            messages[1]["content"] = json.dumps(
+                {"question": fit(question, 6000), "evidence": payloads}, ensure_ascii=False
+            )
+            schema["properties"]["evidence_ids"]["items"]["enum"] = refs
+            if comparative:
+                schema["$defs"]["DraftPerspective"]["properties"]["evidence_ids"]["items"][
+                    "enum"
+                ] = refs
         system = messages[0]["content"]
         for attempt in range(2):
             raw = await self.provider.chat(messages, schema)
@@ -598,6 +690,10 @@ class Answerer:
                     raise AnswerError("The answer's evidence and status disagree. Please retry.")
                 if draft.status == "grounded":
                     display_answer(draft.answer)
+                    for item in draft.questions:
+                        display_answer(item)
+                if request.mode != "vichara":
+                    draft.questions = []
                 draft.perspectives = draft.perspectives if comparative else []
                 for view in draft.perspectives:
                     # A view attributed to a thinker must rest on that thinker's own text.
@@ -606,7 +702,9 @@ class Answerer:
                         for ref in view.evidence_ids
                     ):
                         raise AnswerError(
-                            "The comparison attributed a view to the wrong thinker. Please retry."
+                            "Pramana could not tie each view to that thinker's own texts for "
+                            "this question, so it gave no answer. Try asking about one thinker "
+                            "at a time, or name the topic more specifically."
                         )
                     display_answer(view.view)
                 if comparative and draft.status == "grounded" and not draft.perspectives:
@@ -631,6 +729,9 @@ class Answerer:
                         else ""
                     )
                 )
+        if draft.status == "grounded" and draft.questions:
+            reflect = "\n".join(f"- {q.strip()}" for q in draft.questions)
+            draft.answer = f"{draft.answer.strip()}\n\nTo reflect on:\n\n{reflect}"
         check = None
         if request.check and draft.status == "grounded":
             await report("checking")

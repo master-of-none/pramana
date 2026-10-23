@@ -188,7 +188,7 @@ def test_conflicting_interpretations_stay_attributed(indexed, embedder, tmp_path
     # A view credited to one thinker but supported by the other's text is rejected.
     swapped = [{**views[0], "evidence_ids": [by_author["Thinker B"]]}, views[1]]
     bad = {**grounded(answer, [by_author["Thinker A"]]), "perspectives": swapped}
-    with pytest.raises(AnswerError, match="wrong thinker"):
+    with pytest.raises(AnswerError, match="one thinker at a time"):
         run(Answerer(retriever, provider=Provider([bad, bad])), question)
     plain = Provider([grounded("Thinker A emphasizes action.", ["E1"])])
     run(Answerer(retriever, provider=plain), "What does Thinker A say about action?")
@@ -439,9 +439,122 @@ def test_claim_check_removes_unsupported_sentences(indexed, embedder):
 
 def test_vichara_mode_asks_for_guiding_questions(indexed, embedder):
     retriever = Retriever(indexed, embedder=embedder)
-    provider = Provider([grounded("Vishnu preserves.\n\nTo reflect on:\n\n- What is preserved?")])
+    draft = {**grounded("Vishnu preserves."), "questions": ["What is preserved?", "By whom?"]}
+    provider = Provider([draft])
     request = ChatRequest(message="Who preserves?", mode="vichara", depth="deep")
     result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
-    system = provider.calls[0][0][0]["content"]
-    assert "To reflect on:" in system and "explain more fully" not in system
-    assert result.answer.endswith("What is preserved?")
+    system, schema = provider.calls[0][0][0]["content"], provider.calls[0][1]
+    assert "questions field" in system and "explain more fully" not in system
+    assert "questions" in schema["required"] and schema["properties"]["questions"]["minItems"] == 2
+    assert (
+        result.answer == "Vishnu preserves.\n\nTo reflect on:\n\n- What is preserved?\n- By whom?"
+    )
+    plain = Provider([grounded()])
+    asyncio.run(Answerer(retriever, provider=plain).answer(ChatRequest(message="Who preserves?")))
+    assert "questions" not in plain.calls[0][1]["properties"]
+
+
+def test_claim_check_judges_each_view_against_its_own_thinker(
+    indexed, embedder, tmp_path, make_chapter
+):
+    chapters = [
+        make_chapter("Sankara: Brahman alone is real; the world is an appearance.", chapter="7"),
+        make_chapter("Ramanuja: the world is real and is the body of Brahman.", chapter="8"),
+    ]
+    chapters[0].author, chapters[1].author = "Sankaracharya", "Ramanuja"
+    chapters[0].edition, chapters[1].edition = "Edition S", "Edition R"
+    path = tmp_path / "pair.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    retriever = Retriever(indexed, embedder=embedder)
+    question = "How do Shankara and Ramanuja differ on whether the world is real?"
+    probe = Provider([AnswerError("stop", 503)])
+    with pytest.raises(AnswerError):
+        run(Answerer(retriever, provider=probe), question)
+    evidence = json.loads(probe.calls[0][0][-1]["content"])["evidence"]
+    ids = {e["author"]: e["id"] for e in evidence if e["author"]}
+    draft = {
+        **grounded("Shankara holds the world is an appearance.", [ids["Sankaracharya"]]),
+        "perspectives": [
+            {
+                "thinker": "Sankaracharya",
+                "view": "The world is an appearance.",
+                "evidence_ids": [ids["Sankaracharya"]],
+            },
+            # Borrowed from Sankara's passage but credited to Ramanuja.
+            {
+                "thinker": "Ramanuja",
+                "view": "The world is an appearance.",
+                "evidence_ids": [ids["Ramanuja"]],
+            },
+        ],
+    }
+
+    class Checker(Provider):
+        async def chat(self, messages, schema):
+            if "verdicts" not in schema["properties"]:
+                return await super().chat(messages, schema)
+            body = json.loads(messages[-1]["content"])
+            self.calls.append((messages, schema))
+            return {
+                "verdicts": [
+                    {
+                        "id": s["id"],
+                        # A faithful judge: "appearance" is only in Sankara's passage.
+                        "verdict": "supported"
+                        if any("appearance" in e["text"] for e in body["evidence"])
+                        else "unsupported",
+                    }
+                    for s in body["statements"]
+                ]
+            }
+
+    checker = Checker([draft])
+    request = ChatRequest(message=question, check=True)
+    result = asyncio.run(Answerer(retriever, provider=checker).answer(request))
+    scoped = [
+        sorted({e["author"] for e in json.loads(m[-1]["content"])["evidence"]})
+        for m, s in checker.calls
+        if "verdicts" in s["properties"]
+    ]
+    assert ["Ramanuja"] in scoped and ["Sankaracharya"] in scoped
+    assert [p.thinker for p in result.perspectives] == ["Sankaracharya"]
+    assert result.check.removed == 1
+
+
+def test_named_scriptural_work_is_searched_itself(indexed, embedder, tmp_path, make_chapter):
+    katha = make_chapter("The knowing Self is not born, it dies not.", chapter="9")
+    katha.document_id, katha.document = "katha-upanishad-x", "Katha Upanishad"
+    short = make_chapter("Knowledge is the only direct means to liberation.", chapter="10")
+    short.document_id, short.document = "knowledge-of-self-x", "Knowledge of Self"
+    path = tmp_path / "titles.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in (katha, short)))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    retriever = Retriever(indexed, embedder=embedder)
+    seen = []
+    original = retriever.search
+    retriever.search = lambda q, **k: (seen.append(k.get("filters")), original(q, **k))[1]
+    run(Answerer(retriever, provider=Provider([grounded()])), "What does the Katha Upanishad say?")
+    assert [f.document_id for f in seen if f and f.document_id] == ["katha-upanishad-x"]
+    seen.clear()
+    run(Answerer(retriever, provider=Provider([grounded()])), "What is knowledge of self?")
+    assert not [f for f in seen if f and f.document_id]  # a short-work title is not a scope
+
+
+def test_long_instructions_trim_lowest_ranked_evidence(indexed, embedder, tmp_path, make_chapter):
+    chapters = [
+        make_chapter(f"Vishnu passage {i}. " + "word " * 340, chapter=str(20 + i)) for i in range(8)
+    ]
+    path = tmp_path / "long.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in chapters))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    provider = Provider([grounded()])
+    run(Answerer(Retriever(indexed, embedder=embedder), provider=provider), "Vishnu passage")
+    messages, schema = provider.calls[0]
+    size = len(json.dumps({"messages": messages, "format": schema}, ensure_ascii=False).encode())
+    assert size <= 13800
+    ids = [e["id"] for e in json.loads(messages[-1]["content"])["evidence"]]
+    assert schema["properties"]["evidence_ids"]["items"]["enum"] == ids

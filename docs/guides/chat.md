@@ -119,7 +119,11 @@ view in its own labelled card, without sources.
 
 Naming two or more known thinkers (Śaṅkara, Rāmānuja or "Viśiṣṭādvaita",
 Chinmayananda, Swarupananda, Barnett) retrieves evidence separately for each author
-and interleaves it. The authorship check confirms whose text supports a view; it
+and interleaves it; the thinkers' names are dropped from each author-filtered search,
+since the filter already expresses authorship. If a view still cites another thinker's
+passages after one regeneration, no answer is given and the reply suggests asking about
+one thinker at a time. Naming a scriptural work ("Katha Upanishad", "Chandogya", "the
+Gita") searches that work itself; titles of short works are not treated this way. The authorship check confirms whose text supports a view; it
 does not confirm that the view is a correct reading of that text.
 
 ## Scope and answer length
@@ -148,6 +152,10 @@ the reply becomes an insufficient-evidence answer. `partly` sentences are kept.
 `ChatResponse.check` reports every verdict. If the check cannot run (too long for the
 context budget, malformed verdicts, or a provider error), the answer is returned
 unchanged with `check.status: "unavailable"`, and the chat says the check did not run.
+
+In a comparison, each thinker's statements (their card, and summary sentences naming
+only that thinker) are judged only against that thinker's own passages, one check call
+per group, so content borrowed from another author's text is not counted as support.
 
 **This is a filter, not verification.** The same local model judges its own answer,
 so it can miss errors, wrongly remove correct sentences, and repeat a misreading of
