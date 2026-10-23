@@ -1,59 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="312" viewBox="0 0 980 312" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
-<title id="t">Advaita passage benchmark</title><desc id="d">50 questions with exact gold spans · chat&#x27;s All texts scope · AI-drafted, unreviewed</desc>
-<rect width="980" height="312" rx="10" fill="#fcfcfb"/>
-<text x="24" y="30" font-size="17" font-weight="700" fill="#0b0b0b">Advaita passage benchmark</text>
-<text x="24" y="48" font-size="12" fill="#52514e">50 questions with exact gold spans · chat&#x27;s All texts scope · AI-drafted, unreviewed</text>
-<rect x="24" y="58" width="12" height="12" rx="3" fill="#2a78d6"/><text x="42" y="68" font-size="12" fill="#52514e">Dev (30)</text><rect x="134" y="58" width="12" height="12" rx="3" fill="#eb6834"/><text x="152" y="68" font-size="12" fill="#52514e">Heldout (20)</text>
-<text x="24.0" y="92" font-size="14" font-weight="600" fill="#0b0b0b">Recall@10</text>
-<line x1="214.0" y1="110" x2="214.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="214.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">0</text>
-<line x1="270.5" y1="110" x2="270.5" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="270.5" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.25</text>
-<line x1="327.0" y1="110" x2="327.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="327.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.5</text>
-<line x1="383.5" y1="110" x2="383.5" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="383.5" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.75</text>
-<line x1="440.0" y1="110" x2="440.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="440.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">1</text>
-<text x="202.0" y="133.0" font-size="13" text-anchor="end" fill="#0b0b0b">Hybrid (chat default)</text>
-<path d="M214.0,110 h131.6 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-131.6 z" fill="#2a78d6"/>
-<text x="355.6" y="123.0" font-size="12" font-weight="600" fill="#0b0b0b">0.60</text>
-<path d="M214.0,130 h142.9 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-142.9 z" fill="#eb6834"/>
-<text x="366.9" y="143.0" font-size="12" font-weight="600" fill="#0b0b0b">0.65</text>
-<text x="202.0" y="187.0" font-size="13" text-anchor="end" fill="#0b0b0b">Keyword (BM25)</text>
-<path d="M214.0,164 h124.06666666666666 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-124.06666666666666 z" fill="#2a78d6"/>
-<text x="348.06666666666666" y="177.0" font-size="12" font-weight="600" fill="#0b0b0b">0.57</text>
-<path d="M214.0,184 h120.30000000000001 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-120.30000000000001 z" fill="#eb6834"/>
-<text x="344.3" y="197.0" font-size="12" font-weight="600" fill="#0b0b0b">0.55</text>
-<text x="202.0" y="241.0" font-size="13" text-anchor="end" fill="#0b0b0b">Semantic (BGE-small)</text>
-<path d="M214.0,218 h86.4 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-86.4 z" fill="#2a78d6"/>
-<text x="310.4" y="231.0" font-size="12" font-weight="600" fill="#0b0b0b">0.40</text>
-<path d="M214.0,238 h97.7 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-97.7 z" fill="#eb6834"/>
-<text x="321.7" y="251.0" font-size="12" font-weight="600" fill="#0b0b0b">0.45</text>
-<text x="514.0" y="92" font-size="14" font-weight="600" fill="#0b0b0b">MRR@10</text>
-<line x1="704.0" y1="110" x2="704.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="704.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">0</text>
-<line x1="760.5" y1="110" x2="760.5" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="760.5" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.25</text>
-<line x1="817.0" y1="110" x2="817.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="817.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.5</text>
-<line x1="873.5" y1="110" x2="873.5" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="873.5" y="274" font-size="11" text-anchor="middle" fill="#52514e">0.75</text>
-<line x1="930.0" y1="110" x2="930.0" y2="256" stroke="#e4e3df" stroke-width="1"/>
-<text x="930.0" y="274" font-size="11" text-anchor="middle" fill="#52514e">1</text>
-<text x="692.0" y="133.0" font-size="13" text-anchor="end" fill="#0b0b0b">Hybrid (chat default)</text>
-<path d="M704.0,110 h87.30878306878307 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-87.30878306878307 z" fill="#2a78d6"/>
-<text x="801.3087830687831" y="123.0" font-size="12" font-weight="600" fill="#0b0b0b">0.40</text>
-<path d="M704.0,130 h112.29583333333332 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-112.29583333333332 z" fill="#eb6834"/>
-<text x="826.2958333333333" y="143.0" font-size="12" font-weight="600" fill="#0b0b0b">0.51</text>
-<text x="692.0" y="187.0" font-size="13" text-anchor="end" fill="#0b0b0b">Keyword (BM25)</text>
-<path d="M704.0,164 h88.48960317460318 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-88.48960317460318 z" fill="#2a78d6"/>
-<text x="802.4896031746032" y="177.0" font-size="12" font-weight="600" fill="#0b0b0b">0.41</text>
-<path d="M704.0,184 h75.30178571428573 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-75.30178571428573 z" fill="#eb6834"/>
-<text x="789.3017857142858" y="197.0" font-size="12" font-weight="600" fill="#0b0b0b">0.35</text>
-<text x="692.0" y="241.0" font-size="13" text-anchor="end" fill="#0b0b0b">Semantic (BGE-small)</text>
-<path d="M704.0,218 h71.96111111111112 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-71.96111111111112 z" fill="#2a78d6"/>
-<text x="785.9611111111111" y="231.0" font-size="12" font-weight="600" fill="#0b0b0b">0.34</text>
-<path d="M704.0,238 h71.33333333333334 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-71.33333333333334 z" fill="#eb6834"/>
-<text x="785.3333333333334" y="251.0" font-size="12" font-weight="600" fill="#0b0b0b">0.33</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="248" viewBox="0 0 980 248" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">v1: hybrid finds the most supporting passages, semantic search alone the fewest</title><desc id="d">The frozen 50 questions · chat&#x27;s All texts scope · AI-drafted, unreviewed</desc>
+<rect width="980" height="248" rx="10" fill="#fcfcfb"/>
+<text x="24.0" y="32.0" font-size="18" font-weight="700" text-anchor="start" fill="#0b0b0b">v1: hybrid finds the most supporting passages, semantic search alone the fewest</text><text x="24.0" y="51.0" font-size="12" font-weight="400" text-anchor="start" fill="#52514e">The frozen 50 questions · chat&#x27;s All texts scope · AI-drafted, unreviewed</text>
+<circle cx="30.0" cy="70.0" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"></circle><text x="44.0" y="74.0" font-size="12" font-weight="400" text-anchor="start" fill="#52514e">Dev (30)</text><circle cx="128.0" cy="70.0" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"></circle><text x="142.0" y="74.0" font-size="12" font-weight="400" text-anchor="start" fill="#52514e">Heldout (20)</text><text x="24.0" y="102.0" font-size="14" font-weight="600" text-anchor="start" fill="#0b0b0b">Recall@10</text><line x1="195.0" y1="116" x2="195.0" y2="216" stroke="#e4e3df"/><text x="195.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.3</text><line x1="242.4" y1="116" x2="242.4" y2="216" stroke="#e4e3df"/><text x="242.4" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.4</text><line x1="289.8" y1="116" x2="289.8" y2="216" stroke="#e4e3df"/><text x="289.8" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.5</text><line x1="337.2" y1="116" x2="337.2" y2="216" stroke="#e4e3df"/><text x="337.2" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.6</text><line x1="384.6" y1="116" x2="384.6" y2="216" stroke="#e4e3df"/><text x="384.6" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.7</text><line x1="432.0" y1="116" x2="432.0" y2="216" stroke="#e4e3df"/><text x="432.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.8</text><text x="181.0" y="137.0" font-size="13" font-weight="700" text-anchor="end" fill="#0b0b0b">Hybrid (chat default)</text><line x1="337.2" y1="133.0" x2="360.9" y2="133.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="337.2" cy="133.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Hybrid (chat default), Dev (30): 0.600</title></circle><circle cx="360.9" cy="133.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Hybrid (chat default), Heldout (20): 0.650</title></circle><text x="372.9" y="137.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.60 · 0.65</text><text x="181.0" y="171.0" font-size="13" font-weight="400" text-anchor="end" fill="#0b0b0b">Keyword (BM25)</text><line x1="321.4" y1="167.0" x2="313.5" y2="167.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="321.4" cy="167.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Keyword (BM25), Dev (30): 0.567</title></circle><circle cx="313.5" cy="167.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Keyword (BM25), Heldout (20): 0.550</title></circle><text x="333.4" y="171.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.57 · 0.55</text><text x="181.0" y="205.0" font-size="13" font-weight="400" text-anchor="end" fill="#0b0b0b">Semantic (BGE-small)</text><line x1="242.4" y1="201.0" x2="266.1" y2="201.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="242.4" cy="201.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Semantic (BGE-small), Dev (30): 0.400</title></circle><circle cx="266.1" cy="201.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Semantic (BGE-small), Heldout (20): 0.450</title></circle><text x="278.1" y="205.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.40 · 0.45</text><text x="502.0" y="102.0" font-size="14" font-weight="600" text-anchor="start" fill="#0b0b0b">MRR@10</text><line x1="518.0" y1="116" x2="518.0" y2="216" stroke="#e4e3df"/><text x="518.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.2</text><line x1="616.0" y1="116" x2="616.0" y2="216" stroke="#e4e3df"/><text x="616.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.3</text><line x1="714.0" y1="116" x2="714.0" y2="216" stroke="#e4e3df"/><text x="714.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.4</text><line x1="812.0" y1="116" x2="812.0" y2="216" stroke="#e4e3df"/><text x="812.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.5</text><line x1="910.0" y1="116" x2="910.0" y2="216" stroke="#e4e3df"/><text x="910.0" y="232.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0.6</text><line x1="717.9" y1="133.0" x2="826.3" y2="133.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="717.9" cy="133.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Hybrid (chat default), Dev (30): 0.404</title></circle><circle cx="826.3" cy="133.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Hybrid (chat default), Heldout (20): 0.515</title></circle><text x="706.9" y="137.0" font-size="12" font-weight="600" text-anchor="end" fill="#0b0b0b">0.40</text><text x="837.3" y="137.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.51</text><line x1="723.1" y1="167.0" x2="665.9" y2="167.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="723.1" cy="167.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Keyword (BM25), Dev (30): 0.409</title></circle><circle cx="665.9" cy="167.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Keyword (BM25), Heldout (20): 0.351</title></circle><text x="654.9" y="171.0" font-size="12" font-weight="600" text-anchor="end" fill="#0b0b0b">0.35</text><text x="734.1" y="171.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.41</text><line x1="651.4" y1="201.0" x2="648.7" y2="201.0" stroke="#c9c7c0" stroke-width="3"/><circle cx="651.4" cy="201.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>Semantic (BGE-small), Dev (30): 0.336</title></circle><circle cx="648.7" cy="201.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>Semantic (BGE-small), Heldout (20): 0.333</title></circle><text x="663.4" y="205.0" font-size="12" font-weight="600" text-anchor="start" fill="#0b0b0b">0.34 · 0.33</text>
 </svg>

@@ -116,11 +116,16 @@ drafted by an AI model and none is human-reviewed yet**, so these are engineerin
 diagnostics, not validated measurements. The full breakdown, every failure and how to
 rerun: [benchmarks/advaita/v2](benchmarks/advaita/v2/README.md).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/headline-dark.svg">
+  <img alt="Benchmark v2 at a glance: 0.74 of questions have their supporting passage in the top 10 (hybrid search, 198 questions); 16 of 16 off-topic questions declined; 11 of 12 comparisons give both thinkers' views; median answer time 1.1 seconds." src="docs/images/benchmarks/headline-light.svg" width="100%">
+</picture>
+
 ### Benchmark v2: 214 questions over every text
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/v2-overview-dark.svg">
-  <img alt="Benchmark v2 retrieval. Recall@10: hybrid 0.76 dev, 0.71 heldout; keyword 0.70 and 0.75; semantic 0.54 and 0.56. MRR@10: hybrid 0.54 and 0.57." src="docs/images/benchmarks/v2-overview-light.svg" width="100%">
+  <img alt="Dot plot, benchmark v2 retrieval, dev and heldout. Recall@10: hybrid 0.76 and 0.71; keyword 0.70 and 0.75; semantic 0.54 and 0.56. MRR@10: hybrid 0.54 and 0.57; keyword 0.54 and 0.51; semantic 0.39 and 0.37." src="docs/images/benchmarks/v2-overview-light.svg" width="100%">
 </picture>
 
 | Method | Dev R@10 | Dev MRR@10 | Heldout R@10 | Heldout MRR@10 | All R@10 |
@@ -157,8 +162,13 @@ numbers are not comparable with v1's, and the v1 subset remains the continuity m
   indexed passages.
 
 <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/v2-failures-dark.svg">
+  <img alt="Where misses land, as shares of each method's misses. Hybrid, 55 misses: another work 55%, right work but other chapter 31%, right chapter but other passage 15%. Keyword, 58 misses: 72%, 24%, 3%. Semantic, 94 misses: 56%, 30%, 14%." src="docs/images/benchmarks/v2-failures-light.svg" width="100%">
+</picture>
+
+<picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/v2-by-text-dark.svg">
-  <img alt="Recall@10 by text, hybrid: Principal Upanishads 0.70, Yoga Vasishtha 0.68, Shankara's Brahma Sutra 0.92, Ramanuja 0.74, Crest-Jewel 0.56, Ashtavakra 0.87, Gita 0.67, Shankara's shorter works 0.85, comparisons 0.62, minor Upanishads 0.78, Barnett 0.86." src="docs/images/benchmarks/v2-by-text-light.svg" width="100%">
+  <img alt="Heatmap of Recall@10 by text and method, plus the share of answers citing the gold passage. Hybrid: Principal Upanishads 0.70, Yoga Vasishtha 0.68, Shankara's Brahma Sutra 0.92, Ramanuja 0.74, Crest-Jewel 0.56, Ashtavakra 0.87, Gita 0.67, Shankara's shorter works 0.85, comparisons 0.62, minor Upanishads 0.78, Barnett 0.86. Semantic search alone on the Gita: 0.27. Answers citing the gold passage on the Crest-Jewel: 0.39." src="docs/images/benchmarks/v2-by-text-light.svg" width="100%">
 </picture>
 
 Semantic search alone is weakest on the Gītā (0.27) and the minor Upaniṣads (0.44). The
@@ -169,7 +179,7 @@ because Johnston's English ("vestures", "the Eternal") rarely shares the asker's
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/models-dark.svg">
-  <img alt="Embedding models on v2. Semantic Recall@10: BGE-small 0.55, BGE-base 0.56, BGE-large 0.60. Hybrid Recall@10: 0.74, 0.76, 0.77. Hybrid MRR@10: 0.55, 0.51, 0.57." src="docs/images/benchmarks/models-light.svg" width="100%">
+  <img alt="Line chart over model size (33M, 109M, 335M parameters). Hybrid Recall@10: 0.74, 0.76, 0.77; semantic only: 0.55, 0.56, 0.60. Hybrid MRR@10: 0.55, 0.51, 0.57; semantic only: 0.38, 0.38, 0.45." src="docs/images/benchmarks/models-light.svg" width="100%">
 </picture>
 
 | Model | Parameters | Dims | Semantic R@10 | Semantic MRR@10 | Hybrid R@10 | Hybrid MRR@10 | Embed 8,851 passages (GPU) |
@@ -201,7 +211,7 @@ variants on this same set**, so these numbers are tuned, not held out
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/passage-dark.svg">
-  <img alt="Advaita passage benchmark v1. Recall@10: hybrid 0.60 dev, 0.65 heldout; keyword 0.57 and 0.55; semantic 0.40 and 0.45. MRR@10: hybrid 0.40 and 0.52." src="docs/images/benchmarks/passage-light.svg" width="100%">
+  <img alt="Dot plot, v1 benchmark, dev and heldout. Recall@10: hybrid 0.60 and 0.65; keyword 0.57 and 0.55; semantic 0.40 and 0.45. MRR@10: hybrid 0.40 and 0.52; keyword 0.41 and 0.35; semantic 0.34 and 0.33." src="docs/images/benchmarks/passage-light.svg" width="100%">
 </picture>
 
 | Method | Dev R@10 | Dev MRR@10 | Heldout R@10 | Heldout MRR@10 |
@@ -217,7 +227,7 @@ The original 50 questions (30 dev, 20 heldout), unchanged since creation. Detail
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/library-growth-dark.svg">
-  <img alt="Hybrid Recall@10 on v1 as the library grew: 0.63 dev and 0.75 heldout for the first three libraries, 0.60 and 0.65 with the Yoga Vasishtha searched, 0.67 and 0.65 with it excluded, 0.60 and 0.65 after adding Madhavananda's Vivekachudamani." src="docs/images/benchmarks/library-growth-light.svg" width="100%">
+  <img alt="Line chart of hybrid Recall@10 on v1 as the library grew: dev 0.63 and heldout 0.75 for the first three libraries, 0.60 and 0.65 with the Yoga Vasishtha searched, 0.67 and 0.65 with it excluded, 0.60 and 0.65 after adding Madhavananda's Vivekachudamani." src="docs/images/benchmarks/library-growth-light.svg" width="100%">
 </picture>
 
 Adding the Crest-Jewel and the Aṣṭāvakra Gītā left recall unchanged. Searching the Yoga
@@ -236,7 +246,7 @@ shifts keyword ranking.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/chapter-dark.svg">
-  <img alt="Chapter benchmark, v0.1 versus today. Recall@10: hybrid 0.95 and 0.95, keyword 0.90 and 0.95, semantic 1.00 and 1.00." src="docs/images/benchmarks/chapter-light.svg" width="100%">
+  <img alt="Chapter benchmark, v0.1 to today. Recall@10: hybrid 0.95 unchanged, keyword 0.90 to 0.95, semantic 1.00 unchanged. MRR@10: hybrid 0.82, keyword 0.74, semantic 0.80." src="docs/images/benchmarks/chapter-light.svg" width="100%">
 </picture>
 
 | Method | v0.1 R@10 | v0.1 MRR@10 | Today R@10 | Today MRR@10 |
@@ -253,7 +263,7 @@ directly comparable. See [benchmarks/README.md](benchmarks/README.md).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/spelling-dark.svg">
-  <img alt="Spelling diagnostic MRR@10: keyword 0.65 off and 1.00 on; hybrid 0.80 off and 0.81 on." src="docs/images/benchmarks/spelling-light.svg" width="100%">
+  <img alt="Spelling diagnostic MRR@10, off to on: keyword 0.65 to 1.00; hybrid 0.80 to 0.81." src="docs/images/benchmarks/spelling-light.svg" width="100%">
 </picture>
 
 The Sacred Books of the East write *Khândogya*, *Pragâpati*, *Nakiketas*; readers type
@@ -275,8 +285,13 @@ from 0.65 to 1.00. Four questions are too few to generalise from.
 ### Answers with the real model
 
 <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/outcomes-dark.svg">
+  <img alt="Every benchmark v2 question as one square, by type. Answered and cited the gold passage: 127; answered from other passages: 57; declined as expected: 16 (all out-of-corpus questions); declined though answerable: 13; failed validation: 1." src="docs/images/benchmarks/outcomes-light.svg" width="100%">
+</picture>
+
+<picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmarks/answers-dark.svg">
-  <img alt="Answer quality with gemma4:e4b on 214 questions. Expected status 0.92 dev, 0.95 heldout; answered when answerable 0.92 and 0.95; declined when out of corpus 1.00 and 1.00; cited the gold passage 0.63 and 0.71; evidence from the named thinker 0.95 and 0.97." src="docs/images/benchmarks/answers-light.svg" width="100%">
+  <img alt="Dot plot, answer quality with gemma4:e4b on 214 questions, dev and heldout. Expected status 0.92 dev, 0.95 heldout; answered when answerable 0.92 and 0.95; declined when out of corpus 1.00 and 1.00; cited the gold passage 0.63 and 0.71; evidence from the named thinker 0.95 and 0.97." src="docs/images/benchmarks/answers-light.svg" width="100%">
 </picture>
 
 All 214 v2 questions through chat with `gemma4:e4b` on an RTX 5070 Ti
@@ -287,7 +302,7 @@ every answer):
 | --- | ---: | ---: | ---: |
 | Expected outcome (answered, or declined if out of corpus) | 0.93 | 0.92 | 0.95 |
 | Out-of-corpus questions declined | 16 / 16 | 9 / 9 | 7 / 7 |
-| Answerable questions answered | 185 / 198 | | |
+| Answerable questions answered | 184 / 198 | | |
 | A cited passage contains the gold span | 0.66 | 0.63 | 0.71 |
 | Evidence from the named thinker (single-thinker questions) | 0.96 | 0.95 | 0.97 |
 | Comparisons with a view for each thinker | 11 / 12 | | |
@@ -295,8 +310,8 @@ every answer):
 
 By type, the weakest are **objections** (10 of 13 answered) and **comparisons** (gold
 spans of both thinkers cited 0.54); by text, the **Crest-Jewel** (gold cited 0.39). Of the
-13 answerable questions not answered, 2 were turned away by routing and 11 by the answer
-step finding the evidence insufficient; one more failed validation (the model wrote
+14 answerable questions not answered, 2 were turned away by routing, 11 by the answer
+step finding the evidence insufficient, and 1 failed validation (the model wrote
 internal reference codes into its answer twice).
 
 **These checks are structural.** "Cited the gold passage" counts a correct answer from

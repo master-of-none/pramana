@@ -104,8 +104,8 @@ keeping it loaded let swapped model pages fill memory):
 | followup | 8 | 1.00 | 0.88 | 0.83 | 1.8 s |
 | out_of_corpus | 16 | 1.00 (all declined) | – | – | 0.1 s |
 
-Comparisons returned a view for each thinker in 11 of 12. Thirteen answerable questions
-were not answered: adv-061 and adv-068 by routing, and adv-055, 069, 078, 079, 088, 114,
+Comparisons returned a view for each thinker in 11 of 12. Fourteen answerable questions
+were not answered (184 of 198 were): adv-061 and adv-068 by routing, and adv-055, 069, 078, 079, 088, 114,
 123, 151, 153, 158 and 162 by the answer step (insufficient evidence); adv-135 failed
 validation. By text, the Crest-Jewel is weakest (gold cited 0.39, 15 of 18 answered).
 

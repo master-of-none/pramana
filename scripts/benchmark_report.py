@@ -113,7 +113,7 @@ def retrieval(res, questions):
                 numeric=range(1, 6),
             )
         )
-    out.append("<h2>Failure analysis (hybrid)</h2>")
+    out += ["<h2>Failure analysis (hybrid)</h2>", chart("v2-failures")]
     h = s["hybrid"]
     depth = h["failure_depth"]
     out.append(
@@ -249,6 +249,7 @@ def answers(a):
         f"{'on' if a['check'] else 'off'}. These are structural checks: whether the status "
         "matches, whether a cited passage contains a gold span, whether evidence comes from the "
         "named thinker. They do not establish that an answer is correct.</p>",
+        chart("outcomes"),
         chart("answers"),
         table(head, rows({"All": a["overall"], **a["by_split"]}), numeric=range(1, 9)),
         "<h3>By type</h3>",
@@ -310,6 +311,7 @@ def main() -> int:
         + "</div>",
         f"<p class='muted'>{escape(dataset['split_policy'])}</p>",
     ]
+    body.append(chart("headline"))
     body += retrieval(res, questions)
     if (V2 / "models.json").exists():
         body += models(json.loads((V2 / "models.json").read_text(encoding="utf-8")))
