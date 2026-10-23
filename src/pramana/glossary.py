@@ -20,6 +20,9 @@ class Term(Record):
     aliases: list[str] = Field(default_factory=list)
     english: list[str] = Field(default_factory=list)
     meaning: NonEmpty
+    # Whether lexical search expands this concept's names. Entries added after the
+    # benchmarks were frozen are display-only: enabling them lowered dev MRR.
+    expand: bool = True
 
 
 def fold(text: str) -> str:
@@ -39,6 +42,8 @@ def expansions(query: str) -> list[str]:
     folded = fold(query)
     found = []
     for item in terms():
+        if not item.expand:
+            continue
         # The indexed books are English/IAST; Devanagari only triggers, never expands.
         names = [item.term, *item.aliases, *item.english]
         if any(

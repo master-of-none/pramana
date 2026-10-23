@@ -62,42 +62,22 @@ and evidence text are sent. Keep it on localhost for private local processing.
 
 ## Advaita glossary
 
-`src/pramana/glossary.json` holds a short curated glossary of Advaita concepts
-(IAST term, Devanagari, ASCII spellings, English renderings, a one-line meaning).
+`src/pramana/glossary.json` holds 110 Advaita concepts (IAST term, Devanagari, ASCII
+spellings, English renderings, a one-line meaning): Brahman and the world (saccidānanda,
+nirguṇa/saguṇa, vivarta, mithyā, the three levels of reality), the seeker's
+qualifications and disciplines, the inner instrument, the three bodies and states,
+karma and liberation, the great sayings, the means of knowledge, and the schools.
 The definitions are general editorial explanations, not quotations or evidence from
 the library. `GET /api/glossary` serves it. The web chat underlines the first mention
-of each term in an answer and shows its meaning on hover, focus, or tap.
+of each term in an answer and shows its meaning on hover, focus, or tap; in the Study
+view the card links to the concept's page.
 
-Lexical search also expands queries that name a glossary concept with its other
-spellings and English renderings (for example `adhyāsa` ↔ `superimposition`).
-Dense retrieval and the index are unchanged, so no rebuild is needed. None of the
-20 chapter-benchmark queries trigger an expansion.
-
-**Speaker-naming cues** (added 23 October 2026): Thibaut's translations often stage the
-debate with formulas that name who speaks. Objection: "an objection is raised", "our
-opponent may/will…", "the advaita-vādin replies/argues…", "Against this (view) it will
-be urged / the Pūrvapakshin…". Reply: "Not so, we reply", "Not so, the Sūtra declares",
-"This is not so, we reply", "This objection is without force / not valid", "Against this
-(view) the Sūtra declares / we remark". Forms that do not name the speaker are not used:
-bare "Not so" can be the opponent's rejoinder ("Not so, the advaita-vādin replies"), and
-"If it be said…" carries its own reply in the same sentence. Each adopted pattern matched
-its role in every one of 41 sampled cases, judged by the AI model that wrote them, not
-by a human reviewer. Detected cues rose from 125 to 243 in Śaṅkara's commentary and from
-5 to 98 in Rāmānuja's; pages with an argument outline from 32 to 83. Long restatements
-of a rival view that use none of these formulas remain unmarked.
-
-## Spelling tolerance
-
-Keyword search also tries other spellings that **occur in the indexed library**
-for a query word that does not. The Sacred Books of the East write k for c, kh
-for ch and g for j (*Khândogya*, *Pragâpati*, *Nakiketas*, *Pankalas*), and readers
-type sh, ri or w where IAST has ś, ṣ, ṛ or v. Words share a phonetic key with these
-letters merged, aspirates folded and doubled vowels collapsed; a query word with the
-same key as indexed words, but itself absent or in fewer than two passages, adds up to
-four of them. Thinker names (Śaṅkara, Rāmānuja, …) are never expanded because they
-indicate authorship, which chat scopes and comparisons handle. Dense retrieval is
-unaffected and no rebuild is needed. Measured effect: see the
-[Advaita benchmark](../../benchmarks/advaita/README.md#results-23-october-2026).
+Lexical search also expands queries that name a concept with its other spellings and
+English renderings (for example `adhyāsa` ↔ `superimposition`) — **for the original
+23 entries only** (`"expand": true`). The 87 added on 23 October 2026 are display-only:
+enabling them lowered dev MRR@10 (hybrid 0.412 → 0.397, lexical 0.396 → 0.362), largely
+from work titles such as "Kaivalya Upaniṣad" triggering "aloneness". Dense retrieval and
+the index are unchanged.
 
 ## Objection/reply roles
 

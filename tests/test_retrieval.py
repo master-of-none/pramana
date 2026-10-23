@@ -214,3 +214,12 @@ def test_spelling_variants_match_old_sbe_transliteration(tmp_path, make_chapter,
     corpus.import_jsonl(path)
     corpus.index(embedder=embedder)
     assert tolerant.search("Naciketas", strategy="lexical")
+
+
+def test_display_only_glossary_terms_do_not_expand_search():
+    from pramana.glossary import expansions, terms
+
+    shown = {t.term: t for t in terms()}
+    assert len(shown) >= 100 and not shown["kaivalya"].expand and shown["māyā"].expand
+    assert expansions("What does the Kaivalya Upanishad teach?") == []  # title, not a concept
+    assert "illusion" in expansions("What is maya?")
