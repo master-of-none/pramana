@@ -229,7 +229,9 @@ wheel serves its compiled reader and API without relying on editable source path
 - **More texts** (each
   text after its own rights check). See [docs/plans/ux.md](docs/plans/ux.md).
 - **Hosted public site:** free, public-domain texts only; see the
-  [hosted deployment plan](docs/plans/hosted-deployment.md).
+  [hosted deployment plan](docs/plans/hosted-deployment.md). A local spike of the
+  Turnstile check and atomic daily admission exists (October 2026); the cloud
+  provider, Supabase port, export and deployment do not.
 
 These are direction statements. Specify provider choices, interfaces, source rights,
 and acceptance criteria when each milestone becomes active.

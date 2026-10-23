@@ -18,6 +18,7 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `POST` | `/api/chat` | One grounded answer (`ChatResponse`) |
 | `POST` | `/api/chat/stream` | Progress events, then one validated answer, as NDJSON |
 | `GET` | `/api/glossary` | The curated Advaita glossary |
+| `GET` | `/api/config` | Whether hosted mode is on, and its public Turnstile site key |
 
 ## Chat
 
@@ -77,3 +78,11 @@ page that begins at an earlier sūtra and continues through the requested one.
 
 Search filters also accept `document_ids`, a list matching any of those documents;
 an empty list matches nothing.
+
+## Hosted mode
+
+Only when the app is created with `hosted=HostedGuard(...)` (never by `pramana serve`),
+chat requests need an `X-Turnstile-Token` and a unique `X-Request-Id` (8–80
+characters). Refusals happen before retrieval: 403 (human check failed), 400 (missing
+request ID), 409 (request ID reused), 429 (burst or daily limit, with `Retry-After`)
+and 503 (paused). See the [hosted plan](../plans/hosted-deployment.md#spike-status).

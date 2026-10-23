@@ -1,6 +1,7 @@
 # Pramana: hosted public deployment plan
 
-Status: **plan only; not deployed.** No provider accounts, purchases, uploads, or
+Status: **not deployed. A local spike of the access and quota guards exists**
+([`hosted.py`](../../src/pramana/hosted.py); see [spike status](#spike-status)). No provider accounts, purchases, uploads, or
 deployments are part of this document. First prepared on 14 October 2026 as an
 invite-only plan; revised on 22 October 2026 for a public site now that a complete
 public-domain Vedānta corpus exists. Recheck provider prices, limits and links
@@ -314,6 +315,31 @@ Do not connect paid production traffic before admission and quota tests pass.
       processed by hosted providers; hosted UI makes no claim of local processing.
 - [ ] Local CLI, SQLite/BGE retrieval, and Ollama mode still pass their regression checks.
 - [ ] The site has no advertising or paid features (non-commercial source terms).
+
+## Spike status
+
+Implemented locally on 23 October 2026, with no accounts or deployment:
+
+- `create_app(hosted=HostedGuard(...))` checks every `/api/chat` and `/api/chat/stream`
+  request before retrieval or any model call: Turnstile verification (server-side,
+  fails closed if unreachable), then one immediate SQLite transaction that checks the
+  kill switch, request-ID reuse (bound to a payload hash), per-visitor burst and daily
+  limits, and the global daily cap, and only then records the admission. Refusals
+  are 403/409/429/503 with `Retry-After` where it applies; nothing is counted for them.
+- Visitors are an HMAC of the IP under a key rotated daily; raw IPs are not stored.
+- `GET /api/config` exposes only whether hosting is on and the public site key; the
+  browser loads the Turnstile widget only then, sends a single-use token and a fresh
+  `X-Request-Id` per question, and resets the widget after each.
+- Search, chapters and the Study view need no admission (separate rate limits remain
+  to do). Local mode is unchanged.
+- Tests cover limits, duplicates, day rollover, pausing, burst windows, key rotation,
+  a 16-thread race for the last admission (exactly one succeeds), and that refused
+  requests never reach the provider. `uv run python tests/manual_chat_server.py
+  --hosted` runs the fixture app with Cloudflare's testing keys and a tiny quota.
+
+Not done: the Supabase port of the admission transaction, budget reservations against
+real model costs, the OpenRouter provider, the public-domain export, deployment, and
+search rate limits.
 
 ## First implementation task
 

@@ -1756,3 +1756,9 @@ a.chip {
   color: var(--muted);
   font-family: var(--serif);
 }
+.human-check {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+  min-height: 0;
+}

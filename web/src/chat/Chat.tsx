@@ -16,6 +16,7 @@ import {
 import { Answer } from "../components/Prose.tsx";
 import { useGlossary } from "../lib/glossary.tsx";
 import { href } from "../lib/router.ts";
+import { useHumanCheck } from "../lib/hosted.ts";
 import { usePreference } from "../lib/theme.ts";
 import { STORAGE, evidenceRefs, restore, views } from "../lib/storage.ts";
 import type { Stage, Turn } from "../lib/storage.ts";
@@ -76,6 +77,7 @@ export function Chat({
   const [copied, setCopied] = useState("");
   const [copyError, setCopyError] = useState("");
   const glossary = useGlossary();
+  const human = useHumanCheck();
   const [scope, setScope] = usePreference<Scope>(
     "pramana.scope",
     SCOPES,
@@ -192,7 +194,7 @@ export function Chat({
     try {
       const response = await fetch("/api/chat/stream", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...human.headers() },
         signal: abort.signal,
         body: JSON.stringify({
           message: text.trim(),
@@ -269,6 +271,7 @@ export function Chat({
               : (error as Error).message,
         });
     } finally {
+      human.reset(); // Single-use token, even when the request failed.
       if (requestNumber.current === number) {
         controller.current = null;
         composer.current?.focus();
@@ -546,6 +549,7 @@ export function Chat({
             </button>
           </div>
         </div>
+        {human.hosted && <div className="human-check" ref={human.holder} />}
         <form className="composer" onSubmit={submit}>
           <label className="sr-only" htmlFor="message">
             Your question
@@ -586,7 +590,7 @@ export function Chat({
             <button
               className="send-button"
               type="submit"
-              disabled={!message.trim()}
+              disabled={!message.trim() || !human.ready}
               aria-label="Send message"
             >
               <ArrowUp size={19} />

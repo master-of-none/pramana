@@ -11,6 +11,7 @@ from pramana.answering import Answerer, AnswerError
 from pramana.corpus import Corpus
 from pramana.errors import PramanaError
 from pramana.glossary import terms
+from pramana.hosted import HostedGuard, Refused
 from pramana.library import (
     catalogue,
     concept,
@@ -30,13 +31,41 @@ def create_app(
     *,
     retriever: Retriever | None = None,
     answerer: Answerer | None = None,
+    hosted: HostedGuard | None = None,
 ) -> FastAPI:
+    """`hosted` puts bot verification and daily admission before every chat request."""
     api = FastAPI(title="Pramana", version="0.1.0")
     corpus = retriever.corpus if retriever else Corpus(home)
     engine = retriever or Retriever(corpus)
     search_lock = Lock()
     chat_engine = answerer or Answerer(engine, search_lock=search_lock)
     chat_slots = asyncio.Semaphore(1)
+
+    async def guard(payload: ChatRequest, request: Request):
+        """Hosted mode only: refuse before retrieval or any model call."""
+        if hosted is None:
+            return
+        await hosted.check(
+            request.client.host if request.client else "",
+            request.headers.get("x-turnstile-token", ""),
+            request.headers.get("x-request-id", ""),
+            payload.model_dump(mode="json"),
+        )
+
+    @api.get("/api/config")
+    def config():
+        # Public settings only; no secrets or quota internals.
+        return {
+            "hosted": hosted is not None,
+            "turnstile_site_key": hosted.site_key if hosted else "",
+        }
+
+    @api.exception_handler(Refused)
+    async def refused(request, exc: Refused):
+        headers = {"Retry-After": str(exc.retry_after)} if exc.retry_after else None
+        return JSONResponse(
+            status_code=exc.status_code, content={"detail": str(exc)}, headers=headers
+        )
 
     @api.exception_handler(PramanaError)
     async def actionable_error(request, exc: PramanaError):
@@ -60,6 +89,8 @@ def create_app(
 
     @api.post("/api/chat", response_model=ChatResponse)
     async def chat(payload: ChatRequest, request: Request):
+        await guard(payload, request)
+
         async def work():
             async with chat_slots:
                 return await chat_engine.answer(payload)
@@ -81,11 +112,12 @@ def create_app(
             await asyncio.gather(task, watcher, return_exceptions=True)
 
     @api.post("/api/chat/stream")
-    async def chat_stream(payload: ChatRequest):
+    async def chat_stream(payload: ChatRequest, request: Request):
         """NDJSON: progress stages, then one validated answer or error event.
 
         Answer prose is sent only after validation, never as unchecked model tokens.
         """
+        await guard(payload, request)  # Refusals are plain HTTP errors, before streaming.
         events: asyncio.Queue[dict | None] = asyncio.Queue()
 
         async def progress(stage):

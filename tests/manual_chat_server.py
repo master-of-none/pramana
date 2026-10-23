@@ -7,10 +7,15 @@ see an unsupported sentence removed. The Study view has
 two fixture Brahma Sutra commentaries (open #/study/sutra/1/1/1) with role cues,
 footnotes, page marks and supplementary characters. Chat must still show no
 HIDDEN_* metadata; Study may show it.
+
+`--hosted` adds the hosted guards with Cloudflare's published Turnstile testing keys
+(always pass; needs network for the widget) and a tiny quota: 3 questions a day per
+visitor, 2 a minute, so the limit messages are easy to see.
 """
 
 import asyncio
 import json
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -145,9 +150,21 @@ def main():
         embedder = FakeEmbedder()
         corpus.index(embedder=embedder)
         retriever = Retriever(corpus, embedder=embedder)
+        hosted = None
+        if "--hosted" in sys.argv:
+            from pramana.hosted import Admission, HostedGuard, Limits, TurnstileVerifier
+
+            # Cloudflare's documented testing keys: the widget and siteverify always pass.
+            hosted = HostedGuard(
+                TurnstileVerifier("1x0000000000000000000000000000000AA"),
+                Admission(home / "quota.sqlite3", "fixture-secret", Limits(10, 3, 2)),
+                site_key="1x00000000000000000000AA",
+            )
         uvicorn.run(
             create_app(
-                retriever=retriever, answerer=Answerer(retriever, provider=FixtureProvider())
+                retriever=retriever,
+                answerer=Answerer(retriever, provider=FixtureProvider()),
+                hosted=hosted,
             ),
             host="127.0.0.1",
             port=8001,
