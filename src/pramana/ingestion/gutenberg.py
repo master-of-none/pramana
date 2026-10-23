@@ -81,8 +81,9 @@ def parse_volume(html: str, volume: dict) -> list[dict]:
                 continue
             for anchor in element.select('a[href^="#Footnote_"]'):
                 anchor.replace_with(NavigableString(f"\x00{anchor['href'][1:]}\x00"))
-            # Printed page numbers ("[Pg 816]" spans) become page marks, not text.
-            for span in element.select("span.pagenum"):
+            # Printed page numbers become page marks, not text: "[Pg 816]" spans in most
+            # volumes, bare "287" spans (class "pageno") in 71063 and 71248.
+            for span in element.select("span.pagenum, span.pageno"):
                 label = re.sub(r"[\[\]]|Pg\s*", "", span.get_text("")).strip()
                 span.replace_with(NavigableString(f"\x00PAGE:{label}\x00" if label else ""))
             for br in element.find_all("br"):
@@ -96,7 +97,13 @@ def parse_volume(html: str, volume: dict) -> list[dict]:
                 lambda m: f"\x00PAGE:{m[1]}\x00" if int(m[1]) >= 30 else m[0],
                 raw,
             )
-            raw = re.sub(r"\s*(\x00[^\x00]+\x00)", r"\1", raw).strip()
+            # A marker takes no space of its own: "supreme\n<287>soul" is "supreme soul".
+            raw = re.sub(
+                r"(\s*)(\x00[^\x00]+\x00)(\s*)",
+                lambda m: m[2] + (" " if m[1] or m[3] else ""),
+                raw,
+            )
+            raw = re.sub(r"^((?:\x00[^\x00]+\x00)*)\s+", r"\1", raw).strip()
             if not raw:
                 continue
             tokens = raw.split("\x00")

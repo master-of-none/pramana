@@ -228,10 +228,10 @@ misprints and repeats (e.g. two "CHAPTER CV." headings in 6.2, and Upaśama has 
 "CHAPTER XV." heading, so that chapter's text is inside the record headed "CHAPTER XIV.";
 Upaśama therefore has 92 records against its printed 93). The printed heading is kept
 as the section label. Drop capitals are joined ("Om"). Printed page numbers become page
-marks, not text: the `[Pg 816]` spans, and in volume 2.2 (71064) bare bracketed numbers
-of 30 or more (its pages run 404–982), while that volume's unlinked footnote markers
-`[1]`–`[23]` stay in the text. Checked on 23 October 2026: 673 records, 6,177,442
-characters, 56 notes, 2,036 page marks.
+marks, not text: the `[Pg 816]` spans, the bare `287` page spans of volumes 71063 and
+71248, and in volume 2.2 (71064) bare bracketed numbers of 30 or more (its pages run
+404–982), while that volume's unlinked footnote markers `[1]`–`[23]` stay in the text.
+Checked on 23 October 2026: 673 records, 6,175,179 characters, 56 notes, 2,829 page marks.
 
 ## Embedding model
 

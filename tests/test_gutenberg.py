@@ -15,7 +15,8 @@ VOL1 = """<html><body><h2>Transcriber's Notes</h2><p>Front matter.</p>
 <p>2. He is the knower 𑀅 of all<a id="FNanchor_1" href="#Footnote_1">[1]</a>.</p>
 <p>3. You must not <span class="pagenum">[Pg 816]</span> give up your duties [4].</p>
 <p>[817]</p><p>4. Next page begins here.</p></div>
-<div class="chapter"><h2>CHAPTER II.</h2><p>Second chapter text.</p></div>
+<div class="chapter"><h2>CHAPTER II.</h2>
+<p>Second\n<span class="pageno">287</span>chapter text.</p></div>
 <h2>BOOK II.</h2>
 <div class="chapter"><h2>CHAPTER I.</h2><p>Book two begins.</p></div>
 <h2>FOOTNOTES:</h2>
@@ -95,6 +96,11 @@ def test_volumes_parse_by_heading_and_continue_books(tmp_path, monkeypatch):
     assert "[817]" not in first.text
     marks = {p.label: first.text[p.offset :].lstrip()[:9] for p in first.pages}
     assert marks == {"816": "give up y", "817": "4. Next p"}
+    second = records[1]
+    assert "Second chapter text." in second.text and "287" not in second.text
+    assert [(p.label, second.text[p.offset :].lstrip()[:7]) for p in second.pages] == [
+        ("287", "chapter")
+    ]
     assert records[0].source.url.unicode_string() == "https://example.org/1"
 
 
