@@ -137,20 +137,20 @@ Existing benchmark labels are explicitly migrated to the source-aware format.
 
 **Dependency:** group 1's source identities and validation.
 
-- [ ] Annotate exact supporting text spans for 50 answerable questions across all
+- [x] Annotate exact supporting text spans for 50 answerable questions across all
       six books. Record source identity, an exact quote, and zero-based Unicode
       code-point intervals in the stored chapter text.
-- [ ] Freeze a split of 30 development questions and 20 held-out questions before
+- [x] Freeze a split of 30 development questions and 20 held-out questions before
       tuning. Record annotation provenance and review status; document any subsequent
       inspection or reuse of held-out questions.
-- [ ] Count a passage as relevant only when it contains an annotated supporting
+- [x] Count a passage as relevant only when it contains an annotated supporting
       span from the correct source chapter. Keep gold spans independent of chunk IDs
       so chunking changes do not require inventing new evidence.
-- [ ] Report passage-level Recall@10 and MRR@10 for lexical, dense, and hybrid
+- [x] Report passage-level Recall@10 and MRR@10 for lexical, dense, and hybrid
       retrieval, with per-question failures and index/model configuration.
-- [ ] Keep passage-level results separate from the historical chapter-level
+- [x] Keep passage-level results separate from the historical chapter-level
       benchmark; do not present the two as directly comparable measurements.
-- [ ] Add ten separate out-of-corpus diagnostic questions and record retrieved
+- [x] Add ten separate out-of-corpus diagnostic questions and record retrieved
       results. Document that the current engine may return nearby material; these
       diagnostics do not establish automatic abstention.
 
@@ -200,7 +200,7 @@ wheel serves its compiled reader and API without relying on editable source path
 
 - [ ] Regression checks, browser tests, and installed-wheel checks pass.
 - [ ] Failure paths preserve usable data, and readiness states are accurate.
-- [ ] Publish the reproducible passage-level benchmark with source identities,
+- [x] Publish the reproducible passage-level benchmark with source identities,
       split membership, per-question results, and documented limitations.
 - [ ] Update the quickstart, import/API documentation where interfaces changed,
       and verification notes with checks actually performed.
@@ -253,6 +253,37 @@ wheel serves its compiled reader and API without relying on editable source path
   [hosted deployment plan](docs/plans/hosted-deployment.md). A local spike of the
   Turnstile check and atomic daily admission exists (October 2026); the cloud
   provider, Supabase port, export and deployment do not.
+
+## Feature ideas (not started)
+
+Candidates that would make Pramana distinctive as a study companion. Each builds on
+what exists (citations, side by side, roles, notes, the benchmark) and keeps the rules:
+chat answers only, sources in Study, nothing personal leaving the browser.
+
+- **Mahāvākya explorer.** The four great sayings (*tat tvam asi*, *ahaṃ brahmāsmi*,
+  *prajñānam brahma*, *ayam ātmā brahma*): where each occurs, every place Śaṅkara and
+  Rāmānuja cite it (from the citation index), and their readings side by side.
+- **Where the commentators part ways.** Rank Brahma Sūtras by how differently Śaṅkara
+  and Rāmānuja treat them: different śruti cited, explicit refutations of the other's
+  view, little shared vocabulary. A map of the real disputes, each opening side by side.
+- **Verse with its commentaries.** An Upaniṣad or Gītā verse beside every commentary
+  passage on it (Śaṅkara, Rāmānuja, Madhva once imported), using printed references, not
+  guesses.
+- **Argument graph.** Objection → reply chains from printed cues, linked to the
+  scripture each side cites; follow one dispute across pages and works.
+- **Translation comparison.** The same verse in every edition held (Müller, Thibaut's
+  quotations, Johnston and Madhavananda for the Vivekacūḍāmaṇi), aligned only where
+  printed numbers match.
+- **Answer trail in Study.** For an answer opened in Study, each sentence beside the
+  passage span that supports it (from the claim check), never shown in the chat itself.
+- **Glossary review.** Spaced-repetition cards for the 110 terms and for verses the
+  reader highlighted, kept in the browser.
+- **Daily verse and vichāra.** One of the most-cited passages each day with a short
+  reflective question, opening in the reader.
+- **Study packs.** Export a reading path with its texts and the reader's notes as one
+  Markdown or EPUB file for offline reading.
+- **Sanskrit layer.** Devanagari verses from openly licensed sources, aligned by printed
+  verse numbers, searchable by transliteration.
 
 These are direction statements. Specify provider choices, interfaces, source rights,
 and acceptance criteria when each milestone becomes active.
