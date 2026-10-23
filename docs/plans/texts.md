@@ -15,13 +15,16 @@ How each entry is judged:
 
 ## Recommended order
 
-| # | Text | Translation (to verify) | Why next | Route |
+Checked by web search on 23 October 2026 (catalogue records and archive.org; rights still
+to confirm per scan). Texts with a scan found come first, since they can be OCRed now.
+
+| # | Text | Translation | What the search found | Route |
 | ---: | --- | --- | --- | --- |
-| 1 | **Māṇḍūkya Upaniṣad with Gauḍapāda's Kārikā** | Manilal N. Dvivedi, 1894 | The largest gap: a core Advaita text (*ajātivāda*) not yet in the library | OCR |
-| 2 | **Bhagavad Gītā with Rāmānuja's commentary** | A. Govindacharya, 1898 | Śaṅkara vs Rāmānuja on the Gītā, like the Brahma Sūtra side by side | OCR |
-| 3 | **Śaṅkara's Upaniṣad commentaries** (Īśa, Kena, Muṇḍaka, Kaṭha; Chāndogya) | S. Sitarama Sastri, 1898; Ganganatha Jha (Chāndogya) | Śaṅkara's own reading of the Upaniṣads already in the library | OCR |
-| 4 | **Pañcadaśī** of Vidyāraṇya | Srinivasa Rao and Krishnasvami Aiyar, 1912 | The classic later manual of Advaita | OCR |
-| 5 | **Madhva's Brahma Sūtra commentary** | S. Subba Rau, 1904 | A third commentator for side-by-side comparison (Dvaita) | OCR |
+| 1 | **Śaṅkara's Upaniṣad commentaries**, vol. 1: Īśa, Kena, Muṇḍaka | S. Sitarama Sastri, Madras, 1898 (5-volume series, 1898–1901) | Two archive.org scans: [Toronto copy](https://archive.org/details/upanishadssrisan00sita) (a 1905 reprint of the Madras edition) and [Digital Library of India copy](https://archive.org/details/in.ernet.dli.2015.283832) (1898, G. A. Natesan); later volumes include Kaṭha and Praśna. A [HathiTrust record](https://catalog.hathitrust.org/Record/100580124) of the series lists the Māṇḍūkya too: check, it may close gap #2 | OCR |
+| 2 | **Māṇḍūkya Upaniṣad with Gauḍapāda's Kārikā** (and Śaṅkara's commentary) | Manilal N. Dvivedi, Bombay, 1894; 2nd ed. 1909 | The editions are confirmed ([reviewed in *The Monist*, 1894](https://dc2.philarchive.org/s/Manilal%20N.%20Dvivedi)); no scan found yet. The largest gap in the library | OCR, once a scan is found |
+| 3 | **Madhva's Brahma Sūtra commentary** | S. Subba Rau, Madras, Minerva Press, 1904 | [archive.org scan](https://archive.org/details/vs-mct-ssr-ao) (Community Texts) and a [NEHU repository copy](https://dspace.nehu.ac.in/handle/1/13464). A third voice beside Śaṅkara and Rāmānuja | OCR |
+| 4 | **Bhagavad Gītā with Rāmānuja's commentary** | A. Govindacharya, Madras, Vaijayanti Press, 1898 | [Edition confirmed](https://relbib.de/Record/332545857); no scan found yet. Would give Śaṅkara vs Rāmānuja on the Gītā | OCR, once a scan is found |
+| 5 | **Pañcadaśī** of Vidyāraṇya | M. Srinivasa Rau and K. A. Krishnaswami Aiyar, Srirangam, Sri Vani Vilas Press, 1912 (629 pp.) | [Catalogue record](https://tamildigitallibrary.in/Marc-Articles/நூல்-58716-Panchadasi%20of%20Vidyaranya-with%20English%20translation,%20Explanatory%20notes%20and%20summary%20of%20each%20chapter); no scan found yet | OCR, once a scan is found |
 
 ## Advaita prakaraṇas and manuals
 
