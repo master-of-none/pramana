@@ -170,3 +170,124 @@ correctly attributed views again (Check on, nothing removed). "How do Śaṅkara
 Rāmānuja differ on Nescience (avidyā)?" returned insufficient evidence: retrieval did
 not surface Rāmānuja's "The theory of Nescience cannot be maintained" pages, a
 retrieval-ranking limit recorded rather than tuned for.
+
+## Foundations and reader polish — 1 November 2026
+
+Local environment: macOS arm64, Python 3.12, Node 26, Playwright 1.64 with Chromium
+(headless shell 156), against the deterministic fixture server only. No private books,
+downloaded corpora, embedding model or Ollama were used.
+
+| Check | Result |
+| --- | --- |
+| `ruff check`, `ruff format --check` | passed |
+| `pytest` | 140 passed, 2 model tests deselected |
+| `npm --prefix web run typecheck`, `npm --prefix web test` | passed; 19 unit tests |
+| `npm --prefix web run e2e` | 54 passed (27 tests × desktop 1280 × 800 and Pixel 7 mobile); 58 after the answer trail |
+| axe (serious and critical) on welcome, conversation, palette, library, evidence, side by side, reader in dark mode, reading settings, shortcuts | none |
+| `scripts/check_links.py` | passed |
+| `uv build`, wheel installed outside the checkout, `scripts/check_wheel.py` | passed, including fonts, manifest and icons |
+
+The browser suite found and the change fixed:
+- Escape closing a note editor also stopped the answer being written.
+- On phones the composer covered "Jump to latest".
+- Selection tools vanished during the app's own scrolling.
+- Text below WCAG AA contrast on many screens (muted text, chips, page marks, role labels).
+- The brand link's accessible name did not match its text.
+- The header overflowed a 360 px screen.
+
+Screenshot comparison before and after the token refactor showed colour changes only, on
+the text darkened for contrast. The new GitHub CI browser job has not run yet.
+
+### Answer trail — 1 November 2026
+
+The claim check now names the passages supporting each kept sentence, and Study's
+evidence page shows them sentence by sentence. Deterministic tests cover these cases:
+- support from outside the sentence's group is discarded;
+- duplicates and unknown IDs are dropped;
+- the conversion to passage IDs;
+- older verdicts with no support;
+- persistence across a reload;
+- absence from the chat.
+
+No real-model run was made, so how often a local model names the right passage is
+unknown.
+
+### Divergence map against the real library — 1 November 2026
+
+The Advaita sources were downloaded with `pramana corpus download --source advaita`
+(after two network read timeouts, resumed from cached pages), ingested and indexed
+offline (4,507 passages). The map was then computed over 552 of Śaṅkara's pages and 571
+of Rāmānuja's. A full computation, citation index included, takes under two seconds
+and is then cached. The first real run changed the design, and each change was checked
+by reading the pages concerned:
+
+- **Pairing by printed number failed often.** Many top-ranked "very different" pairs
+  were different sūtras printed under the same number (3.2.25, 2.4.19, 3.4.46). Pairs
+  are now matched on the printed sūtra's words:
+  - 226 same;
+  - 138 renumbered (every sample read was the same sūtra, such as 2.3.23, where
+    Rāmānuja's is 24);
+  - 188 unconfirmed, hatched.
+
+  A ±10 window was dropped because both of its matches were wrong. Bracketed glosses in
+  Śaṅkara's sūtra lines had to be removed before comparing. Śaṅkara's 1.1.1 page needed
+  the sūtra line found after its preamble.
+- **Percentile bands tied most units.** 92 of the 193 units with scripture on both sides
+  share none, and 499 of 552 units name no dispute term. Both are now banded by meaning,
+  and a missing dispute term no longer counts towards the overall band.
+- **One signal alone filled the top of the list.** Wording alone filled it, so "very
+  high" now needs two signals that agree.
+
+**Read at the top:**
+- 1.1.11 (Rāmānuja's 12): different Upaniṣad texts cited, Rāmānuja arguing against a
+  "non-differenced" Brahman, and Śaṅkara's long excursus.
+- 2.3.43 (Rāmānuja's 42): the soul as a "part" of the Lord, where Rāmānuja explicitly
+  sets aside the soul being "Brahman … under the influence of error".
+
+**Read at the bottom:**
+- 2.3.23 and 1.2.5: near-identical explanations (the sandal-ointment analogy).
+
+This reading is the agent's, not a scholar's review, and the term list was not tuned.
+In the browser against the real library: 552 cells; axe found no serious or critical
+violations in light or dark; desktop, a 390 px phone (bottom-sheet details) and the
+Side by side badge were checked by screenshot.
+
+### Verse pages and the great sayings against the real library — 1 November 2026
+
+All four curated sayings resolved in the stored text, each with its check words inside
+the printed verse:
+
+| Saying | Verse | Printed references (Ś / R) | Of which in the opposing view (by page title) |
+| --- | --- | --- | --- |
+| *tat tvam asi* | Chāndogya VI, 8, 7 | 5 / 4 | none |
+| *ahaṃ brahmāsmi* | Bṛhadāraṇyaka I, 4, 10 | 11 / 5 | Rāmānuja 1 |
+| *prajñānaṃ brahma* | Aitareya Āraṇyaka II, 6, 1, 7 | 0 / 0 | not in the citation index's works |
+| *ayam ātmā brahma* | Bṛhadāraṇyaka II, 5, 19 | 9 / 3 | Rāmānuja 2 |
+
+The design changed in three places after reading the real excerpts.
+
+- **A verse can run past its first paragraph.** Bṛhadāraṇyaka II, 5, 19 begins with a
+  paragraph that quotes the Ṛg-veda, and "this Self is Brahman" comes two paragraphs
+  later. A saying's verse now runs to the next printed number.
+- **The first matching of a saying's words was too loose.** "That thou art" matched "I
+  know that thou art he", and "thou art that" matched "thou art that which is Brahma".
+  That phrase was dropped, and the words must now end at punctuation, a line end or a
+  vocative. Any reference before the words was also wrongly excluding them, which a test
+  caught.
+- **Citations made while setting out the opposing view.** Several of Rāmānuja's
+  citations sit on pages titled "The Great/Small Pûrvapaksha", where he sets out the
+  Advaitin's case. They are now marked. The page title decides over cues inside the page,
+  where the opponent "replies" to objections of his own. A cue-based mark is kept only
+  within 1,200 characters of its cue: a 5,000-character objection span in Śaṅkara's 4.1.3
+  had swept in his own reply ("I am Brahman"). For these sayings, no cue-based marks
+  remain.
+
+Samples of "the same words elsewhere" were all genuine uses after the change. *Tat tvam
+asi*: Śaṅkara 45, Rāmānuja 31. *Ahaṃ brahmāsmi*: Aiyar's minor Upaniṣads 29, which state
+the words themselves; the page says "the same words", not "quotes". A quotation whose
+printed reference is split across a line break is listed among these, because the index
+cannot resolve that reference.
+
+The browser was checked against the real library: the sayings and saying pages
+(desktop, phone), with axe showing no serious or critical violations in light or dark.
+This is the agent's reading, not a scholar's review.

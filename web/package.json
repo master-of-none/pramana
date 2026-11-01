@@ -7,14 +7,20 @@
     "dev": "vite --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "test": "node --experimental-strip-types --no-warnings --test src/lib/*.test.ts"
+    "test": "node --experimental-strip-types --no-warnings --test src/lib/*.test.ts",
+    "e2e": "playwright test"
   },
   "dependencies": {
+    "@fontsource-variable/noto-serif-devanagari": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
     "lucide-react": "^1.61.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^6.1.2",

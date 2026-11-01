@@ -17,6 +17,11 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `GET` | `/api/parallel?book=&chapter=&sutra=` | Each Brahma Sūtra commentary's pages for one sūtra |
 | `GET` | `/api/citations` | Most-cited scripture passages with counts per citing author, and how references resolved |
 | `GET` | `/api/citations/{chapter_id}` | A chapter's printed references (`outgoing`, with target span and `status`) and where it is cited (`incoming`) |
+| `GET` | `/api/divergence` | The [divergence map](divergence.md): Śaṅkara's commentary in units with Rāmānuja's matched pages, a band per signal, scripture cited by only one side, dispute terms, and a ranking (bands only, no numeric scores) |
+| `GET` | `/api/verse?chapter_id=&start=&end=` | One verse (code-point span) and every printed reference to it, grouped by citing author, each with the words around it and its role (objection or reply) where a printed cue or page title gives one; chapter-level references listed apart |
+| `GET` | `/api/sayings` | The four great sayings: each resolved in the stored text (or `found: false`), with citation and quotation counts per author |
+| `GET` | `/api/sayings/{key}` | One saying: its verse page, plus places that use its words without a printed reference |
+| `GET` | `/api/locate?ref=` | A typed scripture reference (`Ch 6.8.7`, `Kh. Up. VI, 8, 7`, `BG 2.47`) resolved to its passage; 404 when the work or division is not in the library |
 | `POST` | `/api/chat` | One grounded answer (`ChatResponse`) |
 | `POST` | `/api/chat/stream` | Progress events, then one validated answer, as NDJSON |
 | `GET` | `/api/glossary` | The curated Advaita glossary |
@@ -65,7 +70,10 @@ or GPU release is controlled by Ollama.
   retrieval relevance scores for the references used by the answer.
 - `model`: configured answer model name.
 - `check`: present when `check` was requested: `status` (`checked` or
-  `unavailable`), `reason`, `removed`, and per-sentence `{part, text, verdict}`.
+  `unavailable`), `reason`, `removed`, and per-sentence `{part, text, verdict, passages}`.
+  `passages` are the IDs of passages the check named as support for a kept sentence,
+  limited to that sentence's own evidence; they are added to `evidence` if the answer
+  did not cite them.
 - `perspectives`: for comparisons, one `{thinker, view, evidence}` entry per thinker;
   see [comparing thinkers](../guides/chat.md#comparing-thinkers).
 

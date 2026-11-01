@@ -175,6 +175,13 @@ In a comparison, each thinker's statements (their card, and summary sentences na
 only that thinker) are judged only against that thinker's own passages, one check call
 per group, so content borrowed from another author's text is not counted as support.
 
+**The answer trail.** For each kept sentence the check also names up to three passages
+that support it, chosen only from that sentence's own evidence; any other reference is
+discarded. **Read in the texts** then shows the answer *sentence by sentence*, each
+beside its passage, with a link into the reader. The chat itself never shows this, and
+Study shows no internal references or scores. Without Check, the page says how to turn
+it on. The pairing is the same model's judgement: a place to start reading, not proof.
+
 **This is a filter, not verification.** The same local model judges its own answer,
 so it can miss errors, wrongly remove correct sentences, and repeat a misreading of
 an objection. Its effect on answer quality has not been measured.

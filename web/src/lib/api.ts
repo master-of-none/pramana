@@ -150,3 +150,85 @@ export function thinkerName(author: string): string {
   if (/ramanuja/i.test(author)) return "Rāmānuja";
   return author || "Translator's note";
 }
+
+// "Where they part ways" (GET /api/divergence): bands only, never numbers.
+export type Band = "low" | "moderate" | "marked" | "high" | "very high";
+export type Signal = "overall" | "scripture" | "wording" | "dispute";
+export type CitedRef = { label: string; chapter_id: string; start: number; end: number };
+export type DivergenceUnit = {
+  book: string;
+  pada: string;
+  first: number;
+  last: number | null;
+  label: string;
+  exact: boolean;
+  // How Rāmānuja's pages were matched: the same printed sūtra, the same sūtra under
+  // another number, or the same number only (the sūtra lines differ).
+  pairing: "same" | "renumbered" | "unconfirmed";
+  ramanuja_sutra: number;
+  shankara: string[];
+  ramanuja: string[];
+  bands: Record<Signal, Band | null>;
+  shared: number;
+  only_shankara: CitedRef[];
+  only_ramanuja: CitedRef[];
+  terms: Record<string, number>;
+};
+export type Divergence = {
+  available: boolean;
+  reason?: string;
+  bands?: Band[];
+  units: DivergenceUnit[];
+  ranking?: number[];
+};
+
+// Verse pages and the great sayings (GET /api/verse, /api/sayings): Study only.
+export type Excerpt = {
+  text: string;
+  start: number; // code points within `text`
+  end: number;
+  clipped_before: boolean;
+  clipped_after: boolean;
+};
+export type VerseCitation = {
+  // Objection or reply, from printed cues only: a cue near the citation, or the page's
+  // printed title ("The Great Pûrvapaksha"), given in `from`.
+  role?: { role: "objection" | "reply"; from: string } | null;
+  author: string;
+  document: string;
+  chapter_id: string;
+  place: string;
+  label?: string;
+  status?: CitationStatus;
+  start: number;
+  end: number;
+  context: Excerpt;
+};
+export type ByAuthor = { author: string; passages: VerseCitation[] };
+export type VersePage = {
+  chapter_id: string;
+  document: string;
+  place: string;
+  edition: string;
+  translator: string;
+  start: number;
+  end: number;
+  text: string;
+  citations: ByAuthor[];
+  whole: ByAuthor[];
+};
+export type Saying = {
+  key: string;
+  saying: string;
+  devanagari: string;
+  english: string;
+  note: string;
+  number: number; // the printed verse number
+  found: boolean;
+  mark?: [number, number];
+  cited?: Record<string, number>;
+  cited_in_objection?: Record<string, number>;
+  quoted?: Record<string, number>;
+  verse?: VersePage;
+  quotations?: ByAuthor[];
+};

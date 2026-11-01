@@ -84,3 +84,38 @@ def test_citation_api_lists_both_directions(indexed, embedder, tmp_path, make_ch
     assert summary["status"] == {"verified": 2, "numbered": 1, "chapter": 1}
     top = summary["passages"][0]
     assert top["by"] == {"Sankaracharya": 1} and not top["whole_chapter"]
+
+
+def test_typed_references_locate_printed_verses(indexed, embedder, tmp_path, make_chapter):
+    target, source = chapters(make_chapter)
+    gita = make_chapter("1. Arjuna spoke.\n\n47. To work alone you are entitled.", "1", "2")
+    gita.document_id, gita.document = "bhagavad-gita-sbg", "Bhagavad Gita"
+    gita.location = Location(book="1", chapter="2")
+    path = tmp_path / "locate.jsonl"
+    path.write_text("\n".join(c.model_dump_json() for c in (target, source, gita)))
+    indexed.import_jsonl(path)
+    indexed.index(embedder=embedder)
+    client = TestClient(create_app(retriever=Retriever(indexed, embedder=embedder)))
+
+    def located(ref):
+        response = client.get("/api/locate", params={"ref": ref})
+        return response.json() if response.status_code == 200 else response.status_code
+
+    # Arabic or Roman numbers, with or without the printed abbreviation's dots.
+    for ref in ("Ch 6.8.7", "Chāndogya VI, 8, 7", "Kh. Up. VI, 8, 7", "chu6.8.7"):
+        found = located(ref)
+        assert found["chapter_id"] == target.id and found["exact"], ref
+        assert target.text[found["start"] : found["end"]].startswith("7. 'That which")
+    gita_verse = located("BG 2.47")
+    assert gita_verse["verse"] == 47
+    verse_text = gita.text[gita_verse["start"] : gita_verse["end"]]
+    assert verse_text == "47. To work alone you are entitled."
+
+    # A chapter without that verse number: the whole chapter, not a guess.
+    whole = located("Ch 6.8.9")
+    assert not whole["exact"] and (whole["start"], whole["end"]) == (0, len(target.text))
+    # Divisions or works not in the library, and text that is not a reference.
+    assert located("Ch 6.9.1") == 404
+    assert located("Bṛ 1.4.10") == 404  # Bṛhadāraṇyaka not imported here
+    assert located("tat tvam asi") == 404
+    assert located("Nowhere 1.2") == 404

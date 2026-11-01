@@ -269,8 +269,10 @@ Step by step:
    numbers. One bounded repair is allowed; then the request fails with a readable
    error rather than an invented reference.
 8. **Optional check** sends each sentence back with the same evidence (per thinker for
-   comparisons) and removes sentences judged unsupported. It is the same model judging
-   itself, not verification.
+   comparisons) and removes sentences judged unsupported. For kept sentences it also
+   records the passages named as support (the answer trail, shown only in Study's
+   evidence page by [`Trail.tsx`](../../web/src/study/Trail.tsx)). It is the same model
+   judging itself, not verification.
 
 What the UI receives includes `evidence` (passage pointers for the Study view) and
 `perspectives`; the chat renders only the prose and one "Read in the texts" link.
@@ -300,8 +302,8 @@ reference in the [API reference](api.md).
 | Search | `POST /api/search` |
 | Chat | `POST /api/chat`, `POST /api/chat/stream` (NDJSON stages, then the answer) |
 | Reader | `GET /api/chapters/{id}` (text, roles, neighbours), `GET /api/library`, `GET /api/glossary` |
-| Study | `GET /api/parallel`, `GET /api/concepts`, `GET /api/concepts/{key}`, `GET /api/paths`, `GET /api/scopes`, `GET /api/citations`, `GET /api/citations/{chapter_id}` |
-| App | `GET /` and `/assets/*` serve the compiled reader |
+| Study | `GET /api/parallel`, `GET /api/concepts`, `GET /api/concepts/{key}`, `GET /api/paths`, `GET /api/scopes`, `GET /api/citations`, `GET /api/citations/{chapter_id}`, `GET /api/locate`, `GET /api/divergence`, `GET /api/verse`, `GET /api/sayings`, `GET /api/sayings/{key}` |
+| App | `GET /`, `/assets/*` (scripts, styles, self-hosted fonts), `/icons/*`, `/icon.svg` and `/manifest.webmanifest` serve the compiled app |
 
 Chat requests run one at a time (`asyncio.Semaphore(1)`), and searches, including
 those made by chat, take one shared lock, so a single local model and embedder serve one
@@ -315,12 +317,33 @@ by FastAPI, so the wheel contains the whole app. Hash routes keep one `index.htm
 | Route | Component | Shows |
 | --- | --- | --- |
 | `#/` | [`chat/Chat.tsx`](../../web/src/chat/Chat.tsx) | conversation only: answers, per-thinker cards, one "Read in the texts" link |
-| `#/study` | `study/Study.tsx` (Library) | works by category, actions |
-| `#/study/read/{chapter}?s=&e=` | Reader + [`ChapterText.tsx`](../../web/src/study/ChapterText.tsx) | text with page marks, notes, roles, citation links, "cited by", user highlights; the span highlighted |
+| `#/study` | `study/Study.tsx` (Library) | continue reading, concepts, works by category with per-work progress |
+| `#/study/read/{chapter}?s=&e=&p=` | [`Reader.tsx`](../../web/src/study/Reader.tsx) + [`ChapterText.tsx`](../../web/src/study/ChapterText.tsx) | text with page marks, notes, roles, citation links, "cited by", user highlights; the span highlighted (`s`, `e`) or a position resumed (`p`); contents sheet, progress bar |
 | `#/study/sutra/{a}/{p}/{s}` | Parallel | Śaṅkara and Rāmānuja side by side |
 | `#/study/evidence/{turn}` | Evidence | the passages behind one answer |
 | `#/study/concept/{slug}`, `#/study/paths`, `#/study/search` | Concept, Paths, Search | glossary concepts, reading paths, search |
+| `#/study/map?u=` | [`DivergenceMap.tsx`](../../web/src/study/DivergenceMap.tsx) | where Śaṅkara and Rāmānuja part ways: a banded map of the Brahma Sūtra, details, table view |
+| `#/study/verse/{chapter}?s=&e=` | [`Verse.tsx`](../../web/src/study/Verse.tsx) | one verse beside every passage citing it, by author, with context and cued role |
+| `#/study/sayings`, `#/study/saying/{key}` | [`Sayings.tsx`](../../web/src/study/Sayings.tsx) | the four great sayings; each saying's verse page and its words used elsewhere |
 | `#/study/citations`, `#/study/notes` | [`Citations.tsx`](../../web/src/study/Citations.tsx), [`Notes.tsx`](../../web/src/study/Notes.tsx) | most-cited śruti; the reader's own notes |
+
+The chat is split into [`useChatSession.ts`](../../web/src/chat/useChatSession.ts) (turns,
+streaming, retry and edit, sessionStorage), `Composer.tsx`, `Turn.tsx`, `Welcome.tsx`,
+`SelectionPopover.tsx` and `useAnswerHighlights.ts`. Shared pieces:
+
+- [`lib/router.ts`](../../web/src/lib/router.ts): after a navigation, titles the document from
+  the page's `h1`, moves focus to it (or leaves it in a search box) and restores the
+  scroll position on Back. Both views scroll their own `main`, not the window.
+- [`components/Palette.tsx`](../../web/src/components/Palette.tsx) (⌘K/Ctrl+K): actions
+  everywhere; works, concepts, `BS a.p.s` and verse references (`/api/locate`) only on
+  Study pages, so the chat never lists document metadata.
+- [`components/Typography.tsx`](../../web/src/components/Typography.tsx): text size, line
+  spacing, column width and typeface, as attributes on `<html>` read by
+  [`styles/tokens.css`](../../web/src/styles/tokens.css).
+- Styles: `fonts.css` (self-hosted Source Sans 3, Source Serif 4 and Noto Serif
+  Devanagari, see [font notices](../notices/fonts.md)), `tokens.css` (colours by role,
+  each defined once with `light-dark()`, text at WCAG AA contrast), then `base.css`,
+  `chat.css`, `study.css`, `reader.css`, with a print stylesheet in `base.css`.
 
 Browser storage, by purpose:
 
@@ -328,7 +351,9 @@ Browser storage, by purpose:
 | --- | --- | --- | --- |
 | `sessionStorage` | `pramana.conversation.v1` | turns with evidence pointers | this tab; New chat clears it |
 | `sessionStorage` | `pramana.focus.v1` | a pending "Ask about this" pointer | taken once by the chat |
-| `localStorage` | preferences, reading-path progress | display settings | this browser |
+| `localStorage` | preferences, reading-path progress | theme and reading settings | this browser |
+| `localStorage` | `pramana.reading.v1` | per work: the part last open, how far down, parts read to the end | this browser |
+| `sessionStorage` | `pramana.scroll.v1` | scroll position per address, for Back | this tab |
 | `localStorage` | `pramana.notes.v1` | highlights and notes with their quoted words | this browser; exported only by the user |
 
 Nothing is stored server-side; there are no accounts.
@@ -345,6 +370,23 @@ Nothing is stored server-side; there are no accounts.
   printed divisions, and checks each against the quoted words (consecutive word pairs).
   The forward and reverse indexes are cached per library `generation` (under a second
   to rebuild).
+- **Divergence map** ([`divergence.py`](../../src/pramana/divergence.py)): Śaṅkara's
+  pages as sūtra ranges with Rāmānuja's pages on the same sūtras, paired by the printed
+  sūtra's words (same number, renumbered up to three away, or unconfirmed); scripture
+  cited (from the citation index), TF-IDF wording and dispute-term signals, each banded
+  by what its values mean, cached per library `generation`. Method and limits:
+  [divergence map](divergence.md).
+- **Verse pages and great sayings** ([`verses.py`](../../src/pramana/verses.py)): incoming
+  references from the citation index with sentence-bounded excerpts; the four sayings
+  curated in [`sayings.json`](../../src/pramana/sayings.json) by printed section and verse,
+  found only if their check words occur in the verse (which runs to the next printed
+  number). Quotations of a saying's words are listed apart and exclude a reference's own
+  quote. A citation is marked as in the opposing view only from a page's printed title
+  ("The Great Pûrvapaksha") or a cue within 1,200 characters before it.
+- **Typed references** (`locate` in [`citations.py`](../../src/pramana/citations.py)): the
+  same abbreviation table, printed-division index and numbered-verse lookup as the
+  commentaries' references, with the names a reader might type; a verse whose number
+  does not occur exactly once returns its whole chapter with `exact: false`.
 - **Notes** are entirely client-side ([`web/src/lib/notes.ts`](../../web/src/lib/notes.ts)).
 
 ## Hosted mode (spike)

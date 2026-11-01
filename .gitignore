@@ -21,3 +21,8 @@ docs/sources/*.PDF
 
 # Resume file of an unfinished answer-level evaluation
 benchmarks/advaita/v2/answers.partial.jsonl
+
+# Playwright output and local-only screenshot baselines
+web/test-results/
+web/playwright-report/
+web/e2e/**/*-snapshots/

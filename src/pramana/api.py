@@ -9,9 +9,10 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from pramana.answering import Answerer, AnswerError, OpenRouterProvider
-from pramana.citations import for_chapter
+from pramana.citations import for_chapter, locate
 from pramana.citations import summary as citation_summary
 from pramana.corpus import Corpus
+from pramana.divergence import divergence
 from pramana.errors import PramanaError
 from pramana.glossary import terms
 from pramana.hosted import HostedGuard, Refused
@@ -27,6 +28,7 @@ from pramana.library import (
 )
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
+from pramana.verses import saying, sayings, verse
 
 
 def create_app(
@@ -228,6 +230,40 @@ def create_app(
             raise HTTPException(404, "Chapter not found.") from exc
         return for_chapter(corpus.store, chapter_id)
 
+    @api.get("/api/divergence")
+    def divergence_map():
+        # Study view only: a heuristic map of where the two commentaries differ (bands).
+        return divergence(corpus.store)
+
+    @api.get("/api/verse")
+    def verse_page(chapter_id: str, start: int, end: int):
+        # Study view only: one verse beside every printed reference to it, by author.
+        try:
+            return verse(corpus.store, chapter_id, start, end)
+        except KeyError as exc:
+            raise HTTPException(404, "Chapter not found.") from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+
+    @api.get("/api/sayings")
+    def great_sayings():
+        return sayings(corpus.store)
+
+    @api.get("/api/sayings/{key}")
+    def great_saying(key: str):
+        try:
+            return saying(corpus.store, key)
+        except KeyError as exc:
+            raise HTTPException(404, "No such saying.") from exc
+
+    @api.get("/api/locate")
+    def locate_reference(ref: str):
+        # Study view only (the command palette): "Ch 6.8.7" -> the passage it names.
+        found = locate(corpus.store, ref[:80])
+        if not found:
+            raise HTTPException(404, "No passage in the library matches that reference.")
+        return found
+
     @api.get("/api/parallel")
     def sutra_parallel(book: str, chapter: str, sutra: str):
         return parallel(corpus.store, book, chapter, sutra)
@@ -235,6 +271,22 @@ def create_app(
     static = Path(__file__).parent / "static"
     if (static / "assets").is_dir():
         api.mount("/assets", StaticFiles(directory=static / "assets"), name="assets")
+    if (static / "icons").is_dir():
+        api.mount("/icons", StaticFiles(directory=static / "icons"), name="icons")
+
+    # The installable-app manifest and favicon, from the built UI.
+    def built(name: str, media_type: str):
+        if not (static / name).is_file():
+            raise HTTPException(404, "Web assets missing.")
+        return FileResponse(static / name, media_type=media_type)
+
+    @api.get("/manifest.webmanifest", include_in_schema=False)
+    def manifest():
+        return built("manifest.webmanifest", "application/manifest+json")
+
+    @api.get("/icon.svg", include_in_schema=False)
+    def icon():
+        return built("icon.svg", "image/svg+xml")
 
     @api.get("/", include_in_schema=False)
     def index():

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 // Per-browser display preferences; conversations never go to localStorage.
 export type Theme = "system" | "light" | "dark";
-export type Size = "regular" | "large";
 
 function read<T extends string>(key: string, allowed: T[], fallback: T): T {
   try {
@@ -43,13 +42,36 @@ export function useTheme() {
   );
 }
 
-export function useTextSize() {
-  return usePreference<Size>(
-    "pramana.text-size",
-    ["regular", "large"],
-    "regular",
-    (s) => {
-      document.documentElement.dataset.size = s;
-    },
+// Reading typography: applied as attributes on <html>, read by styles/tokens.css.
+export const SIZES = ["small", "regular", "large", "xlarge"] as const;
+export const LEADINGS = ["compact", "normal", "airy"] as const;
+export const MEASURES = ["narrow", "normal", "wide"] as const;
+export const FACES = ["serif", "sans"] as const;
+export type Size = (typeof SIZES)[number];
+
+const attribute = (name: string) => (value: string) => {
+  document.documentElement.dataset[name] = value;
+};
+
+export function useTypography() {
+  const [size, setSize] = usePreference<Size>("pramana.text-size", [...SIZES], "regular", attribute("size"));
+  const [leading, setLeading] = usePreference<(typeof LEADINGS)[number]>(
+    "pramana.leading",
+    [...LEADINGS],
+    "normal",
+    attribute("leading"),
   );
+  const [measure, setMeasure] = usePreference<(typeof MEASURES)[number]>(
+    "pramana.measure",
+    [...MEASURES],
+    "normal",
+    attribute("measure"),
+  );
+  const [face, setFace] = usePreference<(typeof FACES)[number]>(
+    "pramana.face",
+    [...FACES],
+    "serif",
+    attribute("face"),
+  );
+  return { size, setSize, leading, setLeading, measure, setMeasure, face, setFace };
 }

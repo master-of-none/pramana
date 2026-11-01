@@ -26,10 +26,21 @@ def main():
         assert assets
         for asset in assets:
             assert client.get(asset).status_code == 200
+        # Self-hosted fonts and the installable-app manifest and icons ship in the wheel.
+        assert any(str(p).endswith(".woff2") for p in installed.files)
+        assert client.get("/manifest.webmanifest").json()["name"] == "Pramana"
+        assert client.get("/icon.svg").status_code == 200
+        assert client.get("/icons/icon-192.png").status_code == 200
+        # The curated great sayings ship as package data (none found in an empty library).
+        sayings = client.get("/api/sayings").json()
+        assert len(sayings) == 4 and not any(s["found"] for s in sayings)
         assert client.post("/api/chat", json={"message": "What is knowledge?"}).status_code == 409
         assert client.post("/api/search", json={"query": "knowledge"}).status_code == 409
         assert client.get("/api/chapters/missing").status_code == 404
-    print("Installed wheel: API, chat setup errors, compiled homepage and assets passed.")
+    print(
+        "Installed wheel: API, chat setup errors, compiled homepage, assets, fonts and "
+        "app manifest passed."
+    )
 
 
 if __name__ == "__main__":

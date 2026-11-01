@@ -190,6 +190,77 @@ def resolve(text: str, library: Library) -> list[dict]:
     return found
 
 
+# Typed references ("Ch 6.8.7", "Bṛ. Up. I, 4, 10", "BG 2.47"): each work's names as a
+# reader might type them, folded (no accents, case, dots or spaces). Mapped to WORKS.
+TYPED = {
+    "chandogya-upanishad-sbe01": "ch chu chup chand chandogya chandogyaup kh khup",
+    "brihadaranyaka-upanishad-sbe15": "br bri brh bru brup brih brihad brihadaranyaka bṛ",
+    "mundaka-upanishad-sbe15": "mu mup mund mundaka",
+    "taittiriya-upanishad-sbe15": "tai taitt taittup taittiriya tu",
+    "katha-upanishad-sbe15": "ka kath katha kathup kathaup",
+    "svetasvatara-upanishad-sbe15": "sv svet svetup svetasvatara shvet shvetashvatara",
+    "kaushitaki-upanishad-sbe01": "kau kaush kaushitaki kaushitakiup",
+    "prasna-upanishad-sbe15": "pr pra praup prasna prashna",
+    "kena-upanishad-sbe01": "ke keup kena",
+    "bhagavad-gita-sbg": "bg bhg bhag gita bhagavadgita bhagavad bhagi",
+    "isa-upanishad-sbe01": "is isa isup isha ishavasya isavasya iso",
+}
+TYPED_REF = re.compile(
+    r"^\s*(?P<work>.+?)(?:[\s.,:]+|(?<=[^\W\d_])(?=\d))"
+    r"(?P<numbers>(?:[IVXLivxl]+|\d+)(?:[\s.,:]+(?:[IVXLivxl]+|\d+)){0,2})[\s.]*$"
+)
+
+
+def _fold(text: str) -> str:
+    folded = unicodedata.normalize("NFKD", text.lower())
+    return "".join(c for c in folded if c.isalnum() and not unicodedata.combining(c))
+
+
+_ALIASES = {_fold(alias): doc for doc, aliases in TYPED.items() for alias in aliases.split()}
+_libraries: dict[tuple, Library] = {}
+
+
+def locate(store: Store, reference: str) -> dict | None:
+    """A typed scripture reference resolved to the passage it names, or None.
+
+    Only printed divisions are used, as for references in the commentaries: the chapter
+    whose label or number matches, and the verse paragraph when its printed number occurs
+    exactly once. Otherwise the whole chapter is returned with `exact` false.
+    """
+    m = TYPED_REF.match(reference)
+    if not m:
+        return None
+    work = _fold(m["work"])
+    work = re.sub(r"(upanishad|upanisad|up)$", "", work) or work
+    doc = _ALIASES.get(work) or _ALIASES.get(work + "up")
+    if not doc:
+        return None
+    numbers = [_number(n) for n in re.split(r"[\s.,:]+", m["numbers"].strip(" .,:")) if n]
+    if not numbers or None in numbers or len(numbers) > 3:
+        return None
+    scheme = next(s for _, d, s in WORKS if d == doc)
+    a, b, c = (numbers + [None, None])[:3]
+    key = (str(store.path), store.get_meta("generation"))
+    if key not in _libraries:
+        _libraries.clear()
+        _libraries[key] = Library(store.chapters())
+    chapter, number = _libraries[key].chapter(doc, scheme, a, b, c)
+    if chapter is None:
+        return None
+    verse = _verse(chapter, number)
+    start, end = verse or (0, len(chapter.text))
+    return {
+        "chapter_id": chapter.id,
+        "document": chapter.document,
+        "place": ", ".join(chapter.location.sections)
+        or f"{chapter.location.book}.{chapter.location.chapter}",
+        "verse": number if verse else None,
+        "start": start,
+        "end": end,
+        "exact": verse is not None,
+    }
+
+
 _cache: dict[tuple, dict] = {}
 
 
