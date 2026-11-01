@@ -10,6 +10,8 @@
 - [Private PDF books](guides/pdf-ingestion.md): local extraction and OCR of supplied PDFs.
 - [Excerpts for agents](guides/agent-excerpts.md): send yourself a verse, passage or sentence on a
   schedule, with cron, OpenClaw, Hermes, Claude or Gemini.
+- [Hermes on a VPS](guides/agent-excerpts-vps.md): the same, on a small server with Hermes, a
+  free LLM provider and Telegram or WhatsApp.
 
 ## Reference
 

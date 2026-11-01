@@ -323,3 +323,48 @@ def test_the_command_line_takes_a_topic(monkeypatch, tmp_path, make_chapter, emb
         cli, ["excerpt", "random", "--topic", "zanzibar", "--strategy", "lexical"]
     )
     assert lexical.exit_code == 1 and "about that topic" in lexical.output
+
+
+def test_the_excerpts_download_group_is_exactly_what_the_allowlist_needs():
+    from pathlib import Path
+
+    import pramana
+    from pramana.cli import EXCERPTS, SACRED_TEXTS, SOURCES, TEXT_FILES
+
+    def document_ids(node):
+        if isinstance(node, dict):
+            yield from ([node["document_id"]] if "document_id" in node else [])
+            for value in node.values():
+                yield from document_ids(value)
+        elif isinstance(node, list):
+            for value in node:
+                yield from document_ids(value)
+
+    root = Path(pramana.__file__).parent / "ingestion"
+    manifests = {}
+    for path in [*root.glob("sacredtexts/*.json"), *root.glob("textfiles/*.json")]:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        manifests[data["id"]] = set(document_ids(data))
+    provides = {}
+    for name in EXCERPTS:
+        assert name in SOURCES
+        manifest = SACRED_TEXTS.get(name) or TEXT_FILES.get(name)
+        provides[name] = manifests[manifest] if manifest else {"vishnu-purana"}
+    needed = set(ex.load_sources())
+    assert needed <= set().union(*provides.values())  # nothing the pool needs is missing
+    assert all(ids & needed for ids in provides.values())  # and nothing is downloaded for nothing
+    assert not {"brahma-sutra", "sribhashya", "yoga-vasistha"} & set(EXCERPTS)
+
+
+def test_the_download_command_knows_the_excerpts_group(monkeypatch):
+    fetched = []
+    monkeypatch.setattr("pramana.cli.acquire_source", lambda name, *a: fetched.append(name) or name)
+    result = CliRunner().invoke(cli, ["corpus", "download", "--source", "excerpts"])
+    assert result.exit_code == 0 and len(fetched) == 9 and "vishnu-purana" in fetched
+    assert "brahma-sutra" not in fetched
+    again = CliRunner().invoke(
+        cli, ["corpus", "download", "--source", "excerpts", "--archive", "x.gz"]
+    )
+    assert again.exit_code == 1 and "--archive applies to one source" in again.output
+    bogus = CliRunner().invoke(cli, ["corpus", "download", "--source", "nothing"])
+    assert bogus.exit_code == 1 and "excerpts" in bogus.output

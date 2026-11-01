@@ -89,6 +89,20 @@ SACRED_TEXTS = {
 # The Yoga Vasishtha is opt-in: it would double the library and crowd general answers.
 # The Vivekachudamani scan needs an explicitly installed OCR model, so it is separate.
 ADVAITA = [s for s in SOURCES if s not in {"vishnu-purana", "yoga-vasistha", "vivekachudamani"}]
+# Just the editions the excerpt API may serve (excerpt_sources.json): enough for a small server
+# that never answers questions. It leaves out the Brahma Sutra commentaries.
+EXCERPTS = [
+    "upanishads-1",
+    "upanishads-2",
+    "gita-swarupananda",
+    "shankara-works",
+    "ashtavakra-gita",
+    "crest-jewel",
+    "brahma-knowledge",
+    "minor-upanishads",
+    "vishnu-purana",
+]
+GROUPS = {"advaita": ADVAITA, "excerpts": EXCERPTS}
 
 
 def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
@@ -128,17 +142,23 @@ def download(
     source: Annotated[
         str,
         typer.Option(
-            help="One of: " + ", ".join(SOURCES) + "; or `advaita` for every Vedanta source"
+            help="One of: "
+            + ", ".join(SOURCES)
+            + "; `advaita` for every Vedanta source; or `excerpts` for what the excerpt API uses"
         ),
     ] = "vishnu-purana",
 ):
     """Download/cache complete public-domain editions and emit validated JSONL."""
-    if source != "advaita" and source not in SOURCES:
-        fail(PramanaError(f"Unknown --source {source!r}. Choose: {', '.join(SOURCES)}, advaita."))
-    if source == "advaita" and archive:
-        fail(PramanaError("--archive applies to one source; omit it with --source advaita."))
+    if source not in GROUPS and source not in SOURCES:
+        fail(
+            PramanaError(
+                f"Unknown --source {source!r}. Choose: {', '.join(SOURCES)}, {', '.join(GROUPS)}."
+            )
+        )
+    if source in GROUPS and archive:
+        fail(PramanaError(f"--archive applies to one source; omit it with --source {source}."))
     try:
-        for name in ADVAITA if source == "advaita" else [source]:
+        for name in GROUPS.get(source, [source]):
             typer.echo(str(acquire_source(name, archive, offline)))
     except (PramanaError, OSError) as exc:
         fail(exc)
