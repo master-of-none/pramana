@@ -167,3 +167,21 @@ test("Vichāra and Check say what they do while on", async ({ page }) => {
   await expect(page.getByText(/removes sentences the passages do not support/)).toBeVisible();
   await expectAccessible(page);
 });
+
+test("without an answer model a question opens as a search in Study", async ({ page }) => {
+  await page.route("**/api/config", (route) =>
+    route.fulfill({
+      json: {
+        hosted: false,
+        provider: { name: "ollama", model: "gemma4:e4b", ready: false, reason: "Ollama is not running." },
+      },
+    }),
+  );
+  await page.goto("/");
+  await expect(page.getByText("Answers need a language model, and none is ready.")).toBeVisible();
+  await expect(page.getByLabel("Your question")).toHaveAttribute("placeholder", "Search the texts…");
+  await expectAccessible(page);
+  await ask(page, "adhyasa");
+  await expect(page).toHaveURL(/#\/study\/search\?q=adhyasa$/);
+  await expect(page.getByLabel("Search terms")).toHaveValue("adhyasa");
+});

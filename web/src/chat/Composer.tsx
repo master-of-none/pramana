@@ -18,16 +18,32 @@ export const DEPTHS: [Depth, string][] = [
 ];
 const COMPARE = "How do Śaṅkara and Rāmānuja differ on ";
 type ScopeInfo = { scope: Scope; label: string; documents: number };
-type Provider = { name: string; model: string };
+export type Provider = {
+  name: string;
+  model: string;
+  remote?: boolean; // questions leave this machine (OpenRouter, or a remote Ollama)
+  ready?: boolean; // false: no usable answer model; search and Study still work
+  reason?: string;
+};
+
+// Which model writes answers, asked again just before sending when none was ready (a
+// model started meanwhile is noticed).
+export async function freshProvider(): Promise<Provider | null> {
+  const config: { provider?: Provider } = await fetch("/api/config")
+    .then((r) => (r.ok ? r.json() : {}))
+    .catch(() => ({}));
+  return config?.provider ?? null;
+}
 
 // Scopes with imported books, and which model writes answers. A failure is shown, not
-// hidden, so the missing controls are explained.
-export function useChatOptions() {
+// hidden, so the missing controls are explained. Rechecked whenever the chat is opened.
+export function useChatOptions(active: boolean) {
   const [available, setAvailable] = useState<ScopeInfo[]>([]);
   const [provider, setProvider] = useState<Provider | null>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
+    if (!active) return;
     setFailed(false);
     const json = (r: Response) => (r.ok ? r.json() : Promise.reject(new Error(r.statusText)));
     Promise.all([fetch("/api/scopes").then(json), fetch("/api/config").then(json)])
@@ -36,8 +52,14 @@ export function useChatOptions() {
         if (config?.provider) setProvider(config.provider);
       })
       .catch(() => setFailed(true));
-  }, [attempt]);
-  return { available, provider, failed, retry: () => setAttempt((n) => n + 1) };
+  }, [attempt, active]);
+  return {
+    available,
+    provider,
+    setProvider,
+    failed,
+    retry: () => setAttempt((n) => n + 1),
+  };
 }
 
 export type Settings = {
@@ -190,6 +212,14 @@ export function Composer({
         </p>
       )}
       {humanCheck}
+      {provider?.ready === false && (
+        <p className="no-model" role="status">
+          <strong>Answers need a language model, and none is ready.</strong>{" "}
+          {provider.reason} You can still search and read every text: your question will open
+          as a search in Study. See <em>docs/guides/chat.md</em> to start Ollama or use
+          OpenRouter's free models.
+        </p>
+      )}
       {editing && (
         <p className="focus-note" role="status">
           Editing an earlier question: its answer and the ones after it will be replaced.{" "}
@@ -220,7 +250,9 @@ export function Composer({
           ref={composer}
           id="message"
           placeholder={
-            hasFocus
+            provider?.ready === false
+              ? "Search the texts…"
+              : hasFocus
               ? "What would you like to understand about it?"
               : hasConversation
                 ? "Keep the conversation going…"
@@ -263,7 +295,9 @@ export function Composer({
             ? "Take a moment. Good questions are worth sitting with."
             : provider?.name === "openrouter"
               ? `Answers by ${provider.model} on OpenRouter's free plan: your question and public-domain passages are sent there; private books never are.`
-              : "A conversation with the books in your local library."}
+              : provider?.remote
+                ? `Answers by ${provider.model} on a remote Ollama: your question and public-domain passages are sent there; private books never are.`
+                : "A conversation with the books in your local library."}
         </span>
         <span className="keyboard-hint">
           <CornerDownLeft size={11} /> to send <span>·</span> Shift + Enter for a new line

@@ -253,7 +253,7 @@ def test_ollama_errors(monkeypatch, failure, code, phrase):
         async def __aexit__(self, *args):
             pass
 
-        async def post(self, url, json):
+        async def post(self, url, json, headers=None):
             assert url.endswith("/api/chat")
             assert json["stream"] is False
             if isinstance(failure, Exception):

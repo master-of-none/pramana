@@ -907,3 +907,15 @@ main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
     gap: 8px;
   }
 }
+
+/* No answer model ready: questions open as searches in Study. */
+.no-model {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--warm) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warm) 35%, transparent);
+  border-radius: var(--radius-m);
+  padding: 10px 12px;
+  margin: 0 0 10px;
+}

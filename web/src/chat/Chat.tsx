@@ -3,13 +3,14 @@ import { ArrowDown, Download, X } from "lucide-react";
 import { useGlossary } from "../lib/glossary.tsx";
 import { useHumanCheck } from "../lib/hosted.ts";
 import { isShortcut } from "../lib/keys.ts";
+import { href } from "../lib/router.ts";
 import { ASK, EXPORT } from "../components/Palette.tsx";
 import { useNotes } from "../lib/notes.ts";
 import { conversationMarkdown, takePendingFocus } from "../lib/storage.ts";
 import { download } from "../lib/notes.ts";
 import type { FocusRef, Turn } from "../lib/storage.ts";
 import { usePreference } from "../lib/theme.ts";
-import { Composer, DEPTHS, SCOPES, useChatOptions } from "./Composer.tsx";
+import { Composer, DEPTHS, SCOPES, freshProvider, useChatOptions } from "./Composer.tsx";
 import { NoteEditor, SelectionTools, quoteFromSelection } from "./SelectionPopover.tsx";
 import type { Noting, Quote } from "./SelectionPopover.tsx";
 import { TurnView } from "./Turn.tsx";
@@ -43,7 +44,7 @@ export function Chat({
   const study = useNotes();
   const glossary = useGlossary();
   const human = useHumanCheck();
-  const options = useChatOptions();
+  const options = useChatOptions(active);
   const none = () => {};
   const [scope, setScope] = usePreference<Scope>("pramana.scope", SCOPES, "all", none);
   const [depth, setDepth] = usePreference<Depth>(
@@ -135,6 +136,17 @@ export function Chat({
   async function send(text: string, from?: string) {
     const asked = from ? turns.find((t) => t.id === from)?.focus : (focus ?? undefined);
     if (!text.trim() || pending) return;
+    if (options.provider?.ready === false) {
+      // Without an answer model a question becomes a search of the texts in Study. The
+      // notice may be stale (Ollama started since): ask again before giving up.
+      const fresh = await freshProvider();
+      if (fresh) options.setProvider(fresh);
+      if (fresh?.ready !== true) {
+        const params = new URLSearchParams({ q: text.trim() });
+        window.location.hash = `${href("study", "search")}?${params}`;
+        return;
+      }
+    }
     setMessage("");
     setFocus(null);
     setEditing(null);
