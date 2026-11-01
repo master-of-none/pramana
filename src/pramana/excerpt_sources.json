@@ -1,0 +1,240 @@
+{
+  "groups": [
+    {
+      "name": "Müller, Sacred Books of the East vol. 1 (1879)",
+      "rights": "Public domain because published before 1923, as stated by Sacred Texts.",
+      "attribution": "F. Max Müller, The Upanishads, Part 1, Sacred Books of the East vol. 1 (1879); digitized by Sacred Texts.",
+      "kinds": {
+        "verse": "leading-number"
+      },
+      "reference": "section",
+      "documents": [
+        {
+          "id": "chandogya-upanishad-sbe01",
+          "label": "Chāndogya Upaniṣad"
+        },
+        {
+          "id": "kena-upanishad-sbe01",
+          "label": "Kena Upaniṣad"
+        },
+        {
+          "id": "aitareya-aranyaka-sbe01",
+          "label": "Aitareya Āraṇyaka"
+        },
+        {
+          "id": "kaushitaki-upanishad-sbe01",
+          "label": "Kauṣītaki Upaniṣad"
+        },
+        {
+          "id": "isa-upanishad-sbe01",
+          "label": "Īśā Upaniṣad",
+          "reference": "label"
+        }
+      ]
+    },
+    {
+      "name": "Müller, Sacred Books of the East vol. 15 (1884)",
+      "rights": "Public domain because published before 1923, as stated by Sacred Texts.",
+      "attribution": "F. Max Müller, The Upanishads, Part 2, Sacred Books of the East vol. 15 (1884); digitized by Sacred Texts.",
+      "kinds": {
+        "verse": "leading-number"
+      },
+      "reference": "section",
+      "documents": [
+        {
+          "id": "katha-upanishad-sbe15",
+          "label": "Kaṭha Upaniṣad"
+        },
+        {
+          "id": "mundaka-upanishad-sbe15",
+          "label": "Muṇḍaka Upaniṣad"
+        },
+        {
+          "id": "taittiriya-upanishad-sbe15",
+          "label": "Taittirīya Upaniṣad"
+        },
+        {
+          "id": "brihadaranyaka-upanishad-sbe15",
+          "label": "Bṛhadāraṇyaka Upaniṣad"
+        },
+        {
+          "id": "svetasvatara-upanishad-sbe15",
+          "label": "Śvetāśvatara Upaniṣad"
+        },
+        {
+          "id": "prasna-upanishad-sbe15",
+          "label": "Praśna Upaniṣad"
+        },
+        {
+          "id": "maitrayana-upanishad-sbe15",
+          "label": "Maitrāyaṇa Upaniṣad"
+        }
+      ]
+    },
+    {
+      "name": "Swarupananda, Bhagavad Gītā (1909)",
+      "rights": "Public domain in the US because published before 1923, as stated by Sacred Texts.",
+      "attribution": "Swami Swarupananda, Srimad-Bhagavad-Gita (1909); digitized by Sacred Texts. Translation with the translator's bracketed alternatives.",
+      "kinds": {
+        "verse": "leading-number"
+      },
+      "reference": "chapter",
+      "documents": [
+        {
+          "id": "bhagavad-gita-sbg",
+          "label": "Bhagavad Gītā"
+        }
+      ]
+    },
+    {
+      "name": "Richards, Aṣṭāvakra Gītā (1996)",
+      "rights": "The translator's introduction says: \"The translation here is by John Richards, and is presented to the public domain with his affection.\" The copy is an archive.org upload without uploader metadata.",
+      "attribution": "John Richards, The Heart of Awareness: Ashtavakra Gita (1996), from an archive.org upload.",
+      "kinds": {
+        "verse": "trailing-ref"
+      },
+      "reference": "label",
+      "documents": [
+        {
+          "id": "ashtavakra-gita-richards",
+          "label": "Aṣṭāvakra Gītā"
+        }
+      ]
+    },
+    {
+      "name": "Venkataramanan, Select Works attributed to Śaṅkara (1921)",
+      "rights": "Public domain in the US because published before 1923, as stated by Sacred Texts.",
+      "attribution": "S. Venkataramanan, Select Works of Sri Sankaracharya (1921), works attributed to Śaṅkara; digitized by Sacred Texts.",
+      "kinds": {
+        "verse": "trailing-paren"
+      },
+      "reference": "label",
+      "documents": [
+        {
+          "id": "hymn-to-hari-wos",
+          "label": "Hymn to Hari (attributed to Śaṅkara)"
+        },
+        {
+          "id": "the-ten-versed-hymn-wos",
+          "label": "Ten-versed Hymn (attributed to Śaṅkara)"
+        },
+        {
+          "id": "hymn-to-dakshinamurti-wos",
+          "label": "Hymn to Dakṣiṇāmūrti (attributed to Śaṅkara)"
+        },
+        {
+          "id": "direct-realisation-wos",
+          "label": "Direct Realisation (attributed to Śaṅkara)"
+        },
+        {
+          "id": "the-century-of-verses-wos",
+          "label": "Century of Verses (attributed to Śaṅkara)"
+        },
+        {
+          "id": "knowledge-of-self-wos",
+          "label": "Knowledge of Self (attributed to Śaṅkara)"
+        },
+        {
+          "id": "definition-of-one-s-own-self-wos",
+          "label": "Definition of One's Own Self (attributed to Śaṅkara)"
+        },
+        {
+          "id": "commentary-on-the-text-wos",
+          "label": "Commentary on the Text (attributed to Śaṅkara; the edition does not say which work)"
+        }
+      ]
+    },
+    {
+      "name": "Johnston, Theosophical University Press (1946)",
+      "rights": "Public domain in the US because the copyright was not renewed, as stated by Sacred Texts, which asks that the files be used for non-commercial purposes with its attribution notice left intact.",
+      "attribution": "Charles Johnston, translations of works attributed to Śaṅkara, with Johnston's commentary (Theosophical University Press, 1946); digitized by Sacred Texts.",
+      "kinds": {
+        "passage": "windows",
+        "sentence": "windows"
+      },
+      "reference": "section",
+      "documents": [
+        "the-crest-jewel-of-wisdom-vivekachudamani-cjw",
+        "the-awakening-to-the-self-atma-bodha-cjw",
+        "the-essence-of-the-teaching-vakya-sudha-cjw",
+        "the-awakening-to-reality-tattva-bodha-cjw",
+        "the-song-of-the-self-siddhanta-tattva-vindu-cjw",
+        "sankara-s-catechism-explanatory-cjw",
+        "the-heritage-of-the-brahmans-cjw",
+        "the-teachings-of-sankara-cjw"
+      ]
+    },
+    {
+      "name": "Barnett, Brahma-Knowledge (1911)",
+      "rights": "Public domain in the US because published before 1923, as stated by Sacred Texts.",
+      "attribution": "L. D. Barnett, Brahma-Knowledge (1911); digitized by Sacred Texts.",
+      "kinds": {
+        "passage": "windows",
+        "sentence": "windows"
+      },
+      "reference": "section",
+      "documents": [
+        "brahma-knowledge-brk"
+      ]
+    },
+    {
+      "name": "Aiyar, Thirty Minor Upaniṣads (1914)",
+      "rights": "Public domain in the US because published before 1923, as stated by Sacred Texts.",
+      "attribution": "K. Narayanasvami Aiyar, Thirty Minor Upanishads (1914); digitized by Sacred Texts.",
+      "kinds": {
+        "passage": "windows",
+        "sentence": "windows"
+      },
+      "reference": "section",
+      "documents": [
+        "adhyatma-upanishad-tmu",
+        "amrtabindu-upanishad-tmu",
+        "amrtanada-upanishad-tmu",
+        "atmabodha-upanishad-tmu",
+        "bhikshuka-upanishad-tmu",
+        "brahmopanishad-tmu",
+        "dhyanabindu-upanishad-tmu",
+        "garbha-upanishad-tmu",
+        "hamsa-upanishad-tmu",
+        "kaivalya-upanishad-tmu",
+        "kalisantarana-upanishad-tmu",
+        "maitreya-upanishad-tmu",
+        "mandalabrahmana-upanishad-tmu",
+        "muktikopanishad-tmu",
+        "nadabindu-upanishad-tmu",
+        "naradaparivrajaka-upanishad-tmu",
+        "narayana-upanishad-tmu",
+        "niralamba-upanishad-tmu",
+        "paingala-upanishad-tmu",
+        "sandilya-upanishad-tmu",
+        "sariraka-upanishad-tmu",
+        "sarvasara-upanishad-tmu",
+        "skanda-upanishad-tmu",
+        "subala-upanishad-tmu",
+        "tarasara-upanishad-tmu",
+        "tejobindu-upanishad-tmu",
+        "vajrasuchi-upanishad-tmu",
+        "varaha-upanishad-tmu",
+        "yogakundali-upanishad-tmu",
+        "yogatattva-upanishad-tmu"
+      ]
+    },
+    {
+      "name": "Wilson, Viṣṇu Purāṇa (1840)",
+      "rights": "Public domain in the US (an 1840 translation), as stated by the source.",
+      "attribution": "H. H. Wilson, The Vishnu Purana (1840); digitized by John Bruno Hare, Sacred Texts (2006).",
+      "kinds": {
+        "passage": "windows",
+        "sentence": "windows"
+      },
+      "reference": "section",
+      "documents": [
+        {
+          "id": "vishnu-purana",
+          "label": "Viṣṇu Purāṇa",
+          "cap": 300
+        }
+      ]
+    }
+  ]
+}

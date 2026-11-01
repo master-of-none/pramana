@@ -1,3 +1,4 @@
+import datetime
 import json
 from pathlib import Path
 from typing import Annotated
@@ -14,8 +15,12 @@ from pramana.retrieval import Retriever
 app = typer.Typer(help="Pramana — local retrieval with verifiable sources.", no_args_is_help=True)
 corpus_app = typer.Typer(help="Acquire source editions explicitly.")
 model_app = typer.Typer(help="Prepare the local embedding model; list free answer models.")
+agent_app = typer.Typer(help="Set up the excerpt routes for agents and schedulers.")
+excerpt_app = typer.Typer(help="Print an excerpt (verse, passage or sentence) without HTTP.")
 app.add_typer(corpus_app, name="corpus")
 app.add_typer(model_app, name="model")
+app.add_typer(agent_app, name="agent")
+app.add_typer(excerpt_app, name="excerpt")
 
 
 def fail(exc: Exception):
@@ -84,6 +89,20 @@ SACRED_TEXTS = {
 # The Yoga Vasishtha is opt-in: it would double the library and crowd general answers.
 # The Vivekachudamani scan needs an explicitly installed OCR model, so it is separate.
 ADVAITA = [s for s in SOURCES if s not in {"vishnu-purana", "yoga-vasistha", "vivekachudamani"}]
+# Just the editions the excerpt API may serve (excerpt_sources.json): enough for a small server
+# that never answers questions. It leaves out the Brahma Sutra commentaries.
+EXCERPTS = [
+    "upanishads-1",
+    "upanishads-2",
+    "gita-swarupananda",
+    "shankara-works",
+    "ashtavakra-gita",
+    "crest-jewel",
+    "brahma-knowledge",
+    "minor-upanishads",
+    "vishnu-purana",
+]
+GROUPS = {"advaita": ADVAITA, "excerpts": EXCERPTS}
 
 
 def acquire_source(source: str, archive: Path | None, offline: bool) -> Path:
@@ -123,17 +142,23 @@ def download(
     source: Annotated[
         str,
         typer.Option(
-            help="One of: " + ", ".join(SOURCES) + "; or `advaita` for every Vedanta source"
+            help="One of: "
+            + ", ".join(SOURCES)
+            + "; `advaita` for every Vedanta source; or `excerpts` for what the excerpt API uses"
         ),
     ] = "vishnu-purana",
 ):
     """Download/cache complete public-domain editions and emit validated JSONL."""
-    if source != "advaita" and source not in SOURCES:
-        fail(PramanaError(f"Unknown --source {source!r}. Choose: {', '.join(SOURCES)}, advaita."))
-    if source == "advaita" and archive:
-        fail(PramanaError("--archive applies to one source; omit it with --source advaita."))
+    if source not in GROUPS and source not in SOURCES:
+        fail(
+            PramanaError(
+                f"Unknown --source {source!r}. Choose: {', '.join(SOURCES)}, {', '.join(GROUPS)}."
+            )
+        )
+    if source in GROUPS and archive:
+        fail(PramanaError(f"--archive applies to one source; omit it with --source {source}."))
     try:
-        for name in ADVAITA if source == "advaita" else [source]:
+        for name in GROUPS.get(source, [source]):
             typer.echo(str(acquire_source(name, archive, offline)))
     except (PramanaError, OSError) as exc:
         fail(exc)
@@ -318,10 +343,112 @@ def divergence(top: int = 20, least: bool = False):
             typer.echo(f"{'':<12} disputes: {terms}")
 
 
+@agent_app.command("token")
+def agent_token():
+    """Print a new random token for PRAMANA_AGENT_TOKEN (or one name in PRAMANA_AGENT_TOKENS)."""
+    import secrets
+
+    typer.echo(secrets.token_urlsafe(32))
+
+
+def show_excerpt(pick: str, fmt: str, kind, document, **options):
+    """Shared by `excerpt today` and `excerpt random`: print what the HTTP routes return."""
+    from pramana import agent_excerpts as ex
+
+    try:
+        store = Corpus().store
+        pool = ex.pool_for(store)
+        if not pool.items:
+            raise PramanaError("No allowlisted texts are imported. Run: pramana corpus download.")
+        items = ex.candidates(pool, kind or None, document or None)
+        if not items:
+            raise PramanaError("No excerpt matches those filters.")
+        if pick == "today":
+            day = ex.day_in(options["tz"], options["date"])
+            item, _ = ex.today(pool, items, day=day, seed=options["seed"])
+        elif options.get("topic"):
+            item, _ = ex.about(
+                pool,
+                store,
+                Retriever(Corpus()),
+                options["topic"],
+                items,
+                strategy=options["strategy"],
+            )
+        else:
+            item, _ = ex.pick_random(pool, items, set())
+        data, body = ex.render(store, pool, item)
+    except (PramanaError, ValueError) as exc:
+        fail(exc)
+    if fmt == "json":
+        typer.echo(json.dumps(data, ensure_ascii=False, indent=2))
+    else:
+        typer.echo(ex.message(data, body, fmt), nl=False)
+
+
+@excerpt_app.command("today")
+def excerpt_today(
+    kind: Annotated[list[str] | None, typer.Option(help="verse, passage or sentence")] = None,
+    document: Annotated[list[str] | None, typer.Option(help="Document ID (repeatable)")] = None,
+    tz: str = "UTC",
+    date: Annotated[
+        datetime.datetime | None, typer.Option(formats=["%Y-%m-%d"], help="YYYY-MM-DD")
+    ] = None,
+    seed: str = "",
+    fmt: Annotated[str, typer.Option("--format", help="json, text or markdown")] = "text",
+):
+    """The excerpt of the day: the same for everyone on a date, timezone and seed."""
+    show_excerpt("today", fmt, kind, document, tz=tz, seed=seed, date=date.date() if date else None)
+
+
+@excerpt_app.command("random")
+def excerpt_random(
+    kind: Annotated[list[str] | None, typer.Option(help="verse, passage or sentence")] = None,
+    document: Annotated[list[str] | None, typer.Option(help="Document ID (repeatable)")] = None,
+    topic: Annotated[
+        str | None, typer.Option(help="Choose among excerpts about this (needs the local model)")
+    ] = None,
+    strategy: Annotated[str, typer.Option(help="hybrid or lexical, for --topic")] = "hybrid",
+    fmt: Annotated[str, typer.Option("--format", help="json, text or markdown")] = "text",
+):
+    """A random excerpt, optionally about a topic."""
+    show_excerpt("random", fmt, kind, document, topic=topic, strategy=strategy)
+
+
+@excerpt_app.command("sources")
+def excerpt_sources():
+    """Documents in the pool: excerpts by kind, rejected verse units and rights lines."""
+    from pramana import agent_excerpts as ex
+
+    typer.echo(json.dumps(ex.report(ex.pool_for(Corpus().store)), ensure_ascii=False, indent=2))
+
+
 @app.command()
-def serve(port: int = 8000):
+def serve(
+    port: int = 8000,
+    agent_only: Annotated[
+        bool, typer.Option(help="Serve only the token-protected excerpt routes")
+    ] = False,
+):
     """Serve the API and compiled reader on localhost."""
     import uvicorn
+
+    if agent_only:
+        from pramana.agent_api import AgentAuth, create_agent_app
+
+        try:
+            auth = AgentAuth.from_env()
+        except PramanaError as exc:
+            fail(exc)
+        if not auth.enabled:
+            fail(
+                PramanaError(
+                    "--agent-only needs a token. Run: pramana agent token, then set "
+                    "PRAMANA_AGENT_TOKEN to it."
+                )
+            )
+        uvicorn.run(create_agent_app(auth=auth), host="127.0.0.1", port=port)
+        return
 
     from pramana.api import create_app
 

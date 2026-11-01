@@ -9,7 +9,8 @@ sequencing and do not authorize unrelated work.
 ## Architecture and commands
 
 - `src/pramana/`: models, canonical text chunking, SQLite storage, embeddings,
-  retrieval, `answering.py`, CLI, and FastAPI `api.py`.
+  retrieval, `answering.py`, CLI, and FastAPI `api.py`. Excerpts for agents:
+  `agent_excerpts.py`, `agent_api.py` and the reviewed allowlist `excerpt_sources.json`.
 - `src/pramana/ingestion/`: source adapters and committed manifests (Wilson, Sacred Texts
   plain-text books, Brahma Sūtra HTML commentaries) and private PDF extraction/OCR.
 - `web/src/`: React/TypeScript chat; Vite builds into ignored `src/pramana/static/`.
@@ -87,6 +88,18 @@ on localhost:8001 without using the private library. Documentation-only edits ne
   the chat. Display preferences, reading progress and the reader's own Study notes and
   highlights may use localStorage; notes never leave the browser except by the user's
   own export. No accounts or server-side conversation persistence.
+- The excerpt API (`/api/excerpts`; [plan](docs/plans/agent-excerpts.md), [guide](docs/guides/agent-excerpts.md))
+  is a separate surface for agents and schedulers and the only authenticated one: it is off
+  until `PRAMANA_AGENT_TOKEN` (or `PRAMANA_AGENT_TOKENS`) is set. It serves only documents on
+  the reviewed allowlist `excerpt_sources.json` (public-domain, with a curated rights and
+  attribution line); a document with a `local_path` is refused, and a new import never joins
+  by default. `text` is the exact stored slice. A verse uses a printed number; a passage or
+  sentence is labelled `derived` and never numbered. Brahma Sūtra commentaries stay out, since
+  a sentence may be an opponent's argument. It returns no relevance score, and `topic` only
+  ranks with the local retriever, saying nothing about support. Its edition and rights metadata
+  is for agents' provenance and never appears in the chat or Study view. Anything beyond the
+  owner's own machine uses `serve --agent-only` over a private network or an HTTPS tunnel,
+  never the normal server, whose search, chat and library routes are unauthenticated.
 
 ## Local operation and hygiene
 
@@ -94,7 +107,7 @@ Acquisition is explicit: `pramana model setup`, `pramana corpus download`, and
 `pramana corpus import-books`. Poppler/Tesseract installation and Ollama model pulls
 are explicit user setup. Do not silently download models, switch providers, or
 send private text to a hosted service. Default chat uses localhost Ollama and
-`gemma4:e4b`; bind FastAPI to localhost. The only hosted provider is OpenRouter,
+`gemma4:e4b`; bind FastAPI to localhost (including `serve --agent-only`). The only hosted provider is OpenRouter,
 opt-in via `PRAMANA_PROVIDER=openrouter`, restricted to `:free` models, and never given
 private local editions (passages, titles or selections). See [chat configuration](docs/guides/chat.md).
 
