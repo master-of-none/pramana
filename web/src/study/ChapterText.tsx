@@ -6,14 +6,22 @@ import { codePointIndex, cuts } from "../lib/offsets.ts";
 import type { Span } from "../lib/offsets.ts";
 import { CITATION_STATUS, thinkerName } from "../lib/api.ts";
 import type { ChapterCitations, ChapterContext, CitedBy } from "../lib/api.ts";
-import { readAt } from "../lib/router.ts";
+import { readAt, verseAt } from "../lib/router.ts";
 
 export const ROLE_LABEL = { objection: "Objection", reply: "Reply" };
 export const stepId = (chapter: string, index: number) =>
   `${chapter}-step-${index}`;
 
 // Where a scripture passage is cited, grouped by thinker, each linking to the citation.
-function CitedByList({ refs, whole }: { refs: CitedBy[]; whole?: boolean }) {
+function CitedByList({
+  refs,
+  whole,
+  chapterId,
+}: {
+  refs: CitedBy[];
+  whole?: boolean;
+  chapterId: string;
+}) {
   const groups = new Map<string, CitedBy[]>();
   for (const r of refs) {
     const name = thinkerName(r.author);
@@ -43,6 +51,11 @@ function CitedByList({ refs, whole }: { refs: CitedBy[]; whole?: boolean }) {
           </ul>
         </div>
       ))}
+      {!whole && refs[0] && (
+        <a className="cited-all" href={verseAt(chapterId, refs[0].target_start, refs[0].target_end)}>
+          All citations of this verse, side by side
+        </a>
+      )}
     </details>
   );
 }
@@ -167,7 +180,7 @@ export function ChapterText({
 
   return (
     <div className="chapter-text">
-      {whole.length > 0 && <CitedByList refs={whole} whole />}
+      {whole.length > 0 && <CitedByList refs={whole} whole chapterId={context.id} />}
       {paragraphs.map((p, i) => {
         const inside = (x: number) => p.start <= x && x <= p.end;
         const points = cuts(p.end - p.start, [
@@ -249,7 +262,7 @@ export function ChapterText({
             <p data-from={p.start} data-to={p.end}>
               {out}
             </p>
-            <CitedByList refs={cited} />
+            <CitedByList refs={cited} chapterId={context.id} />
           </div>
         ) : (
           <p key={i} data-from={p.start} data-to={p.end}>

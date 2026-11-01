@@ -1,0 +1,42 @@
+[
+  {
+    "key": "tat-tvam-asi",
+    "saying": "tat tvam asi",
+    "devanagari": "तत् त्वम् असि",
+    "english": "That thou art",
+    "target": {"document_id": "chandogya-upanishad-sbe01", "section": "VI, 8", "verse": 7},
+    "check": ["thou, O Svetaketu, art it", "art it"],
+    "phrases": ["that art thou", "thou art that", "thou art it"],
+    "note": "Uddālaka's teaching to his son Śvetaketu, repeated through Chāndogya VI, 8–16."
+  },
+  {
+    "key": "aham-brahmasmi",
+    "saying": "ahaṃ brahmāsmi",
+    "devanagari": "अहं ब्रह्मास्मि",
+    "english": "I am Brahman",
+    "target": {"document_id": "brihadaranyaka-upanishad-sbe15", "section": "I, 4", "verse": 10},
+    "check": ["I am Brahman"],
+    "phrases": ["I am Brahman"],
+    "note": "Brahman knowing itself in the beginning, and whoever knows it so."
+  },
+  {
+    "key": "prajnanam-brahma",
+    "saying": "prajñānaṃ brahma",
+    "devanagari": "प्रज्ञानं ब्रह्म",
+    "english": "Consciousness is Brahman",
+    "target": {"document_id": "aitareya-aranyaka-sbe01", "section": "II, 6, 1", "verse": 7},
+    "check": ["Knowledge is Brahman"],
+    "phrases": ["knowledge is Brahman", "Brahman is knowledge"],
+    "note": "The Aitareya Upaniṣad, which Müller prints within the Aitareya Āraṇyaka (II, 4–6). His translation renders prajñāna as “knowledge”."
+  },
+  {
+    "key": "ayam-atma-brahma",
+    "saying": "ayam ātmā brahma",
+    "devanagari": "अयमात्मा ब्रह्म",
+    "english": "This Self is Brahman",
+    "target": {"document_id": "brihadaranyaka-upanishad-sbe15", "section": "II, 5", "verse": 19},
+    "check": ["this Self is Brahman"],
+    "phrases": ["this Self is Brahman"],
+    "note": "Best known from Māṇḍūkya 2, which is not in this library; here as it occurs in the Bṛhadāraṇyaka."
+  }
+]

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { CITATION_STATUS, getJSON, thinkerName } from "../lib/api.ts";
 import type { CitationStatus, CitationSummary } from "../lib/api.ts";
-import { href, readAt } from "../lib/router.ts";
+import { href, readAt, verseAt } from "../lib/router.ts";
 
 // The scripture passages the commentaries cite most, counted per thinker.
 export function Citations() {
@@ -36,7 +36,8 @@ export function Citations() {
         <p>
           The commentaries quote the Upaniṣads and the Gītā with printed references
           such as “(Kh. Up. VI, 8, 7)”. {data.references.toLocaleString()} of them
-          point to passages in this library.
+          point to passages in this library. See also{" "}
+          <a href={href("study", "sayings")}>the great sayings</a>.
         </p>
         <p className="citation-status">
           {statuses.map((s) => (
@@ -59,7 +60,10 @@ export function Citations() {
               {p.verse !== null && <>, {p.verse}</>}
             </a>
             <p className="cited-opening">
-              {p.opening.length > 150 ? `${p.opening.slice(0, 150)}…` : p.opening}
+              {p.opening.length > 150 ? `${p.opening.slice(0, 150)}…` : p.opening}{" "}
+              <a className="cited-all" href={verseAt(p.chapter_id, p.start, p.end)}>
+                Every citation, side by side
+              </a>
             </p>
             <div className="cited-bars" aria-label={`Cited ${p.total} times`}>
               {thinkers.map((name) => {

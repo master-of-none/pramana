@@ -14,6 +14,7 @@ import {
   ScrollText,
   Search,
   StickyNote,
+  Quote,
   Type,
   Waypoints,
 } from "lucide-react";
@@ -45,6 +46,7 @@ type Located = {
   exact: boolean;
 };
 type ConceptSummary = { slug: string; term: string; aliases: string[]; english?: string[] };
+type SayingSummary = { key: string; saying: string; english: string; found: boolean };
 
 const go = (hash: string) => {
   window.location.hash = hash;
@@ -61,6 +63,7 @@ const ACTIONS: Omit<Item, "group">[] = [
   { id: "paths", label: "Reading paths", icon: <PathIcon size={15} />, run: () => go(href("study", "paths")) },
   { id: "sutra", label: "Śaṅkara and Rāmānuja side by side", icon: <Columns2 size={15} />, run: () => go(href("study", "sutra", 1, 1, 1)) },
   { id: "map", label: "Where Śaṅkara and Rāmānuja part ways", icon: <Waypoints size={15} />, run: () => go(href("study", "map")) },
+  { id: "sayings", label: "The great sayings (mahāvākyas)", icon: <Quote size={15} />, run: () => go(href("study", "sayings")) },
   { id: "cited", label: "Śruti most cited", icon: <BookMarked size={15} />, run: () => go(href("study", "citations")) },
   { id: "notes", label: "My notes", icon: <StickyNote size={15} />, run: () => go(href("study", "notes")) },
   { id: "theme", label: "Switch theme", icon: <Moon size={15} />, run: () => send(THEME) },
@@ -72,12 +75,14 @@ const ACTIONS: Omit<Item, "group">[] = [
 function useStudyIndex(enabled: boolean) {
   const [docs, setDocs] = useState<LibraryDocument[]>([]);
   const [concepts, setConcepts] = useState<ConceptSummary[]>([]);
+  const [sayings, setSayings] = useState<SayingSummary[]>([]);
   useEffect(() => {
     if (!enabled || docs.length) return;
     getJSON<LibraryDocument[]>("/api/library").then(setDocs).catch(() => undefined);
     getJSON<ConceptSummary[]>("/api/concepts").then(setConcepts).catch(() => undefined);
+    getJSON<SayingSummary[]>("/api/sayings").then(setSayings).catch(() => undefined);
   }, [enabled]);
-  return { docs, concepts };
+  return { docs, concepts, sayings };
 }
 
 // ⌘K / Ctrl+K: jump anywhere. In the chat it offers actions only: titles, verses and
@@ -156,6 +161,23 @@ export function Palette({ section }: { section: "chat" | "study" }) {
     out.push(...actions.map((a) => ({ ...a, group: "Actions" })));
     if (study && q) {
       out.push(
+        ...rank(
+          q,
+          index.sayings.filter((s) => s.found),
+          (s) => `${s.saying} ${s.english} mahavakya great saying`,
+          2,
+        ).map(
+          (s): Item => ({
+            id: `saying-${s.key}`,
+            group: "Great sayings",
+            label: s.saying,
+            hint: `Great saying · ${s.english}`,
+            icon: <Quote size={15} />,
+            run: () => go(href("study", "saying", s.key)),
+          }),
+        ),
+      );
+      out.push(
         ...rank(q, index.docs, (d) => `${d.document} ${d.author} ${d.translator}`, 5).map(
           (d): Item => ({
             id: `doc-${d.document_id}-${d.edition}`,
@@ -176,7 +198,7 @@ export function Palette({ section }: { section: "chat" | "study" }) {
             id: `concept-${c.slug}`,
             group: "Concepts",
             label: c.term,
-            hint: c.english?.[0],
+            hint: c.english?.[0] ? `Concept · ${c.english[0]}` : "Concept",
             icon: <Lightbulb size={15} />,
             run: () => go(href("study", "concept", c.slug)),
           }),
@@ -200,7 +222,7 @@ export function Palette({ section }: { section: "chat" | "study" }) {
       });
     }
     return out;
-  }, [query, located, study, index.docs, index.concepts]);
+  }, [query, located, study, index.docs, index.concepts, index.sayings]);
 
   const current = Math.min(active, Math.max(0, items.length - 1));
   useEffect(() => {

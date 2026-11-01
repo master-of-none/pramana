@@ -127,3 +127,8 @@ export function readAt(chapterId: string, start?: number, end?: number): string 
   const base = href("study", "read", chapterId);
   return start === undefined || end === undefined ? base : `${base}?s=${start}&e=${end}`;
 }
+
+// The page for one verse and everything that cites it.
+export function verseAt(chapterId: string, start: number, end: number): string {
+  return `${href("study", "verse", chapterId)}?s=${start}&e=${end}`;
+}

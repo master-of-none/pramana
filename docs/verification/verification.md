@@ -251,3 +251,43 @@ This reading is the agent's, not a scholar's review, and the term list was not t
 In the browser against the real library: 552 cells; axe found no serious or critical
 violations in light or dark; desktop, a 390 px phone (bottom-sheet details) and the
 Side by side badge were checked by screenshot.
+
+### Verse pages and the great sayings against the real library — 1 November 2026
+
+All four curated sayings resolved in the stored text, each with its check words inside
+the printed verse:
+
+| Saying | Verse | Printed references (Ś / R) | Of which in the opposing view (by page title) |
+| --- | --- | --- | --- |
+| *tat tvam asi* | Chāndogya VI, 8, 7 | 5 / 4 | none |
+| *ahaṃ brahmāsmi* | Bṛhadāraṇyaka I, 4, 10 | 11 / 5 | Rāmānuja 1 |
+| *prajñānaṃ brahma* | Aitareya Āraṇyaka II, 6, 1, 7 | 0 / 0 | not in the citation index's works |
+| *ayam ātmā brahma* | Bṛhadāraṇyaka II, 5, 19 | 9 / 3 | Rāmānuja 2 |
+
+The design changed in three places after reading the real excerpts.
+
+- **A verse can run past its first paragraph.** Bṛhadāraṇyaka II, 5, 19 begins with a
+  paragraph that quotes the Ṛg-veda, and "this Self is Brahman" comes two paragraphs
+  later. A saying's verse now runs to the next printed number.
+- **The first matching of a saying's words was too loose.** "That thou art" matched "I
+  know that thou art he", and "thou art that" matched "thou art that which is Brahma".
+  That phrase was dropped, and the words must now end at punctuation, a line end or a
+  vocative. Any reference before the words was also wrongly excluding them, which a test
+  caught.
+- **Citations made while setting out the opposing view.** Several of Rāmānuja's
+  citations sit on pages titled "The Great/Small Pûrvapaksha", where he sets out the
+  Advaitin's case. They are now marked. The page title decides over cues inside the page,
+  where the opponent "replies" to objections of his own. A cue-based mark is kept only
+  within 1,200 characters of its cue: a 5,000-character objection span in Śaṅkara's 4.1.3
+  had swept in his own reply ("I am Brahman"). For these sayings, no cue-based marks
+  remain.
+
+Samples of "the same words elsewhere" were all genuine uses after the change. *Tat tvam
+asi*: Śaṅkara 45, Rāmānuja 31. *Ahaṃ brahmāsmi*: Aiyar's minor Upaniṣads 29, which state
+the words themselves; the page says "the same words", not "quotes". A quotation whose
+printed reference is split across a line break is listed among these, because the index
+cannot resolve that reference.
+
+The browser was checked against the real library: the sayings and saying pages
+(desktop, phone), with axe showing no serious or critical violations in light or dark.
+This is the agent's reading, not a scholar's review.

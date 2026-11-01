@@ -181,3 +181,54 @@ export type Divergence = {
   units: DivergenceUnit[];
   ranking?: number[];
 };
+
+// Verse pages and the great sayings (GET /api/verse, /api/sayings): Study only.
+export type Excerpt = {
+  text: string;
+  start: number; // code points within `text`
+  end: number;
+  clipped_before: boolean;
+  clipped_after: boolean;
+};
+export type VerseCitation = {
+  // Objection or reply, from printed cues only: a cue near the citation, or the page's
+  // printed title ("The Great Pûrvapaksha"), given in `from`.
+  role?: { role: "objection" | "reply"; from: string } | null;
+  author: string;
+  document: string;
+  chapter_id: string;
+  place: string;
+  label?: string;
+  status?: CitationStatus;
+  start: number;
+  end: number;
+  context: Excerpt;
+};
+export type ByAuthor = { author: string; passages: VerseCitation[] };
+export type VersePage = {
+  chapter_id: string;
+  document: string;
+  place: string;
+  edition: string;
+  translator: string;
+  start: number;
+  end: number;
+  text: string;
+  citations: ByAuthor[];
+  whole: ByAuthor[];
+};
+export type Saying = {
+  key: string;
+  saying: string;
+  devanagari: string;
+  english: string;
+  note: string;
+  number: number; // the printed verse number
+  found: boolean;
+  mark?: [number, number];
+  cited?: Record<string, number>;
+  cited_in_objection?: Record<string, number>;
+  quoted?: Record<string, number>;
+  verse?: VersePage;
+  quotations?: ByAuthor[];
+};

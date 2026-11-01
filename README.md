@@ -53,6 +53,10 @@ the explicit download commands.
   open the cited Upaniṣad or Gītā verse; each scripture verse lists where Śaṅkara and
   Rāmānuja cite it, and **Śruti most cited** ranks the passages they rely on (below).
 - **Side by side:** Śaṅkara and Rāmānuja on any sūtra (`#/study/sutra/1/1/1`).
+- **The great sayings:** *tat tvam asi*, *ahaṃ brahmāsmi*, *prajñānaṃ brahma* and *ayam
+  ātmā brahma*, each in its verse, with every passage where Śaṅkara and Rāmānuja cite it,
+  marked where they cite it while setting out the opposing view, and the places that use
+  its words. Any cited verse has the same page ("All citations of this verse").
 - **Where they part ways:** a map of the whole Brahma Sūtra, shaded by how differently
   the two commentaries treat each stretch (different scripture cited, little shared
   wording, Śaṅkara's doctrines named in Rāmānuja's text), each cell explained and opening

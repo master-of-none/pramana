@@ -33,6 +33,8 @@ import { Paths } from "./Paths.tsx";
 import { Citations } from "./Citations.tsx";
 import { loadChapters, unitFor, useDivergence, useLibrary } from "./data.ts";
 import { DivergenceMap } from "./DivergenceMap.tsx";
+import { Verse } from "./Verse.tsx";
+import { SayingPage, Sayings } from "./Sayings.tsx";
 import { reasons } from "../lib/divergence.ts";
 import { Reader } from "./Reader.tsx";
 import { Trail } from "./Trail.tsx";
@@ -557,6 +559,9 @@ export function Study({ route }: { route: Route }) {
   else if (page === "citations") content = <Citations />;
   else if (page === "notes") content = <Notes />;
   else if (page === "map") content = <DivergenceMap route={route} />;
+  else if (page === "verse" && rest[0]) content = <Verse id={rest[0]} route={route} />;
+  else if (page === "sayings") content = <Sayings />;
+  else if (page === "saying" && rest[0]) content = <SayingPage sayingKey={rest[0]} />;
   else if (!page) content = <Library glossary={glossary} />;
   else content = <NotFound />;
   const main = useRef<HTMLElement>(null);

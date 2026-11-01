@@ -62,6 +62,9 @@ function excerpt(text: string, names: string[], width = 420): string {
   );
 }
 
+// The great sayings with their own pages (src/pramana/sayings.json keys).
+const SAYINGS = new Set(["tat-tvam-asi", "aham-brahmasmi", "prajnanam-brahma", "ayam-atma-brahma"]);
+
 export function Concept({ slug }: { slug: string }) {
   const [page, setPage] = useState<ConceptPage | null>(null);
   const [error, setError] = useState("");
@@ -94,6 +97,13 @@ export function Concept({ slug }: { slug: string }) {
           )}
         </h1>
         <p className="concept-meaning">{page.meaning}</p>
+        {SAYINGS.has(slug) && (
+          <p>
+            <a href={href("study", "saying", slug)}>
+              Its verse, and every place Śaṅkara and Rāmānuja cite it
+            </a>
+          </p>
+        )}
         <p>
           A short editorial definition, followed by the passages that mention it
           most strongly in each group of texts. Matched as: {names.join(", ")}.

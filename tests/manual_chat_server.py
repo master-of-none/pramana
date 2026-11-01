@@ -216,7 +216,8 @@ def main():
                     "Ramanuja",
                     "2",
                     "1",
-                    "1. That which is everywhere known is Brahman, the inner Ruler of all souls.",
+                    "1. That which is everywhere known is Brahman, the inner Ruler of all souls. "
+                    "So the teacher says: Thou art that, O Svetaketu.",
                 ),
             )
         ]

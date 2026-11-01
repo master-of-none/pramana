@@ -1123,3 +1123,162 @@ a.chip {
   gap: var(--space-4);
   margin: 0;
 }
+
+/* Verse pages and the great sayings. */
+.vs-verse {
+  margin: var(--space-4) 0 var(--space-5);
+}
+.vs-verse blockquote {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--olive-line);
+  background: var(--surface);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  font-family: var(--reading-font);
+  font-size: calc(18px * var(--scale));
+  line-height: var(--leading);
+  color: var(--ink);
+  white-space: pre-line;
+}
+.vs-verse mark,
+.vs-excerpt mark {
+  background: color-mix(in srgb, var(--olive-line) 40%, transparent);
+  color: var(--ink);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.vs-verse figcaption {
+  margin-top: var(--space-2);
+  font-size: 13px;
+  color: var(--muted);
+}
+.vs-verse figcaption a,
+.vs-source a,
+.cited-all,
+.sy-open {
+  color: var(--olive);
+}
+.vs-heading {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  margin: var(--space-5) 0 var(--space-3);
+}
+.vs-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+.vs-column h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+.vs-column ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.vs-passage {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+.vs-excerpt {
+  margin: 0;
+  font-family: var(--reading-font);
+  font-size: calc(15.5px * var(--scale));
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.vs-source {
+  margin: var(--space-2) 0 0;
+  font-size: 13px;
+}
+.vs-status {
+  color: var(--muted);
+}
+.vs-whole {
+  margin-top: var(--space-5);
+}
+.vs-whole summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: var(--space-3);
+}
+.cited-all {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: 13px;
+}
+.sy-cards {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+.sy-card {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-l);
+  background: linear-gradient(120deg, var(--surface), var(--paper));
+}
+.sy-saying {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--ink);
+}
+.sy-deva {
+  margin: 2px 0 0;
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--olive);
+}
+.sy-english {
+  margin: var(--space-1) 0 var(--space-3);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.sy-where {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
+.sy-counts {
+  margin: var(--space-2) 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.sy-missing {
+  color: var(--muted);
+  font-size: 14px;
+}
+.sy-note {
+  margin: var(--space-3) 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.verse-page .sy-deva,
+.verse-page .sy-english {
+  margin-top: 0;
+}
+.vs-role,
+.vs-role-note {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--warm-ink);
+}
+.vs-role.reply {
+  color: var(--olive);
+}
+.vs-role-note {
+  margin: -4px 0 var(--space-2);
+}

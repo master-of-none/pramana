@@ -302,7 +302,7 @@ reference in the [API reference](api.md).
 | Search | `POST /api/search` |
 | Chat | `POST /api/chat`, `POST /api/chat/stream` (NDJSON stages, then the answer) |
 | Reader | `GET /api/chapters/{id}` (text, roles, neighbours), `GET /api/library`, `GET /api/glossary` |
-| Study | `GET /api/parallel`, `GET /api/concepts`, `GET /api/concepts/{key}`, `GET /api/paths`, `GET /api/scopes`, `GET /api/citations`, `GET /api/citations/{chapter_id}`, `GET /api/locate`, `GET /api/divergence` |
+| Study | `GET /api/parallel`, `GET /api/concepts`, `GET /api/concepts/{key}`, `GET /api/paths`, `GET /api/scopes`, `GET /api/citations`, `GET /api/citations/{chapter_id}`, `GET /api/locate`, `GET /api/divergence`, `GET /api/verse`, `GET /api/sayings`, `GET /api/sayings/{key}` |
 | App | `GET /`, `/assets/*` (scripts, styles, self-hosted fonts), `/icons/*`, `/icon.svg` and `/manifest.webmanifest` serve the compiled app |
 
 Chat requests run one at a time (`asyncio.Semaphore(1)`), and searches, including
@@ -323,6 +323,8 @@ by FastAPI, so the wheel contains the whole app. Hash routes keep one `index.htm
 | `#/study/evidence/{turn}` | Evidence | the passages behind one answer |
 | `#/study/concept/{slug}`, `#/study/paths`, `#/study/search` | Concept, Paths, Search | glossary concepts, reading paths, search |
 | `#/study/map?u=` | [`DivergenceMap.tsx`](../../web/src/study/DivergenceMap.tsx) | where Śaṅkara and Rāmānuja part ways: a banded map of the Brahma Sūtra, details, table view |
+| `#/study/verse/{chapter}?s=&e=` | [`Verse.tsx`](../../web/src/study/Verse.tsx) | one verse beside every passage citing it, by author, with context and cued role |
+| `#/study/sayings`, `#/study/saying/{key}` | [`Sayings.tsx`](../../web/src/study/Sayings.tsx) | the four great sayings; each saying's verse page and its words used elsewhere |
 | `#/study/citations`, `#/study/notes` | [`Citations.tsx`](../../web/src/study/Citations.tsx), [`Notes.tsx`](../../web/src/study/Notes.tsx) | most-cited śruti; the reader's own notes |
 
 The chat is split into [`useChatSession.ts`](../../web/src/chat/useChatSession.ts) (turns,
@@ -374,6 +376,13 @@ Nothing is stored server-side; there are no accounts.
   cited (from the citation index), TF-IDF wording and dispute-term signals, each banded
   by what its values mean, cached per library `generation`. Method and limits:
   [divergence map](divergence.md).
+- **Verse pages and great sayings** ([`verses.py`](../../src/pramana/verses.py)): incoming
+  references from the citation index with sentence-bounded excerpts; the four sayings
+  curated in [`sayings.json`](../../src/pramana/sayings.json) by printed section and verse,
+  found only if their check words occur in the verse (which runs to the next printed
+  number). Quotations of a saying's words are listed apart and exclude a reference's own
+  quote. A citation is marked as in the opposing view only from a page's printed title
+  ("The Great Pûrvapaksha") or a cue within 1,200 characters before it.
 - **Typed references** (`locate` in [`citations.py`](../../src/pramana/citations.py)): the
   same abbreviation table, printed-division index and numbered-verse lookup as the
   commentaries' references, with the names a reader might type; a verse whose number

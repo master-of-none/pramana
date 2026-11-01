@@ -27,6 +27,7 @@ from pramana.library import (
 )
 from pramana.models import ChatRequest, ChatResponse, SearchHit, SearchRequest
 from pramana.retrieval import Retriever
+from pramana.verses import saying, sayings, verse
 
 
 def create_app(
@@ -214,6 +215,27 @@ def create_app(
     def divergence_map():
         # Study view only: a heuristic map of where the two commentaries differ (bands).
         return divergence(corpus.store)
+
+    @api.get("/api/verse")
+    def verse_page(chapter_id: str, start: int, end: int):
+        # Study view only: one verse beside every printed reference to it, by author.
+        try:
+            return verse(corpus.store, chapter_id, start, end)
+        except KeyError as exc:
+            raise HTTPException(404, "Chapter not found.") from exc
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+
+    @api.get("/api/sayings")
+    def great_sayings():
+        return sayings(corpus.store)
+
+    @api.get("/api/sayings/{key}")
+    def great_saying(key: str):
+        try:
+            return saying(corpus.store, key)
+        except KeyError as exc:
+            raise HTTPException(404, "No such saying.") from exc
 
     @api.get("/api/locate")
     def locate_reference(ref: str):

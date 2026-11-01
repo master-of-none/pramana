@@ -253,14 +253,18 @@ Built on the polished base; each keeps the rules (chat answers only, sources in 
    unconfirmed and hatched). Checked against the real library by reading top- and
    bottom-ranked pairs; **not reviewed by a scholar.** See the
    [method](docs/reference/divergence.md).
-3. **Mahāvākya explorer.** A curated file mapping each saying to its verse, with every
-   location checked against the stored text when implemented: *tat tvam asi*
-   (Chāndogya VI, 8, 7), *ahaṃ brahmāsmi* (Bṛhadāraṇyaka I, 4, 10), *prajñānam brahma*
-   (Aitareya Āraṇyaka II), *ayam ātmā brahma* (Bṛhadāraṇyaka II, 5, 19; the Māṇḍūkya is not
-   in the library). Each shows the verse, every passage citing it by author, and both
-   readings side by side.
-4. **Verse with its commentaries.** The same view for any verse, from the incoming
-   citations.
+3. [x] **Mahāvākya explorer** (November 2026): `#/study/sayings`. The four sayings are
+   curated by printed section and verse and resolved in the real library:
+   - *tat tvam asi*: Chāndogya VI, 8, 7;
+   - *ahaṃ brahmāsmi*: Bṛhadāraṇyaka I, 4, 10;
+   - *prajñānaṃ brahma*: Aitareya Āraṇyaka II, 6, 1, 7;
+   - *ayam ātmā brahma*: Bṛhadāraṇyaka II, 5, 19 (the Māṇḍūkya is not in the library).
+
+   Citations made in setting out the opposing view are marked, from printed cues only.
+   Uses of a saying's words are listed apart. **Not reviewed by a scholar.**
+4. [x] **Verse with its commentaries** (November 2026): `#/study/verse/…`, a verse beside
+   every passage citing it, by author. It opens from any verse's "cited by" list and from
+   Śruti most cited.
 
 ## Later milestones
 
