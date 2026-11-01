@@ -8,6 +8,8 @@
 - [Chat and answers](guides/chat.md): local model settings, grounding, glossary,
   objection/reply roles, comparing thinkers, and limitations.
 - [Private PDF books](guides/pdf-ingestion.md): local extraction and OCR of supplied PDFs.
+- [Excerpts for agents](guides/agent-excerpts.md): send yourself a verse, passage or sentence on a
+  schedule, with cron, OpenClaw, Hermes, Claude or Gemini.
 
 ## Reference
 
@@ -39,6 +41,8 @@
 - [UX and feature plan](plans/ux.md): the Study view and the next features.
 - [Hosted public deployment](plans/hosted-deployment.md): not deployed.
 - [A public Pramana on a VPS](plans/vps-hosting.md): one server, SQLite, a cloud answer model.
+- [Excerpt endpoint for agents](plans/agent-excerpts.md): a token-protected daily and random
+  verse, passage or sentence API for OpenClaw, Hermes, Claude, Gemini and schedulers.
 - [Texts to add](plans/texts.md): candidate texts, translations to verify, and priority.
 - The project [roadmap](../ROADMAP.md) sequences milestones.
 

@@ -1,7 +1,7 @@
 # HTTP API reference
 
 `pramana serve` binds FastAPI to `127.0.0.1:8000`; interactive schema documentation
-is served at `/docs`. All endpoints are local and unauthenticated. Behaviour, limits
+is served at `/docs`. All endpoints are local and unauthenticated, except `/api/excerpts`, which needs a token. Behaviour, limits
 and validation are described in the [chat guide](../guides/chat.md).
 
 | Method | Path | Purpose |
@@ -26,6 +26,10 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `POST` | `/api/chat/stream` | Progress events, then one validated answer, as NDJSON |
 | `GET` | `/api/glossary` | The curated Advaita glossary |
 | `GET` | `/api/config` | Whether hosted mode is on, and its public Turnstile site key |
+| `GET` | `/api/excerpts/today` | The excerpt of the day (a verse, passage or sentence), the same for every caller on a date, timezone and seed; needs a token |
+| `GET` | `/api/excerpts/random` | A random excerpt, optionally excluding IDs already sent; needs a token |
+| `GET` | `/api/excerpts/{id}` | One excerpt by ID; needs a token |
+| `GET` | `/api/excerpts/sources` | The documents that may supply excerpts, with counts and rights lines; needs a token |
 
 ## Chat
 
@@ -101,3 +105,42 @@ chat requests need an `X-Turnstile-Token` and a unique `X-Request-Id` (8–80
 characters). Refusals happen before retrieval: 403 (human check failed), 400 (missing
 request ID), 409 (request ID reused), 429 (burst or daily limit, with `Retry-After`)
 and 503 (paused). See the [hosted plan](../plans/hosted-deployment.md#spike-status).
+
+## Excerpts for agents and schedulers
+
+`/api/excerpts/*` returns one verse, passage or sentence from a reviewed allowlist of
+public-domain texts (`src/pramana/excerpt_sources.json`), so an agent or a scheduled job can
+deliver it. It is **off until a token is set**: set `PRAMANA_AGENT_TOKEN` (at least 32
+characters; `pramana agent token` prints one) or named tokens in
+`PRAMANA_AGENT_TOKENS=name:token,name:token`, and send `Authorization: Bearer <token>`. Without
+a token the routes return 404; a missing or wrong one returns 401; more than 60 requests a
+minute per token returns 429 with `Retry-After`.
+
+`pramana serve --agent-only` serves **only** these routes (and the OpenAPI schema), still on
+`127.0.0.1`. Use it, never the normal server, for anything beyond your own machine: the normal
+server's search, chat and library routes are unauthenticated and cover the whole library.
+
+| Query parameter | Routes | Meaning |
+| --- | --- | --- |
+| `kind` | `today`, `random` | `verse`, `passage` or `sentence` (repeatable); default all |
+| `document` | `today`, `random` | Restrict to document IDs in the pool (repeatable); others return 422 |
+| `min_chars`, `max_chars` | `today`, `random` | Length bounds |
+| `format` | all | `json` (default), `text` or `markdown`: a ready-to-send message |
+| `context` | all | `true` adds the paragraph around the excerpt |
+| `tz`, `date`, `seed` | `today` | Which day it is (IANA zone, default `UTC`), a date to replay, and an independent sequence |
+| `exclude` | `random` | Excerpt IDs not to return (at most 100) |
+| `topic`, `strategy` | `random` | An excerpt chosen from the best matches for a word or phrase, using the local retriever over the pool only (`strategy=hybrid` needs the local model and index; `lexical` does not). The response adds `topic` and `retrieval`, and no score |
+
+```sh
+curl -H "Authorization: Bearer $PRAMANA_AGENT_TOKEN" \
+     "http://127.0.0.1:8000/api/excerpts/today?tz=Asia/Kolkata&format=text"
+```
+
+An excerpt's `text` is the exact slice of the stored chapter; `boundary` is `printed` for a
+verse (a number the edition prints) and `derived` for a passage or sentence (found by splitting
+sentences, never numbered). Responses carry the edition, translator, source URL and a reviewed
+`rights` and `attribution` line, and no relevance score. `excerpt_id` is
+`<chapter_id>:<start>-<end>` in code points. Private local editions, and the Brahma Sūtra
+commentaries (whose sentences may be an opponent's argument), are never in the pool. The
+routes read stored text only; they need neither Ollama nor the embedding model. See the
+[setup guide](../guides/agent-excerpts.md) and the [plan](../plans/agent-excerpts.md) for the design and its limits.

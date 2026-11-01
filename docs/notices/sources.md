@@ -267,6 +267,26 @@ marks, not text: the `[Pg 816]` spans, the bare `287` page spans of volumes 7106
 404–982), while that volume's unlinked footnote markers `[1]`–`[23]` stay in the text.
 Checked on 23 October 2026: 673 records, 6,175,179 characters, 56 notes, 2,829 page marks.
 
+## Excerpt API
+
+The token-protected [excerpt API](../guides/agent-excerpts.md) may return text from only the
+documents listed in `src/pramana/excerpt_sources.json`, each with a curated `rights` and
+`attribution` line. The stored `Source.rights` strings are not echoed: several carry scraped
+page text. Sources and what the API serves from them (counts from the local index, 1 November
+2026):
+
+| Edition | Served as | Note |
+| --- | --- | --- |
+| Müller, Upaniṣads (SBE 1, 15), Swarupananda's Gītā, Venkataramanan's Select Works | Verses (printed numbers) | Public domain as stated by Sacred Texts; the Select Works are "attributed to" Śaṅkara, as the edition says. "Commentary on the Text" keeps its printed title; the edition does not say which work it is. |
+| Richards, Aṣṭāvakra Gītā | Verses | The public-domain dedication is the translator's own; the copy is an archive.org upload without uploader metadata. |
+| Johnston (eight documents) | Passages and sentences | Public domain in the US because the copyright was not renewed, as stated by Sacred Texts, **which asks for non-commercial use with its attribution notice intact.** Review before any public deployment. |
+| Barnett, Aiyar's Thirty Minor Upaniṣads, Wilson's Viṣṇu Purāṇa | Passages and sentences | Public domain as stated by the source; the Purāṇa is capped at 300 excerpts in the daily rotation. |
+
+Not served: the three private PDF editions (a document with a local origin is refused), the
+Brahma Sūtra commentaries (a sentence may be an opponent's argument), Madhavananda's
+Vivekacūḍāmaṇi (rights uncertain), and Yoga Vāsiṣṭha (no audited rule yet). Rights statements
+are the sources' own, repeated, not legal advice.
+
 ## Embedding model
 
 [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) is distributed
