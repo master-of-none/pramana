@@ -37,7 +37,10 @@ uv build
 For backend changes run Python checks; for UI changes run frontend checks and
 verify desktop/mobile behavior. `e2e` runs Playwright (desktop and mobile Chromium,
 with axe) against the fixture server; it needs a built UI and a one-time explicit
-`npx --prefix web playwright install chromium`. For parsing/index changes exercise offsets, repeated
+`npx --prefix web playwright install chromium`. CI runs only the fast checks on pull
+requests (not drafts or documentation-only changes); `e2e`, `uv build` and the wheel check
+run there only with the `full-ci` label or a manual run, so run them locally for UI and
+packaging changes. For parsing/index changes exercise offsets, repeated
 imports, cache/failure paths, and compatibility. For retrieval changes rerun the
 relevant benchmark (`uv run pramana evaluate --output benchmarks/results.json`)
 with its exact edition available. Keep chapter/passage/answer evaluations distinct.

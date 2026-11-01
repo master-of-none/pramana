@@ -150,6 +150,12 @@ and mobile Chromium, with an accessibility scan (axe) of each main screen. They 
 books, models or network, but do need a built UI (`npm --prefix web run build`) and a
 one-time explicit browser download: `npx --prefix web playwright install chromium`.
 
+CI keeps runner time small. It runs on pull requests only, skips drafts and
+documentation-only changes, and runs the fast checks: Python, links, typecheck, unit
+tests and build. The browser and installed-wheel checks run only when the pull request
+has the `full-ci` label, or when the workflow is started by hand ("Run workflow", with
+"full" ticked).
+
 For frontend development, run `uv run pramana serve` and `npm --prefix web run dev`
 in separate terminals. Vite proxies `/api` to port 8000. Production builds copy the
 chat app into the Python package. Before packaging, build the reader, then run
