@@ -1,25 +1,39 @@
 name: checks
-# Pushes to main, and pull requests. A push to a PR branch used to run twice (push and
-# pull_request events for the same commit).
+# Kept small: one job, on pull requests only (main changes only through them), skipped for
+# drafts and for documentation-only changes (run scripts/check_links.py locally for those).
+# The browser and installed-wheel checks (about 1.5 of 2.2 minutes) run only on request:
+# label the pull request `full-ci`, or run this workflow by hand with "full" ticked.
 on:
-  push:
-    branches: [main]
   pull_request:
-# A newer push to the same pull request cancels its older, unfinished run; runs on main
-# always finish.
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+    paths-ignore: ["**.md", "docs/**", "LICENSE"]
+  workflow_dispatch:
+    inputs:
+      full:
+        description: Also run the browser and installed-wheel checks
+        type: boolean
+        default: true
+# A newer push to the same pull request cancels its older, unfinished run.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 jobs:
   test:
+    # Not for drafts; a label event only when it is the `full-ci` label being added.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (!github.event.pull_request.draft &&
+       (github.event.action != 'labeled' || github.event.label.name == 'full-ci'))
     runs-on: ubuntu-latest
-    # A full run takes about 2.5 minutes; stop a hung one long before the 6-hour default.
-    timeout-minutes: 20
+    timeout-minutes: 15
+    env:
+      FULL: ${{ (github.event_name == 'workflow_dispatch' && inputs.full) || contains(github.event.pull_request.labels.*.name, 'full-ci') }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.12'
+          enable-cache: true
       - run: uv sync --locked
       - run: uv run ruff check src tests scripts
       - run: uv run ruff format --check src tests scripts
@@ -35,17 +49,20 @@ jobs:
       - run: npm --prefix web test
       - run: npm --prefix web run build
       - name: Browser regressions (deterministic fixtures, desktop and mobile)
+        if: env.FULL == 'true'
         run: |
           cd web
           npx playwright install --with-deps chromium
           npm run e2e
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: failure() && env.FULL == 'true'
         with:
           name: playwright-report
           path: web/playwright-report
       - run: uv build
+        if: env.FULL == 'true'
       - name: Install and check wheel outside the checkout
+        if: env.FULL == 'true'
         run: |
           uv venv --python 3.12 /tmp/pramana-wheel
           uv pip install --python /tmp/pramana-wheel/bin/python dist/*.whl
