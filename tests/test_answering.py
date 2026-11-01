@@ -481,6 +481,54 @@ def test_claim_check_removes_unsupported_sentences(indexed, embedder):
     assert result.check is None and len(provider.calls) == 1
 
 
+def test_claim_check_names_the_passages_behind_each_sentence(indexed, embedder):
+    retriever = Retriever(indexed, embedder=embedder)
+    probe = Provider([AnswerError("stop", 503)])
+    with pytest.raises(AnswerError):
+        run(Answerer(retriever, provider=probe))
+    evidence = json.loads(probe.calls[0][0][-1]["content"])["evidence"]
+    assert len(evidence) >= 2
+    first, second = evidence[0]["id"], evidence[1]["id"]
+    answer = "Vishnu preserves the universe. Krishna shelters the cattle. He invented chess."
+    verdicts = {
+        "verdicts": [
+            # Only the second passage is cited by the answer, the first by the check.
+            {"id": 1, "verdict": "supported", "evidence_ids": [first, first, "E99"]},
+            {"id": 2, "verdict": "partly", "evidence_ids": [second]},
+            {"id": 3, "verdict": "unsupported", "evidence_ids": [second]},
+        ]
+    }
+    provider = Provider([grounded(answer, [second]), verdicts])
+    request = ChatRequest(message="Who preserves the universe?", check=True)
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+
+    # The schema offers only the supplied evidence IDs for support.
+    schema = provider.calls[1][1]
+    assert schema["$defs"]["Verdict"]["properties"]["evidence_ids"]["items"]["enum"] == [
+        e["id"] for e in evidence
+    ]
+    by_ref = {e.reference: e.passage.id for e in result.evidence}
+    trail = [(s.verdict, s.passages) for s in result.check.sentences]
+    # IDs become passage IDs; duplicates and IDs never supplied are dropped; an
+    # unsupported sentence names no support.
+    assert trail == [
+        ("supported", [by_ref[first]]),
+        ("partly", [by_ref[second]]),
+        ("unsupported", []),
+    ]
+    # A passage named only by the check is listed behind the answer too, after the cited.
+    assert [e.reference for e in result.evidence] == [second, first]
+    assert "E" not in json.dumps([s.passages for s in result.check.sentences])
+
+    # Older verdicts without support still check the answer; the trail is empty.
+    plain = {"verdicts": [{"id": i, "verdict": "supported"} for i in (1, 2, 3)]}
+    provider = Provider([grounded(answer, [second]), plain])
+    result = asyncio.run(Answerer(retriever, provider=provider).answer(request))
+    assert result.check.status == "checked"
+    assert all(s.passages == [] for s in result.check.sentences)
+    assert [e.reference for e in result.evidence] == [second]
+
+
 def test_vichara_mode_asks_for_guiding_questions(indexed, embedder):
     retriever = Retriever(indexed, embedder=embedder)
     draft = {**grounded("Vishnu preserves."), "questions": ["What is preserved?", "By whom?"]}

@@ -3,14 +3,16 @@
 Run `uv run python tests/manual_chat_server.py`, then open http://127.0.0.1:8001.
 Ask 'slow' to exercise Stop; ask 'fail' for a retryable error on the first attempt;
 ask 'How do Shankara and Ramanuja differ?' for comparison cards; turn on Check to
-see an unsupported sentence removed. The Study view has
-two fixture Brahma Sutra commentaries (open #/study/sutra/1/1/1) with role cues,
-footnotes, page marks and supplementary characters. Chat must still show no
+see an unsupported sentence removed, and the answer trail under "Read in the texts".
+The Study view has two fixture Brahma Sutra commentaries (open #/study/sutra/1/1/1)
+with role cues, footnotes, page marks and supplementary characters, a few more sūtras
+for the divergence map (#/study/map), and one Chāndogya chapter they cite. Chat must still show no
 HIDDEN_* metadata; Study may show it.
 
 `--hosted` adds the hosted guards with Cloudflare's published Turnstile testing keys
 (always pass; needs network for the widget) and a tiny quota: 3 questions a day per
-visitor, 2 a minute, so the limit messages are easy to see.
+visitor, 2 a minute, so the limit messages are easy to see. `--port N` serves on
+another port (the Playwright suite uses 8011).
 """
 
 import asyncio
@@ -33,21 +35,27 @@ class FixtureProvider:
     model = "browser-fixture"
 
     def __init__(self):
-        self.failed = False
+        self.failed = set()  # Each 'fail' question errors on its first attempt only.
 
     async def chat(self, messages, schema):
         if "topic" in schema["properties"]:
             return {"topic": "texts"}
         if "question" in schema["properties"]:
-            return {"question": "How does action relate to understanding?", "document_ids": []}
+            # Follow-up rewrite; a slow follow-up stays slow.
+            slow = "slow" in messages[-1]["content"].lower()
+            question = "A slow follow-up" if slow else "How does action relate to understanding?"
+            return {"question": question, "document_ids": []}
         payload = json.loads(messages[-1]["content"])
         if "verdicts" in schema["properties"]:
             # Claim check: the fixture's sentence about the conversation is not in any passage.
+            # Each kept sentence names its support: the first passage, as the answer trail.
+            first = [payload["evidence"][0]["id"]] if payload["evidence"] else []
             return {
                 "verdicts": [
                     {
                         "id": s["id"],
                         "verdict": "unsupported" if "conversation" in s["text"] else "supported",
+                        "evidence_ids": [] if "conversation" in s["text"] else first,
                     }
                     for s in payload["statements"]
                 ]
@@ -70,8 +78,8 @@ class FixtureProvider:
             }
         if "slow" in question.lower():
             await asyncio.sleep(20)
-        if "fail" in question.lower() and not self.failed:
-            self.failed = True
+        if "fail" in question.lower() and question not in self.failed:
+            self.failed.add(question)
             raise AnswerError("The local model is temporarily unavailable. Try again.", 503)
         return {
             "answer": "Understanding grows through thoughtful action and patient inquiry. "
@@ -146,8 +154,76 @@ def main():
                 ),
             )
         ]
+        # More sūtras for the divergence map (#/study/map), and a scripture chapter for
+        # their printed references to resolve to (and for "Ch 6.8.7" in the palette).
+        upanishad = chapter.model_copy(
+            update={
+                "corpus_id": "browser-up",
+                "document_id": "chandogya-upanishad-sbe01",
+                "document": "Chandogya Upanishad",
+                "edition": "Fixture edition",
+                "location": Location(book="6", chapter="8", sections=["VI, 8"]),
+                "text": "7. 'That which is that subtle essence, in it all that exists has its "
+                "self. It is the True. It is the Self, and thou, O Svetaketu, art it.'\n\n"
+                "8. 'Please, Sir, inform me still more,' said the son.",
+                "source": commentaries[0].source,
+            }
+        )
+        more = [
+            commentaries[0 if author == "Sankaracharya" else 1].model_copy(
+                update={
+                    "location": Location(book="1", chapter=pada, sections=[sutra]),
+                    "text": text,
+                    "pages": [],
+                    "notes": [],
+                }
+            )
+            for author, pada, sutra, text in (
+                (
+                    "Sankaracharya",
+                    "1",
+                    "2",
+                    "2. Brahman is that from which the origin of the world proceeds "
+                    "(Kh. Up. VI, 8, 7). The world is an appearance.",
+                ),
+                (
+                    "Ramanuja",
+                    "1",
+                    "2",
+                    "2. Brahman is that from which the world originates; the world is real "
+                    "and is the body of Brahman (Kh. Up. VI, 8, 8). The theory of nescience "
+                    "is untenable: nescience cannot belong to a non-differenced Brahman.",
+                ),
+                (
+                    "Sankaracharya",
+                    "1",
+                    "3",
+                    "3. Scripture is the source of the knowledge of Brahman (Kh. Up. VI, 8, 8).",
+                ),
+                (
+                    "Ramanuja",
+                    "1",
+                    "3",
+                    "3. Scripture is the source of the knowledge of Brahman (Kh. Up. VI, 8, 8).",
+                ),
+                (
+                    "Sankaracharya",
+                    "2",
+                    "1",
+                    "1. That which is everywhere known is Brahman, the Self of all.",
+                ),
+                (
+                    "Ramanuja",
+                    "2",
+                    "1",
+                    "1. That which is everywhere known is Brahman, the inner Ruler of all souls.",
+                ),
+            )
+        ]
         path = home / "fixture.jsonl"
-        path.write_text("\n".join(c.model_dump_json() for c in [chapter, *commentaries]))
+        path.write_text(
+            "\n".join(c.model_dump_json() for c in [chapter, *commentaries, upanishad, *more])
+        )
         corpus.import_jsonl(path)
         embedder = FakeEmbedder()
         corpus.index(embedder=embedder)
@@ -169,7 +245,7 @@ def main():
                 hosted=hosted,
             ),
             host="127.0.0.1",
-            port=8001,
+            port=int(sys.argv[sys.argv.index("--port") + 1]) if "--port" in sys.argv else 8001,
         )
 
 

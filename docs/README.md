@@ -15,12 +15,16 @@
   retrieval, the answer pipeline, providers, the web app, invariants and where they are
   enforced.
 - [HTTP API](reference/api.md): endpoints, request limits, response fields, streaming.
+- [Divergence map](reference/divergence.md): how "Where they part ways" measures the
+  two commentaries, and its limits.
 - [Import format](reference/import-format.md): the provenance-bearing JSONL contract.
 
 ## Notices
 
 - [Source and model notices](notices/sources.md): editions, rights statements,
   attribution, exclusions, and measured parse results for every source.
+- [Font notices](notices/fonts.md): the bundled typefaces, their licences and the IAST
+  coverage check.
 
 ## Verification
 

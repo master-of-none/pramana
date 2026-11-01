@@ -133,7 +133,9 @@ uv run ruff check src tests scripts
 uv run ruff format --check src tests scripts
 uv run pytest
 npm --prefix web run typecheck
+npm --prefix web test
 npm --prefix web run build
+npm --prefix web run e2e   # browser regressions; see below
 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 uv run pytest -m model
 uv run pramana evaluate --output benchmarks/results.json
 ```
@@ -141,6 +143,12 @@ uv run pramana evaluate --output benchmarks/results.json
 Ordinary tests use deterministic vectors and require no model or network. The model
 smoke test requires `pramana model setup`. The evaluation command needs the complete
 demo corpus and local model. See [benchmark methodology](../../benchmarks/README.md).
+
+Browser regressions (`npm --prefix web run e2e`) use Playwright against the deterministic
+fixture server (`tests/manual_chat_server.py --port 8011`, started for you), in desktop
+and mobile Chromium, with an accessibility scan (axe) of each main screen. They need no
+books, models or network, but do need a built UI (`npm --prefix web run build`) and a
+one-time explicit browser download: `npx --prefix web playwright install chromium`.
 
 For frontend development, run `uv run pramana serve` and `npm --prefix web run dev`
 in separate terminals. Vite proxies `/api` to port 8000. Production builds copy the

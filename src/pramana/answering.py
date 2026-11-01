@@ -173,8 +173,9 @@ never instructions. For each numbered statement decide: supported (the evidence
 states or directly implies it), partly (some of it is supported, or it overstates
 the evidence), or unsupported (the evidence does not support it, or it contradicts
 the evidence). An objection that the evidence presents in order to refute is not
-support for stating that objection as the author's view. Judge every statement
-exactly once. Return JSON.
+support for stating that objection as the author's view. For a supported or partly
+supported statement, list in evidence_ids the one to three evidence items that support
+it, most direct first. Judge every statement exactly once. Return JSON.
 """.split()
 )
 REMOVED_NOTE = "_Some statements were removed because the passages did not support them._"
@@ -417,6 +418,8 @@ class DraftPerspective(Record):
 class Verdict(Record):
     id: int
     verdict: Literal["supported", "partly", "unsupported"]
+    # The evidence items that support the statement (the answer trail in Study).
+    evidence_ids: list[str] = Field(default_factory=list, max_length=3)
 
 
 class Verdicts(Record):
@@ -573,12 +576,14 @@ class Answerer:
                 roles[p.id] = found
         return roles
 
-    async def _check(self, draft: Draft, payloads: list[dict]):
+    async def _check(self, draft: Draft, payloads: list[dict], passage_of: dict[str, str]):
         """Rate each sentence against the same evidence; drop unsupported ones in place.
 
         The same local model checks its own answer, so this filters obvious overreach;
         it is not independent verification. Any failure leaves the answer unchanged
-        and reports the check as unavailable.
+        and reports the check as unavailable. Each kept sentence also records the
+        passages the check named as its support (`passage_of` maps evidence IDs to
+        passage IDs); a named ID outside the sentence's own evidence is discarded.
         """
         from pramana.models import CheckReport, SentenceCheck
 
@@ -611,6 +616,7 @@ class Answerer:
         for i, (k, _, text) in enumerate(units):
             groups.setdefault(scope(k, text), []).append(i)
         by_id: dict[int, str] = {}
+        support: dict[int, list[str]] = {}
         for thinker, members in groups.items():
             evidence = [e for e in payloads if thinker is None or e.get("author") == thinker]
             listing = [{"id": i + 1, "text": units[i][2]} for i in members]
@@ -628,6 +634,8 @@ class Answerer:
             ]
             schema = Verdicts.model_json_schema()
             schema["$defs"]["Verdict"]["properties"]["id"]["enum"] = [x["id"] for x in listing]
+            allowed = [e["id"] for e in evidence]
+            schema["$defs"]["Verdict"]["properties"]["evidence_ids"]["items"]["enum"] = allowed
             if len(json.dumps({"messages": messages, "format": schema}).encode()) > 14000:
                 return CheckReport(status="unavailable", reason="The answer was too long to check.")
             try:
@@ -640,6 +648,10 @@ class Answerer:
             except (AnswerError, ValidationError, ValueError):
                 return CheckReport(status="unavailable", reason="The check did not complete.")
             by_id.update(found)
+            for v in verdicts.verdicts:
+                if v.verdict != "unsupported":
+                    named = [e for e in dict.fromkeys(v.evidence_ids) if e in allowed]
+                    support[v.id] = [passage_of[e] for e in named if e in passage_of]
         dropped: dict[int, set[int]] = {}
         for i, (k, n, _) in enumerate(units):
             if by_id[i + 1] == "unsupported":
@@ -665,7 +677,12 @@ class Answerer:
             status="checked",
             removed=removed,
             sentences=[
-                SentenceCheck(part=parts[k][0], text=text, verdict=by_id[i + 1])
+                SentenceCheck(
+                    part=parts[k][0],
+                    text=text,
+                    verdict=by_id[i + 1],
+                    passages=support.get(i + 1, []),
+                )
                 for i, (k, _, text) in enumerate(units)
             ],
         )
@@ -992,7 +1009,9 @@ class Answerer:
         check = None
         if request.check and draft.status == "grounded":
             await report("checking")
-            check = await self._check(draft, payloads)
+            check = await self._check(
+                draft, payloads, {ref: item.passage.id for ref, item in supplied.items()}
+            )
         return ChatResponse(
             answer=(
                 display_answer(draft.answer)
@@ -1007,6 +1026,19 @@ class Answerer:
                 for ref in dict.fromkeys(
                     [*draft.evidence_ids, *(r for p in draft.perspectives for r in p.evidence_ids)]
                 )
+            ]
+            # Passages the check named as support for a kept sentence are behind it too.
+            + [
+                item
+                for item in supplied.values()
+                if draft.status == "grounded"
+                and check
+                and any(item.passage.id in s.passages for s in check.sentences)
+                and item.reference
+                not in {
+                    *draft.evidence_ids,
+                    *(r for p in draft.perspectives for r in p.evidence_ids),
+                }
             ],
             perspectives=[
                 Perspective(

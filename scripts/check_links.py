@@ -36,7 +36,12 @@ def anchors(path: Path) -> set[str]:
 
 def main() -> int:
     files = subprocess.run(
-        ["git", "ls-files", "*.md"], cwd=ROOT, capture_output=True, text=True, check=True
+        # Tracked files and new ones not yet added (ignored files stay out).
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "*.md"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout.split()
     broken = []
     for name in files:

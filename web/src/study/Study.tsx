@@ -1,122 +1,46 @@
 import { useEffect, useRef, useState } from "react";
-import type { FormEvent, MouseEvent as ReactMouseEvent, ReactNode } from "react";
+import type { FormEvent, ReactNode } from "react";
 import {
   ArrowLeft,
-  ArrowRight,
   BookMarked,
+  BookOpen,
   Columns2,
-  Highlighter,
-  MessageCircleQuestion,
-  NotebookPen,
+  Waypoints,
   StickyNote,
   Route as PathIcon,
   Search as SearchIcon,
 } from "lucide-react";
 import { getJSON, placeLabel } from "../lib/api.ts";
 import type {
-  ChapterCitations,
   ChapterContext,
-  LibraryDocument,
+  Location,
   ParallelEntry,
   SearchHit,
 } from "../lib/api.ts";
 import { useGlossary } from "../lib/glossary.tsx";
 import type { Glossary } from "../lib/glossary.tsx";
-import { href } from "../lib/router.ts";
+import { href, usePageArrival } from "../lib/router.ts";
+import { isShortcut } from "../lib/keys.ts";
+import { marks } from "../lib/fuzzy.ts";
 import type { Route } from "../lib/router.ts";
-import { restore, setPendingFocus } from "../lib/storage.ts";
-import type { FocusRef } from "../lib/storage.ts";
-import { codePointIndex, codePointOf, locate } from "../lib/offsets.ts";
-import { useNotes } from "../lib/notes.ts";
+import { restore } from "../lib/storage.ts";
+import { latest, share, useProgress, workKey } from "../lib/progress.ts";
 import { Notes } from "./Notes.tsx";
 import { ChapterText } from "./ChapterText.tsx";
 import { Concept, ConceptList } from "./Concept.tsx";
 import { Argument } from "./Argument.tsx";
 import { Paths } from "./Paths.tsx";
 import { Citations } from "./Citations.tsx";
-
-// Shared per page load; the catalogue changes only when the library is re-imported.
-let catalogue: Promise<LibraryDocument[]> | null = null;
-function useLibrary() {
-  const [docs, setDocs] = useState<LibraryDocument[] | null>(null);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    catalogue ??= getJSON<LibraryDocument[]>("/api/library");
-    catalogue.then(setDocs).catch((e: Error) => {
-      catalogue = null;
-      setError(e.message);
-    });
-  }, []);
-  return { docs, error };
-}
-
-function useChapter(id: string | undefined) {
-  const [context, setContext] = useState<ChapterContext | null>(null);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    if (!id) return;
-    setContext(null);
-    setError("");
-    getJSON<ChapterContext>(`/api/chapters/${encodeURIComponent(id)}`)
-      .then(setContext)
-      .catch((e: Error) => setError(e.message));
-  }, [id]);
-  return { context, error };
-}
-
-function useCitations(id: string | undefined) {
-  const [citations, setCitations] = useState<ChapterCitations | null>(null);
-  useEffect(() => {
-    setCitations(null);
-    if (!id) return;
-    // Links are an addition to the text: a failure leaves the reader unchanged.
-    getJSON<ChapterCitations>(`/api/citations/${encodeURIComponent(id)}`)
-      .then(setCitations)
-      .catch(() => setCitations(null));
-  }, [id]);
-  return citations;
-}
-
-function Status({ error, children }: { error?: string; children?: ReactNode }) {
-  if (error)
-    return (
-      <p className="study-status" role="alert">
-        {error}
-      </p>
-    );
-  return (
-    <p className="study-status" role="status">
-      {children ?? "Opening the texts…"}
-    </p>
-  );
-}
-
-function SourceNote({ context }: { context: ChapterContext }) {
-  const { chapter } = context;
-  return (
-    <footer className="source-note">
-      <p>
-        <strong>{chapter.document}</strong>
-        {chapter.author && <> · {chapter.author}</>} · tr. {chapter.translator}
-      </p>
-      <p>{chapter.edition}</p>
-      <p>{chapter.source.rights}</p>
-      <p>{chapter.source.attribution}</p>
-      {chapter.source.url ? (
-        <p>
-          <a href={chapter.source.url} target="_blank" rel="noreferrer">
-            Original page
-          </a>
-        </p>
-      ) : (
-        <p>Private local edition; not distributed.</p>
-      )}
-    </footer>
-  );
-}
+import { loadChapters, unitFor, useDivergence, useLibrary } from "./data.ts";
+import { DivergenceMap } from "./DivergenceMap.tsx";
+import { reasons } from "../lib/divergence.ts";
+import { Reader } from "./Reader.tsx";
+import { Trail } from "./Trail.tsx";
+import { Status } from "./Status.tsx";
 
 function Library({ glossary: _ }: { glossary: Glossary | null }) {
   const { docs, error } = useLibrary();
+  const { progress } = useProgress();
   if (!docs) return <Status error={error} />;
   if (!docs.length)
     return (
@@ -127,7 +51,10 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
       </Status>
     );
   const groups = [...new Set(docs.map((d) => d.category))];
-  const sutra = docs.some((d) => d.category === "Brahma Sūtra");
+  // The work read most recently in this browser, if it is still in the library.
+  const last = latest(progress);
+  const lastDoc = last && docs.find((d) => workKey(d.document_id, d.edition) === last[0]);
+  const lastPart = lastDoc && lastDoc.chapters.find((c) => c.id === last[1].chapter);
   return (
     <div className="library">
       <header className="study-intro">
@@ -136,28 +63,25 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
           Read the texts behind the answers. Every edition keeps its translator,
           rights and attribution.
         </p>
-        <div className="study-actions">
-          <a href={href("study", "paths")}>
-            <PathIcon size={15} /> Reading paths
-          </a>
-          <a href={href("study", "search")}>
-            <SearchIcon size={15} /> Search the library
-          </a>
-          {sutra && (
-            <a href={href("study", "sutra", 1, 1, 1)}>
-              <Columns2 size={15} /> Śaṅkara and Rāmānuja side by side
-            </a>
-          )}
-          <a href={href("study", "notes")}>
-            <StickyNote size={15} /> My notes
-          </a>
-          {sutra && (
-            <a href={href("study", "citations")}>
-              <BookMarked size={15} /> Śruti most cited
-            </a>
-          )}
-        </div>
       </header>
+      {last && lastDoc && lastPart && (
+        <a
+          className="continue-reading"
+          href={`${href("study", "read", lastPart.id)}?p=${last[1].fraction.toFixed(3)}`}
+        >
+          <span className="eyebrow">Continue reading</span>
+          <span className="doc-title">{lastDoc.document}</span>
+          <span className="doc-meta">
+            {placeLabel(lastDoc.category, lastPart.location)} ·{" "}
+            {last[1].fraction < 0.02
+              ? "opened"
+              : `${Math.round(last[1].fraction * 100)}% through this part`}
+          </span>
+          <span className="continue-bar" aria-hidden="true">
+            <span style={{ transform: `scaleX(${share(progress[last[0]], lastDoc.chapters.map((c) => c.id))})` }} />
+          </span>
+        </a>
+      )}
       <ConceptList />
       {groups.map((group) => (
         <section key={group} className="library-group">
@@ -181,6 +105,13 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
                       {d.chapters.length === 1
                         ? "1 part"
                         : `${d.chapters.length} parts`}
+                      {(() => {
+                        const read = share(
+                          progress[workKey(d.document_id, d.edition)],
+                          d.chapters.map((c) => c.id),
+                        );
+                        return read > 0 ? ` · ${Math.max(1, Math.round(read * 100))}% read` : "";
+                      })()}
                     </span>
                   </summary>
                   <p className="doc-edition">{d.edition}</p>
@@ -202,296 +133,6 @@ function Library({ glossary: _ }: { glossary: Glossary | null }) {
   );
 }
 
-// Hand a passage to the chat: only a pointer travels; the chat never shows the text.
-function askAbout(focus: FocusRef) {
-  if (setPendingFocus(focus)) window.location.hash = "#/";
-}
-
-// The reader's selection as code points in the chapter, with where to show the button.
-function selectionFocus(container: HTMLElement, text: string, chapterId: string) {
-  const selection = window.getSelection();
-  if (!selection || selection.isCollapsed || !selection.rangeCount) return null;
-  const range = selection.getRangeAt(0);
-  if (!container.contains(range.commonAncestorContainer)) return null;
-  const paragraph = (node: Node) =>
-    (node instanceof Element ? node : node.parentElement)?.closest<HTMLElement>(
-      "p[data-from]",
-    );
-  const first = paragraph(range.startContainer);
-  const last = paragraph(range.endContainer);
-  const selected = selection.toString();
-  if (!first || !last || selected.trim().length < 2) return null;
-  const from = Number(first.dataset.from);
-  const to = Number(last.dataset.to);
-  // Exact words when they occur once; otherwise the paragraphs the selection touches.
-  const span = locate(text, selected, from, to) ?? { start: from, end: to };
-  const start = codePointOf(text, span.start);
-  const end = codePointOf(text, span.end);
-  if (end - start > 6000) return null;
-  const box = container.getBoundingClientRect();
-  const rect = range.getBoundingClientRect();
-  return {
-    focus: { chapter_id: chapterId, start, end },
-    top: rect.bottom - box.top + 8,
-    left: Math.max(0, Math.min(rect.left - box.left, box.width - 170)),
-  };
-}
-
-function Reader({
-  id,
-  route,
-  glossary,
-}: {
-  id: string;
-  route: Route;
-  glossary: Glossary | null;
-}) {
-  const { context, error } = useChapter(id);
-  const citations = useCitations(id);
-  const { docs } = useLibrary();
-  const textBox = useRef<HTMLDivElement>(null);
-  const [ask, setAsk] = useState<ReturnType<typeof selectionFocus>>(null);
-  // The note being written or edited: a new selection, or an existing note's id.
-  const [editing, setEditing] = useState<{
-    id?: string;
-    focus?: FocusRef;
-    text: string;
-    top: number;
-    left: number;
-  } | null>(null);
-  const study = useNotes();
-  useEffect(() => {
-    setAsk(null);
-    setEditing(null);
-  }, [id]);
-  if (!context) return <Status error={error} />;
-  const onSelect = () => {
-    if (editing) return;
-    setAsk(
-      textBox.current
-        ? selectionFocus(textBox.current, context.chapter.text, context.id)
-        : null,
-    );
-  };
-  const at = codePointIndex(context.chapter.text);
-  const mine = study.notes.filter((n) => n.chapter_id === context.id);
-  // A note whose words no longer match the stored text is listed, not drawn.
-  const fits = (n: (typeof mine)[number]) =>
-    context.chapter.text.slice(at(n.start), at(n.end)) === n.quote;
-  const drawn = mine.filter(fits);
-  const moved = mine.filter((n) => !fits(n));
-  const save = (focus: FocusRef, note: string) =>
-    study.add({
-      ...focus,
-      quote: context.chapter.text.slice(at(focus.start), at(focus.end)),
-      note,
-      document: context.chapter.document,
-      place: placeLabel(category, context.chapter.location),
-    });
-  const openMark = (event: ReactMouseEvent) => {
-    const el = (event.target as HTMLElement).closest<HTMLElement>("[data-mark]");
-    const note = el && mine.find((n) => n.id === el.dataset.mark);
-    if (!note || !textBox.current || window.getSelection()?.toString()) return;
-    const box = textBox.current.getBoundingClientRect();
-    const rect = el.getBoundingClientRect();
-    setAsk(null);
-    setEditing({
-      id: note.id,
-      text: note.note,
-      top: rect.bottom - box.top + 8,
-      left: Math.max(0, Math.min(rect.left - box.left, box.width - 320)),
-    });
-  };
-  const { chapter } = context;
-  const doc = docs?.find(
-    (d) =>
-      d.document_id === chapter.document_id && d.edition === chapter.edition,
-  );
-  const category = doc?.category ?? "";
-  const start = Number(route.query.get("s"));
-  const end = Number(route.query.get("e"));
-  const highlight =
-    route.query.has("s") &&
-    Number.isInteger(start) &&
-    Number.isInteger(end) &&
-    start <= end
-      ? { start, end }
-      : undefined;
-  const sutra = chapter.location.sections[0];
-  return (
-    <article className="reader">
-      <nav className="reader-nav" aria-label="Chapter navigation">
-        <a href={href("study")}>
-          <ArrowLeft size={14} /> Library
-        </a>
-        <span>
-          {context.previous && (
-            <a
-              href={href("study", "read", context.previous)}
-              aria-label="Previous part"
-            >
-              <ArrowLeft size={14} /> Previous
-            </a>
-          )}
-          {context.next && (
-            <a
-              href={href("study", "read", context.next)}
-              aria-label="Next part"
-            >
-              Next <ArrowRight size={14} />
-            </a>
-          )}
-        </span>
-      </nav>
-      <header className="reader-head">
-        <p className="eyebrow">{category || chapter.content_type}</p>
-        <h1>{chapter.document}</h1>
-        <p className="reader-place">{placeLabel(category, chapter.location)}</p>
-        {category === "Brahma Sūtra" && /^\d+$/.test(sutra ?? "") && (
-          <a
-            className="reader-parallel"
-            href={href(
-              "study",
-              "sutra",
-              chapter.location.book,
-              chapter.location.chapter,
-              sutra!,
-            )}
-          >
-            <Columns2 size={14} /> Compare commentaries on this sūtra
-          </a>
-        )}
-      </header>
-      {context.roles.length > 0 && (
-        <p className="role-legend">
-          <span className="role-objection">Objection</span>
-          <span className="role-reply">Reply</span> marked only where the book
-          itself labels them.
-        </p>
-      )}
-      {moved.length > 0 && (
-        <p className="notes-moved" role="status">
-          {moved.length === 1 ? "One of your notes" : `${moved.length} of your notes`} no
-          longer match this text; they are kept in <a href={href("study", "notes")}>My
-          notes</a>.
-        </p>
-      )}
-      <div
-        className="reader-text"
-        ref={textBox}
-        onMouseUp={onSelect}
-        onKeyUp={onSelect}
-        onTouchEnd={() => setTimeout(onSelect, 0)}
-        onClick={openMark}
-      >
-        <ChapterText
-          context={context}
-          glossary={glossary}
-          highlight={highlight}
-          citations={citations}
-          marks={drawn}
-        />
-        {ask && !editing && (
-          <div
-            className="selection-tools"
-            style={{ top: ask.top, left: ask.left }}
-            // Keep the selection while a tool is pressed.
-            onMouseDown={(event) => event.preventDefault()}
-          >
-            <button type="button" onClick={() => askAbout(ask.focus)}>
-              <MessageCircleQuestion size={14} /> Ask about this
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                save(ask.focus, "");
-                setAsk(null);
-                window.getSelection()?.removeAllRanges();
-              }}
-            >
-              <Highlighter size={14} /> Highlight
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEditing({ focus: ask.focus, text: "", top: ask.top, left: ask.left });
-                setAsk(null);
-              }}
-            >
-              <NotebookPen size={14} /> Note
-            </button>
-          </div>
-        )}
-        {editing && (
-          <form
-            className="note-editor"
-            style={{ top: editing.top, left: editing.left }}
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (editing.id) study.update(editing.id, editing.text.trim());
-              else if (editing.focus) save(editing.focus, editing.text.trim());
-              setEditing(null);
-              window.getSelection()?.removeAllRanges();
-            }}
-          >
-            <label className="sr-only" htmlFor="note-text">
-              Your note
-            </label>
-            <textarea
-              id="note-text"
-              autoFocus
-              rows={3}
-              maxLength={4000}
-              placeholder="Your note (kept in this browser only)"
-              value={editing.text}
-              onChange={(event) => setEditing({ ...editing, text: event.target.value })}
-              onKeyDown={(event) => event.key === "Escape" && setEditing(null)}
-            />
-            <div className="note-actions">
-              {editing.id && (
-                <button
-                  type="button"
-                  className="danger"
-                  onClick={() => {
-                    study.remove(editing.id!);
-                    setEditing(null);
-                  }}
-                >
-                  Delete
-                </button>
-              )}
-              <button type="button" onClick={() => setEditing(null)}>
-                Cancel
-              </button>
-              <button type="submit" className="primary">
-                Save
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-      {study.failed && (
-        <p className="study-status" role="alert">
-          This browser would not save the note (storage is full or disabled).
-        </p>
-      )}
-      {highlight && highlight.end - highlight.start <= 6000 && (
-        // Sticks to the bottom of the screen while the highlighted page is read.
-        <div className="reader-ask-bar">
-          <button
-            type="button"
-            className="reader-ask"
-            onClick={() => askAbout({ chapter_id: context.id, ...highlight })}
-          >
-            <MessageCircleQuestion size={14} /> Ask about the highlighted passage
-          </button>
-        </div>
-      )}
-      <SourceNote context={context} />
-    </article>
-  );
-}
-
 function Parallel({
   place,
   glossary,
@@ -501,26 +142,36 @@ function Parallel({
 }) {
   const [book, pada, sutra] = place;
   const [entries, setEntries] = useState<ParallelEntry[] | null>(null);
-  const [contexts, setContexts] = useState<Record<string, ChapterContext>>({});
+  const [contexts, setContexts] = useState<Record<string, ChapterContext | Error>>({});
   const [error, setError] = useState("");
+  const { docs } = useLibrary();
   useEffect(() => {
     setEntries(null);
     setError("");
     const query = new URLSearchParams({ book, chapter: pada, sutra });
     getJSON<ParallelEntry[]>(`/api/parallel?${query}`)
       .then(async (found) => {
-        const ids = found.flatMap((e) => e.chapters);
-        const loaded = await Promise.all(
-          ids.map((id) =>
-            getJSON<ChapterContext>(`/api/chapters/${encodeURIComponent(id)}`),
-          ),
-        );
-        setContexts(Object.fromEntries(loaded.map((c) => [c.id, c])));
+        setContexts(await loadChapters(found.flatMap((e) => e.chapters)));
         setEntries(found);
       })
       .catch((e: Error) => setError(e.message));
   }, [book, pada, sutra]);
   const n = Number(sutra);
+  // How differently the two treat this stretch, from the divergence map.
+  const { data: map } = useDivergence();
+  const unit = unitFor(map, book, pada, n);
+  // The highest printed numbers in the commentaries held, for the form's limits.
+  const sutraPages = (docs ?? [])
+    .filter((d) => d.category === "Brahma Sūtra")
+    .flatMap((d) => d.chapters.map((c) => c.location));
+  const highest = (pick: (l: Location) => string | undefined, within = sutraPages) =>
+    Math.max(1, ...within.map((l) => Number(pick(l))).filter(Number.isInteger));
+  const maxAdhyaya = highest((l) => l.book);
+  const maxPada = highest((l) => l.chapter);
+  const maxSutra = highest(
+    (l) => l.sections[0],
+    sutraPages.filter((l) => l.book === book && l.chapter === pada),
+  );
   function go(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -540,11 +191,27 @@ function Parallel({
           Two commentaries on the same sūtra, each in its own translator's
           words.
         </p>
+        {unit?.bands.overall && (
+          <p className="dv-badge">
+            <span className="dv-swatch" data-band={unit.bands.overall} aria-hidden="true" />
+            Where they part ways ({unit.label}): <strong>{unit.bands.overall}</strong>
+            {reasons(unit).length > 0 && <> · {reasons(unit).join("; ")}</>}{" "}
+            <a href={`${href("study", "map")}?u=${encodeURIComponent(unit.label)}`}>See the map</a>
+            {unit.pairing === "renumbered" && unit.ramanuja[0] && (
+              <>
+                {" "}
+                · Rāmānuja numbers this sūtra {unit.ramanuja_sutra}:{" "}
+                <a href={href("study", "read", unit.ramanuja[0])}>his page</a>
+              </>
+            )}
+            {unit.pairing === "unconfirmed" && " · paired by number only"}
+          </p>
+        )}
         <form className="sutra-form" onSubmit={go} aria-label="Go to sūtra">
           {[
-            ["a", "Adhyāya", book, 4],
-            ["p", "Pāda", pada, 4],
-            ["s", "Sūtra", sutra, 80],
+            ["a", "Adhyāya", book, maxAdhyaya],
+            ["p", "Pāda", pada, maxPada],
+            ["s", "Sūtra", sutra, Math.max(maxSutra, n)],
           ].map(([name, label, value, max]) => (
             <label key={name}>
               {label}
@@ -562,7 +229,9 @@ function Parallel({
           {n > 1 && (
             <a href={href("study", "sutra", book, pada, n - 1)}>← {n - 1}</a>
           )}
-          <a href={href("study", "sutra", book, pada, n + 1)}>{n + 1} →</a>
+          {n < maxSutra && (
+            <a href={href("study", "sutra", book, pada, n + 1)}>{n + 1} →</a>
+          )}
         </form>
       </header>
       {!entries ? (
@@ -585,24 +254,29 @@ function Parallel({
                   with an earlier sūtra.
                 </p>
               )}
-              {entry.chapters.map((id) =>
-                contexts[id] ? (
+              {entry.chapters.map((id) => {
+                const context = contexts[id];
+                if (!context) return null;
+                if (context instanceof Error)
+                  return (
+                    <p key={id} className="study-status" role="alert">
+                      This page could not be opened ({context.message}).{" "}
+                      <a href={href("study", "read", id)}>Try it in the reader</a>.
+                    </p>
+                  );
+                return (
                   <div key={id} className="parallel-page">
-                    {contexts[id].chapter.location.sections.length > 1 && (
-                      <h3>
-                        {contexts[id].chapter.location.sections
-                          .slice(1)
-                          .join(" · ")}
-                      </h3>
+                    {context.chapter.location.sections.length > 1 && (
+                      <h3>{context.chapter.location.sections.slice(1).join(" · ")}</h3>
                     )}
-                    <Argument context={contexts[id]} />
-                    <ChapterText context={contexts[id]} glossary={glossary} />
+                    <Argument context={context} />
+                    <ChapterText context={context} glossary={glossary} />
                     <a className="open-reader" href={href("study", "read", id)}>
                       Open in reader
                     </a>
                   </div>
-                ) : null,
-              )}
+                );
+              })}
             </section>
           ))}
         </div>
@@ -620,20 +294,10 @@ function Evidence({
 }) {
   const turn = restore().find((t) => t.id === turnId);
   const refs = turn?.evidence ?? [];
-  const [contexts, setContexts] = useState<Record<string, ChapterContext>>({});
-  const [error, setError] = useState("");
+  const [contexts, setContexts] = useState<Record<string, ChapterContext | Error>>({});
   const { docs } = useLibrary();
   useEffect(() => {
-    const ids = [...new Set(refs.map((r) => r.chapter))];
-    Promise.all(
-      ids.map((id) =>
-        getJSON<ChapterContext>(`/api/chapters/${encodeURIComponent(id)}`),
-      ),
-    )
-      .then((loaded) =>
-        setContexts(Object.fromEntries(loaded.map((c) => [c.id, c]))),
-      )
-      .catch((e: Error) => setError(e.message));
+    void loadChapters(refs.map((r) => r.chapter)).then(setContexts);
   }, [turnId]);
   if (!turn)
     return (
@@ -651,14 +315,21 @@ function Evidence({
         <h1>Passages behind this answer</h1>
         <p className="evidence-question">“{turn.question}”</p>
         <p>
-          These are the passages the answer cites. They show what was read, not
-          that every sentence of the answer is correct.
+          These are the passages the answer cites, and any the check named as support.
+          They show what was read, not that every sentence of the answer is correct.
         </p>
       </header>
-      {error && <Status error={error} />}
+      <Trail turn={turn} contexts={contexts} docs={docs} />
+      <h2 className="evidence-all">All passages behind it</h2>
       {refs.map((r) => {
         const context = contexts[r.chapter];
         if (!context) return null;
+        if (context instanceof Error)
+          return (
+            <p key={r.passage} className="study-status" role="alert">
+              One passage could not be opened ({context.message}).
+            </p>
+          );
         const { chapter } = context;
         const category =
           docs?.find(
@@ -669,7 +340,7 @@ function Evidence({
         const chars = [...chapter.text];
         return (
           <section key={r.passage} className="evidence-item">
-            <h2>{chapter.document}</h2>
+            <h3>{chapter.document}</h3>
             <p className="doc-meta">
               {[
                 chapter.author,
@@ -696,9 +367,17 @@ function Evidence({
 function Search({ route }: { route: Route }) {
   const query = route.query.get("q") ?? "";
   const strategy = route.query.get("m") === "lexical" ? "lexical" : "hybrid";
+  // One text only (`d`), and how many results (`n`: 20, or 50 after "Show more").
+  const only = route.query.get("d") ?? "";
+  const limit = route.query.get("n") === "50" ? 50 : 20;
   const [hits, setHits] = useState<SearchHit[] | null>(null);
   const [error, setError] = useState("");
   const { docs } = useLibrary();
+  const input = useRef<HTMLInputElement>(null);
+  // Opened to type in ("/" or the palette): the box takes focus when there is no query.
+  useEffect(() => {
+    if (!query.trim()) input.current?.focus();
+  }, []);
   useEffect(() => {
     if (!query.trim()) return;
     setHits(null);
@@ -706,20 +385,38 @@ function Search({ route }: { route: Route }) {
     getJSON<SearchHit[]>("/api/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, limit: 20, strategy }),
+      body: JSON.stringify({
+        query,
+        limit,
+        strategy,
+        ...(only ? { filters: { document_id: only } } : {}),
+      }),
     })
       .then(setHits)
       .catch((e: Error) => setError(e.message));
-  }, [query, strategy]);
+  }, [query, strategy, only, limit]);
+  const searchAt = (changes: Record<string, string>) => {
+    const params = new URLSearchParams({ q: query, m: strategy, ...(only ? { d: only } : {}) });
+    for (const [k, v] of Object.entries(changes)) {
+      if (v) params.set(k, v);
+      else params.delete(k);
+    }
+    return `${href("study", "search")}?${params}`;
+  };
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const params = new URLSearchParams({
+    window.location.hash = searchAt({
       q: String(form.get("q") ?? ""),
       m: String(form.get("m")),
+      d: String(form.get("d") ?? ""),
+      n: "",
     });
-    window.location.hash = `${href("study", "search")}?${params}`;
   }
+  // Each document once (editions share a document ID only within one edition).
+  const texts = [...new Map((docs ?? []).map((d) => [d.document_id, d.document])).entries()].sort(
+    (a, b) => a[1].localeCompare(b[1]),
+  );
   return (
     <div className="search">
       <header className="study-intro">
@@ -729,6 +426,7 @@ function Search({ route }: { route: Route }) {
             Search terms
           </label>
           <input
+            ref={input}
             id="study-q"
             name="q"
             defaultValue={query}
@@ -739,6 +437,16 @@ function Search({ route }: { route: Route }) {
             <option value="hybrid">Meaning and words</option>
             <option value="lexical">Exact words</option>
           </select>
+          {texts.length > 1 && (
+            <select name="d" defaultValue={only} key={only} aria-label="Search in">
+              <option value="">All texts</option>
+              {texts.map(([id, name]) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          )}
           <button type="submit">
             <SearchIcon size={15} /> Search
           </button>
@@ -768,13 +476,63 @@ function Search({ route }: { route: Route }) {
                         .filter(Boolean)
                         .join(" · ")}
                     </span>
-                    <span className="snippet">{h.snippet}…</span>
+                    <span className="snippet">
+                      {marks(h.snippet, query).map((part, i) =>
+                        typeof part === "string" ? part : <mark key={i}>{part.hit}</mark>,
+                      )}
+                      …
+                    </span>
                   </a>
                 </li>
               );
             })}
+            {hits.length === limit && limit < 50 && (
+              <li className="search-more">
+                <a href={searchAt({ n: "50" })}>Show more results</a>
+              </li>
+            )}
           </ol>
         ))}
+    </div>
+  );
+}
+
+// The Study view's sections, on every Study page.
+function StudyNav({ page }: { page: string | undefined }) {
+  const { docs } = useLibrary();
+  const sutra = docs?.some((d) => d.category === "Brahma Sūtra");
+  const links: [string | undefined, string, string, ReactNode][] = [
+    [undefined, href("study"), "Library", <BookOpen size={15} />],
+    ["search", href("study", "search"), "Search", <SearchIcon size={15} />],
+    ["paths", href("study", "paths"), "Paths", <PathIcon size={15} />],
+    ...(sutra
+      ? ([
+          ["sutra", href("study", "sutra", 1, 1, 1), "Side by side", <Columns2 size={15} />],
+          ["map", href("study", "map"), "Where they differ", <Waypoints size={15} />],
+          ["citations", href("study", "citations"), "Most cited", <BookMarked size={15} />],
+        ] as [string, string, string, ReactNode][])
+      : []),
+    ["notes", href("study", "notes"), "My notes", <StickyNote size={15} />],
+  ];
+  return (
+    <nav className="study-nav" aria-label="Study">
+      {links.map(([key, to, label, icon]) => (
+        <a key={label} href={to} aria-current={page === key ? "page" : undefined}>
+          {icon} {label}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="study-intro">
+      <h1>Page not found</h1>
+      <p>This address does not match a page of the Study view.</p>
+      <p>
+        <a href={href("study")}>Open the library</a>
+      </p>
     </div>
   );
 }
@@ -798,10 +556,31 @@ export function Study({ route }: { route: Route }) {
   else if (page === "paths") content = <Paths />;
   else if (page === "citations") content = <Citations />;
   else if (page === "notes") content = <Notes />;
-  else content = <Library glossary={glossary} />;
+  else if (page === "map") content = <DivergenceMap route={route} />;
+  else if (!page) content = <Library glossary={glossary} />;
+  else content = <NotFound />;
+  const main = useRef<HTMLElement>(null);
+  usePageArrival(main, window.location.hash);
+  // "/" searches the library from anywhere in Study.
+  useEffect(() => {
+    const key = (event: KeyboardEvent) => {
+      if (event.key !== "/" || !isShortcut(event)) return;
+      event.preventDefault();
+      const box = document.getElementById("study-q");
+      if (box) box.focus();
+      else window.location.hash = href("study", "search");
+    };
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, []);
   return (
     <div className="view study">
-      <main id="study-main" className="study-main">
+      <main
+        id="study-main"
+        className={`study-main${page === "sutra" || page === "map" ? " wide" : ""}`}
+        ref={main}
+      >
+        <StudyNav page={page} />
         {content}
       </main>
     </div>

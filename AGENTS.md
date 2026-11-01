@@ -30,11 +30,14 @@ uv run python scripts/check_links.py
 npm --prefix web run typecheck
 npm --prefix web test
 npm --prefix web run build
+npm --prefix web run e2e
 uv build
 ```
 
 For backend changes run Python checks; for UI changes run frontend checks and
-verify desktop/mobile behavior. For parsing/index changes exercise offsets, repeated
+verify desktop/mobile behavior. `e2e` runs Playwright (desktop and mobile Chromium,
+with axe) against the fixture server; it needs a built UI and a one-time explicit
+`npx --prefix web playwright install chromium`. For parsing/index changes exercise offsets, repeated
 imports, cache/failure paths, and compatibility. For retrieval changes rerun the
 relevant benchmark (`uv run pramana evaluate --output benchmarks/results.json`)
 with its exact edition available. Keep chapter/passage/answer evaluations distinct.

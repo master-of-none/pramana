@@ -1,0 +1,475 @@
+/* Reset, the app shell and header. */
+:root {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  font-weight: 400;
+  font-size: 15px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button,
+a,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  color: inherit;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+button:disabled {
+  cursor: default;
+}
+button {
+  border: 0;
+  background: none;
+}
+::selection {
+  background: var(--olive-soft);
+}
+button svg {
+  flex-shrink: 0;
+}
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  height: 106px;
+  padding: 0 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+}
+.brand {
+  display: flex;
+  gap: 15px;
+  text-align: left;
+  align-items: center;
+  padding: 0;
+}
+.brand-mark {
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--olive);
+  border: 1px solid var(--line-heavy);
+  width: 45px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px 13px 3px 13px;
+  padding-bottom: 4px;
+}
+.brand-name {
+  font-family: var(--serif);
+  font-size: 33px;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+}
+.brand-sub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 8px;
+  letter-spacing: 2.1px;
+  color: var(--muted);
+  margin-top: 7px;
+  font-weight: 600;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 31px;
+}
+.local-badge {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.local-badge > span,
+.eyebrow > span,
+.conversation-kicker > span {
+  width: 5px;
+  height: 5px;
+  background: var(--olive-line);
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Header navigation and display preferences */
+a.brand {
+  color: inherit;
+  text-decoration: none;
+}
+.sections {
+  display: flex;
+  gap: 4px;
+  margin-right: auto;
+  margin-left: 28px;
+}
+.sections a,
+.study-actions a,
+.reader-nav a,
+.back-link,
+.open-reader,
+.reader-parallel {
+  color: var(--olive);
+  text-decoration: none;
+}
+.sections a {
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: var(--radius-m);
+  letter-spacing: 0.3px;
+}
+.sections a[aria-current="page"] {
+  background: var(--surface-sunk);
+  color: var(--ink);
+}
+.sections a:hover {
+  background: var(--warm-soft);
+}
+.icon-button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--olive);
+}
+.icon-button[aria-pressed="true"] {
+  background: var(--surface-sunk);
+}
+.view {
+  display: contents;
+}
+.view[hidden] {
+  display: none;
+}
+/* Reading settings panel */
+.type-menu {
+  position: relative;
+}
+.type-panel {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 290px;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-2);
+}
+.type-choice {
+  border: 0;
+  margin: 0;
+  padding: var(--space-2) 0 0;
+}
+.type-choice + .type-choice {
+  margin-top: var(--space-2);
+}
+.type-choice legend {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0;
+  margin-bottom: var(--space-1);
+}
+.type-choice [role="radiogroup"] {
+  display: flex;
+  gap: 2px;
+  background: var(--surface-sunk);
+  border-radius: var(--radius-m);
+  padding: 2px;
+}
+.type-choice button {
+  flex: 1;
+  border: 0;
+  background: none;
+  border-radius: var(--radius-s);
+  padding: 5px 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.type-choice button[aria-checked="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+
+/* Command palette (⌘K) */
+.palette-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 8px 0 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+}
+.palette-button:hover {
+  border-color: var(--olive-line);
+  color: var(--ink);
+}
+kbd {
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 5px;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-s);
+  background: var(--paper);
+  color: var(--ink-soft);
+}
+@media (max-width: 760px) {
+  .palette-button {
+    width: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+  .palette-button kbd {
+    display: none;
+  }
+  .palette-button-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+.palette {
+  width: min(620px, calc(100vw - 24px));
+  max-height: min(560px, calc(100dvh - 80px));
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  flex-direction: column;
+}
+.palette[open] {
+  display: flex;
+}
+.palette::backdrop,
+.sheet::backdrop {
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+  backdrop-filter: blur(2px);
+}
+.palette-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.palette-input input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  padding: 6px 0;
+}
+.palette ul {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2);
+  overflow-y: auto;
+}
+.palette-group {
+  padding: 10px 10px 4px;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.palette-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 9px 10px;
+  border-radius: var(--radius-m);
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.palette-item svg {
+  flex-shrink: 0;
+  color: var(--olive);
+}
+.palette-item[aria-selected="true"] {
+  background: var(--olive-soft);
+  color: var(--ink);
+}
+.palette-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.palette-hint {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Keyboard shortcuts sheet (?) */
+.shortcuts {
+  width: min(480px, calc(100vw - 24px));
+  margin: 10vh auto auto;
+  padding: 0 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-2);
+}
+.shortcuts header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-4) var(--space-2) var(--space-5);
+}
+.shortcuts h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+}
+.shortcuts section {
+  padding: 0 var(--space-5);
+}
+.shortcuts h3 {
+  margin: var(--space-4) 0 var(--space-1);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.shortcuts dl {
+  margin: 0;
+}
+.shortcuts dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.shortcuts dt {
+  color: var(--ink-soft);
+}
+.shortcuts dd {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+/* Print: the text alone, with its page marks, footnotes and attribution. */
+@media print {
+  :root {
+    --paper: #fff;
+    --surface: #fff;
+    --ink: #000;
+    --ink-soft: #111;
+    --muted: #444;
+    color-scheme: light;
+  }
+  .app {
+    height: auto;
+    overflow: visible;
+  }
+  main {
+    overflow: visible;
+  }
+  .topbar,
+  .study-nav,
+  .reader-nav,
+  .reading-progress,
+  .reader-ask-bar,
+  .selection-tools,
+  .note-editor,
+  .composer-dock,
+  .page-footer,
+  .skip-link,
+  .open-reader,
+  .reader-parallel,
+  .study-actions,
+  .copy-answer,
+  .term-card,
+  .cited-by,
+  .palette,
+  .shortcuts {
+    display: none !important;
+  }
+  .view[hidden] {
+    display: none !important;
+  }
+  .chapter-text,
+  .answer-prose {
+    font-size: 11.5pt;
+    line-height: 1.55;
+    color: #000;
+  }
+  .chapter-text p {
+    break-inside: avoid-page;
+  }
+  .page-mark {
+    color: #444;
+    border-color: #999;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

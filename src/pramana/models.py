@@ -224,6 +224,8 @@ class SentenceCheck(Record):
     part: str  # "answer" or a perspective's thinker
     text: str
     verdict: Literal["supported", "partly", "unsupported"]
+    # Passage IDs the check named as support (never for unsupported sentences).
+    passages: list[str] = Field(default_factory=list)
 
 
 class CheckReport(Record):

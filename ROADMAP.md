@@ -105,8 +105,9 @@ appear only in Study.
 
 **Acceptance:** API tests for library, parallel and roles; offset tests with
 supplementary characters; manual desktop/mobile/dark checks; chat still renders no
-source metadata. API and offset tests pass; **manual browser checks have not been
-performed yet.**
+source metadata. API and offset tests pass. Automated desktop, mobile and dark-mode
+browser checks were added in November 2026 (see below); **a manual pass with the real
+library and model has not been performed yet.**
 
 ## Next milestone: retrieval reliability
 
@@ -181,16 +182,19 @@ about readiness and compatibility, and repeated unchanged imports remain idempot
 **Dependency:** stable source identities from group 1 and readiness behavior from
 group 3 for the corresponding error-state tests.
 
-- [ ] Automate chat browser regressions using deterministic fixtures for conversation,
+- [x] Automate chat browser regressions using deterministic fixtures for conversation,
       follow-ups, reload/reset, retry/cancellation, and absence of source metadata.
       Keep retrieval/context correctness covered through the API.
 - [ ] Cover keyboard navigation and focus restoration, loading/empty/error states,
-      and desktop/mobile layouts.
+      and desktop/mobile layouts. *Keyboard, focus, scroll restoration, desktop/mobile
+      and 360 px layouts are covered (November 2026); empty-library and loading states
+      are not yet.*
 - [ ] Include supplementary Unicode characters before and within evidence spans to
       verify Python code-point offsets against JavaScript UTF-16 representation.
+      *Before a span: covered in the browser suite. Within a span: not yet.*
 - [x] Extend CI to build the frontend and wheel, install the wheel in an isolated
       environment, and verify API behavior and compiled reader assets outside the checkout.
-- [ ] Keep ordinary browser and packaging tests independent of downloaded models,
+- [x] Keep ordinary browser and packaging tests independent of downloaded models,
       source archives, and network services. Retain explicit real-model acceptance checks.
 
 **Acceptance:** automated browser checks pass on desktop and mobile; the installed
@@ -204,6 +208,59 @@ wheel serves its compiled reader and API without relying on editable source path
       split membership, per-question results, and documented limitations.
 - [ ] Update the quickstart, import/API documentation where interfaces changed,
       and verification notes with checks actually performed.
+
+## Delivered: foundations and reader polish (November 2026)
+
+Plan and rationale: a polished, browser-tested base before the signature features below.
+Covered by deterministic tests (pytest, unit tests, and a Playwright suite of 54 runs in
+desktop and mobile Chromium with axe scans); **no real-model answer review was needed or
+done, and the new CI browser job has not yet run on GitHub.**
+
+- [x] Playwright browser regressions against the fixture server, with an accessibility
+      scan of each main screen, and a CI job (`npm --prefix web run e2e`).
+- [x] Chat split into a session hook and components; fixes: Escape no longer stops an
+      answer while closing a note, every occurrence of a highlight is tinted, "Jump to
+      latest" only when needed and no longer hidden behind the composer on phones,
+      selection tools follow the page, option-loading failures are shown.
+- [x] Router: page titles, focus to each page's heading, scroll restored on Back, a
+      Not-found page; Evidence and Side by side load each page separately.
+- [x] Design tokens by role, defined once with `light-dark()`, text at WCAG AA contrast;
+      styles split by area; five themed starter questions.
+- [x] Self-hosted Source Sans 3, Source Serif 4 and Noto Serif Devanagari (every IAST letter
+      checked); reading settings (size, spacing, column, typeface); print stylesheet.
+- [x] Reader: continue reading, progress bar and per-work progress (this browser only),
+      contents sheet, ← → and T keys, breadcrumbs; Study tabs; search marks the query's
+      words, filters by text and shows more results.
+- [x] ⌘K command palette with typed verse references (`GET /api/locate`) on Study pages
+      only; `?` shortcut sheet; installable app manifest and icons.
+- [x] Chat: edit and re-ask an earlier question, save the conversation as Markdown,
+      explanations shown while Vichāra or Check is on.
+
+## Next milestone: signature features
+
+Built on the polished base; each keeps the rules (chat answers only, sources in Study).
+
+1. [x] **Answer trail in Study** (November 2026). Each claim-check verdict names up to
+   three supporting evidence items, restricted by schema and checked server-side to the
+   sentence's own evidence, returned as passage IDs; the turn keeps them in
+   sessionStorage and the evidence page shows each sentence beside its passage. Never in
+   the chat, no internal IDs or scores. Covered by deterministic and browser tests;
+   **whether the local model names the right passages has not been measured.**
+2. [x] **Where the commentators part ways** (November 2026). `#/study/map`: the whole
+   Brahma Sūtra, one cell per page of Śaṅkara's, banded on scripture cited, wording and
+   dispute terms in Rāmānuja's text, with explanations, a table view and links to Side by
+   side. Pairs are matched on the printed sūtra's words (226 same, 138 renumbered, 188
+   unconfirmed and hatched). Checked against the real library by reading top- and
+   bottom-ranked pairs; **not reviewed by a scholar.** See the
+   [method](docs/reference/divergence.md).
+3. **Mahāvākya explorer.** A curated file mapping each saying to its verse, with every
+   location checked against the stored text when implemented: *tat tvam asi*
+   (Chāndogya VI, 8, 7), *ahaṃ brahmāsmi* (Bṛhadāraṇyaka I, 4, 10), *prajñānam brahma*
+   (Aitareya Āraṇyaka II), *ayam ātmā brahma* (Bṛhadāraṇyaka II, 5, 19; the Māṇḍūkya is not
+   in the library). Each shows the verse, every passage citing it by author, and both
+   readings side by side.
+4. **Verse with its commentaries.** The same view for any verse, from the incoming
+   citations.
 
 ## Later milestones
 

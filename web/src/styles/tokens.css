@@ -1,0 +1,103 @@
+/* Design tokens. Colours are named for their role and defined once with light-dark():
+   the light value is the original design, the dark one mirrors its lightness. Text
+   colours meet WCAG AA (4.5:1) on every surface they are used on. */
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces */
+  --paper: light-dark(#f8f6f0, #221e13);
+  --surface: light-dark(#fcfbf7, #1c190d);
+  --surface-sunk: light-dark(#eceee2, #2c2e1e);
+  --olive-soft: light-dark(#dce2ca, #3f452b);
+  --warm-soft: light-dark(#f4f0e5, #2d2717);
+
+  /* Text */
+  --ink: light-dark(#383a30, #dbdcd6);
+  --ink-soft: light-dark(#4c5141, #c7cac0);
+  --muted: light-dark(#616255, #b0b1a7);
+  --olive: light-dark(#656d4a, #b9bea7);
+  --warm-ink: light-dark(#755d40, #c9ae99);
+  --on-accent: light-dark(#ffffff, #1c190d);
+
+  /* Accents and lines */
+  --accent: light-dark(#6b7550, #adb49a);
+  --accent-hover: light-dark(#59633d, #c4cbb2);
+  --olive-line: light-dark(#a9b18d, #79805f);
+  --focus: light-dark(#7c8759, #a7ae8e);
+  --warm: light-dark(#956d50, #b49884);
+  --warm-line: light-dark(#e4decb, #453e29);
+  --line: light-dark(#e3e2d8, #37362a);
+  --line-strong: light-dark(#d9dcce, #3e4132);
+  --line-heavy: light-dark(#bfc3ae, #5c604c);
+
+  /* Ordinal bands for the divergence map: one olive hue, monotone lightness (OKLCH),
+     light end at 2:1 on the paper; reversed in dark mode, not flipped automatically. */
+  --band-0: light-dark(#adb184, #535535);
+  --band-1: light-dark(#949962, #6f7345);
+  --band-2: light-dark(#7a7e40, #8d9157);
+  --band-3: light-dark(#606425, #afb474);
+  --band-4: light-dark(#474a13, #d2d79e);
+
+  /* Shape and depth */
+  --radius-s: 4px;
+  --radius-m: 7px;
+  --radius-l: 12px;
+  --radius-full: 999px;
+  --shadow-1: 0 2px 8px light-dark(#555b4114, #00000040);
+  --shadow-2: 0 8px 28px light-dark(#555b4124, #00000066);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 36px;
+
+  /* Type */
+  --serif: "Source Serif", "Noto Serif Devanagari", Georgia, serif;
+  --sans:
+    "Source Sans", "Noto Serif Devanagari", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+/* Reading settings (header): text scale, line spacing, column width and typeface for
+   answers and the reader. The interface itself grows only at the larger sizes. */
+:root {
+  --scale: 1;
+  --leading: 1.85;
+  --measure: 820px;
+  --reading-font: var(--serif);
+}
+:root[data-size="small"] {
+  --scale: 0.92;
+}
+:root[data-size="large"] {
+  --scale: 1.12;
+  font-size: 17px;
+}
+:root[data-size="xlarge"] {
+  --scale: 1.26;
+  font-size: 17px;
+}
+:root[data-leading="compact"] {
+  --leading: 1.6;
+}
+:root[data-leading="airy"] {
+  --leading: 2.05;
+}
+:root[data-measure="narrow"] {
+  --measure: 660px;
+}
+:root[data-measure="wide"] {
+  --measure: 1000px;
+}
+:root[data-face="sans"] {
+  --reading-font: var(--sans);
+}
+/* An explicit choice in the header overrides the system setting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}

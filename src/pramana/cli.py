@@ -296,6 +296,29 @@ def evaluate_answers(
 
 
 @app.command()
+def divergence(top: int = 20, least: bool = False):
+    """List where Śaṅkara and Rāmānuja differ most (or least) on the Brahma Sūtra."""
+    from pramana.divergence import divergence as compute
+    from pramana.divergence import most_different
+
+    data = compute(Corpus().store)
+    if not data["available"]:
+        fail(PramanaError(data["reason"]))
+    for unit in most_different(data, top, least=least):
+        bands = unit["bands"]
+        reasons = [f"{s} {bands[s]}" for s in ("scripture", "wording", "dispute") if bands[s]]
+        terms = ", ".join(f"{t} ×{n}" for t, n in list(unit["terms"].items())[:3])
+        pair = (
+            f" (Rāmānuja numbers it {unit['ramanuja_sutra']})"
+            if unit["pairing"] == "renumbered"
+            else ""
+        )
+        typer.echo(f"{unit['label']:<12} {bands['overall']:<10} {'; '.join(reasons)}{pair}")
+        if terms:
+            typer.echo(f"{'':<12} disputes: {terms}")
+
+
+@app.command()
 def serve(port: int = 8000):
     """Serve the API and compiled reader on localhost."""
     import uvicorn

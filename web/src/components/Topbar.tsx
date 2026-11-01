@@ -1,5 +1,9 @@
-import { Monitor, Moon, Plus, Sun, Type } from "lucide-react";
-import { useTextSize, useTheme } from "../lib/theme.ts";
+import { useEffect } from "react";
+import { Command, Monitor, Moon, Plus, Sun } from "lucide-react";
+import { PALETTE, THEME } from "../lib/keys.ts";
+import { MOD } from "./Shortcuts.tsx";
+import { useTheme } from "../lib/theme.ts";
+import { TypographyButton } from "./Typography.tsx";
 import type { Theme } from "../lib/theme.ts";
 
 const NEXT: Record<Theme, Theme> = {
@@ -17,12 +21,19 @@ export function Topbar({
   onNewChat: () => void;
 }) {
   const [theme, setTheme] = useTheme();
-  const [size, setSize] = useTextSize();
   const ThemeIcon = ICON[theme];
+  // "Switch theme" from the command palette.
+  useEffect(() => {
+    const cycle = () => setTheme((t) => NEXT[t]);
+    window.addEventListener(THEME, cycle);
+    return () => window.removeEventListener(THEME, cycle);
+  }, []);
   return (
     <header className="topbar">
-      <a className="brand" href="#/" aria-label="Pramana, ask a question">
-        <span className="brand-mark">प्र</span>
+      <a className="brand" href="#/" title="Ask a question">
+        <span className="brand-mark" aria-hidden="true">
+          प्र
+        </span>
         <span className="brand-name">
           pramāṇa<span className="brand-sub">A SPACE FOR UNDERSTANDING</span>
         </span>
@@ -40,22 +51,24 @@ export function Topbar({
       </nav>
       <div className="topbar-right">
         <button
-          className="icon-button"
+          className="palette-button"
+          onClick={() => window.dispatchEvent(new Event(PALETTE))}
+          title="Command palette"
+          aria-keyshortcuts={MOD === "⌘" ? "Meta+K" : "Control+K"}
+        >
+          <Command size={14} aria-hidden="true" />
+          <span className="palette-button-label">Go to…</span>
+          <kbd aria-hidden="true">{MOD}K</kbd>
+        </button>
+        <button
+          className="icon-button theme-button"
           onClick={() => setTheme(NEXT[theme])}
           aria-label={`Theme: ${theme}. Switch to ${NEXT[theme]}`}
           title={`Theme: ${theme}`}
         >
           <ThemeIcon size={16} />
         </button>
-        <button
-          className="icon-button"
-          onClick={() => setSize(size === "regular" ? "large" : "regular")}
-          aria-pressed={size === "large"}
-          aria-label="Larger text"
-          title="Larger text"
-        >
-          <Type size={16} />
-        </button>
+        <TypographyButton />
         {section === "chat" && (
           <button className="new-chat" onClick={onNewChat}>
             <Plus size={16} />

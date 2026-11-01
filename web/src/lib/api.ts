@@ -150,3 +150,34 @@ export function thinkerName(author: string): string {
   if (/ramanuja/i.test(author)) return "Rāmānuja";
   return author || "Translator's note";
 }
+
+// "Where they part ways" (GET /api/divergence): bands only, never numbers.
+export type Band = "low" | "moderate" | "marked" | "high" | "very high";
+export type Signal = "overall" | "scripture" | "wording" | "dispute";
+export type CitedRef = { label: string; chapter_id: string; start: number; end: number };
+export type DivergenceUnit = {
+  book: string;
+  pada: string;
+  first: number;
+  last: number | null;
+  label: string;
+  exact: boolean;
+  // How Rāmānuja's pages were matched: the same printed sūtra, the same sūtra under
+  // another number, or the same number only (the sūtra lines differ).
+  pairing: "same" | "renumbered" | "unconfirmed";
+  ramanuja_sutra: number;
+  shankara: string[];
+  ramanuja: string[];
+  bands: Record<Signal, Band | null>;
+  shared: number;
+  only_shankara: CitedRef[];
+  only_ramanuja: CitedRef[];
+  terms: Record<string, number>;
+};
+export type Divergence = {
+  available: boolean;
+  reason?: string;
+  bands?: Band[];
+  units: DivergenceUnit[];
+  ranking?: number[];
+};

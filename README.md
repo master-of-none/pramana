@@ -53,9 +53,25 @@ the explicit download commands.
   open the cited Upaniṣad or Gītā verse; each scripture verse lists where Śaṅkara and
   Rāmānuja cite it, and **Śruti most cited** ranks the passages they rely on (below).
 - **Side by side:** Śaṅkara and Rāmānuja on any sūtra (`#/study/sutra/1/1/1`).
+- **Where they part ways:** a map of the whole Brahma Sūtra, shaded by how differently
+  the two commentaries treat each stretch (different scripture cited, little shared
+  wording, Śaṅkara's doctrines named in Rāmānuja's text), each cell explained and opening
+  side by side. A heuristic map of where to read ([method](docs/reference/divergence.md)).
 - **Concept pages:** where each group of texts discusses *adhyāsa*, *māyā*, *sākṣin*…
-- **Passages behind an answer**, **search**, and **reading paths** such as "First steps
-  in Advaita".
+- **Passages behind an answer**, **search** with the query's words marked and a filter by
+  text, and **reading paths** such as "First steps in Advaita".
+- **Continue reading**, a progress bar, a contents sheet, and ← → to turn the page; reading
+  progress stays in this browser.
+
+**Everywhere**
+- **⌘K / Ctrl+K command palette:** jump to a text, a concept, a sūtra (`BS 1.1.4`) or a
+  verse (`Ch 6.8.7`, `BG 2.47`) on Study pages, or ask and search from anywhere; `?` lists
+  the keyboard shortcuts.
+- **Reading settings:** text size, line spacing, column width and serif or sans for answers
+  and texts; light and dark themes; self-hosted fonts with every IAST letter; installable
+  as an app window; a print stylesheet for the reader.
+- **Your conversation, your copy:** edit and re-ask an earlier question, or save the
+  conversation as Markdown.
 
 ## How it works
 

@@ -7,6 +7,14 @@ export type EvidenceRef = {
   start: number;
   end: number;
 };
+// The answer trail: each kept sentence with the passages the check named as its support
+// (passage IDs among the turn's evidence). Shown only in Study, never in the chat.
+export type TrailStep = {
+  part: string; // "answer" or a thinker's name
+  text: string;
+  verdict: "supported" | "partly";
+  passages: string[];
+};
 // A passage selected in the Study view (code points); sent with one question, never shown.
 export type FocusRef = { chapter_id: string; start: number; end: number };
 export type Turn = {
@@ -16,6 +24,7 @@ export type Turn = {
   answer?: string;
   perspectives?: View[];
   evidence?: EvidenceRef[];
+  trail?: TrailStep[];
   checked?: "checked" | "unavailable";
   state: "complete" | "pending" | "error" | "cancelled";
   error?: string;
@@ -77,6 +86,33 @@ export function evidenceRefs(data: unknown): EvidenceRef[] {
     }));
 }
 
+// Accepts the API's check sentences or restored steps; keeps only kept sentences, and
+// only support that is among this turn's evidence.
+export function trail(data: unknown, evidence: EvidenceRef[]): TrailStep[] {
+  if (!Array.isArray(data)) return [];
+  const known = new Set(evidence.map((e) => e.passage));
+  return data
+    .filter(
+      (s) =>
+        s &&
+        typeof s.part === "string" &&
+        typeof s.text === "string" &&
+        (s.verdict === "supported" || s.verdict === "partly") &&
+        s.part.length <= 200 &&
+        s.text.trim() &&
+        s.text.length <= 1500,
+    )
+    .slice(0, 80)
+    .map((s) => ({
+      part: s.part,
+      text: s.text,
+      verdict: s.verdict,
+      passages: (Array.isArray(s.passages) ? s.passages : [])
+        .filter((p: unknown): p is string => typeof p === "string" && known.has(p))
+        .slice(0, 3),
+    }));
+}
+
 export function restore(): Turn[] {
   try {
     const data: unknown = JSON.parse(sessionStorage.getItem(STORAGE) || "[]");
@@ -101,6 +137,7 @@ export function restore(): Turn[] {
             answer: t.answer,
             perspectives: views(t.perspectives),
             evidence: evidenceRefs(t.evidence),
+            trail: trail(t.trail, evidenceRefs(t.evidence)),
             checked: ["checked", "unavailable"].includes(t.checked)
               ? t.checked
               : undefined,
@@ -151,4 +188,20 @@ export function takePendingFocus(): FocusRef | null {
     // Storage unavailable or malformed: ask without a selection.
   }
   return null;
+}
+
+// The conversation as Markdown, for the reader's own export: questions and answers only,
+// never the evidence pointers.
+export function conversationMarkdown(turns: Turn[], date = new Date()): string {
+  const lines = [`# Conversation with Pramana`, "", `_${date.toISOString().slice(0, 10)}_`, ""];
+  for (const t of turns) {
+    lines.push(`## ${t.question.replace(/\s+/g, " ").trim()}`, "");
+    if (t.state !== "complete" || !t.answer) {
+      lines.push("_No answer._", "");
+      continue;
+    }
+    lines.push(t.answer.trim(), "");
+    for (const p of t.perspectives ?? []) lines.push(`### ${p.thinker}`, "", p.view.trim(), "");
+  }
+  return lines.join("\n").trimEnd() + "\n";
 }
