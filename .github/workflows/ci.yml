@@ -1,8 +1,20 @@
 name: checks
-on: [push, pull_request]
+# Pushes to main, and pull requests. A push to a PR branch used to run twice (push and
+# pull_request events for the same commit).
+on:
+  push:
+    branches: [main]
+  pull_request:
+# A newer push to the same pull request cancels its older, unfinished run; runs on main
+# always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   test:
     runs-on: ubuntu-latest
+    # A full run takes about 2.5 minutes; stop a hung one long before the 6-hour default.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
