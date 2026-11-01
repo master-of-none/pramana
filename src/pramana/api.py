@@ -8,6 +8,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
+from pramana.agent_api import AgentAuth, excerpt_router
+from pramana.agent_excerpts import Entry
 from pramana.answering import Answerer, AnswerError, OpenRouterProvider
 from pramana.citations import for_chapter, locate
 from pramana.citations import summary as citation_summary
@@ -37,8 +39,12 @@ def create_app(
     retriever: Retriever | None = None,
     answerer: Answerer | None = None,
     hosted: HostedGuard | None = None,
+    agent_auth: AgentAuth | None = None,
+    excerpt_sources: dict[str, Entry] | None = None,
 ) -> FastAPI:
-    """`hosted` puts bot verification and daily admission before every chat request."""
+    """`hosted` puts bot verification and daily admission before every chat request.
+
+    The excerpt routes (`/api/excerpts`) stay off until an agent token is configured."""
     api = FastAPI(title="Pramana", version="0.1.0")
     corpus = retriever.corpus if retriever else Corpus(home)
     engine = retriever or Retriever(corpus)
@@ -56,6 +62,12 @@ def create_app(
             request.headers.get("x-request-id", ""),
             payload.model_dump(mode="json"),
         )
+
+    api.include_router(
+        excerpt_router(
+            corpus, agent_auth or AgentAuth.from_env(), excerpt_sources, engine, search_lock
+        )
+    )
 
     readiness: dict = {}
 

@@ -52,6 +52,19 @@ class Store:
             rows = db.execute("SELECT data FROM chapters ORDER BY id").fetchall()
         return [Chapter.model_validate_json(row[0]) for row in rows]
 
+    def chapters_of(self, document_ids: list[str]) -> list[Chapter]:
+        """Chapters of the given documents only, in stable order."""
+        if not document_ids:
+            return []
+        marks = ",".join("?" * len(document_ids))
+        with self.connect() as db:
+            rows = db.execute(
+                f"SELECT data FROM chapters WHERE json_extract(data, '$.document_id') IN ({marks})"
+                " ORDER BY id",
+                document_ids,
+            ).fetchall()
+        return [Chapter.model_validate_json(row[0]) for row in rows]
+
     def chapter(self, chapter_id: str) -> Chapter:
         with self.connect() as db:
             row = db.execute("SELECT data FROM chapters WHERE id=?", (chapter_id,)).fetchone()
