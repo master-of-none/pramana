@@ -103,22 +103,25 @@ is your only privacy there.
 
 ### Keeping the server running (systemd user service)
 
-`~/.config/systemd/user/pramana-excerpts.service` (replace the paths with yours; `command -v uv`
-shows the first one):
+`~/.config/systemd/user/pramana-excerpts.service` (replace `/path/to/pramana` with your
+checkout; it runs the environment's own program, which works for the full and the
+[torch-free install](agent-excerpts-vps.md#2-prepare-the-vps) alike):
 
 ```ini
 [Unit]
 Description=Pramana excerpt server (agent routes only, localhost)
 
 [Service]
-WorkingDirectory=/path/to/pramana
+Environment=PRAMANA_HOME=%h/pramana-data
 EnvironmentFile=%h/.config/pramana/agent.env
-ExecStart=/home/you/.local/bin/uv run pramana serve --agent-only
+ExecStart=/path/to/pramana/.venv/bin/pramana serve --agent-only
 Restart=on-failure
 
 [Install]
 WantedBy=default.target
 ```
+
+Put the library at `~/pramana-data/pramana.sqlite3` (or point `PRAMANA_HOME` at wherever it is).
 
 ```sh
 systemctl --user daemon-reload
