@@ -11,6 +11,7 @@ Selection is stateless: `today` is a pure function of date, timezone and seed.
 """
 
 import hashlib
+import importlib.util
 import json
 import re
 import secrets
@@ -561,6 +562,15 @@ def about(
     the text supports anything about the topic."""
     from pramana.models import SearchFilters
 
+    if (
+        strategy == "hybrid"
+        and getattr(retriever, "_embedder", None) is None
+        and importlib.util.find_spec("sentence_transformers") is None
+    ):
+        raise PramanaError(
+            "Hybrid topic search needs sentence-transformers, which this install leaves out. "
+            "Use strategy=lexical, or install the full environment."
+        )
     allowed = {i.id: i for i in items if i.id not in (exclude or set())}
     if not allowed:
         raise NoMatch("Every matching excerpt is excluded.")

@@ -14,9 +14,10 @@ you ⇄ Telegram / WhatsApp ⇄ Hermes (LLM = a free provider) ──127.0.0.1�
 Nothing is exposed except SSH. This builds on the [setup guide](agent-excerpts.md), which has
 the details of the token, the routes and the cron alternative.
 
-**Status:** the Pramana half (steps 1 to 3) was checked here; the Hermes, Telegram and WhatsApp
-half is written from public documentation and **has not been run end to end**. Where I am not
-sure of a command I say so.
+**Status:** the Pramana half (steps 1 to 4) was run here, including a torch-free install and a
+real server on a public-only database; the Hermes, Telegram and WhatsApp half is written from
+public documentation and **has not been run end to end**. Where I am not sure of a command I
+say so.
 
 ## Choices made
 
@@ -25,43 +26,118 @@ sure of a command I say so.
 | Where do the daily messages come from? | **Hermes' own scheduler**, not plain cron | Hermes can learn your preferences and vary what it sends. |
 | Which LLM? | **A free provider** | You accepted that it sees your chat. See [the limits](#the-free-model). |
 | Which chat app? | **Telegram first, WhatsApp second** | Telegram needs only a bot token. Hermes' WhatsApp support is an unofficial bridge. |
-| Where does Pramana run? | **On the same VPS, localhost only** | No public port, no tunnel. |
+| Where does Pramana run? | **On the same VPS, localhost only**, from a database built on your computer | No public port, no tunnel, no PyTorch on the server. |
 
-## 1. Prepare the VPS
+## 1. Build a public-only library on your own computer
 
-- A small Linux VPS (the existing [VPS plan](../plans/vps-hosting.md) assumes 2 vCPU and 4 GB).
-- A non-root user for everything below, SSH keys only, and a firewall that allows only SSH.
-- `uv` and Python 3.12, then the repository and `uv sync --locked`. That installs PyTorch (several
-  GB of disk) although the excerpt routes never use it; an excerpt-only install is not built yet.
-
-## 2. Load the public library only
-
-Do **not** copy your laptop's `.pramana/` folder: it may hold private books. Build the server's
-library from the public sources:
+The server needs one file: a SQLite database holding **only** the public editions, with a
+search index. Build it once, in a **new** folder (never copy your everyday `.pramana/`, which can
+hold private books):
 
 ```sh
-uv run pramana corpus download --source excerpts      # explicit network use: nine public editions
-for f in .pramana/corpora/*/chapters.jsonl; do uv run pramana ingest "$f"; done
-uv run pramana excerpt sources | head -20             # counts per document
+export PRAMANA_HOME=$HOME/pramana-public
+# reuse what you already downloaded: the nine public editions the excerpt API may serve
+for c in ashtavakra-richards sacred-texts-{brk,cjw,sbe01,sbe15,sbg,tmu,wos} vishnu-purana; do
+  uv run pramana ingest ~/Programming/pramana/.pramana/corpora/$c/chapters.jsonl
+done
+ln -s ~/Programming/pramana/.pramana/models "$PRAMANA_HOME/models"   # your downloaded model
+uv run pramana index                                                   # about 85 seconds here
 ```
 
-`--source excerpts` fetches only the nine editions the excerpt API may serve (not the Brahma Sūtra
-commentaries). No search index and no embedding model are needed; `pramana status` will say
-`stale`, which is expected. Ingesting those nine into an empty library gave 591 chapters (5 MB)
-and the same 9,706-excerpt pool as the full library here. The download itself was not run on a
-VPS. If you would rather not fetch, copy just the nine `chapters.jsonl` files from your machine's
-`.pramana/corpora/` (`ashtavakra-richards`, `sacred-texts-{brk,cjw,sbe01,sbe15,sbg,tmu,wos}`,
-`vishnu-purana`) and ingest them.
+(On a computer without those files: `uv run pramana corpus download --source excerpts` fetches
+only those nine editions, `uv run pramana model setup` downloads the model once, then ingest
+the files under `$PRAMANA_HOME/corpora/` and index. Those two commands are the repository's
+existing ones; I did not re-run them for this guide.)
+
+**Check it before you copy it.** It must be public-only:
+
+```sh
+python3 -c "
+import sqlite3, json, sys
+db = sqlite3.connect(sys.argv[1])
+rows = [json.loads(d) for (d,) in db.execute('select data from chapters')]
+private = [r['document_id'] for r in rows if r['source'].get('local_path')]
+print(len(rows), 'chapters;', len({r['document_id'] for r in rows}), 'documents;', len(private), 'with a private local origin')
+" "$PRAMANA_HOME/pramana.sqlite3"
+```
+
+Expect `591 chapters; 62 documents; 0 with a private local origin` and a 20 MB file. Anything else:
+stop and do not copy it. (It has the index but not the model, so `topic` works by keywords only
+on the server: see [below](#topic-search-on-the-server).)
+
+## 2. Prepare the VPS
+
+Examples assume Ubuntu or Debian; adjust for your system.
+
+```sh
+# as root, once
+adduser --disabled-password --gecos "" pramana
+mkdir -p /home/pramana/.ssh && cp ~/.ssh/authorized_keys /home/pramana/.ssh/
+chown -R pramana:pramana /home/pramana/.ssh && chmod 700 /home/pramana/.ssh
+apt update && apt install -y git curl ufw
+ufw allow OpenSSH && ufw enable          # nothing else is opened
+loginctl enable-linger pramana           # lets the user's services run after logout
+```
+
+Check that you can log in as `pramana` with your key from another terminal **before** you close
+the root session or turn off password logins. Then, as `pramana`:
+
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"     # or open a new shell; check with: uv --version
+git clone https://github.com/master-of-none/pramana.git && cd pramana
+./scripts/install_without_torch.sh       # about 200 MB; the full install is 5-6 GB of PyTorch/CUDA
+```
+
+`uv` fetches Python 3.12 itself. **From now on run the program as `.venv/bin/pramana`**, not
+`uv run`: `uv run` first syncs the environment and would install PyTorch and CUDA again.
+
+Copy the database up (from your computer), into a data folder of its own:
+
+```sh
+ssh pramana@YOUR_SERVER 'mkdir -p ~/pramana-data'
+scp "$HOME/pramana-public/pramana.sqlite3" pramana@YOUR_SERVER:pramana-data/
+```
+
+On the server, check it:
+
+```sh
+cd ~/pramana && PRAMANA_HOME=~/pramana-data .venv/bin/pramana excerpt today
+PRAMANA_HOME=~/pramana-data .venv/bin/pramana excerpt sources | head -20   # 62 documents
+```
 
 ## 3. Run Pramana as a service
 
-Follow [the guide's token and systemd steps](agent-excerpts.md#1-make-a-token-and-start-the-server),
-then `loginctl enable-linger $USER` so the user service survives logout. Check it from the VPS:
+```sh
+mkdir -p ~/.config/pramana ~/.config/systemd/user
+printf 'PRAMANA_AGENT_TOKEN=%s\n' "$(.venv/bin/pramana agent token)" > ~/.config/pramana/agent.env
+chmod 600 ~/.config/pramana/agent.env
+cat > ~/.config/systemd/user/pramana-excerpts.service <<EOF
+[Unit]
+Description=Pramana excerpt server (agent routes only, localhost)
+
+[Service]
+Environment=PRAMANA_HOME=%h/pramana-data
+EnvironmentFile=%h/.config/pramana/agent.env
+ExecStart=%h/pramana/.venv/bin/pramana serve --agent-only
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+EOF
+systemctl --user daemon-reload && systemctl --user enable --now pramana-excerpts
+```
+
+Check it from the server:
 
 ```sh
-curl -H "Authorization: Bearer $PRAMANA_AGENT_TOKEN" \
-     "http://127.0.0.1:8000/api/excerpts/today?format=text"
+set -a; . ~/.config/pramana/agent.env; set +a
+curl -H "Authorization: Bearer $PRAMANA_AGENT_TOKEN" "http://127.0.0.1:8000/api/excerpts/today?format=text"
+curl -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/api/excerpts/today        # expect 401
+journalctl --user -u pramana-excerpts -n 20 --no-pager                               # if not
 ```
+
+Nothing listens on a public address: the server binds `127.0.0.1` only.
 
 ## 4. Install Hermes and give it a free model
 
@@ -112,8 +188,9 @@ Remember about this user, and update it when they tell you or react:
 - the excerpt_id of each excerpt you have sent, newest first.
 
 To send one, call GET /api/excerpts/random?format=json with their kind/document/length
-filters, `exclude=<id>` for each of the last 100 IDs you sent, and a `topic=<theme>` when they
-asked for one or you want variety. Use format=json: the text and markdown formats carry no ID.
+filters, `exclude=<id>` for each of the last 100 IDs you sent, and, when they asked for a
+theme or you want variety, `topic=<theme>&strategy=lexical` (try a few related words if nothing
+matches). Use format=json: the text and markdown formats carry no ID.
 For "today's", call /api/excerpts/today?format=json&tz=<their zone>&seed=<their name>.
 
 Send the `text` exactly as given (drop a verse's leading number if you like), then the
@@ -170,10 +247,13 @@ the personalisation.
 
 ### Topic search on the server
 
-`topic` with the default `hybrid` strategy needs the search index and the embedding model,
-which the steps above skipped. Either add them (`pramana model setup`, then `pramana index`,
-which needs about 1 GB of memory for the model), or tell Hermes to use `strategy=lexical`
-(keywords only, no model), or skip topics.
+This install leaves out PyTorch, so it cannot embed a question: `topic` works with
+**`strategy=lexical`** (keywords, using the index you built), and the default `hybrid` returns a
+`409` that says so. Tell Hermes to add `strategy=lexical` to topic searches (the skill below
+does). Lexical search is cruder than hybrid: it matches words, not meaning, so "fear" finds
+passages that use the word. Hermes can try a few related words. If you want hybrid, install the
+full environment (`uv sync --locked`, 5-6 GB, about 1 GB of memory for the model), run
+`pramana model setup`, and use `uv run`/`.venv/bin/pramana` as usual.
 
 ## Troubleshooting
 
@@ -183,7 +263,8 @@ which needs about 1 GB of memory for the model), or tell Hermes to use `strategy
 | Hermes answers but sends a verse "from memory" | The skill is not saved or its secrets are missing; ask it to read the skill back |
 | Pramana `401` or `404` | Token missing or wrong in Hermes' environment; the service is not running |
 | The daily message did not arrive | The model returned `429`/an error that morning; check Hermes' log; add a fallback model |
-| Pramana `409` with `topic` | No index or model on the server (see above) |
+| Pramana `409` with `topic` | Add `strategy=lexical` (this install has no embedding library), or the index is missing |
+| `pramana` reinstalls PyTorch | You ran `uv run`; use `.venv/bin/pramana` |
 
 ## Safety
 
@@ -196,7 +277,10 @@ which needs about 1 GB of memory for the model), or tell Hermes to use `strategy
 
 ## What has and has not been tried
 
-Verified here: `--source excerpts` and its test, ingesting those nine sources into an empty
-library, the full excerpt pool from it, and every Pramana route used above. **Not tried:**
-installing Hermes, any free provider with it, the skill, Telegram, WhatsApp, Hermes cron, or the
-download on a VPS.
+Verified here: building the public-only database (ingest and index, 591 chapters, 62 documents,
+20 MB), the torch-free install from `scripts/install_without_torch.sh` (214 MB, the whole test
+suite passes in it), the server run from `.venv/bin/pramana` on that database, lexical topic
+search and the hybrid refusal, the systemd unit's syntax (`systemd-analyze verify`), and the
+audit command. **Not tried:** a real VPS (the user, firewall, `uv` installer, `scp`, `systemctl`
+steps), installing Hermes, any free provider with it, the skill, Telegram, WhatsApp, Hermes
+cron, or `corpus download` and `model setup` for this guide.

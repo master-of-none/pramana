@@ -368,3 +368,19 @@ def test_the_download_command_knows_the_excerpts_group(monkeypatch):
     assert again.exit_code == 1 and "--archive applies to one source" in again.output
     bogus = CliRunner().invoke(cli, ["corpus", "download", "--source", "nothing"])
     assert bogus.exit_code == 1 and "excerpts" in bogus.output
+
+
+def test_hybrid_topic_says_so_when_the_install_has_no_embedding_library(corpus, allow, monkeypatch):
+    from pramana import Retriever
+
+    monkeypatch.setattr("importlib.util.find_spec", lambda name, *a: None)
+    api = TestClient(
+        create_app(
+            retriever=Retriever(corpus),  # no embedder injected, as on a torch-free server
+            agent_auth=AgentAuth({"a": TOKEN}),
+            excerpt_sources=allow,
+        )
+    )
+    response = api.get("/api/excerpts/random?topic=lamp", headers=HEADERS)
+    assert response.status_code == 409 and "strategy=lexical" in response.json()["detail"]
+    assert api.get("/api/excerpts/random", headers=HEADERS).status_code == 200
