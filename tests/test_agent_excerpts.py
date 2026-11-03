@@ -432,3 +432,26 @@ def test_a_topic_only_searches_the_pool_and_honours_exclusions(searchable, make_
         about(searchable, "a steady mind", exclude={i.id for i in pool.items})
     (other, _), _ = about(searchable, "a steady mind", exclude={item.id})
     assert other != item
+
+
+def test_a_search_lists_the_nearest_first_and_the_same_list_each_time(searchable):
+    corpus, allow, retriever = searchable
+    pool = ex.build_pool(corpus.store, allow)
+    items = ex.candidates(pool)
+    query = "a steady mind and a steady life"
+
+    def find(**kw):
+        return ex.search(pool, corpus.store, retriever, query, items, strategy="hybrid", **kw)
+
+    first = find(limit=3)
+    assert first == find(limit=3) and len(first) == 3 and len(set(first)) == 3
+    assert (first[0].document_id, first[0].label) == ("verses", "5")  # nearest, as about() found
+    assert find(limit=1) == first[:1]
+    other = find(limit=3, exclude={first[0].id})
+    assert first[0] not in other and other[0] == first[1]
+    with pytest.raises(ex.NoMatch, match="excluded"):
+        find(limit=3, exclude={i.id for i in pool.items})
+    only = ex.candidates(pool, documents=["paren"])
+    assert {i.document_id for i in ex.search(pool, corpus.store, retriever, "samsara", only)} == {
+        "paren"
+    }

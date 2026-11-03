@@ -62,6 +62,7 @@ character range in the stored chapter.
 | An independent sequence (one per person or channel) | `/today?seed=alice` |
 | Never the same twice | `/random` and send back `exclude=<id>` for each ID already sent |
 | Something about a theme | `/random?topic=fear+of+death` (`&strategy=lexical` for keyword-only) |
+| Several about a theme, best first | `/search?q=fear+of+death&limit=5` (the same list each time; add `&format=text` for a numbered list) |
 | The surrounding paragraph | `context=true` |
 
 `/today` walks through a fixed shuffle of the pool, so it never repeats until the whole pool
@@ -155,10 +156,11 @@ random sentence at some time before 20:00." How OpenClaw stores secrets and sets
 
 ### Hermes Agent
 
-Hermes has skills, a cron scheduler (`0 9 * * *`, `every 2h`, …), a messaging gateway
-(Telegram, Discord, Slack, …) and acts as an MCP client; see the
-[Hermes documentation](https://hermes-agent.nousresearch.com/docs). The skill text above works
-unchanged. Scheduled jobs run only while its gateway is running.
+Hermes has skills (a folder with a `SKILL.md`), a cron scheduler (`daily at 7am`, `every 2h`,
+cron expressions), a messaging gateway (Telegram, Discord, Slack, WhatsApp and others) and memory;
+see the [Hermes documentation](https://hermes-agent.nousresearch.com/docs). The ready-made skill is
+[hermes-skill/SKILL.md](hermes-skill/SKILL.md); the full walk-through, with the safety settings a
+shared server needs, is [Hermes on a VPS](agent-excerpts-vps.md).
 
 ### Claude
 

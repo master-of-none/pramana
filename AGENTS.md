@@ -96,8 +96,8 @@ on localhost:8001 without using the private library. Documentation-only edits ne
   attribution line); a document with a `local_path` is refused, and a new import never joins
   by default. `text` is the exact stored slice. A verse uses a printed number; a passage or
   sentence is labelled `derived` and never numbered. Brahma Sūtra commentaries stay out, since
-  a sentence may be an opponent's argument. It returns no relevance score, and `topic` only
-  ranks with the local retriever, saying nothing about support. Its edition and rights metadata
+  a sentence may be an opponent's argument. It returns no relevance score, and `topic` and `search` only
+  rank with the local retriever, saying nothing about support. Its edition and rights metadata
   is for agents' provenance and never appears in the chat or Study view. Anything beyond the
   owner's own machine uses `serve --agent-only` over a private network or an HTTPS tunnel,
   never the normal server, whose search, chat and library routes are unauthenticated.

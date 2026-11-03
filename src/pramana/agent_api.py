@@ -202,6 +202,50 @@ def excerpt_router(
         item, meta = ex.pick_random(found, items, exclude)
         return answer(found, item, meta, fmt, context)
 
+    @router.get("/search")
+    def search_excerpts(
+        q: Annotated[str, Query(min_length=2, max_length=200)],
+        limit: Annotated[int, Query(ge=1, le=10)] = 5,
+        kind: Kinds = None,
+        document: Documents = None,
+        min_chars: MinChars = 0,
+        max_chars: MaxChars = 10**6,
+        exclude: Annotated[list[str] | None, Query(max_length=100)] = None,
+        strategy: Annotated[Literal["hybrid", "lexical"], Query()] = "hybrid",
+        context: bool = False,
+        fmt: Fmt = "json",
+    ):
+        """Up to `limit` excerpts nearest a word or phrase, best first. No score is returned."""
+        found = pool()
+        items = chosen(found, kind, document, min_chars, max_chars)
+        if not lexical_query(q):
+            raise HTTPException(422, "The query needs letters or numbers.")
+        state["retriever"] = state["retriever"] or Retriever(corpus)
+        try:
+            with lock:
+                nearest = ex.search(
+                    found,
+                    corpus.store,
+                    state["retriever"],
+                    q,
+                    items,
+                    set(exclude or []),
+                    strategy=strategy,
+                    limit=limit,
+                )
+        except ex.NoMatch as exc:
+            raise HTTPException(404, str(exc)) from exc
+        rendered = [ex.render(corpus.store, found, i, with_context=context) for i in nearest]
+        if fmt != "json":
+            media = "text/markdown" if fmt == "markdown" else "text/plain"
+            return PlainTextResponse(ex.list_message(rendered, fmt), media_type=media)
+        return {
+            "query": q,
+            "retrieval": strategy,
+            "count": len(rendered),
+            "results": [data for data, _ in rendered],
+        }
+
     @router.get("/{excerpt_id}")
     def excerpt_by_id(excerpt_id: str, context: bool = False, fmt: Fmt = "json"):
         found = pool()

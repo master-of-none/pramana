@@ -520,6 +520,13 @@ them:
       action", "the nature of the Self", "fear of death") each returned an in-pool excerpt in
       4 to 7 seconds including the model load from the command line.
 
+- [x] `GET /api/excerpts/search?q=...&limit=N` (and `pramana excerpt search`): the same ranking
+      as `topic`, returned as a list of up to 10, nearest first, deterministic, no score.
+      Tests cover the ordering (a reversed ranking and an ignored limit both fail them), the
+      pool boundary, validation, formats and the command line. On the real library, "fear of
+      death" with the real model gave four on-topic verses; the keyword-only version gave three
+      and a loose fourth. Two queries judged by eye, not a benchmark.
+
 Limits worth knowing:
 
 - An excerpt must lie wholly inside a retrieved passage (about 384 tokens). A verse that
