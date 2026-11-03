@@ -15,6 +15,8 @@ sequencing and do not authorize unrelated work.
   plain-text books, Brahma Sūtra HTML commentaries) and private PDF extraction/OCR.
 - `web/src/`: React/TypeScript chat; Vite builds into ignored `src/pramana/static/`.
 - `tests/`: deterministic regressions, separate model tests, and a manual browser fixture.
+- `integrations/hermes/pramana-guard/`: a Hermes plugin that enforces, in code, that the bot sends
+  only what Pramana returned or the app's refusal (standard library only; tests in `tests/`).
 - `scripts/`: installed-wheel, local-chat and Markdown link checks; manifest generation;
   `install_without_torch.sh` (a small server install that serves excerpts only) and
   `install_cpu_torch.sh` (the same plus a CPU PyTorch for hybrid search).
@@ -26,8 +28,8 @@ and `npm --prefix web ci`. Preserve `uv.lock` and `web/package-lock.json` consis
 Build UI before packaging. Standard checks, verified from the repository root:
 
 ```sh
-uv run ruff check src tests scripts
-uv run ruff format --check src tests scripts
+uv run ruff check src tests scripts integrations
+uv run ruff format --check src tests scripts integrations
 uv run pytest
 uv run python scripts/check_links.py
 npm --prefix web run typecheck
