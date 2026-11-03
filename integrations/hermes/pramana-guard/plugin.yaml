@@ -1,0 +1,3 @@
+name: pramana-guard
+version: "1.0"
+description: Keeps the bot to Pramana's texts in code, whatever the model writes or is asked to do.
