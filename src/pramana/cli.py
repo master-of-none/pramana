@@ -415,6 +415,36 @@ def excerpt_random(
     show_excerpt("random", fmt, kind, document, topic=topic, strategy=strategy)
 
 
+@excerpt_app.command("search")
+def excerpt_search(
+    query: str,
+    limit: Annotated[int, typer.Option(min=1, max=10)] = 5,
+    kind: Annotated[list[str] | None, typer.Option(help="verse, passage or sentence")] = None,
+    document: Annotated[list[str] | None, typer.Option(help="Document ID (repeatable)")] = None,
+    strategy: Annotated[str, typer.Option(help="hybrid or lexical")] = "hybrid",
+    fmt: Annotated[str, typer.Option("--format", help="json, text or markdown")] = "text",
+):
+    """Up to --limit excerpts nearest a word or phrase, best first."""
+    from pramana import agent_excerpts as ex
+
+    try:
+        store = Corpus().store
+        pool = ex.pool_for(store)
+        if not pool.items:
+            raise PramanaError("No allowlisted texts are imported. Run: pramana corpus download.")
+        items = ex.candidates(pool, kind or None, document or None)
+        nearest = ex.search(
+            pool, store, Retriever(Corpus()), query, items, strategy=strategy, limit=limit
+        )
+        rendered = [ex.render(store, pool, i) for i in nearest]
+    except (PramanaError, ValueError) as exc:
+        fail(exc)
+    if fmt == "json":
+        typer.echo(json.dumps([d for d, _ in rendered], ensure_ascii=False, indent=2))
+    else:
+        typer.echo(ex.list_message(rendered, fmt), nl=False)
+
+
 @excerpt_app.command("sources")
 def excerpt_sources():
     """Documents in the pool: excerpts by kind, rejected verse units and rights lines."""

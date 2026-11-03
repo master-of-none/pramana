@@ -384,3 +384,71 @@ def test_hybrid_topic_says_so_when_the_install_has_no_embedding_library(corpus, 
     response = api.get("/api/excerpts/random?topic=lamp", headers=HEADERS)
     assert response.status_code == 409 and "strategy=lexical" in response.json()["detail"]
     assert api.get("/api/excerpts/random", headers=HEADERS).status_code == 200
+
+
+def test_search_lists_excerpts_best_first_with_no_score(topical):
+    url = "/api/excerpts/search?q=the+pleasant+and+the+good&limit=3"
+    found = topical.get(url, headers=HEADERS)
+    data = found.json()
+    assert found.status_code == 200 and data["query"] == "the pleasant and the good"
+    assert data["retrieval"] == "hybrid" and data["count"] == len(data["results"]) <= 3
+    assert data["results"][0]["rights"] == "Test rights."
+    assert data["results"][0]["document"] != "Secret"
+    assert topical.get(url, headers=HEADERS).json() == data  # the same list every time
+    text = " ".join(map(str, data)) + str([sorted(r) for r in data["results"]])
+    assert not [w for w in ("score", "relevan", "confiden") if w in text]
+    ids = [r["excerpt_id"] for r in data["results"]]
+    assert len(set(ids)) == len(ids)
+    skipped = topical.get(url + f"&exclude={ids[0]}", headers=HEADERS).json()
+    assert ids[0] not in [r["excerpt_id"] for r in skipped["results"]]
+    verses = topical.get("/api/excerpts/search?q=lamp+good&kind=verse", headers=HEADERS).json()
+    assert {r["kind"] for r in verses["results"]} == {"verse"}
+
+
+def test_search_formats_validation_and_boundaries(topical):
+    text = topical.get("/api/excerpts/search?q=the+good&limit=2&format=text", headers=HEADERS)
+    assert text.headers["content-type"].startswith("text/plain")
+    blocks = text.text.strip().split("\n\n")
+    assert 1 <= len(blocks) <= 2
+    assert [b[:4] for b in blocks] == ["1. “", "2. “"][: len(blocks)]
+    assert all("\n   — " in b for b in blocks)
+    markdown = topical.get("/api/excerpts/search?q=the+good&format=markdown", headers=HEADERS)
+    assert markdown.headers["content-type"].startswith("text/markdown")
+    for query in ("q=x", "q=!!", "q=lamp&limit=0", "q=lamp&limit=11", "q=lamp&strategy=dense"):
+        assert topical.get(f"/api/excerpts/search?{query}", headers=HEADERS).status_code == 422
+    assert topical.get("/api/excerpts/search", headers=HEADERS).status_code == 422
+    nothing = topical.get("/api/excerpts/search?q=zanzibar&strategy=lexical", headers=HEADERS)
+    assert nothing.status_code == 404 and "about that topic" in nothing.json()["detail"]
+    assert topical.get("/api/excerpts/search?q=lamp").status_code == 401
+
+
+def test_search_is_not_mistaken_for_an_excerpt_id_and_needs_an_index(corpus, allow, embedder):
+    from pramana import Retriever
+
+    api = TestClient(
+        create_app(
+            retriever=Retriever(corpus, embedder=embedder),
+            agent_auth=AgentAuth({"a": TOKEN}),
+            excerpt_sources=allow,
+        )
+    )
+    unbuilt = api.get("/api/excerpts/search?q=lamp", headers=HEADERS)
+    assert unbuilt.status_code == 409 and "pramana index" in unbuilt.json()["detail"]
+    assert api.get("/api/excerpts/search/extra", headers=HEADERS).status_code == 404
+
+
+def test_the_command_line_searches_too(monkeypatch, tmp_path, make_chapter, embedder):
+    monkeypatch.setenv("PRAMANA_HOME", str(tmp_path / "library"))
+    katha = chapter(make_chapter, "katha-upanishad-sbe15", KATHA, ["I, 2"])
+    corpus = build(tmp_path, make_chapter, [katha])
+    corpus.index(embedder=embedder)
+    monkeypatch.setattr("pramana.retrieval.Retriever.embedder", property(lambda self: embedder))
+    result = CliRunner().invoke(cli, ["excerpt", "search", "wise pleasant", "--limit", "2"])
+    assert result.exit_code == 0, result.output
+    assert result.output.startswith("1. “") and "Kaṭha Upaniṣad" in result.output
+    as_json = CliRunner().invoke(
+        cli, ["excerpt", "search", "pleasant", "--format", "json", "--limit", "3"]
+    )
+    assert 1 <= len(json.loads(as_json.stdout)) <= 3
+    lexical = CliRunner().invoke(cli, ["excerpt", "search", "zanzibar", "--strategy", "lexical"])
+    assert lexical.exit_code == 1 and "about that topic" in lexical.output

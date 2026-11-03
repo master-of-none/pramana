@@ -28,6 +28,7 @@ and validation are described in the [chat guide](../guides/chat.md).
 | `GET` | `/api/config` | Whether hosted mode is on, and its public Turnstile site key |
 | `GET` | `/api/excerpts/today` | The excerpt of the day (a verse, passage or sentence), the same for every caller on a date, timezone and seed; needs a token |
 | `GET` | `/api/excerpts/random` | A random excerpt, optionally excluding IDs already sent; needs a token |
+| `GET` | `/api/excerpts/search?q=` | Up to `limit` (1 to 10, default 5) excerpts nearest a word or phrase, best first, the same list each time; needs a token |
 | `GET` | `/api/excerpts/{id}` | One excerpt by ID; needs a token |
 | `GET` | `/api/excerpts/sources` | The documents that may supply excerpts, with counts and rights lines; needs a token |
 
@@ -129,6 +130,7 @@ server's search, chat and library routes are unauthenticated and cover the whole
 | `context` | all | `true` adds the paragraph around the excerpt |
 | `tz`, `date`, `seed` | `today` | Which day it is (IANA zone, default `UTC`), a date to replay, and an independent sequence |
 | `exclude` | `random` | Excerpt IDs not to return (at most 100) |
+| `q`, `limit`, `strategy` | `search` | The query, how many results (1 to 10), and `hybrid` (needs the local model and index) or `lexical` (keywords). The response is `{query, retrieval, count, results: [excerpt, ...]}`; each result is a full excerpt, nearest first, with no score. `kind`, `document`, length bounds, `exclude`, `context` and `format` work as for `random`; `format=text` gives a numbered list |
 | `topic`, `strategy` | `random` | An excerpt chosen from the best matches for a word or phrase, using the local retriever over the pool only (`strategy=hybrid` needs the local model and index; `lexical` does not). The response adds `topic` and `retrieval`, and no score |
 
 ```sh

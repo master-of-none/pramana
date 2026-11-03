@@ -544,7 +544,7 @@ def _similarity(retriever, strategy: str, topic: str, texts: list[str]) -> list[
     return [float(x) for x in vectors @ (query / np.linalg.norm(query))]
 
 
-def about(
+def ranked(
     pool: Pool,
     store: Store,
     retriever,
@@ -554,12 +554,10 @@ def about(
     *,
     strategy: str = "hybrid",
     hits: int = 12,
-    best: int = 5,
-) -> tuple[Item, dict]:
-    """An excerpt about a topic: search the allowlisted documents with the existing retriever,
-    take the excerpts that lie wholly inside the top hits' passages, rank those few against the
-    topic, and choose at random among the best. The match is a search result, not a claim that
-    the text supports anything about the topic."""
+) -> list[Item]:
+    """Excerpts for a topic, nearest first: search the allowlisted documents with the existing
+    retriever, take the excerpts that lie wholly inside the top hits' passages, and order those
+    against the topic. A search result, not a claim that the text supports anything about it."""
     from pramana.models import SearchFilters
 
     if (
@@ -595,8 +593,53 @@ def about(
             chapters[item.chapter_id] = store.chapter(item.chapter_id).text
         texts.append(chapters[item.chapter_id][item.start : item.end])
     scores = _similarity(retriever, strategy, topic, texts)
-    top = sorted(range(len(found)), key=lambda n: (-scores[n], n))[:best]
-    return found[secrets.choice(top)], {"size": len(found), "version": pool_version(found)}
+    order = sorted(range(len(found)), key=lambda n: (-scores[n], n))
+    return [found[n] for n in order]
+
+
+def about(
+    pool: Pool,
+    store: Store,
+    retriever,
+    topic: str,
+    items: list[Item],
+    exclude: set[str] | None = None,
+    *,
+    strategy: str = "hybrid",
+    hits: int = 12,
+    best: int = 5,
+) -> tuple[Item, dict]:
+    """One excerpt about a topic: chosen at random among the `best` nearest."""
+    nearest = ranked(pool, store, retriever, topic, items, exclude, strategy=strategy, hits=hits)
+    return secrets.choice(nearest[:best]), {
+        "size": len(nearest),
+        "version": pool_version(nearest),
+    }
+
+
+def search(
+    pool: Pool,
+    store: Store,
+    retriever,
+    topic: str,
+    items: list[Item],
+    exclude: set[str] | None = None,
+    *,
+    strategy: str = "hybrid",
+    limit: int = 5,
+) -> list[Item]:
+    """The `limit` excerpts nearest a topic, best first. Deterministic: the same query gives the
+    same list. No score is returned."""
+    return ranked(
+        pool,
+        store,
+        retriever,
+        topic,
+        items,
+        exclude,
+        strategy=strategy,
+        hits=max(12, limit * 3),
+    )[:limit]
 
 
 def day_in(tz: str, on: date | None = None, now: datetime | None = None) -> date:
@@ -665,6 +708,17 @@ def message(data: dict, body: str, fmt: str) -> str:
         link = f" ([source]({data['source_url']}))" if data["source_url"] else ""
         return f"> {body}\n\n— **{data['reference']}** · {data['attribution']}{link}\n"
     return f"“{body}”\n— {data['reference']} · {data['attribution']}\n"
+
+
+def list_message(rendered: list[tuple[dict, str]], fmt: str) -> str:
+    """A numbered, ready-to-send list; `fmt` is "text" or "markdown"."""
+    blocks = []
+    for number, (data, body) in enumerate(rendered, 1):
+        if fmt == "markdown":
+            blocks.append(f"{number}. > {body}\n   — **{data['reference']}**")
+        else:
+            blocks.append(f"{number}. “{body}”\n   — {data['reference']} · {data['attribution']}")
+    return "\n\n".join(blocks) + "\n"
 
 
 def report(pool: Pool) -> list[dict]:
