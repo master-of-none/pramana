@@ -16,7 +16,8 @@ sequencing and do not authorize unrelated work.
 - `web/src/`: React/TypeScript chat; Vite builds into ignored `src/pramana/static/`.
 - `tests/`: deterministic regressions, separate model tests, and a manual browser fixture.
 - `scripts/`: installed-wheel, local-chat and Markdown link checks; manifest generation;
-  `install_without_torch.sh` (a small server install that serves excerpts only).
+  `install_without_torch.sh` (a small server install that serves excerpts only) and
+  `install_cpu_torch.sh` (the same plus a CPU PyTorch for hybrid search).
 - `benchmarks/`: source-aware chapter benchmark. `docs/`: `guides/`, `reference/`, `notices/`,
   `verification/`, `plans/` (index: `docs/README.md`); `docs/sources/` is the private PDF drop folder.
 
