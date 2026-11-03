@@ -63,7 +63,7 @@ print(len(rows), 'chapters;', len({r['document_id'] for r in rows}), 'documents;
 
 Expect `591 chapters; 62 documents; 0 with a private local origin` and a 20 MB file. Anything else:
 stop and do not copy it. (It has the index but not the model, so `topic` works by keywords only
-on the server: see [below](#topic-search-on-the-server).)
+on the server: see [below](#topic-and-list-search-on-the-server).)
 
 ## 2. Prepare the VPS
 
@@ -304,15 +304,29 @@ That holds settings ("short verses, no Aiyar texts, Asia/Kolkata"), **not a list
 - Scheduled runs start fresh, so the schedule's prompt carries the settings (`tz`, `seed`, any
   filters) itself rather than assuming memory.
 
-### Topic search on the server
+### Topic and list search on the server
 
-This install leaves out PyTorch, so it cannot embed a question: `topic` works with
-**`strategy=lexical`** (keywords, using the index you built), and the default `hybrid` returns a
-`409` that says so. Tell Hermes to add `strategy=lexical` to topic searches (the skill below
-does). Lexical search is cruder than hybrid: it matches words, not meaning, so "fear" finds
-passages that use the word. Hermes can try a few related words. If you want hybrid, install the
-full environment (`uv sync --locked`, 5-6 GB, about 1 GB of memory for the model), run
-`pramana model setup`, and use `uv run`/`.venv/bin/pramana` as usual.
+There are two levels, and you can move from the first to the second at any time.
+
+- **Keywords only (the install above).** It leaves out PyTorch, so it cannot embed a question:
+  `topic` and `search` work with **`strategy=lexical`**, and the default `hybrid` returns a `409`
+  that says so. Lexical search matches words, not meaning.
+- **Meaning-based (hybrid).** Run `./scripts/install_cpu_torch.sh` in the checkout. It adds the
+  CPU build of the same PyTorch version that `uv.lock` pins, from PyTorch's CPU index (explicit
+  network use), on top of the small install: the environment goes from about 200 MB to about
+  1.2 GB (the standard wheel needs the 4 GB of NVIDIA libraries just to be imported, even without
+  a GPU). Then download the embedding model once, explicitly:
+  `PRAMANA_HOME=~/pramana-data .venv/bin/pramana model setup` (about 130 MB), and restart the
+  service. The vectors for your texts are already in the database you copied, so **nothing is
+  re-indexed on the server**.
+
+Measured here with the same public-only database: a one-shot command takes 3.5 to 6 seconds
+including loading the model, and peaks at about 0.7 GB of memory. A long-running service loads
+the model on the first hybrid request and keeps it, so expect it to hold about that much more
+memory from then on. Watch `free -h` on a shared server. On two queries judged by eye, hybrid
+found on-topic verses where keyword search found a loose match ("fear of death"); that is not a
+benchmark. Run Pramana from `.venv/bin/pramana` afterwards: `uv run` or `uv sync` would reinstall
+the CUDA wheels.
 
 ## Troubleshooting
 
@@ -323,7 +337,7 @@ full environment (`uv sync --locked`, 5-6 GB, about 1 GB of memory for the model
 | The scheduled job did nothing | The gateway is not running (`hermes cron status`, `hermes cron doctor`); a command was refused because scheduled runs cannot ask for approval; try `hermes cron run <job>` and read the result |
 | Pramana `401` or `404` | Token missing or wrong in Hermes' environment; the service is not running |
 | The daily message did not arrive | The model returned `429`/an error that morning; check Hermes' log; add a fallback model |
-| Pramana `409` with `topic` | Add `strategy=lexical` (this install has no embedding library), or the index is missing |
+| Pramana `409` with `topic` or `search` | Use `strategy=lexical` (no embedding library or model on the server), or run the CPU-torch step and `model setup`; or the index is missing |
 | `pramana` reinstalls PyTorch | You ran `uv run`; use `.venv/bin/pramana` |
 
 ## Safety
