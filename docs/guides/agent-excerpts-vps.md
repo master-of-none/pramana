@@ -239,6 +239,46 @@ returns `429` at 07:00, **that day's message is missed** unless you add a fallba
 Hermes' provider settings. You accepted that the provider sees your chat; the excerpts are
 public domain.
 
+### Keep the bot to the texts (the guard)
+
+A prompt asks the model to stay on topic; a model can still be argued out of it. So the bot's
+limits are enforced in code by a Hermes plugin, `integrations/hermes/pramana-guard/`, using
+Hermes' plugin hooks:
+
+| Hook | What the guard does |
+| --- | --- |
+| `pre_tool_call` | Allows only reading skills, saving memory, and one terminal command: the read-only Pramana `curl`, in exactly the skill's shape. Running code, files, the web, editing skills, creating cron jobs and every other command are blocked. Hermes blocks the tool if this hook errors or times out. |
+| `transform_llm_output` | Never sends the model's text. Sends the excerpt(s) Pramana returned in this turn, "Noted." after a preference is saved, a fixed note when Pramana finds nothing or is down, or the app's own refusal ("Neti, neti ..."). Hermes would let the model's text through if this hook raised, so the guard catches its own errors and refuses. |
+| `post_gateway_admission` | Answers "hi" or "help" with a fixed line, without the model. |
+
+So no model, however it is prompted, can send a linked-list program or anything else that did
+not come from Pramana. The cost: the bot sends no commentary of its own. "How does the Gita's
+teaching on duty apply to my work?" gets matching verses, not an explanation. Pramana-written
+explanations can be allowed later (step 3 of the plan), because they would also come from
+Pramana. `SOUL.md` (above) stays: it makes the model ask Pramana in the first place, so the guard
+has something to send.
+
+Install, as `pramana` (copy from your computer first):
+
+```sh
+# on your computer
+ssh pramana@YOUR_SERVER 'mkdir -p ~/.hermes/plugins'
+scp -r ~/Programming/pramana/integrations/hermes/pramana-guard pramana@YOUR_SERVER:.hermes/plugins/
+# on the server
+hermes plugins enable pramana-guard
+hermes plugins list
+hermes gateway restart
+hermes logs gateway -n 80 | grep -i pramana-guard     # expect "pramana-guard active"
+```
+
+To also send each excerpt's reference, set `SHOW_SOURCE = True` near the top of the plugin's
+`__init__.py` and restart the gateway. Limits: the hooks' argument names and the terminal tool's
+name come from Hermes' documentation and are covered by tests that call the hooks directly, not
+yet by a run inside Hermes; the documentation does not say whether plugin hooks run for cron jobs;
+and messages Hermes sends itself (approval prompts, errors, slash-command output) are not model
+replies and are not filtered. If a legitimate request is refused, `hermes logs gateway` shows
+`pramana-guard blocked tool ...` with the tool's name.
+
 ## 6. Connect Telegram
 
 1. In Telegram, message **@BotFather**, send `/newbot`, choose a name and a username ending in

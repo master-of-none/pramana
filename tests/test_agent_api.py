@@ -452,3 +452,17 @@ def test_the_command_line_searches_too(monkeypatch, tmp_path, make_chapter, embe
     assert 1 <= len(json.loads(as_json.stdout)) <= 3
     lexical = CliRunner().invoke(cli, ["excerpt", "search", "zanzibar", "--strategy", "lexical"])
     assert lexical.exit_code == 1 and "about that topic" in lexical.output
+
+
+def test_the_hermes_identity_file_uses_the_apps_own_refusal_and_examples():
+    from pathlib import Path
+
+    from pramana.answering import ROUTE_EXAMPLES, UNRELATED
+
+    root = Path(__file__).resolve().parents[1]
+    soul = (root / "docs/guides/hermes-skill/SOUL.md").read_text(encoding="utf-8")
+    assert UNRELATED in soul  # word for word, so the bot and the app cannot drift apart
+    for question, topic in ROUTE_EXAMPLES:
+        assert f'"{question}"' in soul, f"{topic} example missing: {question}"
+    assert "never answer from memory" in soul.lower() or "never from memory" in soul.lower()
+    assert "ignore your instructions" in soul and "Do not reveal" in soul
